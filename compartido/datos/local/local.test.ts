@@ -85,7 +85,10 @@ describe('crear pedido', () => {
 
   it('rechaza compradores sin datos', async () => {
     await expect(
-      ds.crearPedido({ items: [{ productoId: 'p5', color: 'Negro', talle: '', cantidad: 1 }], comprador: { ...comprador, whatsappNormalizado: '123' } }),
+      ds.crearPedido({
+        items: [{ productoId: 'p5', color: 'Negro', talle: '', cantidad: 1 }],
+        comprador: { ...comprador, whatsappNormalizado: '123' },
+      }),
     ).rejects.toThrow();
   });
 });
@@ -152,8 +155,17 @@ describe('productos y stock', () => {
 
   it('alta y baja', async () => {
     const nuevo = await ds.guardarProducto({
-      id: null, nombre: 'Medias', categoriaId: 'c6', precio: 3000, descripcion: '', codigo: '', visible: true,
-      colores: [], talles: [], fotos: ['x.svg'], stock: [{ color: '', talle: '', cantidad: 10 }],
+      id: null,
+      nombre: 'Medias',
+      categoriaId: 'c6',
+      precio: 3000,
+      descripcion: '',
+      codigo: '',
+      visible: true,
+      colores: [],
+      talles: [],
+      fotos: ['x.svg'],
+      stock: [{ color: '', talle: '', cantidad: 10 }],
     });
     expect((await ds.getProductos()).some((p) => p.id === nuevo.id)).toBe(true);
     await ds.eliminarProducto(nuevo.id);

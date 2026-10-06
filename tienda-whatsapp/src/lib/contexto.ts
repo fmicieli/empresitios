@@ -28,19 +28,22 @@ export function whatsappTienda(): string {
   return config.whatsapp;
 }
 
-/** Último pedido enviado desde este navegador (para la pantalla "Pedido registrado"). */
+/**
+ * Último pedido enviado desde esta pestaña (para la pantalla "Pedido registrado").
+ * Va en sessionStorage: tiene datos personales y se borra al cerrar la pestaña.
+ */
 const claveUltimo = `${config.clave}:ultimo-pedido`;
 export const ultimoPedido = {
   guardar(datos: unknown) {
     try {
-      localStorage.setItem(claveUltimo, JSON.stringify(datos));
+      sessionStorage.setItem(claveUltimo, JSON.stringify(datos));
     } catch {
       /* sin espacio */
     }
   },
   leer<T>(): T | null {
     try {
-      return JSON.parse(localStorage.getItem(claveUltimo) ?? 'null');
+      return JSON.parse(sessionStorage.getItem(claveUltimo) ?? 'null');
     } catch {
       return null;
     }

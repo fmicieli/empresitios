@@ -2,17 +2,24 @@
   "name": "empresitios",
   "private": true,
   "type": "module",
-  "workspaces": ["compartido", "tienda-whatsapp"],
+  "workspaces": [
+    "compartido",
+    "tienda-whatsapp"
+  ],
   "scripts": {
     "dev": "npm run dev -w tienda-whatsapp",
     "dev:celular": "npm run dev -w tienda-whatsapp -- --host",
     "build": "npm run build -w tienda-whatsapp",
     "preview": "npm run preview -w tienda-whatsapp -- --host",
     "check": "npm run check -w tienda-whatsapp",
-    "test": "vitest run"
+    "test": "vitest run",
+    "format": "prettier --write \"compartido/**/*.{ts,tsx,css}\" \"tienda-whatsapp/src/**/*.{ts,tsx,css}\" \"tienda-whatsapp/config/*.ts\""
   },
-  "engines": { "node": ">=22.12.0" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "devDependencies": {
+    "prettier": "^3.9.9",
     "vitest": "^5.0.3"
   }
 }

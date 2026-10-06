@@ -57,16 +57,22 @@ function MenuEscritorio({ categorias }: { categorias: Categoria[] }) {
               </button>
               {abierto === c.nombre && (
                 <ul class="desplegable">
-                  <li><a href={linkCategoria(c.nombre)}>{t.todoDe(c.nombre)}</a></li>
+                  <li>
+                    <a href={linkCategoria(c.nombre)}>{t.todoDe(c.nombre)}</a>
+                  </li>
                   {c.subcategorias.map((s) => (
-                    <li key={s.id}><a href={linkCategoria(c.nombre, s.id)}>{s.nombre}</a></li>
+                    <li key={s.id}>
+                      <a href={linkCategoria(c.nombre, s.id)}>{s.nombre}</a>
+                    </li>
                   ))}
                 </ul>
               )}
             </li>
           ) : (
             <li key={c.nombre}>
-              <a class="item-menu" href={linkCategoria(c.nombre)}>{c.nombre}</a>
+              <a class="item-menu" href={linkCategoria(c.nombre)}>
+                {c.nombre}
+              </a>
             </li>
           ),
         )}
@@ -101,7 +107,9 @@ function MenuLateral({ abierto, alCerrar, categorias }: { abierto: boolean; alCe
         </div>
         <nav aria-label="Categorías">
           <ul class="lista-menu">
-            <li><a href="/">{t.todo}</a></li>
+            <li>
+              <a href="/">{t.todo}</a>
+            </li>
             {categorias.map((c) =>
               c.subcategorias.length ? (
                 <li key={c.nombre}>
@@ -114,15 +122,21 @@ function MenuLateral({ abierto, alCerrar, categorias }: { abierto: boolean; alCe
                   </button>
                   {desplegada === c.nombre && (
                     <ul>
-                      <li><a href={linkCategoria(c.nombre)}>{t.todoDe(c.nombre)}</a></li>
+                      <li>
+                        <a href={linkCategoria(c.nombre)}>{t.todoDe(c.nombre)}</a>
+                      </li>
                       {c.subcategorias.map((s) => (
-                        <li key={s.id}><a href={linkCategoria(c.nombre, s.id)}>{s.nombre}</a></li>
+                        <li key={s.id}>
+                          <a href={linkCategoria(c.nombre, s.id)}>{s.nombre}</a>
+                        </li>
                       ))}
                     </ul>
                   )}
                 </li>
               ) : (
-                <li key={c.nombre}><a href={linkCategoria(c.nombre)}>{c.nombre}</a></li>
+                <li key={c.nombre}>
+                  <a href={linkCategoria(c.nombre)}>{c.nombre}</a>
+                </li>
               ),
             )}
           </ul>
@@ -142,7 +156,9 @@ function MenuLateral({ abierto, alCerrar, categorias }: { abierto: boolean; alCe
             <strong>{t.menuRedes}</strong>
             <div class="fila">
               {config.redes.map((r) => (
-                <a key={r.url} href={r.url} target="_blank" rel="noopener" class="enlace">{r.nombre}</a>
+                <a key={r.url} href={r.url} target="_blank" rel="noopener" class="enlace">
+                  {r.nombre}
+                </a>
               ))}
             </div>
           </div>
@@ -186,7 +202,13 @@ export function Marco({
     <div class={conBarraAbajo && n > 0 ? 'con-barra-abajo' : ''}>
       <header class="encabezado">
         <div class="encabezado-interior">
-          <button type="button" class="boton-icono boton-menu" aria-label={t.abrirMenu} aria-haspopup="dialog" onClick={() => setMenu(true)}>
+          <button
+            type="button"
+            class="boton-icono boton-menu"
+            aria-label={t.abrirMenu}
+            aria-haspopup="dialog"
+            onClick={() => setMenu(true)}
+          >
             <IconoMenu />
           </button>
           <Logo />
@@ -194,13 +216,19 @@ export function Marco({
           {buscadorEnEncabezado && (
             <form class="buscador buscador-encabezado" action="/" method="get" role="search">
               <IconoBuscar />
-              <label class="sr" for="buscar-encabezado">{t.buscar}</label>
+              <label class="sr" for="buscar-encabezado">
+                {t.buscar}
+              </label>
               <input id="buscar-encabezado" type="search" name="q" placeholder={t.buscar} autocomplete="off" />
             </form>
           )}
           <a class="boton-icono" href="/carrito/" aria-label={t.carrito(n)}>
             <IconoBolsa />
-            {n > 0 && <span class="contador num" aria-hidden="true">{n}</span>}
+            {n > 0 && (
+              <span class="contador num" aria-hidden="true">
+                {n}
+              </span>
+            )}
           </a>
         </div>
       </header>

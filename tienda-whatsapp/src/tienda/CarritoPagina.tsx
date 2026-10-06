@@ -36,16 +36,24 @@ export default function CarritoPagina() {
     <Marco>
       <div class="pila lectura" style={{ paddingTop: '16px' }}>
         <h1>{t.tuCarrito}</h1>
-        {aviso && <div class="alerta" role="alert"><strong>{aviso}</strong></div>}
+        {aviso && (
+          <div class="alerta" role="alert">
+            <strong>{aviso}</strong>
+          </div>
+        )}
 
         {!items.length ? (
           <>
             <p class="suave">{t.carritoVacio}</p>
-            <a class="boton secundario" href="/">{t.verProductos}</a>
+            <a class="boton secundario" href="/">
+              {t.verProductos}
+            </a>
           </>
         ) : datos.cargando && !datos.datos ? (
           <div aria-busy="true" aria-label={textos.general.cargando} class="pila">
-            {items.map((_, i) => <div key={i} class="esqueleto" style={{ height: '96px' }} />)}
+            {items.map((_, i) => (
+              <div key={i} class="esqueleto" style={{ height: '96px' }} />
+            ))}
           </div>
         ) : datos.error && !datos.datos ? (
           <ErrorCarga error={datos.error} alReintentar={datos.recargar} />
@@ -77,13 +85,21 @@ export default function CarritoPagina() {
                             {l.estado === 'agotado' ? t.agotado : l.estado === 'parcial' ? t.parcial(l.libre) : t.noDisponible}
                           </strong>
                           <span class="chico">
-                            {l.estado === 'agotado' ? t.agotadoAyuda : l.estado === 'parcial' ? t.parcialAyuda : t.noDisponibleAyuda}
+                            {l.estado === 'agotado'
+                              ? t.agotadoAyuda
+                              : l.estado === 'parcial'
+                                ? t.parcialAyuda
+                                : t.noDisponibleAyuda}
                           </span>
                           <div class="fila">
                             {l.estado !== 'noDisponible' && p && (
-                              <a class="enlace" href={`/producto/?id=${encodeURIComponent(p.id)}`}>{t.verOtrasOpciones}</a>
+                              <a class="enlace" href={`/producto/?id=${encodeURIComponent(p.id)}`}>
+                                {t.verOtrasOpciones}
+                              </a>
                             )}
-                            <button type="button" class="enlace" onClick={() => carrito.quitar(i)}>{t.quitar}</button>
+                            <button type="button" class="enlace" onClick={() => carrito.quitar(i)}>
+                              {t.quitar}
+                            </button>
                           </div>
                         </div>
                       )}
@@ -96,7 +112,9 @@ export default function CarritoPagina() {
                             etiqueta={`Cantidad de ${nombre}`}
                           />
                           {!problema && (
-                            <button type="button" class="enlace" onClick={() => carrito.quitar(i)}>{t.quitar}</button>
+                            <button type="button" class="enlace" onClick={() => carrito.quitar(i)}>
+                              {t.quitar}
+                            </button>
                           )}
                         </div>
                       )}
@@ -112,11 +130,15 @@ export default function CarritoPagina() {
             <p class="suave chico">{t.avisoEnvio}</p>
             {hayProblemas ? (
               <>
-                <button type="button" class="boton" disabled>{t.continuar}</button>
+                <button type="button" class="boton" disabled>
+                  {t.continuar}
+                </button>
                 <p class="chico suave">{t.resolverAntes}</p>
               </>
             ) : (
-              <a class="boton" href="/datos/">{t.continuar}</a>
+              <a class="boton" href="/datos/">
+                {t.continuar}
+              </a>
             )}
           </>
         )}

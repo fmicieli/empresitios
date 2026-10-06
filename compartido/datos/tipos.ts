@@ -124,13 +124,10 @@ export interface LineaConProblema {
   motivo: 'sinStock' | 'noDisponible';
 }
 
-export type ResultadoCrearPedido =
-  | { ok: true; pedido: Pedido; horasReserva: number }
-  | { ok: false; lineas: LineaConProblema[] };
+export type ResultadoCrearPedido = { ok: true; pedido: Pedido; horasReserva: number } | { ok: false; lineas: LineaConProblema[] };
 
 export type ResultadoConfirmar =
-  | { ok: true; accionId: string; pedido: Pedido }
-  | { ok: false; motivo: 'sinStock'; lineas: LineaConProblema[] };
+  { ok: true; accionId: string; pedido: Pedido } | { ok: false; motivo: 'sinStock'; lineas: LineaConProblema[] };
 
 export interface ResultadoAccion {
   accionId: string;

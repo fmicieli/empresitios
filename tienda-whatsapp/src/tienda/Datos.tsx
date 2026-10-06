@@ -25,7 +25,15 @@ interface Formulario {
 }
 type Campo = 'nombre' | 'whatsapp' | 'direccion' | 'localidad';
 
-const VACIO: Formulario = { nombre: '', whatsapp: '', entrega: 'envio', direccion: '', localidad: '', pago: 'transferencia', nota: '' };
+const VACIO: Formulario = {
+  nombre: '',
+  whatsapp: '',
+  entrega: 'envio',
+  direccion: '',
+  localidad: '',
+  pago: 'transferencia',
+  nota: '',
+};
 
 function validar(f: Formulario): Partial<Record<Campo, string>> {
   const e: Partial<Record<Campo, string>> = {};
@@ -134,7 +142,13 @@ export default function Datos() {
 
       // 3. Preparamos el mensaje.
       const mensaje = mensajePedido(r.pedido);
-      ultimoPedido.guardar({ pedido: r.pedido, horasReserva: r.horasReserva, mensaje, whatsapp: whatsappTienda(), abierto: false });
+      ultimoPedido.guardar({
+        pedido: r.pedido,
+        horasReserva: r.horasReserva,
+        mensaje,
+        whatsapp: whatsappTienda(),
+        abierto: false,
+      });
       await espera(500);
       carrito.vaciar();
       borradorComprador.borrar();
@@ -174,8 +188,12 @@ export default function Datos() {
             <span>{mensajeDeError(errorEnvio)}</span>
             <span class="suave chico">{t.errorEnvioAyuda}</span>
           </div>
-          <button type="button" class="boton" onClick={enviar}>{textos.general.reintentar}</button>
-          <button type="button" class="boton secundario" onClick={() => setEstado('formulario')}>{textos.general.volver}</button>
+          <button type="button" class="boton" onClick={enviar}>
+            {textos.general.reintentar}
+          </button>
+          <button type="button" class="boton secundario" onClick={() => setEstado('formulario')}>
+            {textos.general.volver}
+          </button>
         </div>
       </Marco>
     );
@@ -220,7 +238,11 @@ export default function Datos() {
           />
           <ErrorDeCampo id="e-whatsapp" error={errores.whatsapp} />
           <span id="a-whatsapp" aria-live="polite">
-            {wa.ok ? <span class="ok-campo">{t.whatsappQuedo(wa.paraMostrar)}</span> : <span class="ayuda">{t.whatsappAyuda}</span>}
+            {wa.ok ? (
+              <span class="ok-campo">{t.whatsappQuedo(wa.paraMostrar)}</span>
+            ) : (
+              <span class="ayuda">{t.whatsappAyuda}</span>
+            )}
           </span>
         </div>
 
@@ -228,14 +250,26 @@ export default function Datos() {
           <legend>{t.comoRecibis}</legend>
           <div class="pila-chica">
             <label class="opcion">
-              <input type="radio" name="entrega" value="envio" checked={f.entrega === 'envio'} onChange={() => cambiar('entrega', 'envio')} />
+              <input
+                type="radio"
+                name="entrega"
+                value="envio"
+                checked={f.entrega === 'envio'}
+                onChange={() => cambiar('entrega', 'envio')}
+              />
               <span class="pila-chica" style={{ gap: 0 }}>
                 <strong>{t.envio}</strong>
                 <span class="suave chico">{t.envioAyuda}</span>
               </span>
             </label>
             <label class="opcion">
-              <input type="radio" name="entrega" value="retiro" checked={f.entrega === 'retiro'} onChange={() => cambiar('entrega', 'retiro')} />
+              <input
+                type="radio"
+                name="entrega"
+                value="retiro"
+                checked={f.entrega === 'retiro'}
+                onChange={() => cambiar('entrega', 'retiro')}
+              />
               <span class="pila-chica" style={{ gap: 0 }}>
                 <strong>{t.retiro}</strong>
                 <span class="suave chico">{t.retiroAyuda(config.direccionLocal)}</span>
@@ -282,11 +316,23 @@ export default function Datos() {
           <legend>{t.comoPagas}</legend>
           <div class="dos-botones">
             <label class="opcion">
-              <input type="radio" name="pago" value="transferencia" checked={f.pago === 'transferencia'} onChange={() => cambiar('pago', 'transferencia')} />
+              <input
+                type="radio"
+                name="pago"
+                value="transferencia"
+                checked={f.pago === 'transferencia'}
+                onChange={() => cambiar('pago', 'transferencia')}
+              />
               {t.transferencia}
             </label>
             <label class="opcion">
-              <input type="radio" name="pago" value="efectivo" checked={f.pago === 'efectivo'} onChange={() => cambiar('pago', 'efectivo')} />
+              <input
+                type="radio"
+                name="pago"
+                value="efectivo"
+                checked={f.pago === 'efectivo'}
+                onChange={() => cambiar('pago', 'efectivo')}
+              />
               {t.efectivo}
             </label>
           </div>

@@ -111,7 +111,10 @@ export function Foto({
   useEffect(() => {
     let vigente = true;
     setUrl('');
-    if (id) ds.urlFoto(id).then((u) => vigente && setUrl(u)).catch(() => {});
+    if (id)
+      ds.urlFoto(id)
+        .then((u) => vigente && setUrl(u))
+        .catch(() => {});
     return () => {
       vigente = false;
     };
@@ -121,7 +124,9 @@ export function Foto({
       {url ? (
         <img src={url} alt={alt} loading="lazy" decoding="async" />
       ) : (
-        <span class="inicial" aria-hidden="true">{inicial?.charAt(0) ?? ''}</span>
+        <span class="inicial" aria-hidden="true">
+          {inicial?.charAt(0) ?? ''}
+        </span>
       )}
       {children}
     </div>
@@ -158,7 +163,9 @@ export function ResumenErrores({
       <ul>
         {errores.map((e) => (
           <li key={e.campo}>
-            <a href={`#${e.campo}`} class="chico">{e.texto}</a>
+            <a href={`#${e.campo}`} class="chico">
+              {e.texto}
+            </a>
           </li>
         ))}
       </ul>
@@ -185,7 +192,9 @@ export function Cantidad({
       <button type="button" aria-label={textos.tienda.restar} disabled={valor <= min} onClick={() => alCambiar(valor - 1)}>
         −
       </button>
-      <output class="num" aria-live="polite">{valor}</output>
+      <output class="num" aria-live="polite">
+        {valor}
+      </output>
       <button type="button" aria-label={textos.tienda.sumar} disabled={valor >= max} onClick={() => alCambiar(valor + 1)}>
         +
       </button>

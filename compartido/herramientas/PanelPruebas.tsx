@@ -69,15 +69,30 @@ export function PanelPruebas({
           onInput={(e) => setWa((e.target as HTMLInputElement).value)}
         />
         {error && <span class="error-campo">{error}</span>}
-        <span id="t-wa-ayuda" class="ayuda">{t.whatsappAyuda}</span>
+        <span id="t-wa-ayuda" class="ayuda">
+          {t.whatsappAyuda}
+        </span>
       </div>
       <div class="campo">
         <label for="t-horas">{t.horas}</label>
-        <input id="t-horas" class="entrada" type="number" min={1} max={72} value={horas} onInput={(e) => setHoras((e.target as HTMLInputElement).value)} />
+        <input
+          id="t-horas"
+          class="entrada"
+          type="number"
+          min={1}
+          max={72}
+          value={horas}
+          onInput={(e) => setHoras((e.target as HTMLInputElement).value)}
+        />
       </div>
       <div class="campo">
         <label for="t-demora">{t.demora}</label>
-        <select id="t-demora" class="entrada" value={aj.demora} onChange={(e) => setAj({ ...aj, demora: (e.target as HTMLSelectElement).value as AjustesPrueba['demora'] })}>
+        <select
+          id="t-demora"
+          class="entrada"
+          value={aj.demora}
+          onChange={(e) => setAj({ ...aj, demora: (e.target as HTMLSelectElement).value as AjustesPrueba['demora'] })}
+        >
           <option value="realista">{t.demoraRealista}</option>
           <option value="ninguna">{t.demoraNinguna}</option>
         </select>
@@ -98,7 +113,9 @@ export function PanelPruebas({
           <option value="servidor">{t.errorServidor}</option>
         </select>
       </div>
-      <button type="button" class="boton chico" onClick={guardar}>{t.guardar}</button>
+      <button type="button" class="boton chico" onClick={guardar}>
+        {t.guardar}
+      </button>
       <hr class="separador" />
       <button
         type="button"
@@ -124,7 +141,9 @@ export function PanelPruebas({
       >
         {t.restaurar}
       </button>
-      <button type="button" class="enlace" onClick={alCerrar}>{textos.general.cerrar}</button>
+      <button type="button" class="enlace" onClick={alCerrar}>
+        {textos.general.cerrar}
+      </button>
     </Dialogo>
   );
 }

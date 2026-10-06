@@ -34,6 +34,8 @@ Ajustala si hace falta; lo importante es que la UI no dependa de la implementaci
 Leer `CLAUDE.md` y `docs/`, proponer estructura de carpetas, dependencias y plan de fases. Esperar OK.
 
 ### Fase 1 — Tienda y admin con datos locales
+**Estado: terminada (6/10/2026), esperando OK de Flor.** Cómo probarla: `README.md`.
+
 - Toda la tienda (`02-tienda.md`) y todo el admin (`03-admin.md`) con la implementación `local`.
 - Tienda y admin comparten los datos en el mismo navegador: lo que se carga en el admin aparece en la tienda y lo que se compra aparece en el admin.
 - Simular la demora del servidor (1 a 3 s) para diseñar bien los estados de carga.

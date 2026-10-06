@@ -4,12 +4,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { useCarrito } from '@compartido/carrito/carrito';
 import { Cantidad, ErrorCarga, Foto, mostrarToast, useCarga } from '@compartido/componentes/basicos';
 import { IconoChat } from '@compartido/componentes/iconos';
-import {
-  etiquetaVariante,
-  formatoPrecio,
-  linkWhatsapp,
-  variante,
-} from '@compartido/datos/reglas';
+import { etiquetaVariante, formatoPrecio, linkWhatsapp, variante } from '@compartido/datos/reglas';
 import type { FilaCategoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
 import { carrito, ds, whatsappTienda } from '../lib/contexto';
@@ -34,7 +29,13 @@ function Galeria({ p }: { p: Producto }) {
 
   return (
     <div class="pila-chica">
-      <div class="galeria" ref={ref} onScroll={alDeslizar} tabIndex={p.fotos.length > 1 ? 0 : -1} aria-label={`Fotos de ${p.nombre}`}>
+      <div
+        class="galeria"
+        ref={ref}
+        onScroll={alDeslizar}
+        tabIndex={p.fotos.length > 1 ? 0 : -1}
+        aria-label={`Fotos de ${p.nombre}`}
+      >
         {(p.fotos.length ? p.fotos : ['']).map((id, i) => (
           <Foto key={id + i} ds={ds} id={id} inicial={p.nombre} alt={t.fotoDe(p.nombre, i + 1, total)} />
         ))}
@@ -42,11 +43,20 @@ function Galeria({ p }: { p: Producto }) {
       {p.fotos.length > 1 && (
         <>
           <div class="galeria-puntos" aria-hidden="true">
-            {p.fotos.map((_, i) => <span key={i} data-activo={i === actual} />)}
+            {p.fotos.map((_, i) => (
+              <span key={i} data-activo={i === actual} />
+            ))}
           </div>
           <div class="miniaturas">
             {p.fotos.map((id, i) => (
-              <button key={id} type="button" class="miniatura" aria-label={t.verFoto(i + 1)} aria-current={i === actual} onClick={() => ir(i)}>
+              <button
+                key={id}
+                type="button"
+                class="miniatura"
+                aria-label={t.verFoto(i + 1)}
+                aria-current={i === actual}
+                onClick={() => ir(i)}
+              >
                 <Foto ds={ds} id={id} inicial={p.nombre} />
               </button>
             ))}
@@ -63,11 +73,15 @@ function Migas({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
   return (
     <nav aria-label="Estás en">
       <ol class="migas">
-        <li><a href={linkCategoria(fila.categoria)}>{fila.categoria}</a></li>
+        <li>
+          <a href={linkCategoria(fila.categoria)}>{fila.categoria}</a>
+        </li>
         {fila.subcategoria && (
           <>
             <li aria-hidden="true">›</li>
-            <li><a href={linkCategoria(fila.categoria, fila.id)}>{fila.subcategoria}</a></li>
+            <li>
+              <a href={linkCategoria(fila.categoria, fila.id)}>{fila.subcategoria}</a>
+            </li>
           </>
         )}
       </ol>
@@ -80,7 +94,7 @@ function Detalle({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
   const libreDe = (c: string, s: string) => variante(p, c, s)?.libre ?? 0;
 
   const [color, setColor] = useState(() =>
-    p.colores.length ? p.colores.find((c) => p.variantes.some((v) => v.color === c && v.libre > 0)) ?? p.colores[0] : '',
+    p.colores.length ? (p.colores.find((c) => p.variantes.some((v) => v.color === c && v.libre > 0)) ?? p.colores[0]) : '',
   );
   // El talle no se elige solo (salvo que haya uno): así nadie compra un talle por error.
   const [talle, setTalle] = useState(() => (p.talles.length === 1 && libreDe(color, p.talles[0]) > 0 ? p.talles[0] : ''));
@@ -116,7 +130,9 @@ function Detalle({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
         <div class="pila-chica">
           <Migas p={p} filas={filas} />
           <h1>{p.nombre}</h1>
-          <span class="precio" style={{ fontSize: '24px' }}>{formatoPrecio(p.precio)}</span>
+          <span class="precio" style={{ fontSize: '24px' }}>
+            {formatoPrecio(p.precio)}
+          </span>
         </div>
 
         {p.colores.length > 0 && (
@@ -220,7 +236,9 @@ export default function Ficha() {
       ) : !p || !filas ? (
         <div class="pila" style={{ paddingTop: '24px' }}>
           <h1>{t.productoNoEncontrado}</h1>
-          <a class="boton secundario" href="/">{t.verProductos}</a>
+          <a class="boton secundario" href="/">
+            {t.verProductos}
+          </a>
         </div>
       ) : (
         <Detalle key={p.id} p={p} filas={filas} />
@@ -229,4 +247,3 @@ export default function Ficha() {
     </Marco>
   );
 }
-

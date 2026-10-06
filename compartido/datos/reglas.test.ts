@@ -78,8 +78,18 @@ describe('búsqueda sin mayúsculas ni tildes', () => {
 
 describe('carrito', () => {
   const producto: Producto = {
-    id: 'p1', nombre: 'Remera', categoriaId: 'c1', precio: 1000, descripcion: '', codigo: '',
-    visible: true, colores: ['Negro'], talles: ['S', 'M'], fotos: [], creado: 0, actualizado: 0,
+    id: 'p1',
+    nombre: 'Remera',
+    categoriaId: 'c1',
+    precio: 1000,
+    descripcion: '',
+    codigo: '',
+    visible: true,
+    colores: ['Negro'],
+    talles: ['S', 'M'],
+    fotos: [],
+    creado: 0,
+    actualizado: 0,
     variantes: [
       { color: 'Negro', talle: 'S', cantidad: 2, reservado: 0, libre: 2 },
       { color: 'Negro', talle: 'M', cantidad: 3, reservado: 2, libre: 1 },
@@ -113,7 +123,14 @@ describe('categorías', () => {
       { id: 'c4', orden: 4, categoria: 'Oculta', subcategoria: '', visible: false },
     ]);
     expect(r).toEqual([
-      { nombre: 'Mujer', id: null, subcategorias: [{ id: 'c1', nombre: 'Remeras' }, { id: 'c2', nombre: 'Vestidos' }] },
+      {
+        nombre: 'Mujer',
+        id: null,
+        subcategorias: [
+          { id: 'c1', nombre: 'Remeras' },
+          { id: 'c2', nombre: 'Vestidos' },
+        ],
+      },
       { nombre: 'Accesorios', id: 'c3', subcategorias: [] },
     ]);
   });

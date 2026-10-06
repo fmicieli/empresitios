@@ -2,12 +2,7 @@
 // dentro del navegador, con la demora y los errores de un servidor real.
 // Sirve para probar todo sin backend (Fase 1).
 
-import {
-  armarVariantes,
-  claveVariante,
-  combinaciones,
-  reservasPorVariante,
-} from '../reglas';
+import { armarVariantes, claveVariante, combinaciones, reservasPorVariante } from '../reglas';
 import {
   ErrorDatos,
   type ConfigServidor,
@@ -320,9 +315,7 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
     async getProductos(opciones) {
       await viaje('lectura');
       const { e, t } = leerAlDia();
-      return e.productos
-        .filter((p) => opciones?.incluirOcultos || p.visible)
-        .map((p) => armarProducto(e, p, t));
+      return e.productos.filter((p) => opciones?.incluirOcultos || p.visible).map((p) => armarProducto(e, p, t));
     },
 
     async getProducto(id) {
@@ -351,7 +344,10 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
         }
         for (const it of items) {
           const prod = e.productos.find((p) => p.id === it.productoId);
-          const existe = prod && prod.visible && combinaciones(prod.colores, prod.talles).some((c) => c.color === it.color && c.talle === it.talle);
+          const existe =
+            prod &&
+            prod.visible &&
+            combinaciones(prod.colores, prod.talles).some((c) => c.color === it.color && c.talle === it.talle);
           if (!existe || !Number.isInteger(it.cantidad) || it.cantidad < 1) {
             problemas.push({ ...it, pedida: it.cantidad, libre: 0, motivo: 'noDisponible' });
             continue;
@@ -359,7 +355,14 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
           const libre = libreDe(e, t, it.productoId, it.color, it.talle);
           const k = it.productoId + '|' + claveVariante(it.color, it.talle);
           if (libre < (pedidoPorVariante.get(k) ?? 0)) {
-            problemas.push({ productoId: it.productoId, color: it.color, talle: it.talle, pedida: it.cantidad, libre, motivo: 'sinStock' });
+            problemas.push({
+              productoId: it.productoId,
+              color: it.color,
+              talle: it.talle,
+              pedida: it.cantidad,
+              libre,
+              motivo: 'sinStock',
+            });
           }
         }
         if (problemas.length) return { ok: false as const, lineas: problemas };
@@ -399,11 +402,7 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
     async getPedidos(filtro) {
       await viaje('lectura');
       const { e } = leerAlDia();
-      return copia(
-        e.pedidos
-          .filter((p) => !filtro?.estado || p.estado === filtro.estado)
-          .sort((a, b) => b.creado - a.creado),
-      );
+      return copia(e.pedidos.filter((p) => !filtro?.estado || p.estado === filtro.estado).sort((a, b) => b.creado - a.creado));
     },
 
     async getPedido(numero) {
@@ -422,7 +421,14 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
           const faltan: LineaConProblema[] = p.items
             .map((it) => ({ it, libre: libreDe(e, t, it.productoId, it.color, it.talle) }))
             .filter(({ it, libre }) => libre < it.cantidad)
-            .map(({ it, libre }) => ({ productoId: it.productoId, color: it.color, talle: it.talle, pedida: it.cantidad, libre, motivo: 'sinStock' as const }));
+            .map(({ it, libre }) => ({
+              productoId: it.productoId,
+              color: it.color,
+              talle: it.talle,
+              pedida: it.cantidad,
+              libre,
+              motivo: 'sinStock' as const,
+            }));
           if (faltan.length) return { ok: false as const, motivo: 'sinStock' as const, lineas: faltan };
         }
         const antes = fotoDeEstado(p, e);

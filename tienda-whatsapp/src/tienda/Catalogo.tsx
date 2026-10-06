@@ -58,7 +58,9 @@ export default function Catalogo() {
         <h1 class="sr">{t.buscar}</h1>
         <div class="buscador" role="search">
           <IconoBuscar />
-          <label class="sr" for="buscar">{t.buscar}</label>
+          <label class="sr" for="buscar">
+            {t.buscar}
+          </label>
           <input
             id="buscar"
             type="search"
@@ -72,7 +74,12 @@ export default function Catalogo() {
         {!busqueda && categorias.length > 0 && (
           <>
             <nav class="chips" aria-label="Categorías">
-              <button type="button" class="chip" aria-pressed={!filtro.cat} onClick={() => setFiltro({ cat: '', sub: '', busqueda: '' })}>
+              <button
+                type="button"
+                class="chip"
+                aria-pressed={!filtro.cat}
+                onClick={() => setFiltro({ cat: '', sub: '', busqueda: '' })}
+              >
                 {t.todo}
               </button>
               {categorias.map((c) => (
@@ -109,7 +116,9 @@ export default function Catalogo() {
         )}
 
         {busqueda && productos && lista.length > 0 && (
-          <p class="suave chico num" role="status">{t.resultados(lista.length, busqueda)}</p>
+          <p class="suave chico num" role="status">
+            {t.resultados(lista.length, busqueda)}
+          </p>
         )}
 
         {datos.cargando && !productos ? (
@@ -131,7 +140,9 @@ export default function Catalogo() {
               <p class="suave">{t.sinResultadosAyuda}</p>
               <div class="chips envolver" style={{ justifyContent: 'center' }}>
                 {categorias.map((c) => (
-                  <a key={c.nombre} class="chip" href={linkCategoria(c.nombre)}>{c.nombre}</a>
+                  <a key={c.nombre} class="chip" href={linkCategoria(c.nombre)}>
+                    {c.nombre}
+                  </a>
                 ))}
               </div>
               <a

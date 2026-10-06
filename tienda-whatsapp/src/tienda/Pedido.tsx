@@ -57,7 +57,9 @@ export default function Pedido() {
       <Marco>
         <div class="pila lectura" style={{ paddingTop: '24px' }}>
           <h1>{t.sinPedido}</h1>
-          <a class="boton secundario" href="/">{t.volverTienda}</a>
+          <a class="boton secundario" href="/">
+            {t.volverTienda}
+          </a>
         </div>
       </Marco>
     );
@@ -68,31 +70,46 @@ export default function Pedido() {
     <Marco>
       <div class="pila lectura" style={{ paddingTop: '24px' }}>
         <div class="pila-chica">
-          <h1 class="suave" style={{ fontSize: 'var(--texto-base)', fontWeight: 400 }}>{t.tuNumero}</h1>
+          <h1 class="suave" style={{ fontSize: 'var(--texto-base)', fontWeight: 400 }}>
+            {t.tuNumero}
+          </h1>
           <span class="numero-grande num">#{p.numero}</span>
         </div>
         <p>{t.reservamos(g.horasReserva, fechaReserva(p.venceEn, ds.ahora()))}</p>
 
         <section class="alerta" aria-labelledby="ultimo-paso">
-          <h2 id="ultimo-paso" style={{ fontSize: 'var(--texto-medio)' }}>{t.ultimoPaso}</h2>
+          <h2 id="ultimo-paso" style={{ fontSize: 'var(--texto-medio)' }}>
+            {t.ultimoPaso}
+          </h2>
           <p>{t.ultimoPasoAyuda}</p>
           <p class="chico suave">{t.siNoSeAbrio}:</p>
           <a class="boton" href={link} target="_blank" rel="noopener">
             <IconoChat /> {t.abrirWhatsapp}
           </a>
           {sinNumeroDePrueba && (
-            <p class="aviso">Modo de prueba: no abrimos WhatsApp solo porque no cargaste tu número. Cargalo en “Herramientas de prueba” para recibir el mensaje.</p>
+            <p class="aviso">
+              Modo de prueba: no abrimos WhatsApp solo porque no cargaste tu número. Cargalo en “Herramientas de prueba” para
+              recibir el mensaje.
+            </p>
           )}
-          <button type="button" class="enlace" onClick={copiar}>{t.copiar}</button>
+          <button type="button" class="enlace" onClick={copiar}>
+            {t.copiar}
+          </button>
         </section>
 
         <section class="pila-chica" aria-labelledby="asi-llega">
-          <h2 id="asi-llega" style={{ fontSize: 'var(--texto-base)' }}>{t.asiLlega}</h2>
-          <pre class="mensaje" ref={refMensaje} style={{ fontFamily: 'inherit', margin: 0 }}>{g.mensaje}</pre>
+          <h2 id="asi-llega" style={{ fontSize: 'var(--texto-base)' }}>
+            {t.asiLlega}
+          </h2>
+          <pre class="mensaje" ref={refMensaje} style={{ fontFamily: 'inherit', margin: 0 }}>
+            {g.mensaje}
+          </pre>
         </section>
 
         <section class="pila-chica" aria-labelledby="que-sigue">
-          <h2 id="que-sigue" style={{ fontSize: 'var(--texto-base)' }}>{t.queSigue}</h2>
+          <h2 id="que-sigue" style={{ fontSize: 'var(--texto-base)' }}>
+            {t.queSigue}
+          </h2>
           <p>{t.queSigueTexto}</p>
         </section>
 
@@ -101,7 +118,8 @@ export default function Pedido() {
             <div key={n} class="fila-extremos">
               <span>
                 {i.nombreProducto}
-                {etiquetaVariante(i.color, i.talle) && <span class="suave"> · {etiquetaVariante(i.color, i.talle)}</span>} × {i.cantidad}
+                {etiquetaVariante(i.color, i.talle) && <span class="suave"> · {etiquetaVariante(i.color, i.talle)}</span>} ×{' '}
+                {i.cantidad}
               </span>
               <span class="num">{formatoPrecio(i.precioUnitario * i.cantidad)}</span>
             </div>
@@ -114,8 +132,14 @@ export default function Pedido() {
         </section>
 
         <div class="fila">
-          <a class="boton secundario" href="/">{t.volverTienda}</a>
-          {esLocal(ds) && <a class="enlace" href={`/admin/#/pedidos/${p.numero}`}>Ver el pedido en el admin (prueba)</a>}
+          <a class="boton secundario" href="/">
+            {t.volverTienda}
+          </a>
+          {esLocal(ds) && (
+            <a class="enlace" href={`/admin/#/pedidos/${p.numero}`}>
+              Ver el pedido en el admin (prueba)
+            </a>
+          )}
         </div>
       </div>
     </Marco>

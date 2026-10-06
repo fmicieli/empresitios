@@ -44,14 +44,12 @@ export const textos = {
     talle: 'Talle',
     elegiTalle: 'Elegí un talle para ver el stock.',
     sinStockOpcion: 'Sin stock en esta opción',
-    pocas: (n: number, talle: string) =>
-      (n === 1 ? 'Queda 1' : `Quedan ${n}`) + (talle ? ` en talle ${talle}` : ''),
+    pocas: (n: number, talle: string) => (n === 1 ? 'Queda 1' : `Quedan ${n}`) + (talle ? ` en talle ${talle}` : ''),
     yaEnCarrito: (n: number) => `Ya tenés ${n} en el carrito.`,
     restar: 'Restar uno',
     sumar: 'Sumar uno',
     agregar: 'Agregar al carrito',
-    agregado: (producto: string, variante: string) =>
-      `Agregaste ${producto}${variante ? ` (${variante})` : ''} al carrito.`,
+    agregado: (producto: string, variante: string) => `Agregaste ${producto}${variante ? ` (${variante})` : ''} al carrito.`,
     descripcion: 'Descripción',
     consultaTalle: '¿Dudas con el talle? Consultanos por WhatsApp',
     consultaMensaje: (producto: string) => `Hola, tengo una consulta sobre ${producto}.`,
@@ -152,7 +150,8 @@ export const textos = {
     entrar: 'Entrar con Google',
     entrarSimulado: 'Entrar con Google (simulado)',
     ingresoAyuda: 'Entrá con la cuenta de Google de tu negocio. Con otra cuenta, Google no te va a dejar pasar.',
-    ingresoSimuladoAyuda: 'Modo de prueba: el ingreso es simulado. En la versión real, solo entra la cuenta de Google del negocio.',
+    ingresoSimuladoAyuda:
+      'Modo de prueba: el ingreso es simulado. En la versión real, solo entra la cuenta de Google del negocio.',
     tipInicio: 'Tip: agregá esta página a la pantalla de inicio del celular para tenerla a mano.',
     ayudaWhatsapp: '¿Necesitás ayuda? Escribinos por WhatsApp',
     salir: 'Salir',

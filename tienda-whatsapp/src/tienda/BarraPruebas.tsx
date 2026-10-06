@@ -13,7 +13,10 @@ export default function BarraPruebas() {
   const [vuelta, setVuelta] = useState(0);
 
   useEffect(() => {
-    if (abierto) ds.getConfig().then((c) => setHoras(c.horasReserva)).catch(() => {});
+    if (abierto)
+      ds.getConfig()
+        .then((c) => setHoras(c.horasReserva))
+        .catch(() => {});
   }, [abierto]);
 
   if (!esLocal(ds)) return null;
@@ -22,9 +25,21 @@ export default function BarraPruebas() {
     <div class="barra-pruebas" role="region" aria-label="Modo de prueba">
       <div class="barra-pruebas-interior">
         <strong>Modo de prueba</strong>
-        <a href="/" aria-current={!enAdmin ? 'page' : undefined}>{textos.pruebas.irTienda}</a>
-        <a href="/admin/" aria-current={enAdmin ? 'page' : undefined}>{textos.pruebas.irAdmin}</a>
-        <button type="button" class="enlace" style={{ marginLeft: 'auto', padding: 0 }} onClick={() => { setVuelta((v) => v + 1); setAbierto(true); }}>
+        <a href="/" aria-current={!enAdmin ? 'page' : undefined}>
+          {textos.pruebas.irTienda}
+        </a>
+        <a href="/admin/" aria-current={enAdmin ? 'page' : undefined}>
+          {textos.pruebas.irAdmin}
+        </a>
+        <button
+          type="button"
+          class="enlace"
+          style={{ marginLeft: 'auto', padding: 0 }}
+          onClick={() => {
+            setVuelta((v) => v + 1);
+            setAbierto(true);
+          }}
+        >
           <IconoHerramienta /> {textos.pruebas.boton}
         </button>
       </div>

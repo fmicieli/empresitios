@@ -1,14 +1,7 @@
 // Reglas de negocio escritas una sola vez (docs/04-modelo-de-datos.md y 07-decisiones.md).
 // Son funciones puras: no leen ni guardan nada. Se prueban en reglas.test.ts.
 
-import type {
-  Categoria,
-  FilaCategoria,
-  ItemCarrito,
-  Pedido,
-  Producto,
-  Variante,
-} from './tipos';
+import type { Categoria, FilaCategoria, ItemCarrito, Pedido, Producto, Variante } from './tipos';
 
 const HORA = 3600 * 1000;
 
@@ -60,9 +53,7 @@ export function formatoPrecio(n: number): string {
 
 // ---------- WhatsApp (D-02) ----------
 
-export type WhatsappNormalizado =
-  | { ok: true; diezDigitos: string; internacional: string; paraMostrar: string }
-  | { ok: false };
+export type WhatsappNormalizado = { ok: true; diezDigitos: string; internacional: string; paraMostrar: string } | { ok: false };
 
 /**
  * Acepta cualquier formato argentino (+54, 9, 0, 15, espacios, guiones)
@@ -263,5 +254,5 @@ export function primerNombre(nombre: string): string {
 /** "Lucía G." para listas (menos datos personales a la vista). */
 export function nombreCorto(nombre: string): string {
   const partes = nombre.trim().split(/\s+/);
-  return partes.length > 1 ? `${partes[0]} ${partes[1].charAt(0)}.` : partes[0] ?? '';
+  return partes.length > 1 ? `${partes[0]} ${partes[1].charAt(0)}.` : (partes[0] ?? '');
 }
