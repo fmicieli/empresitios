@@ -22,9 +22,6 @@ export interface ConfigTienda {
     logo: string;
     colorMarca: string;
     colorSobreMarca: string;
-    /** Versión para el modo oscuro del celular. */
-    colorMarcaOscuro: string;
-    colorSobreMarcaOscuro: string;
   };
   /** De dónde salen los datos: "local" (prueba, en el navegador) o "appsScript" (Google, Fase 3). */
   datos: 'local' | 'appsScript';
@@ -46,10 +43,8 @@ const config: ConfigTienda = {
   textoPrivacidad: 'Usamos estos datos solo para gestionar tu pedido. (Texto pendiente de revisión legal.)',
   estilo: {
     logo: '',
-    colorMarca: '#1d1d1b',
+    colorMarca: '#000000',
     colorSobreMarca: '#ffffff',
-    colorMarcaOscuro: '#f1f1ec',
-    colorSobreMarcaOscuro: '#161615',
   },
   datos: 'local',
   appsScriptUrl: '',

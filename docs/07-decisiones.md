@@ -67,6 +67,19 @@ Tomadas por Claude dentro de lo aprobado; se pueden revisar.
 - **Tienda de ejemplo:** además de los 5 productos de la especificación, se sumó un producto oculto ("Pañuelo de seda") para poder probar la etiqueta "Oculto", y 3 pedidos de ejemplo (uno pendiente, uno confirmado y uno vencido) para que el admin no arranque vacío. "Volver a los datos de ejemplo" los restaura.
 - **Herramientas de prueba:** aparecen solo cuando la tienda usa datos locales (`datos: 'local'` en la configuración). Con datos reales de Google no existen.
 
+## D-09 · Estilo blanco y negro, sin modo oscuro, y pesos de letra
+
+- **Decisión:** todo el sitio (tienda y admin) en blanco, negro y grises. Sin modo oscuro: aunque el celular esté en modo oscuro, el sitio se ve claro. Pesos de letra permitidos: **regular (400), semi (600) y bold (700)**; nada más grueso.
+- **Cómo quedó:**
+  - Títulos y número de pedido en bold.
+  - Botones, etiquetas, precios y textos destacados en semi.
+  - El resto en regular.
+  - La tipografía pasa a **Atkinson Hyperlegible Next** (Google Fonts), porque la versión anterior no tenía peso semi.
+- **Avisos y errores:** al no tener color, se distinguen por borde grueso, ícono y texto, nunca solo por color (regla de accesibilidad 7).
+- **Fotos:** las ilustraciones de ejemplo de los productos conservan sus colores, porque son contenido y no parte del diseño.
+- Todo está en `compartido/estilos/tokens.css`. El color de marca de cada cliente se sigue cambiando en `tienda.config.ts`.
+- Decidió: Flor.
+
 ---
 
 ## Pendientes (al 6/10/2026)

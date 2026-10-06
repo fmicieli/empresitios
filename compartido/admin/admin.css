@@ -53,7 +53,7 @@
 }
 .admin-nav-inferior a[aria-current='page'] {
   color: var(--texto);
-  font-weight: 700;
+  font-weight: var(--peso-semi);
 }
 .admin-nav-inferior a[aria-current='page']::before {
   content: '';
@@ -99,7 +99,7 @@
   gap: 4px;
 }
 .admin-nav-lateral .nombre-comercio {
-  font-weight: 700;
+  font-weight: var(--peso-semi);
   padding: 0 12px 16px;
 }
 .admin-nav-lateral a {
@@ -115,7 +115,7 @@
 .admin-nav-lateral a[aria-current='page'] {
   background: var(--acento);
   color: var(--sobre-acento);
-  font-weight: 700;
+  font-weight: var(--peso-semi);
 }
 .admin-nav-lateral a[aria-current='page'] .contador {
   background: var(--sobre-acento);
@@ -145,7 +145,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: var(--peso-semi);
   font-size: 28px;
 }
 
@@ -169,7 +169,7 @@
 }
 .tarjeta-pedido .titulo-pedido {
   font-size: 19px;
-  font-weight: 700;
+  font-weight: var(--peso-semi);
   text-decoration: none;
   color: var(--texto);
   min-height: var(--toque);
@@ -208,7 +208,7 @@
 }
 .tabla a.enlace-fila {
   color: var(--texto);
-  font-weight: 700;
+  font-weight: var(--peso-semi);
   text-decoration: none;
 }
 
@@ -269,7 +269,7 @@
 }
 .pestanas button[aria-pressed='true'] {
   background: var(--fondo);
-  font-weight: 700;
+  font-weight: var(--peso-semi);
   box-shadow: var(--sombra);
 }
 .linea-stock {
@@ -299,7 +299,7 @@
 .valor-stock {
   min-width: 32px;
   text-align: center;
-  font-weight: 700;
+  font-weight: var(--peso-semi);
   font-size: var(--texto-medio);
 }
 
@@ -415,6 +415,6 @@ details > summary {
   min-height: var(--toque);
   display: flex;
   align-items: center;
-  font-weight: 700;
+  font-weight: var(--peso-semi);
   cursor: pointer;
 }

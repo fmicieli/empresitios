@@ -146,7 +146,7 @@ function EditorLista({
                   border: 0,
                   background: 'transparent',
                   color: 'inherit',
-                  fontWeight: 700,
+                  fontWeight: 'var(--peso-semi)',
                   cursor: 'pointer',
                   minWidth: '36px',
                   minHeight: '36px',

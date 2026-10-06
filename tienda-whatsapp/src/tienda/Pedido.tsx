@@ -70,7 +70,7 @@ export default function Pedido() {
     <Marco>
       <div class="pila lectura" style={{ paddingTop: '24px' }}>
         <div class="pila-chica">
-          <h1 class="suave" style={{ fontSize: 'var(--texto-base)', fontWeight: 400 }}>
+          <h1 class="suave" style={{ fontSize: 'var(--texto-base)', fontWeight: 'var(--peso-regular)' }}>
             {t.tuNumero}
           </h1>
           <span class="numero-grande num">#{p.numero}</span>

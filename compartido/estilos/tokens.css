@@ -1,27 +1,31 @@
 /*
   TOKENS DE ESTILO — el único archivo que se toca para cambiar el diseño.
-  Estilo actual: neutro de bocetos (como el prototipo de referencia).
+  Estilo actual: blanco y negro (escala de grises), sin modo oscuro.
   El color de marca de cada cliente llega desde tienda.config.ts como
-  --marca / --sobre-marca; si no hay, se usa el acento neutro.
+  --marca / --sobre-marca; si no hay, se usa el negro.
+  Pesos de letra permitidos: regular, semi y bold (nada más grueso).
 */
 :root {
   /* Colores */
   --fondo: #ffffff;
-  --superficie: #f3f3f0;
-  --linea: #d4d4cf;
-  --linea-suave: #e6e6e2;
-  --texto: #1d1d1b;
-  --texto-suave: #5d5d58;
-  --acento: var(--marca, #1d1d1b);
+  --superficie: #f2f2f2;
+  --linea: #d0d0d0;
+  --linea-suave: #e6e6e6;
+  --texto: #000000;
+  --texto-suave: #555555;
+  --acento: var(--marca, #000000);
   --sobre-acento: var(--sobre-marca, #ffffff);
-  --aviso-fondo: #fff4d6;
-  --aviso-texto: #5a4300;
-  --ok-texto: #1e5b32;
-  --error-texto: #8a1c1c;
+  --aviso-fondo: #f2f2f2;
+  --aviso-texto: #000000;
+  --ok-texto: #000000;
+  --error-texto: #000000;
   --velo: rgb(0 0 0 / 0.5);
 
   /* Tipografía */
-  --fuente: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fuente: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --peso-regular: 400;
+  --peso-semi: 600;
+  --peso-bold: 700;
   --texto-base: 16px;
   --texto-chico: 14px;
   --texto-medio: 18px;
@@ -43,22 +47,4 @@
   --proporcion-foto: 4 / 5;
 
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-tema='claro']) {
-    --fondo: #161615;
-    --superficie: #22221f;
-    --linea: #3d3d38;
-    --linea-suave: #2d2d29;
-    --texto: #f1f1ec;
-    --texto-suave: #b4b4ac;
-    --acento: var(--marca-oscuro, #f1f1ec);
-    --sobre-acento: var(--sobre-marca-oscuro, #161615);
-    --aviso-fondo: #3d3214;
-    --aviso-texto: #ffe7a6;
-    --ok-texto: #8fd6a5;
-    --error-texto: #ffb4b4;
-    color-scheme: dark;
-  }
 }

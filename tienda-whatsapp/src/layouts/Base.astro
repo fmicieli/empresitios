@@ -13,7 +13,7 @@ interface Props {
 const { titulo, sinIndexar = false } = Astro.props;
 const tituloCompleto = titulo ? `${titulo} · ${config.nombre}` : config.nombre;
 const e = config.estilo;
-const marca = `:root{--marca:${e.colorMarca};--sobre-marca:${e.colorSobreMarca};--marca-oscuro:${e.colorMarcaOscuro};--sobre-marca-oscuro:${e.colorSobreMarcaOscuro}}`;
+const marca = `:root{--marca:${e.colorMarca};--sobre-marca:${e.colorSobreMarca}}`;
 ---
 <!doctype html>
 <html lang="es-AR">
@@ -24,10 +24,11 @@ const marca = `:root{--marca:${e.colorMarca};--sobre-marca:${e.colorSobreMarca};
     <meta name="description" content={config.descripcion} />
     {sinIndexar && <meta name="robots" content="noindex" />}
     <meta name="theme-color" content={e.colorMarca} />
+    <meta name="color-scheme" content="only light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" />
     <style set:html={marca}></style>
   </head>
   <body>

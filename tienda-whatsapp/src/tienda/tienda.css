@@ -21,7 +21,7 @@
   padding: 0 4px;
   display: inline-flex;
   align-items: center;
-  font-weight: 700;
+  font-weight: var(--peso-bold);
   font-size: var(--texto-medio);
   text-decoration: none;
   color: var(--texto);
@@ -185,7 +185,7 @@
 .tarjeta-nombre mark {
   background: none;
   color: inherit;
-  font-weight: 700;
+  font-weight: var(--peso-semi);
   text-decoration: underline;
 }
 
@@ -299,7 +299,7 @@
 }
 .total {
   font-size: var(--texto-medio);
-  font-weight: 700;
+  font-weight: var(--peso-semi);
 }
 
 /* ---------- Barra de pruebas ---------- */

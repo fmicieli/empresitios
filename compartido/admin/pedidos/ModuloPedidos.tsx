@@ -221,7 +221,7 @@ function Detalle({
       {p.estado === 'vencida' && <div class="panel">{t.vencidaDetalle}</div>}
 
       <section class="pila-chica" aria-label={t.productosDelPedido}>
-        <h2 class="suave chico" style={{ fontWeight: 400 }}>
+        <h2 class="suave chico" style={{ fontWeight: 'var(--peso-regular)' }}>
           {t.productosDelPedido}
         </h2>
         {p.items.map((i, n) => {
@@ -249,7 +249,7 @@ function Detalle({
       </section>
 
       <section class="pila-chica" aria-label={t.comprador}>
-        <h2 class="suave chico" style={{ fontWeight: 400 }}>
+        <h2 class="suave chico" style={{ fontWeight: 'var(--peso-regular)' }}>
           {t.comprador}
         </h2>
         <strong>{c.nombre}</strong>
