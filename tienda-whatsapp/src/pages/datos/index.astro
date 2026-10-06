@@ -1,0 +1,7 @@
+---
+import Base from '../../layouts/Base.astro';
+import Datos from '../../tienda/Datos';
+---
+<Base titulo="Tus datos" sinIndexar>
+  <Datos client:only="preact" />
+</Base>

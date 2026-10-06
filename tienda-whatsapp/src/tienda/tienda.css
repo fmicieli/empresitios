@@ -1,0 +1,326 @@
+/* Disposición propia de la tienda. Solo usa tokens. */
+
+/* ---------- Encabezado ---------- */
+.encabezado {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  background: var(--fondo);
+  border-bottom: 1px solid var(--linea-suave);
+}
+.encabezado-interior {
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding: 10px var(--separacion);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo {
+  min-height: var(--toque);
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: var(--texto-medio);
+  text-decoration: none;
+  color: var(--texto);
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.15;
+}
+.logo img {
+  max-height: 40px;
+  width: auto;
+}
+.menu-escritorio,
+.buscador-encabezado {
+  display: none;
+}
+@media (min-width: 900px) {
+  .boton-menu {
+    display: none;
+  }
+  .logo {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
+  .menu-escritorio {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+  }
+  .buscador-encabezado {
+    display: flex;
+    width: 260px;
+  }
+}
+.menu-escritorio > li {
+  list-style: none;
+  position: relative;
+}
+.menu-escritorio {
+  margin: 0;
+  padding: 0;
+}
+.menu-escritorio .item-menu {
+  min-height: var(--toque);
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radio-chico);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: var(--texto);
+  font-size: var(--texto-base);
+}
+.menu-escritorio .item-menu:hover,
+.menu-escritorio .item-menu[aria-expanded='true'] {
+  background: var(--superficie);
+}
+.desplegable {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 200px;
+  background: var(--fondo);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+  padding: 6px;
+  margin: 0;
+  list-style: none;
+  z-index: 20;
+}
+.desplegable a {
+  display: flex;
+  align-items: center;
+  min-height: var(--toque);
+  padding: 0 12px;
+  border-radius: var(--radio-chico);
+  text-decoration: none;
+  color: var(--texto);
+}
+.desplegable a:hover {
+  background: var(--superficie);
+}
+
+/* ---------- Menú lateral (celular) ---------- */
+.menu-lateral {
+  margin: 0 auto 0 0;
+  height: 100%;
+  max-height: 100%;
+  width: min(340px, 88vw);
+  max-width: none;
+  border: 0;
+  padding: 0;
+  background: var(--fondo);
+  color: var(--texto);
+}
+.menu-lateral::backdrop {
+  background: var(--velo);
+}
+.menu-lateral-interior {
+  padding: 12px var(--separacion) 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.lista-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lista-menu a,
+.lista-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 4px;
+  border: 0;
+  border-bottom: 1px solid var(--linea-suave);
+  background: none;
+  text-decoration: none;
+  color: var(--texto);
+  font-size: var(--texto-medio);
+  cursor: pointer;
+  text-align: left;
+}
+.lista-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 16px;
+}
+.lista-menu ul a {
+  font-size: var(--texto-base);
+  min-height: var(--toque);
+}
+
+/* ---------- Catálogo ---------- */
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 14px;
+}
+@media (min-width: 700px) {
+  .grilla {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--texto);
+}
+.tarjeta-nombre mark {
+  background: none;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ---------- Barra fija del carrito ---------- */
+.barra-carrito {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  width: min(560px, calc(100% - 32px));
+  z-index: 14;
+}
+.barra-carrito .boton {
+  width: 100%;
+  justify-content: space-between;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
+}
+
+/* ---------- Ficha ---------- */
+.ficha {
+  display: grid;
+  gap: 24px;
+  padding-top: 16px;
+}
+@media (min-width: 800px) {
+  .ficha {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+.migas {
+  font-size: var(--texto-chico);
+  color: var(--texto-suave);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.migas a {
+  color: var(--texto-suave);
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+.galeria {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 8px;
+  border-radius: 10px;
+  scrollbar-width: none;
+}
+.galeria::-webkit-scrollbar {
+  display: none;
+}
+.galeria > .foto {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+.galeria-puntos {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+.galeria-puntos span {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--linea);
+}
+.galeria-puntos span[data-activo='true'] {
+  background: var(--texto);
+  width: 20px;
+}
+.miniaturas {
+  display: none;
+  gap: 8px;
+}
+@media (min-width: 800px) {
+  .galeria-puntos {
+    display: none;
+  }
+  .miniaturas {
+    display: flex;
+  }
+}
+.miniatura {
+  width: 72px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+}
+.miniatura[aria-current='true'] {
+  border-color: var(--texto);
+}
+
+/* ---------- Carrito ---------- */
+.linea-carrito {
+  display: flex;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--linea-suave);
+}
+.linea-carrito .miniatura-carrito {
+  width: 72px;
+  flex-shrink: 0;
+}
+.total {
+  font-size: var(--texto-medio);
+  font-weight: 700;
+}
+
+/* ---------- Barra de pruebas ---------- */
+.barra-pruebas {
+  background: var(--aviso-fondo);
+  color: var(--aviso-texto);
+  font-size: var(--texto-chico);
+}
+.barra-pruebas-interior {
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding: 4px var(--separacion);
+  display: flex;
+  gap: 4px 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.barra-pruebas a,
+.barra-pruebas button {
+  color: var(--aviso-texto);
+  min-height: var(--toque);
+  display: inline-flex;
+  align-items: center;
+}

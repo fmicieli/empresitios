@@ -1,0 +1,18 @@
+{
+  "name": "empresitios",
+  "private": true,
+  "type": "module",
+  "workspaces": ["compartido", "tienda-whatsapp"],
+  "scripts": {
+    "dev": "npm run dev -w tienda-whatsapp",
+    "dev:celular": "npm run dev -w tienda-whatsapp -- --host",
+    "build": "npm run build -w tienda-whatsapp",
+    "preview": "npm run preview -w tienda-whatsapp -- --host",
+    "check": "npm run check -w tienda-whatsapp",
+    "test": "vitest run"
+  },
+  "engines": { "node": ">=22.12.0" },
+  "devDependencies": {
+    "vitest": "^5.0.3"
+  }
+}

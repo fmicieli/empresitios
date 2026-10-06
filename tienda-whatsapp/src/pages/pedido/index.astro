@@ -1,0 +1,7 @@
+---
+import Base from '../../layouts/Base.astro';
+import Pedido from '../../tienda/Pedido';
+---
+<Base titulo="Tu pedido" sinIndexar>
+  <Pedido client:only="preact" />
+</Base>

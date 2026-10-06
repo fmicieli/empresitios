@@ -1,0 +1,679 @@
+/*
+  Estilos de los componentes. Solo usan tokens (tokens.css): para cambiar
+  el diseño de un cliente se cambian los tokens, no este archivo.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  background: var(--fondo);
+  color: var(--texto);
+  margin: 0;
+}
+body {
+  font-family: var(--fuente);
+  font-size: var(--texto-base);
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+a {
+  color: var(--texto);
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+:focus-visible {
+  outline: var(--foco);
+  outline-offset: 2px;
+}
+h1,
+h2,
+h3 {
+  margin: 0;
+  text-wrap: balance;
+  line-height: 1.2;
+}
+h1 {
+  font-size: var(--titulo-1);
+}
+h2 {
+  font-size: var(--titulo-2);
+}
+p {
+  margin: 0;
+}
+.sr {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.num {
+  font-variant-numeric: tabular-nums;
+}
+.suave {
+  color: var(--texto-suave);
+}
+.chico {
+  font-size: var(--texto-chico);
+}
+.negrita {
+  font-weight: 700;
+}
+
+/* ---------- Disposición ---------- */
+.contenedor {
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding: 0 var(--separacion) 120px;
+}
+.lectura {
+  max-width: var(--ancho-lectura);
+}
+.pila {
+  display: flex;
+  flex-direction: column;
+  gap: var(--separacion);
+}
+.pila-chica {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.fila {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.fila-extremos {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+.dos-columnas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 24px;
+  align-items: start;
+}
+.dos-botones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.centrado {
+  text-align: center;
+  align-items: center;
+}
+.separador {
+  border: 0;
+  border-top: 1px solid var(--linea-suave);
+  margin: 4px 0;
+}
+
+/* ---------- Botones ---------- */
+.boton {
+  min-height: var(--alto-boton);
+  border-radius: var(--radio);
+  border: 0;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  font-weight: 700;
+  font-size: 17px;
+  padding: 0 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  text-align: center;
+}
+.boton.secundario {
+  background: var(--fondo);
+  color: var(--texto);
+  border: 1px solid var(--texto);
+}
+.boton.chico {
+  min-height: var(--toque);
+  font-size: 15px;
+  padding: 0 14px;
+}
+.boton.ancho {
+  width: 100%;
+}
+.boton:disabled,
+.boton[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.enlace {
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 10px 0;
+  min-height: var(--toque);
+  font-size: 15px;
+  color: var(--texto);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.boton-icono {
+  width: var(--toque);
+  height: var(--toque);
+  border-radius: 10px;
+  border: 1px solid var(--linea);
+  background: var(--fondo);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  color: var(--texto);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.contador {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+/* ---------- Chips y opciones ---------- */
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px;
+  scrollbar-width: thin;
+}
+.chips.envolver {
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.chip {
+  min-height: var(--toque);
+  padding: 0 16px;
+  border-radius: var(--radio-pastilla);
+  border: 1px solid var(--linea);
+  background: var(--fondo);
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.chip[aria-pressed='true'] {
+  background: var(--acento);
+  color: var(--sobre-acento);
+  border-color: var(--acento);
+  font-weight: 700;
+}
+.chips.secundarios .chip {
+  border-radius: var(--radio-chico);
+  font-size: var(--texto-chico);
+}
+.talles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 8px;
+}
+.talle {
+  min-height: var(--alto-boton);
+  border-radius: 10px;
+  border: 1px solid var(--texto-suave);
+  background: var(--fondo);
+  cursor: pointer;
+  font-size: var(--texto-base);
+}
+.talle[aria-pressed='true'] {
+  background: var(--acento);
+  color: var(--sobre-acento);
+  border: 2px solid var(--acento);
+  font-weight: 700;
+}
+.talle:disabled {
+  border-style: dashed;
+  color: var(--texto-suave);
+  text-decoration: line-through;
+  cursor: not-allowed;
+  background: var(--superficie);
+}
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  border: 1px solid var(--texto-suave);
+  border-radius: var(--radio);
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.opcion:has(input:checked) {
+  border: 2px solid var(--texto);
+}
+.opcion input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--texto);
+  flex-shrink: 0;
+}
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+legend {
+  font-weight: 700;
+  padding: 0 0 8px;
+}
+
+/* ---------- Formularios ---------- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.campo > label,
+.campo > .etiqueta {
+  font-weight: 700;
+}
+.opcional {
+  font-weight: 400;
+  color: var(--texto-suave);
+}
+.entrada {
+  min-height: var(--alto-boton);
+  border: 1px solid var(--texto-suave);
+  border-radius: 10px;
+  padding: 0 14px;
+  background: var(--fondo);
+  font-size: 17px;
+  width: 100%;
+}
+textarea.entrada {
+  padding: 12px 14px;
+  min-height: 88px;
+  resize: vertical;
+}
+select.entrada {
+  appearance: auto;
+}
+.entrada[aria-invalid='true'] {
+  border: 2px solid var(--error-texto);
+}
+.error-campo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--error-texto);
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+.ayuda {
+  font-size: var(--texto-chico);
+  color: var(--texto-suave);
+}
+.ok-campo {
+  font-size: 15px;
+  color: var(--ok-texto);
+  font-weight: 700;
+}
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  padding: 0 12px;
+}
+.buscador input {
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+  border: 0;
+  background: transparent;
+  font-size: var(--texto-base);
+}
+.buscador input:focus {
+  outline: none;
+}
+.buscador:focus-within {
+  outline: var(--foco);
+  outline-offset: 2px;
+}
+.cantidad {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--texto-suave);
+  border-radius: var(--radio);
+}
+.cantidad button {
+  width: var(--toque);
+  height: 48px;
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+}
+.cantidad button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.cantidad output {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 700;
+}
+.interruptor {
+  width: 28px;
+  height: 28px;
+  accent-color: var(--texto);
+  flex-shrink: 0;
+}
+
+/* ---------- Avisos ---------- */
+.alerta {
+  border: 2px solid var(--texto);
+  border-radius: var(--radio);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.alerta.error {
+  border-color: var(--error-texto);
+}
+.alerta ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.aviso {
+  background: var(--aviso-fondo);
+  color: var(--aviso-texto);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 15px;
+}
+.panel {
+  background: var(--superficie);
+  border: 1px solid var(--linea-suave);
+  border-radius: var(--radio);
+  padding: 14px;
+}
+.estado-ok {
+  color: var(--ok-texto);
+  font-weight: 700;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.estado-error {
+  color: var(--error-texto);
+  font-weight: 700;
+}
+.pastilla {
+  font-size: 13px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--linea-suave);
+  font-weight: 700;
+  white-space: nowrap;
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.pastilla.fuerte {
+  background: transparent;
+  border: 2px solid var(--texto);
+}
+
+/* ---------- Fotos ---------- */
+.foto {
+  aspect-ratio: var(--proporcion-foto);
+  width: 100%;
+  border-radius: 10px;
+  background: var(--superficie);
+  border: 1px solid var(--linea-suave);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+}
+.foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.foto .inicial {
+  margin: auto;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--texto-suave);
+}
+.foto .etiqueta-foto {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--fondo);
+  border: 1px solid var(--linea);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.foto.cuadrada {
+  aspect-ratio: 1;
+}
+
+/* ---------- Esqueletos de carga ---------- */
+.esqueleto {
+  background: var(--superficie);
+  border-radius: 8px;
+  animation: latido 1.4s ease-in-out infinite;
+}
+@keyframes latido {
+  50% {
+    opacity: 0.55;
+  }
+}
+.girando {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 4px solid var(--linea);
+  border-top-color: var(--texto);
+  animation: girar 0.9s linear infinite;
+  margin: 0 auto;
+}
+.girando.chico {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  margin: 0;
+}
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .esqueleto {
+    animation: none;
+  }
+  .girando {
+    animation-duration: 3s;
+  }
+}
+
+/* ---------- Aviso flotante (toast) ---------- */
+.toast-zona {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  width: min(520px, calc(100% - 32px));
+  pointer-events: none;
+}
+.toast {
+  background: var(--acento);
+  color: var(--sobre-acento);
+  border-radius: 12px;
+  padding: 10px 10px 10px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  pointer-events: auto;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
+}
+.toast span {
+  flex: 1;
+}
+.toast button {
+  background: transparent;
+  border: 1px solid var(--sobre-acento);
+  color: var(--sobre-acento);
+  border-radius: 8px;
+  min-height: var(--toque);
+  padding: 0 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.con-barra-abajo .toast-zona {
+  bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---------- Diálogo ---------- */
+.dialogo {
+  border: 0;
+  border-radius: 18px;
+  padding: 20px 16px;
+  max-width: 520px;
+  width: calc(100% - 32px);
+  background: var(--fondo);
+  color: var(--texto);
+  max-height: 90vh;
+}
+.dialogo::backdrop {
+  background: var(--velo);
+}
+.dialogo .pila {
+  gap: 12px;
+}
+
+/* ---------- Mensaje de WhatsApp ---------- */
+.mensaje {
+  white-space: pre-wrap;
+  background: var(--fondo);
+  border: 2px solid var(--texto);
+  border-radius: 14px 14px 4px 14px;
+  padding: 12px 14px;
+  font-size: 15px;
+  max-width: 420px;
+  align-self: flex-end;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Pasos (enviando) ---------- */
+.pasos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+.pasos li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.punto {
+  width: 26px;
+  height: 26px;
+  border-radius: 13px;
+  border: 2px solid var(--linea);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.punto.hecho {
+  background: var(--acento);
+  border-color: var(--acento);
+  color: var(--sobre-acento);
+}
+.punto.ahora {
+  border: 3px solid var(--texto);
+}
+.numero-grande {
+  font-size: var(--numero-grande);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.precio {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.tachado {
+  text-decoration: line-through;
+}
+.atenuado {
+  opacity: 0.6;
+}
+
+/* ---------- Tablas (admin escritorio) ---------- */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+.tabla th {
+  text-align: left;
+  font-size: var(--texto-chico);
+  color: var(--texto-suave);
+  font-weight: 400;
+  padding: 8px;
+  border-bottom: 1px solid var(--linea);
+}
+.tabla td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--linea-suave);
+  vertical-align: middle;
+}
+.tabla tr[aria-selected='true'] td {
+  background: var(--superficie);
+}

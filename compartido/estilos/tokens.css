@@ -1,0 +1,64 @@
+/*
+  TOKENS DE ESTILO — el único archivo que se toca para cambiar el diseño.
+  Estilo actual: neutro de bocetos (como el prototipo de referencia).
+  El color de marca de cada cliente llega desde tienda.config.ts como
+  --marca / --sobre-marca; si no hay, se usa el acento neutro.
+*/
+:root {
+  /* Colores */
+  --fondo: #ffffff;
+  --superficie: #f3f3f0;
+  --linea: #d4d4cf;
+  --linea-suave: #e6e6e2;
+  --texto: #1d1d1b;
+  --texto-suave: #5d5d58;
+  --acento: var(--marca, #1d1d1b);
+  --sobre-acento: var(--sobre-marca, #ffffff);
+  --aviso-fondo: #fff4d6;
+  --aviso-texto: #5a4300;
+  --ok-texto: #1e5b32;
+  --error-texto: #8a1c1c;
+  --velo: rgb(0 0 0 / 0.5);
+
+  /* Tipografía */
+  --fuente: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --texto-base: 16px;
+  --texto-chico: 14px;
+  --texto-medio: 18px;
+  --titulo-1: 26px;
+  --titulo-2: 21px;
+  --numero-grande: 46px;
+
+  /* Formas y medidas */
+  --radio: 12px;
+  --radio-chico: 8px;
+  --radio-pastilla: 999px;
+  --toque: 44px; /* área táctil mínima */
+  --alto-boton: 52px;
+  --ancho-max: 1100px;
+  --ancho-lectura: 640px;
+  --separacion: 16px;
+  --foco: 3px solid var(--texto);
+  --sombra: 0 1px 2px rgb(0 0 0 / 0.12);
+  --proporcion-foto: 4 / 5;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema='claro']) {
+    --fondo: #161615;
+    --superficie: #22221f;
+    --linea: #3d3d38;
+    --linea-suave: #2d2d29;
+    --texto: #f1f1ec;
+    --texto-suave: #b4b4ac;
+    --acento: var(--marca-oscuro, #f1f1ec);
+    --sobre-acento: var(--sobre-marca-oscuro, #161615);
+    --aviso-fondo: #3d3214;
+    --aviso-texto: #ffe7a6;
+    --ok-texto: #8fd6a5;
+    --error-texto: #ffb4b4;
+    color-scheme: dark;
+  }
+}
