@@ -12,6 +12,10 @@ Este archivo es el contexto permanente del repositorio. Leelo al empezar cada se
 - Trabajá por fases (ver `docs/05-arquitectura-y-fases.md`). Al terminar cada fase: explicame cómo probarla, hacé commit con un mensaje claro y esperá mi OK.
 - Ante una duda de producto que no esté en `docs/`, preguntame antes de inventar.
 
+## Al empezar cada sesión
+
+Lo primero que respondés, antes de cualquier otra cosa, son **los links para revisar la última fase terminada** y **el prompt para continuar**, tal como están en `docs/RETOMAR.md` (actualizalos si cambiaron). Al cerrar una fase o una sesión, actualizá `docs/RETOMAR.md` y subilo a GitHub.
+
 ## Qué estamos construyendo
 
 Plantillas web funcionales que adapto a cada comercio argentino. Cobro un proyecto inicial más un mantenimiento mensual. Esta es la **plantilla 1: tienda online con cierre por WhatsApp**, con **admin propio** para el comercio. Ver `docs/01-producto.md`.
@@ -57,5 +61,6 @@ Plantillas futuras (no construir ahora): tienda con pago online, reservas con pa
 - `docs/04-modelo-de-datos.md` — planilla de Google, estados, reglas de stock y reservas.
 - `docs/05-arquitectura-y-fases.md` — arquitectura, fases de trabajo y preguntas técnicas abiertas.
 - `docs/06-textos.md` — textos de interfaz y mensaje de WhatsApp.
+- `docs/RETOMAR.md` — links para revisar lo hecho y prompt para continuar.
 - `docs/07-decisiones.md` — registro de decisiones posteriores a la especificación (manda sobre los demás).
 - `docs/referencia/prototipo-tienda.html` — prototipo navegable de un solo archivo con el comportamiento esperado (referencia de flujos y textos, no base de código).
