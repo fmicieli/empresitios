@@ -66,3 +66,15 @@ Tomadas por Claude dentro de lo aprobado; se pueden revisar.
 - **Fotos en modo de prueba** se guardan en el navegador (IndexedDB), porque el almacenamiento común del navegador se llena con 2 o 3 fotos.
 - **Tienda de ejemplo:** además de los 5 productos de la especificación, se sumó un producto oculto ("Pañuelo de seda") para poder probar la etiqueta "Oculto", y 3 pedidos de ejemplo (uno pendiente, uno confirmado y uno vencido) para que el admin no arranque vacío. "Volver a los datos de ejemplo" los restaura.
 - **Herramientas de prueba:** aparecen solo cuando la tienda usa datos locales (`datos: 'local'` en la configuración). Con datos reales de Google no existen.
+
+---
+
+## Pendientes (al 6/10/2026)
+
+Para retomar en otra sesión:
+
+1. **Decidir (Flor):** ¿el talle viene elegido de entrada en la ficha? Hoy no viene elegido (salvo que haya un solo talle), para evitar compras de un talle por error. El prototipo lo traía elegido.
+2. **Decidir (Flor):** ¿se dejan los datos de ejemplo agregados (producto oculto "Pañuelo de seda" y 3 pedidos de ejemplo)? Ver D-08.
+3. **Confirmar (Flor):** el WhatsApp de la tienda queda solo en el archivo de configuración, no en la planilla (D-01).
+4. **Revisar y aprobar** el PR de la Fase 1: https://github.com/fmicieli/empresitios/pull/1
+5. **Fase 2 (investigación técnica):** sin empezar. En la sesión anterior, la red de la máquina bloqueaba developers.google.com, así que no se pudieron verificar las cuotas de Apps Script en la documentación oficial. Hay que hacerlo desde una sesión con acceso a esas páginas.
