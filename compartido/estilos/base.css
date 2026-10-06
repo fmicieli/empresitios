@@ -612,39 +612,6 @@ select.entrada {
   overflow-wrap: anywhere;
 }
 
-/* ---------- Pasos (enviando) ---------- */
-.pasos {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  text-align: left;
-}
-.pasos li {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.punto {
-  width: 26px;
-  height: 26px;
-  border-radius: 13px;
-  border: 2px solid var(--linea);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.punto.hecho {
-  background: var(--acento);
-  border-color: var(--acento);
-  color: var(--sobre-acento);
-}
-.punto.ahora {
-  border: 3px solid var(--texto);
-}
 .numero-grande {
   font-size: var(--numero-grande);
   font-weight: var(--peso-bold);

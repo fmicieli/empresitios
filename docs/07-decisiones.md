@@ -80,6 +80,15 @@ Tomadas por Claude dentro de lo aprobado; se pueden revisar.
 - Todo está en `compartido/estilos/tokens.css`. El color de marca de cada cliente se sigue cambiando en `tienda.config.ts`.
 - Decidió: Flor.
 
+## D-10 · Sin pantalla de "Enviando": la reserva va como texto mínimo
+
+- **Decisión:** se saca la pantalla de espera con los 3 pasos ("Revisamos que haya stock", "Reservamos tus productos por 24 h", "Preparamos el mensaje"). Se sentía como un paso extra antes del mensaje de WhatsApp.
+- **En su lugar:**
+  - Debajo del botón "Enviar pedido por WhatsApp" hay un texto mínimo: "Al enviarlo, te reservamos los productos por 24 h."
+  - Mientras se envía, el mismo botón muestra "Enviando pedido…" y el texto de abajo cambia a "Estamos reservando tus productos. No cierres esta pantalla."
+- **No cambia:** la reserva de stock sigue funcionando igual (24 h, vencimiento automático). En "Pedido registrado" el plazo de la reserva queda como texto chico.
+- Decidió: Flor.
+
 ---
 
 ## Pendientes (al 6/10/2026)

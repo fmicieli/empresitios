@@ -75,7 +75,7 @@ export default function Pedido() {
           </h1>
           <span class="numero-grande num">#{p.numero}</span>
         </div>
-        <p>{t.reservamos(g.horasReserva, fechaReserva(p.venceEn, ds.ahora()))}</p>
+        <p class="chico suave">{t.reservamos(g.horasReserva, fechaReserva(p.venceEn, ds.ahora()))}</p>
 
         <section class="alerta" aria-labelledby="ultimo-paso">
           <h2 id="ultimo-paso" style={{ fontSize: 'var(--texto-medio)' }}>

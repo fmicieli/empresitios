@@ -21,7 +21,8 @@ Español rioplatense, vos, frases cortas. Los textos que dependen del comercio (
 | Ayuda WhatsApp | Para que la tienda pueda responderte. Con o sin 0 y 15. |
 | Errores | Escribí tu nombre. / Escribí tu WhatsApp con código de área, por ejemplo 11 5555 0000. / Escribí la dirección de entrega. / Escribí la localidad. |
 | Botón datos | Enviar pedido por WhatsApp |
-| Enviando | Estamos reservando tus productos · En unos segundos se abre WhatsApp con tu pedido listo para enviar. · No cierres esta pantalla. |
+| Debajo del botón | Al enviarlo, te reservamos los productos por {h} h. |
+| Enviando (en el botón) | Enviando pedido… · Estamos reservando tus productos. No cierres esta pantalla. |
 | Confirmación | Tu número de pedido · Te reservamos los productos por {h} h (hasta {fecha}). · Último paso: mandá el mensaje · Si no se abrió WhatsApp, tocá acá · Qué sigue: la tienda te responde por WhatsApp con el costo de envío y los datos para pagar. |
 
 ## Mensaje de WhatsApp (comprador → tienda)

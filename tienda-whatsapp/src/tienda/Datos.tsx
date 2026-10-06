@@ -1,9 +1,9 @@
-// Datos del comprador → Enviando → (error con "Intentar de nuevo") → Pedido registrado.
+// Datos del comprador → (enviando en el mismo botón) → Pedido registrado, o error con "Intentar de nuevo".
 
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { unidades, useCarrito } from '@compartido/carrito/carrito';
 import { ErrorDeCampo, mensajeDeError, ResumenErrores, useCarga } from '@compartido/componentes/basicos';
-import { IconoChat, IconoCheck } from '@compartido/componentes/iconos';
+import { IconoChat } from '@compartido/componentes/iconos';
 import { evaluarCarrito, formatoPrecio, normalizarWhatsapp } from '@compartido/datos/reglas';
 import type { Entrega, Pago } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
@@ -47,30 +47,6 @@ function validar(f: Formulario): Partial<Record<Campo, string>> {
 }
 
 const ORDEN: Campo[] = ['nombre', 'whatsapp', 'direccion', 'localidad'];
-const espera = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-function Enviando({ paso, horas }: { paso: number; horas: number }) {
-  const pasos = [t.paso1, t.paso2(horas), t.paso3];
-  return (
-    <div class="pila centrado lectura" style={{ margin: '48px auto 0' }} role="status" aria-busy="true">
-      <div class="girando" />
-      <h1>{t.enviandoTitulo}</h1>
-      <p class="suave">{t.enviandoAyuda}</p>
-      <ol class="pasos">
-        {pasos.map((texto, i) => (
-          <li key={i}>
-            <span class={`punto ${i < paso ? 'hecho' : i === paso ? 'ahora' : ''}`}>{i < paso && <IconoCheck />}</span>
-            <span>
-              {texto}
-              {i < paso && <span class="sr"> (listo)</span>}
-            </span>
-          </li>
-        ))}
-      </ol>
-      <p class="chico suave">{t.noCierres}</p>
-    </div>
-  );
-}
 
 export default function Datos() {
   const items = useCarrito(carrito);
@@ -81,7 +57,6 @@ export default function Datos() {
   const [errores, setErrores] = useState<Partial<Record<Campo, string>>>({});
   const [intento, setIntento] = useState(false);
   const [estado, setEstado] = useState<'formulario' | 'enviando' | 'error'>('formulario');
-  const [paso, setPaso] = useState(0);
   const [errorEnvio, setErrorEnvio] = useState<unknown>(null);
   const refResumen = useRef<HTMLDivElement>(null);
 
@@ -114,13 +89,10 @@ export default function Datos() {
 
   async function enviar() {
     setEstado('enviando');
-    setPaso(0);
-    window.scrollTo(0, 0);
     try {
       // 1. Revisamos que haya stock (con datos frescos).
       const frescos = await ds.getProductos();
       if (evaluarCarrito(items, frescos).some((l) => l.estado !== 'ok')) return aCarrito();
-      setPaso(1);
 
       // 2. Reservamos: el servidor vuelve a verificar, numera y reserva de una sola vez.
       const normal = normalizarWhatsapp(f.whatsapp);
@@ -138,7 +110,6 @@ export default function Datos() {
         },
       });
       if (!r.ok) return aCarrito();
-      setPaso(2);
 
       // 3. Preparamos el mensaje.
       const mensaje = mensajePedido(r.pedido);
@@ -149,7 +120,6 @@ export default function Datos() {
         whatsapp: whatsappTienda(),
         abierto: false,
       });
-      await espera(500);
       carrito.vaciar();
       borradorComprador.borrar();
       location.assign('/pedido/');
@@ -161,6 +131,7 @@ export default function Datos() {
 
   function alEnviar(ev: Event) {
     ev.preventDefault();
+    if (estado === 'enviando') return;
     setIntento(true);
     const e = validar(f);
     setErrores(e);
@@ -169,14 +140,6 @@ export default function Datos() {
       return;
     }
     enviar();
-  }
-
-  if (estado === 'enviando') {
-    return (
-      <Marco>
-        <Enviando paso={paso} horas={horas} />
-      </Marco>
-    );
   }
 
   if (estado === 'error') {
@@ -199,6 +162,7 @@ export default function Datos() {
     );
   }
 
+  const enviando = estado === 'enviando';
   const listaErrores = ORDEN.filter((c) => errores[c]).map((c) => ({ campo: `f-${c}`, texto: errores[c]! }));
   const desc = (c: Campo, extra?: string) => [errores[c] ? `e-${c}` : '', extra ?? ''].filter(Boolean).join(' ') || undefined;
 
@@ -356,9 +320,24 @@ export default function Datos() {
           <strong class="num">{productos ? t.resumen(unidades(items), formatoPrecio(total)) : textos.general.cargando}</strong>
         </div>
 
-        <button type="submit" class="boton" disabled={!productos}>
-          <IconoChat /> {t.enviarPedido}
+        <button type="submit" class="boton" disabled={!productos || enviando} aria-busy={enviando}>
+          {enviando ? (
+            <>
+              <span
+                class="girando chico"
+                style={{ display: 'inline-block', borderColor: 'currentColor', borderTopColor: 'transparent' }}
+              />{' '}
+              {t.enviando}
+            </>
+          ) : (
+            <>
+              <IconoChat /> {t.enviarPedido}
+            </>
+          )}
         </button>
+        <p class="chico" role="status">
+          {enviando ? t.noCierres : t.reservaAlEnviar(horas)}
+        </p>
         <p class="chico suave">{config.textoPrivacidad}</p>
       </form>
     </Marco>

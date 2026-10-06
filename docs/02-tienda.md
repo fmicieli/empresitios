@@ -73,15 +73,18 @@ Campos, en este orden:
 
 ## 7. Enviando
 
+Sin pantalla aparte (D-10, `07-decisiones.md`). Debajo del botón "Enviar pedido por WhatsApp" hay un texto mínimo: "Al enviarlo, te reservamos los productos por 24 h."
+
 Al tocar "Enviar pedido":
 
-1. Se vuelve a verificar el stock libre de cada línea. Si algo ya no alcanza, se vuelve al carrito con las líneas marcadas.
-2. Se crea el pedido con número correlativo y se reservan las unidades por las horas configuradas (24 por defecto), en una sola operación atómica (ver `04-modelo-de-datos.md`).
-3. Se arma el mensaje de WhatsApp.
+1. El botón pasa a "Enviando pedido…" con un indicador de carga, deja de poder tocarse, y el texto de abajo cambia a "Estamos reservando tus productos. No cierres esta pantalla."
+2. Se vuelve a verificar el stock libre de cada línea. Si algo ya no alcanza, se vuelve al carrito con las líneas marcadas.
+3. Se crea el pedido con número correlativo y se reservan las unidades por las horas configuradas (24 por defecto), en una sola operación atómica (ver `04-modelo-de-datos.md`).
+4. Se arma el mensaje de WhatsApp y se pasa a "Pedido registrado".
 
-Pantalla de espera con los tres pasos visibles ("Revisamos que haya stock", "Reservamos tus productos por 24 h", "Preparamos el mensaje de WhatsApp") y "No cierres esta pantalla". Tarda 1 a 3 segundos con Apps Script.
+Tarda 1 a 3 segundos con Apps Script.
 
-Estado de error (a diseñar en la construcción): sin conexión o error del servidor → mensaje claro y botón "Intentar de nuevo", sin perder carrito ni datos.
+Estado de error: sin conexión o error del servidor → mensaje claro y botón "Intentar de nuevo", sin perder carrito ni datos.
 
 ## 8. Pedido registrado
 

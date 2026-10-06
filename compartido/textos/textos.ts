@@ -105,12 +105,9 @@ export const textos = {
     carritoCambio: 'Algunos productos cambiaron mientras completabas tus datos. Revisalos en el carrito.',
 
     // Enviando
-    enviandoTitulo: 'Estamos reservando tus productos',
-    enviandoAyuda: 'En unos segundos se abre WhatsApp con tu pedido listo para enviar.',
-    paso1: 'Revisamos que haya stock',
-    paso2: (h: number) => `Reservamos tus productos por ${h} h`,
-    paso3: 'Preparamos el mensaje de WhatsApp',
-    noCierres: 'No cierres esta pantalla.',
+    enviando: 'Enviando pedido…',
+    reservaAlEnviar: (h: number) => `Al enviarlo, te reservamos los productos por ${h} h.`,
+    noCierres: 'Estamos reservando tus productos. No cierres esta pantalla.',
     errorEnvioTitulo: 'No pudimos registrar tu pedido',
     errorEnvioAyuda: 'Tus productos y tus datos siguen guardados.',
 
