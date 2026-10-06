@@ -1,0 +1,68 @@
+# 07 · Registro de decisiones
+
+Decisiones tomadas después de la especificación original. Cada una dice qué se decidió, por qué y quién la tomó. Si una decisión de acá contradice otro archivo de `docs/`, **vale la de acá** (y el otro archivo se actualiza).
+
+Formato: **D-número · fecha · tema**.
+
+---
+
+## D-01 · 2026-10-06 · Configuración: planilla vs. archivo (R5)
+
+- **Decisión:** en la pestaña `Config` de la planilla va **solo lo que el servidor necesita para funcionar**: `horasReserva` y `proximoNumero`. Todo lo demás (nombre, WhatsApp de la tienda, horarios, dirección, redes, texto de privacidad, estilo) va en `tienda-whatsapp/config/tienda.config.ts`.
+- **Por qué:** evitar tener el mismo dato en dos lugares que tarde o temprano no coinciden.
+- **Efecto:** si el comercio cambia horarios o dirección, lo actualiza Flor en el archivo y se publica de nuevo. El comercio no lo cambia solo.
+- **Ajuste técnico:** en el plan había propuesto dejar también `whatsappTienda` en la planilla; al construir vi que el servidor no lo necesita, así que queda solo en el archivo de configuración. Las horas de reserva, como las usa el servidor, salen de la planilla y la tienda las lee de ahí para mostrarlas ("Te reservamos los productos por 24 h").
+- Decidió: Flor.
+
+## D-02 · 2026-10-06 · WhatsApp del comprador (R7)
+
+- **Decisión:** un solo campo, **tolerante**. Acepta cualquier formato (con o sin +54, 9, 0 o 15, con espacios o guiones), lo normaliza a los **10 dígitos** de un celular argentino (código de área + número) y le muestra al comprador cómo quedó: "Te van a escribir al +54 9 11 5555-0000". Solo si no se puede normalizar, muestra el error con un ejemplo.
+- **Se guarda:** lo que escribió el comprador **y** el número normalizado. El link `wa.me` del admin usa `549` + los 10 dígitos.
+- **Cómo se normaliza:** se quitan los símbolos; se quita `54` y el `9` de adelante si están; se quita el `0` de adelante; si quedan 12 dígitos, se busca el `15` justo después del código de área (2 dígitos si empieza con 11, si no 3 o 4) y se quita. Si al final no quedan 10 dígitos, es error.
+- **Riesgo conocido:** con números que no son de Buenos Aires, a veces no se puede saber con certeza dónde termina el código de área. Por eso se le muestra al comprador el número final, para que lo revise.
+- Decidió: Flor.
+
+## D-03 · 2026-10-06 · Nombre de la tienda de la demo
+
+- **Decisión:** "Tienda Modelo" por ahora. Flor lo cambia en la configuración antes de publicar la demo.
+- Decidió: Flor.
+
+## D-04 · 2026-10-06 · Categoría guardada por id (R6)
+
+- **Decisión:** cada fila de `Categorias` tiene un `id` que nunca cambia; los productos guardan ese `id` (columna `categoriaId`), no el texto "Mujer › Remeras".
+- **Por qué:** si se renombra una categoría, los productos no quedan huérfanos.
+- **Efecto para el comercio:** ninguno; en pantalla se sigue viendo "Mujer › Remeras".
+- Propuso: Claude (en el plan de la Fase 0). Aprobó: Flor (OK al plan).
+
+## D-05 · 2026-10-06 · "Deshacer" y cancelación devuelven exactamente lo descontado (R8)
+
+- **Decisión:** al confirmar un pedido se guarda, por cada línea, cuántas unidades se descontaron de verdad (columna `descontado` en `PedidoItems`). Cancelar una venta confirmada devuelve esa cantidad, no la pedida. "Deshacer" vuelve el stock de las variantes afectadas al valor exacto que tenían antes.
+- **Por qué:** con "Confirmar igual, tengo la prenda" el stock se recorta a 0; devolver la cantidad completa dejaría más stock del que había.
+- Propuso: Claude. Aprobó: Flor (OK al plan).
+
+## D-06 · 2026-10-06 · Admin como mini-aplicación independiente (R1)
+
+- **Decisión:** el admin se construye en `compartido/admin/` como una aplicación de una sola página, con navegación interna. En la Fase 1 se ve en `/admin/` del sitio; en producción puede vivir en Cloudflare o servirlo Google, según lo que se decida en la Fase 2.
+- Propuso: Claude. Aprobó: Flor (OK al plan).
+
+## D-07 · 2026-10-06 · Cosas a sumar a la Fase 2
+
+Pedido de Flor, para responder por escrito en la investigación técnica:
+
+1. **Admin en Cloudflare con "Iniciar sesión con Google"** y verificación del correo en Apps Script, **comparado** con servir el admin desde Google (HtmlService). Recomendar una y explicar el impacto para el dueño: barra de aviso, dirección web, seguridad.
+2. **Pedidos falsos:** evaluar
+   - Cloudflare Turnstile (verificar los límites del plan gratis en la documentación oficial),
+   - tope de pedidos pendientes por número de WhatsApp,
+   - máximo de unidades por pedido,
+   - un botón en el admin para **cancelar todos los pendientes de un número**.
+3. **Fotos:** antes de cambiar el manejo de fotos respecto de lo que dice la especificación, **explicarle a Flor la alternativa** y esperar su OK. (En la Fase 1 las fotos se manejan como dice `03-admin.md`: se achican en el navegador antes de subir.)
+
+## D-08 · 2026-10-06 · Decisiones técnicas de la Fase 1
+
+Tomadas por Claude dentro de lo aprobado; se pueden revisar.
+
+- **Preact** para las partes interactivas (aprobado en el plan).
+- **Tienda de varias páginas** (catálogo, ficha, carrito, datos, pedido) en vez de una sola página: cada producto tiene su propio link (`/producto/?id=…`) para compartir por Instagram o WhatsApp, y el botón "atrás" del celular funciona como se espera. El link solo lleva el id del producto, nunca datos personales.
+- **Fotos en modo de prueba** se guardan en el navegador (IndexedDB), porque el almacenamiento común del navegador se llena con 2 o 3 fotos.
+- **Tienda de ejemplo:** además de los 5 productos de la especificación, se sumó un producto oculto ("Pañuelo de seda") para poder probar la etiqueta "Oculto", y 3 pedidos de ejemplo (uno pendiente, uno confirmado y uno vencido) para que el admin no arranque vacío. "Volver a los datos de ejemplo" los restaura.
+- **Herramientas de prueba:** aparecen solo cuando la tienda usa datos locales (`datos: 'local'` en la configuración). Con datos reales de Google no existen.

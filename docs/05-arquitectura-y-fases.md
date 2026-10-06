@@ -51,6 +51,9 @@ Responder por escrito, con fuentes oficiales y fecha de consulta, y proponer arq
 5. **Seguridad del endpoint público** de creación de pedidos: spam, pedidos falsos masivos que bloqueen stock, validaciones del lado del servidor. Proponer mitigaciones sin fricción para el comprador (límite por número de WhatsApp, por IP vía Cloudflare, etc.).
 6. **Fotos.** Subida desde el admin a Drive y cómo se sirven optimizadas (WebP) desde el sitio sin servirlas directo desde Drive.
 7. **Empleados con cuentas propias** (futuro): si con la publicación elegida se puede identificar al visitante para chequear una lista de correos autorizados.
+8. **Admin en Cloudflare con "Iniciar sesión con Google"** y verificación del correo en Apps Script, comparado con servirlo desde Google. Recomendar una y explicar el impacto para el dueño (barra de aviso, dirección, seguridad). Ver `07-decisiones.md` (D-07).
+9. **Pedidos falsos**, en detalle: Cloudflare Turnstile (verificar límites del plan gratis), tope de pendientes por número de WhatsApp, máximo de unidades por pedido y botón en el admin para cancelar todos los pendientes de un número.
+10. **Fotos:** antes de cambiar el manejo de fotos de la especificación, explicarle la alternativa a Flor y esperar su OK.
 
 ### Fase 3 — Conexión con Google
 - Implementación `appsScript` según la fase 2.

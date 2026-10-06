@@ -1,6 +1,6 @@
 # 00 · Plan de la Fase 0
 
-Fecha: 6 de octubre de 2026. Estado: **esperando OK de Flor** para empezar la Fase 1.
+Fecha: 6 de octubre de 2026. Estado: **aprobado por Flor** el 6/10/2026. Las respuestas a los puntos a revisar están en `07-decisiones.md`.
 
 Este documento responde a la Fase 0 de `05-arquitectura-y-fases.md`: estructura, dependencias, capa de datos, admin en `compartido/`, orden de la Fase 1, y lo que encontré contradictorio, incompleto o riesgoso en la documentación.
 

@@ -39,7 +39,7 @@ Plantillas futuras (no construir ahora): tienda con pago online, reservas con pa
 ## Reglas que no se rompen
 
 1. **El contenido nunca va dentro del código.** Productos, categorías, pedidos y textos de la tienda vienen de la capa de datos o de la configuración.
-2. **Configuración por cliente en un solo archivo** (`tienda-whatsapp/config/tienda.config.*`): nombre, WhatsApp, estilo, color de marca, redes, horarios, dirección del local, horas de reserva, texto de privacidad.
+2. **Configuración por cliente en un solo archivo** (`tienda-whatsapp/config/tienda.config.*`): nombre, WhatsApp, estilo, color de marca, redes, horarios, dirección del local, texto de privacidad. (Las horas de reserva viven en la planilla porque las usa el servidor: ver `docs/07-decisiones.md`, D-01.)
 3. **Estilos en tokens** en un solo archivo. Por ahora, estilo neutro de bocetos; el diseño final se aplica cambiando tokens, no componentes.
 4. **Capa de datos detrás de una interfaz** con implementaciones intercambiables (`local` para testear, `appsScript` para producción). El resto del código no sabe cuál se usa.
 5. **Los errores se arreglan en la plantilla, nunca en el repo de un cliente.** En el repo de un cliente solo cambian configuración, estilo y contenido.
@@ -57,4 +57,5 @@ Plantillas futuras (no construir ahora): tienda con pago online, reservas con pa
 - `docs/04-modelo-de-datos.md` — planilla de Google, estados, reglas de stock y reservas.
 - `docs/05-arquitectura-y-fases.md` — arquitectura, fases de trabajo y preguntas técnicas abiertas.
 - `docs/06-textos.md` — textos de interfaz y mensaje de WhatsApp.
+- `docs/07-decisiones.md` — registro de decisiones posteriores a la especificación (manda sobre los demás).
 - `docs/referencia/prototipo-tienda.html` — prototipo navegable de un solo archivo con el comportamiento esperado (referencia de flujos y textos, no base de código).
