@@ -71,8 +71,7 @@ export const textos = {
     quitar: 'Quitar',
     subtotal: 'Subtotal',
     avisoEnvio: 'El envío se cotiza por WhatsApp. Si elegís retiro, no tiene costo.',
-    continuar: 'Continuar',
-    resolverAntes: 'Resolvé los productos marcados para continuar.',
+    resolverAntes: 'Resolvé los productos marcados para enviar el pedido.',
     precioCambio: 'El precio se actualizó.',
 
     // Datos del comprador
@@ -102,7 +101,7 @@ export const textos = {
     errWhatsapp: 'Escribí tu WhatsApp con código de área, por ejemplo 11 5555 0000.',
     errDireccion: 'Escribí la dirección de entrega.',
     errLocalidad: 'Escribí la localidad.',
-    carritoCambio: 'Algunos productos cambiaron mientras completabas tus datos. Revisalos en el carrito.',
+    carritoCambio: 'Algunos productos se agotaron mientras completabas tus datos. Revisalos y volvé a enviar.',
 
     // Enviando
     enviando: 'Enviando pedido…',
@@ -111,12 +110,11 @@ export const textos = {
     errorEnvioTitulo: 'No pudimos registrar tu pedido',
     errorEnvioAyuda: 'Tus productos y tus datos siguen guardados.',
 
-    // Pedido enviado (D-11, D-13)
-    pedidoEnviado: 'Pedido enviado con éxito',
-    pedidoN: (n: number) => `Pedido #${n}`,
-    volverInicio: 'Volver al inicio',
+    // Pedido enviado (D-14)
+    abriendoWhatsapp: 'Abriendo WhatsApp…',
+    listo: (n: number) => `¡Listo! Te abrimos WhatsApp para confirmar tu pedido #${n}.`,
     siNoSeAbrio: '¿No se abrió WhatsApp? Tocá acá',
-    sinPedido: 'No encontramos un pedido reciente en este navegador.',
+    seguirComprando: 'Seguir comprando',
   },
 
   /** Mensaje de WhatsApp del comprador a la tienda (06-textos.md). */

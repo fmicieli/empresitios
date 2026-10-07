@@ -1,7 +1,13 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Datos from '../../tienda/Datos';
+// Página vieja: el carrito y "Tus datos" ahora están juntos en /carrito/ (D-14).
 ---
-<Base titulo="Tus datos" sinIndexar>
-  <Datos client:only="preact" />
-</Base>
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content="0; url=/carrito/" />
+    <title>Carrito</title>
+  </head>
+  <body><a href="/carrito/">Ir al carrito</a></body>
+</html>

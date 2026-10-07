@@ -96,9 +96,9 @@ Pedidos de ejemplo: **#1003 pendiente**, **#1002 vencido** (pide la Remera Negro
 2. Entrar a Mujer → aparece la segunda fila de subcategorías.
 3. Abrir la Remera, elegir Negro + M → "Queda 1 en talle M". XL aparece tachado.
 4. Agregar al carrito → aviso "Agregaste…" y barra "Ver carrito" abajo.
-5. Carrito → Continuar → tocar "Enviar pedido" vacío → errores arriba y en cada campo.
+5. Carrito (con "Tus datos" en la misma pantalla) → tocar "Enviar pedido" vacío → errores en rojo, arriba y en cada campo.
 6. Escribir el WhatsApp en cualquier formato (`011 15 5555-0000`, `+54 9 11…`) → aparece "Te van a escribir al +54 9 11 5555-0000".
-7. Enviar → pantalla de espera con 3 pasos → número de pedido → mensaje de WhatsApp.
+7. Enviar → se abre WhatsApp en una pestaña nueva con el mensaje redactado; en la tienda queda "¡Listo!…" y el carrito se vacía.
 8. **Última unidad**: agregar la Remera Negro M en una pestaña, comprarla en otra, y volver al carrito de la primera → "Se agotó mientras elegías".
 
 ### Admin (comercio)

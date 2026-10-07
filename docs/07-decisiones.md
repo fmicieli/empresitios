@@ -114,6 +114,15 @@ Tomadas por Claude dentro de lo aprobado; se pueden revisar.
 - **Lo que cubre ese caso:** si el comprador nunca manda el mensaje, el pedido queda pendiente en el admin y la reserva vence sola a las 24 h. Funciona como un "cancelado" automático.
 - Decidió: Flor.
 
+## D-14 · Carrito y datos en una sola pantalla; WhatsApp en pestaña nueva (reemplaza D-13)
+
+- **Una sola pantalla:** el carrito y "Tus datos" van juntos, con el formulario al lado en escritorio y debajo en el celular, para ahorrar un clic. Se saca el botón "Continuar". Las direcciones viejas `/datos/` y `/pedido/` redirigen al carrito.
+- **Enviar:** "Enviar pedido por WhatsApp" registra el pedido y abre WhatsApp en una **pestaña nueva**, con el mensaje redactado. La pestaña se abre en el mismo toque del botón, porque si se abriera después de esperar al servidor el navegador la bloquearía. Si algo falla, se cierra sola.
+- **Después de enviar:** el carrito se vacía solo y, en la pestaña de la tienda, queda "¡Listo! Te abrimos WhatsApp para confirmar tu pedido #N.", con "Seguir comprando". No hay botón "Vaciar carrito" ni pantalla de éxito aparte.
+- **Referencia:** el cierre que mostró Flor de otro sitio, simplificado (sin "Vaciar carrito").
+- **Sigue sin poder saberse** si el comprador envió el mensaje en WhatsApp (ver D-13). Si no lo envía, la reserva vence sola a las 24 h.
+- Decidió: Flor.
+
 ---
 
 ## Pendientes (al 6/10/2026)

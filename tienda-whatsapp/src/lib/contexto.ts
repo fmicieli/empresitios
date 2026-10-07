@@ -48,6 +48,13 @@ export const ultimoPedido = {
       return null;
     }
   },
+  borrar() {
+    try {
+      sessionStorage.removeItem(claveUltimo);
+    } catch {
+      /* no pasa nada */
+    }
+  },
 };
 
 /** Datos que el comprador ya escribió (no se pierden si vuelve atrás o falla el envío). */

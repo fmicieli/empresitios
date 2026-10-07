@@ -15,6 +15,7 @@ Español rioplatense, vos, frases cortas. Los textos que dependen del comercio (
 | Agregado | Agregaste {producto} ({variante}) al carrito. |
 | Consulta | ¿Dudas con el talle? Consultanos por WhatsApp |
 | Barra carrito | Ver carrito · {n} · {total} |
+| Agotado al enviar | Algunos productos se agotaron mientras completabas tus datos. Revisalos y volvé a enviar. |
 | Carrito agotado | Se agotó mientras elegías · Elegí otra opción o quitalo para seguir. |
 | Carrito parcial | Quedan {n} de esta opción · Bajá la cantidad para seguir. |
 | Aviso envío | El envío se cotiza por WhatsApp. Si elegís retiro, no tiene costo. |
@@ -23,7 +24,8 @@ Español rioplatense, vos, frases cortas. Los textos que dependen del comercio (
 | Botón datos | Enviar pedido por WhatsApp |
 | Debajo del botón | Al enviarlo, te reservamos los productos por {h} h. |
 | Enviando (en el botón) | Enviando pedido… · Estamos reservando tus productos. No cierres esta pantalla. |
-| Pedido enviado | Pedido enviado con éxito · Pedido #{n} · Volver al inicio · ¿No se abrió WhatsApp? Tocá acá |
+| Pestaña nueva | Abriendo WhatsApp… |
+| Después de enviar | ¡Listo! Te abrimos WhatsApp para confirmar tu pedido #{n}. · ¿No se abrió WhatsApp? Tocá acá · Seguir comprando |
 
 ## Mensaje de WhatsApp (comprador → tienda)
 
