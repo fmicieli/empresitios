@@ -46,7 +46,7 @@ Catálogo (inicio) ──► Ficha de producto ──► Carrito ──► Datos
 
 ## 5. Carrito
 
-- Cada línea: foto, nombre, variante, cantidad (− / +, limitada al stock libre), precio, "Quitar".
+- Cada línea: foto, nombre, variante, cantidad (− / +, limitada al stock libre), precio, "Quitar". Con cantidad 1, el "−" también quita el producto (D-11).
 - Si una línea ya no tiene stock libre suficiente (porque otro comprador reservó mientras tanto): se marca con "Se agotó mientras elegías" o "Quedan N de esta opción", acciones "Ver otras opciones" y "Quitar". No cuenta en el subtotal y no se puede continuar hasta resolverlo.
 - Subtotal y aviso: "El envío se cotiza por WhatsApp. Si elegís retiro, no tiene costo."
 - "Continuar".
@@ -86,14 +86,13 @@ Tarda 1 a 3 segundos con Apps Script.
 
 Estado de error: sin conexión o error del servidor → mensaje claro y botón "Intentar de nuevo", sin perder carrito ni datos.
 
-## 8. Pedido registrado
+## 8. Pedido enviado
 
-- "Tu número de pedido" + número grande (#1015).
-- "Te reservamos los productos por 24 h (hasta mañana a las 15:20)."
-- Bloque destacado "Último paso: mandá el mensaje" con botón "Abrir WhatsApp" que abre `https://wa.me/<número de la tienda>?text=<mensaje codificado>`. Intentar abrirlo automáticamente al llegar a esta pantalla; el botón queda como respaldo ("Si no se abrió WhatsApp, tocá acá").
-- "Copiar el mensaje" (con respaldo si el portapapeles falla).
-- "Qué sigue: la tienda te responde por WhatsApp con el costo de envío y los datos para pagar."
-- Resumen del pedido y "Volver a la tienda".
+Pantalla mínima, sin explicaciones (D-11, `07-decisiones.md`):
+
+- Al tocar "Enviar pedido por WhatsApp" se abre **una pestaña nueva** con WhatsApp y el mensaje ya redactado: el comprador solo tiene que tocar enviar.
+- En la pestaña de la tienda queda: tilde, "Pedido enviado con éxito", "Pedido #1015" y el botón **"Volver al inicio"**.
+- De respaldo, un link chico: "¿No se abrió WhatsApp? Tocá acá" (por si el navegador bloqueó la pestaña nueva).
 - El carrito se vacía.
 
 ## 9. Mensaje de WhatsApp

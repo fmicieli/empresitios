@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { unidades, useCarrito } from '@compartido/carrito/carrito';
 import { ErrorDeCampo, mensajeDeError, ResumenErrores, useCarga } from '@compartido/componentes/basicos';
 import { IconoChat } from '@compartido/componentes/iconos';
-import { evaluarCarrito, formatoPrecio, normalizarWhatsapp } from '@compartido/datos/reglas';
+import { esLocal } from '@compartido/datos';
+import { evaluarCarrito, formatoPrecio, linkWhatsapp, normalizarWhatsapp } from '@compartido/datos/reglas';
 import type { Entrega, Pago } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
 import { mensajePedido } from '@compartido/whatsapp/mensajes';
@@ -89,10 +90,23 @@ export default function Datos() {
 
   async function enviar() {
     setEstado('enviando');
+    // La pestaña de WhatsApp se abre ahora, en el mismo toque del botón: si se abriera
+    // después de esperar al servidor, el navegador la bloquearía. Cuando el pedido está
+    // registrado, la llevamos al mensaje; si algo falla, la cerramos.
+    const sinNumeroDePrueba = esLocal(ds) && !ds.herramientas.getAjustes().whatsappTienda;
+    const pestana = sinNumeroDePrueba ? null : window.open('', '_blank');
+    if (pestana) {
+      pestana.document.title = 'WhatsApp';
+      if (pestana.document.body) pestana.document.body.textContent = t.abriendoWhatsapp;
+    }
+    const cerrarPestana = () => pestana && !pestana.closed && pestana.close();
     try {
       // 1. Revisamos que haya stock (con datos frescos).
       const frescos = await ds.getProductos();
-      if (evaluarCarrito(items, frescos).some((l) => l.estado !== 'ok')) return aCarrito();
+      if (evaluarCarrito(items, frescos).some((l) => l.estado !== 'ok')) {
+        cerrarPestana();
+        return aCarrito();
+      }
 
       // 2. Reservamos: el servidor vuelve a verificar, numera y reserva de una sola vez.
       const normal = normalizarWhatsapp(f.whatsapp);
@@ -109,21 +123,21 @@ export default function Datos() {
           nota: f.nota.trim(),
         },
       });
-      if (!r.ok) return aCarrito();
+      if (!r.ok) {
+        cerrarPestana();
+        return aCarrito();
+      }
 
       // 3. Preparamos el mensaje.
       const mensaje = mensajePedido(r.pedido);
-      ultimoPedido.guardar({
-        pedido: r.pedido,
-        horasReserva: r.horasReserva,
-        mensaje,
-        whatsapp: whatsappTienda(),
-        abierto: false,
-      });
+      const link = linkWhatsapp(whatsappTienda(), mensaje);
+      if (pestana && !pestana.closed) pestana.location.href = link;
+      ultimoPedido.guardar({ numero: r.pedido.numero, link, sinNumeroDePrueba });
       carrito.vaciar();
       borradorComprador.borrar();
       location.assign('/pedido/');
     } catch (e) {
+      cerrarPestana();
       setErrorEnvio(e);
       setEstado('error');
     }

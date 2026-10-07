@@ -111,20 +111,12 @@ export const textos = {
     errorEnvioTitulo: 'No pudimos registrar tu pedido',
     errorEnvioAyuda: 'Tus productos y tus datos siguen guardados.',
 
-    // Pedido registrado
-    tuNumero: 'Tu número de pedido',
-    reservamos: (h: number, fecha: string) => `Te reservamos los productos por ${h} h (hasta ${fecha}).`,
-    ultimoPaso: 'Último paso: mandá el mensaje',
-    ultimoPasoAyuda: 'Tocá el botón: se abre WhatsApp con tu pedido escrito y solo tenés que enviarlo.',
-    abrirWhatsapp: 'Abrir WhatsApp',
-    siNoSeAbrio: 'Si no se abrió WhatsApp, tocá acá',
-    copiar: 'Copiar el mensaje',
-    copiado: 'Mensaje copiado.',
-    copiarManual: 'Seleccioná el mensaje y copialo.',
-    asiLlega: 'Así llega el mensaje',
-    queSigue: 'Qué sigue',
-    queSigueTexto: 'La tienda te responde por WhatsApp con el costo de envío y los datos para pagar.',
-    volverTienda: 'Volver a la tienda',
+    // Pedido enviado (D-11)
+    abriendoWhatsapp: 'Abriendo WhatsApp…',
+    pedidoEnviado: 'Pedido enviado con éxito',
+    pedidoN: (n: number) => `Pedido #${n}`,
+    volverInicio: 'Volver al inicio',
+    siNoSeAbrio: '¿No se abrió WhatsApp? Tocá acá',
     sinPedido: 'No encontramos un pedido reciente en este navegador.',
   },
 

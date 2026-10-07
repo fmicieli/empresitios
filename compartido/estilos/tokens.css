@@ -1,6 +1,7 @@
 /*
   TOKENS DE ESTILO — el único archivo que se toca para cambiar el diseño.
   Estilo actual: blanco y negro (escala de grises), sin modo oscuro.
+  Única excepción: los errores van en rojo.
   El color de marca de cada cliente llega desde tienda.config.ts como
   --marca / --sobre-marca; si no hay, se usa el negro.
   Pesos de letra permitidos: regular, semi y bold (nada más grueso).
@@ -18,7 +19,7 @@
   --aviso-fondo: #f2f2f2;
   --aviso-texto: #000000;
   --ok-texto: #000000;
-  --error-texto: #000000;
+  --error-texto: #c00000; /* único color: errores en rojo (D-11) */
   --velo: rgb(0 0 0 / 0.5);
 
   /* Tipografía */

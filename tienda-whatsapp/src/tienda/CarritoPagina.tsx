@@ -109,6 +109,7 @@ export default function CarritoPagina() {
                             valor={l.item.cantidad}
                             max={Math.max(l.libre, 1)}
                             alCambiar={(n) => carrito.cambiarCantidad(i, n)}
+                            alQuitar={() => carrito.quitar(i)}
                             etiqueta={`Cantidad de ${nombre}`}
                           />
                           {!problema && (

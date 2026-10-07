@@ -23,7 +23,8 @@ Español rioplatense, vos, frases cortas. Los textos que dependen del comercio (
 | Botón datos | Enviar pedido por WhatsApp |
 | Debajo del botón | Al enviarlo, te reservamos los productos por {h} h. |
 | Enviando (en el botón) | Enviando pedido… · Estamos reservando tus productos. No cierres esta pantalla. |
-| Confirmación | Tu número de pedido · Te reservamos los productos por {h} h (hasta {fecha}). · Último paso: mandá el mensaje · Si no se abrió WhatsApp, tocá acá · Qué sigue: la tienda te responde por WhatsApp con el costo de envío y los datos para pagar. |
+| Pedido enviado | Pedido enviado con éxito · Pedido #{n} · Volver al inicio · ¿No se abrió WhatsApp? Tocá acá |
+| Pestaña nueva (mientras carga) | Abriendo WhatsApp… |
 
 ## Mensaje de WhatsApp (comprador → tienda)
 

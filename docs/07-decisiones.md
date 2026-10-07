@@ -89,6 +89,16 @@ Tomadas por Claude dentro de lo aprobado; se pueden revisar.
 - **No cambia:** la reserva de stock sigue funcionando igual (24 h, vencimiento automático). En "Pedido registrado" el plazo de la reserva queda como texto chico.
 - Decidió: Flor.
 
+## D-11 · Revisión de Flor de la Fase 1 (carrito, errores y cierre)
+
+- **Carrito:** con cantidad 1, tocar "−" quita el producto. Antes el botón quedaba deshabilitado.
+- **Errores en rojo:** es la única excepción al blanco y negro de D-09: mensajes de error, borde de los campos con error y recuadro "Revisá N datos". Se mantienen el ícono y el texto, así que no se comunica solo con color.
+- **Cierre por WhatsApp:** al tocar "Enviar pedido por WhatsApp" se abre una **pestaña nueva** con el mensaje ya redactado; el comprador solo toca enviar.
+- **Pantalla final mínima:** "Pedido enviado con éxito", el número de pedido y "Volver al inicio". Se sacan "Último paso", "Así llega el mensaje", "Qué sigue", el resumen y el texto de la reserva.
+- **Detalle técnico:** la pestaña nueva se abre en el mismo momento del toque. Si se abriera después de esperar al servidor, el navegador la bloquearía como ventana emergente. Mientras se registra el pedido muestra "Abriendo WhatsApp…" y después pasa al chat. Si algo falla, se cierra sola.
+- **Riesgo a tener en cuenta:** "enviado con éxito" quiere decir que el pedido quedó registrado en la tienda. Si el comprador no toca enviar en WhatsApp, a la tienda no le llega el mensaje (igual el pedido aparece en el admin como pendiente). Por eso se dejó un link chico de respaldo: "¿No se abrió WhatsApp? Tocá acá".
+- Decidió: Flor.
+
 ---
 
 ## Pendientes (al 6/10/2026)

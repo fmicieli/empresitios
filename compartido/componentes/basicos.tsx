@@ -179,17 +179,26 @@ export function Cantidad({
   min = 1,
   max,
   alCambiar,
+  alQuitar,
   etiqueta,
 }: {
   valor: number;
   min?: number;
   max: number;
   alCambiar: (n: number) => void;
+  /** Si se pasa, el "−" en el mínimo quita el producto en vez de quedar deshabilitado. */
+  alQuitar?: () => void;
   etiqueta?: string;
 }) {
+  const quita = !!alQuitar && valor <= min;
   return (
     <div class="cantidad" role="group" aria-label={etiqueta ?? 'Cantidad'}>
-      <button type="button" aria-label={textos.tienda.restar} disabled={valor <= min} onClick={() => alCambiar(valor - 1)}>
+      <button
+        type="button"
+        aria-label={quita ? textos.tienda.quitar : textos.tienda.restar}
+        disabled={valor <= min && !alQuitar}
+        onClick={() => (quita ? alQuitar!() : alCambiar(valor - 1))}
+      >
         −
       </button>
       <output class="num" aria-live="polite">

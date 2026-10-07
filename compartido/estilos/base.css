@@ -612,6 +612,16 @@ select.entrada {
   overflow-wrap: anywhere;
 }
 
+.punto-ok {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--acento);
+  color: var(--sobre-acento);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 .numero-grande {
   font-size: var(--numero-grande);
   font-weight: var(--peso-bold);
