@@ -12,7 +12,9 @@
 
 La copia del proyecto está en `Claude Code/Empresitios`, bajada con GitHub Desktop en la rama `claude/quirky-cray-06mnp8`.
 
-**Cada vez que Claude avisa que subió cambios:**
+**Atajo (un solo comando):** con la tienda cortada (`Ctrl + C`), corré `npm run actualizar` en la Terminal. Trae los cambios, instala lo que haga falta y levanta la tienda. Si dice que no encuentra `git`, aceptá la instalación que te ofrece la Mac ("herramientas de línea de comandos") o usá los pasos de abajo.
+
+**Cada vez que Claude avisa que subió cambios (paso a paso):**
 1. En la Terminal donde corre la tienda, cortala con `Ctrl + C`.
 2. En GitHub Desktop, tocá **Fetch origin** y después **Pull origin**.
 3. En la Terminal, corré `npm install`. Solo hace falta si cambiaron las herramientas, pero no molesta correrlo siempre.

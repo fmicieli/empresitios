@@ -13,7 +13,8 @@
     "preview": "npm run preview -w tienda-whatsapp -- --host",
     "check": "npm run check -w tienda-whatsapp",
     "test": "vitest run",
-    "format": "prettier --write \"compartido/**/*.{ts,tsx,css}\" \"tienda-whatsapp/src/**/*.{ts,tsx,css}\" \"tienda-whatsapp/config/*.ts\""
+    "format": "prettier --write \"compartido/**/*.{ts,tsx,css}\" \"tienda-whatsapp/src/**/*.{ts,tsx,css}\" \"tienda-whatsapp/config/*.ts\"",
+    "actualizar": "git pull && npm install && npm run dev"
   },
   "engines": {
     "node": ">=22.12.0"
