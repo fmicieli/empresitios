@@ -8,11 +8,18 @@
 - **Pendientes y decisiones:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
 - **Descargar el proyecto en ZIP:** https://github.com/fmicieli/empresitios/archive/refs/heads/claude/quirky-cray-06mnp8.zip
 
-Para verlo funcionando en tu computadora (con Node.js 22.12 o más nuevo instalado), descomprimí el ZIP, abrí la Terminal en esa carpeta y corré `npm install` y después `npm run dev`. Con eso quedan andando:
+### Ver los cambios en tu computadora (localhost)
 
-- Tienda: http://localhost:4321/
-- Admin: http://localhost:4321/admin/
-- En el celular (mismo wifi): corré `npm run dev:celular` y abrí en el celular la dirección de la línea "Network".
+La copia del proyecto está en `Claude Code/Empresitios`, bajada con GitHub Desktop en la rama `claude/quirky-cray-06mnp8`.
+
+**Cada vez que Claude avisa que subió cambios:**
+1. En la Terminal donde corre la tienda, cortala con `Ctrl + C`.
+2. En GitHub Desktop, tocá **Fetch origin** y después **Pull origin**.
+3. En la Terminal, corré `npm install`. Solo hace falta si cambiaron las herramientas, pero no molesta correrlo siempre.
+4. Corré `npm run dev`.
+5. Abrí la dirección de la línea **Local** que muestra la Terminal (normalmente http://localhost:4321/; el admin está en `/admin/`) y recargá con `Cmd + Shift + R`.
+
+Si aparece otra dirección (4322, 4323…), es porque quedó otra Terminal corriendo una versión anterior: cerrá todas y empezá de nuevo.
 
 ## 2. Prompt para continuar
 

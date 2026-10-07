@@ -16,6 +16,8 @@ Este archivo es el contexto permanente del repositorio. Leelo al empezar cada se
 
 Lo primero que respondés, antes de cualquier otra cosa, son **los links para revisar la última fase terminada** y **el prompt para continuar**, tal como están en `docs/RETOMAR.md` (actualizalos si cambiaron). Al cerrar una fase o una sesión, actualizá `docs/RETOMAR.md` y subilo a GitHub.
 
+Flor revisa en su computadora (localhost) antes de aprobar cada fase. Cada vez que subas cambios, avisale y recordale cómo traerlos: GitHub Desktop → Fetch origin → Pull origin, después `npm install` y `npm run dev` (pasos en `docs/RETOMAR.md`).
+
 ## Qué estamos construyendo
 
 Plantillas web funcionales que adapto a cada comercio argentino. Cobro un proyecto inicial más un mantenimiento mensual. Esta es la **plantilla 1: tienda online con cierre por WhatsApp**, con **admin propio** para el comercio. Ver `docs/01-producto.md`.
