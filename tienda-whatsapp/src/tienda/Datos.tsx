@@ -63,6 +63,14 @@ export default function Datos() {
 
   useEffect(() => borradorComprador.guardar(f), [f]);
 
+  // Al volver atrás desde WhatsApp, el navegador puede mostrar esta pantalla guardada
+  // ("Enviando pedido…"); recargamos para que aparezca "Pedido enviado".
+  useEffect(() => {
+    const alVolver = (e: PageTransitionEvent) => e.persisted && location.reload();
+    window.addEventListener('pageshow', alVolver);
+    return () => window.removeEventListener('pageshow', alVolver);
+  }, []);
+
   // Si el carrito está vacío no hay nada que completar.
   useEffect(() => {
     if (!items.length && estado === 'formulario') location.replace('/carrito/');
@@ -90,23 +98,11 @@ export default function Datos() {
 
   async function enviar() {
     setEstado('enviando');
-    // La pestaña de WhatsApp se abre ahora, en el mismo toque del botón: si se abriera
-    // después de esperar al servidor, el navegador la bloquearía. Cuando el pedido está
-    // registrado, la llevamos al mensaje; si algo falla, la cerramos.
     const sinNumeroDePrueba = esLocal(ds) && !ds.herramientas.getAjustes().whatsappTienda;
-    const pestana = sinNumeroDePrueba ? null : window.open('', '_blank');
-    if (pestana) {
-      pestana.document.title = 'WhatsApp';
-      if (pestana.document.body) pestana.document.body.textContent = t.abriendoWhatsapp;
-    }
-    const cerrarPestana = () => pestana && !pestana.closed && pestana.close();
     try {
       // 1. Revisamos que haya stock (con datos frescos).
       const frescos = await ds.getProductos();
-      if (evaluarCarrito(items, frescos).some((l) => l.estado !== 'ok')) {
-        cerrarPestana();
-        return aCarrito();
-      }
+      if (evaluarCarrito(items, frescos).some((l) => l.estado !== 'ok')) return aCarrito();
 
       // 2. Reservamos: el servidor vuelve a verificar, numera y reserva de una sola vez.
       const normal = normalizarWhatsapp(f.whatsapp);
@@ -123,21 +119,20 @@ export default function Datos() {
           nota: f.nota.trim(),
         },
       });
-      if (!r.ok) {
-        cerrarPestana();
-        return aCarrito();
-      }
+      if (!r.ok) return aCarrito();
 
       // 3. Preparamos el mensaje.
       const mensaje = mensajePedido(r.pedido);
       const link = linkWhatsapp(whatsappTienda(), mensaje);
-      if (pestana && !pestana.closed) pestana.location.href = link;
       ultimoPedido.guardar({ numero: r.pedido.numero, link, sinNumeroDePrueba });
       carrito.vaciar();
       borradorComprador.borrar();
-      location.assign('/pedido/');
+      if (sinNumeroDePrueba) return location.assign('/pedido/');
+      // Vamos directo a WhatsApp en la misma pestaña (D-13). Antes cambiamos la dirección
+      // a /pedido/: si el comprador vuelve atrás, ve "Pedido enviado" y puede seguir comprando.
+      history.replaceState(null, '', '/pedido/');
+      location.assign(link);
     } catch (e) {
-      cerrarPestana();
       setErrorEnvio(e);
       setEstado('error');
     }

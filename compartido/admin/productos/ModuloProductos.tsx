@@ -28,17 +28,19 @@ function FilaCelular({
   ctx,
   abierto,
   alAbrir,
+  alCerrar,
   pendientes,
 }: {
   p: Producto;
   ctx: ContextoAdmin;
   abierto: boolean;
   alAbrir: () => void;
+  alCerrar: () => void;
   pendientes: Pedido[];
 }) {
   const total = stockTotal(p);
   return (
-    <li class="fila-producto">
+    <li class="fila-producto" data-producto={p.id}>
       <button
         type="button"
         class="cabeza-producto"
@@ -59,7 +61,7 @@ function FilaCelular({
         </span>
         <IconoFlecha abierto={abierto} />
       </button>
-      {abierto && <AjusteRapido ds={ctx.ds} producto={p} pendientes={pendientes} />}
+      {abierto && <AjusteRapido ds={ctx.ds} producto={p} pendientes={pendientes} alCerrar={alCerrar} />}
     </li>
   );
 }
@@ -94,7 +96,7 @@ function TablaEscritorio({
       <tbody>
         {lista.map((p) => (
           <Fragment key={p.id}>
-            <tr aria-selected={abierto === p.id}>
+            <tr aria-selected={abierto === p.id} data-producto={p.id}>
               <td>
                 <div class="fila" style={{ flexWrap: 'nowrap' }}>
                   <div style={{ width: '44px', flexShrink: 0 }}>
@@ -127,12 +129,12 @@ function TablaEscritorio({
               </td>
             </tr>
             {abierto === p.id && (
-              <tr>
+              <tr data-producto={p.id}>
                 <td colSpan={6} style={{ background: 'var(--superficie)' }}>
                   <div
                     style={{ maxWidth: '520px', background: 'var(--fondo)', borderRadius: 'var(--radio)', paddingTop: '12px' }}
                   >
-                    <AjusteRapido ds={ctx.ds} producto={p} pendientes={pendientes} />
+                    <AjusteRapido ds={ctx.ds} producto={p} pendientes={pendientes} alCerrar={() => setAbierto(null)} />
                   </div>
                 </td>
               </tr>
@@ -254,6 +256,7 @@ function Lista({ ctx }: { ctx: ContextoAdmin }) {
               ctx={ctx}
               abierto={abierto === p.id}
               alAbrir={() => setAbierto(abierto === p.id ? null : p.id)}
+              alCerrar={() => setAbierto(null)}
               pendientes={pendientes}
             />
           ))}

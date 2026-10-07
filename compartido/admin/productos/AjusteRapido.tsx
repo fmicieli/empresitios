@@ -1,88 +1,104 @@
-// Ajuste rápido de stock: se guarda solo, sin botón (docs/03-admin.md).
+// Ajuste rápido de stock (docs/03-admin.md, D-12): se suma o resta con − / + y se
+// confirma con "Guardar cambios". Tocar afuera, o la tecla Escape, también cierra
+// el desplegable; si quedaron cambios sin guardar, se guardan antes de cerrar.
 
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { mensajeDeError } from '../../componentes/basicos';
-import { IconoCheck } from '../../componentes/iconos';
+import { mensajeDeError, mostrarToast } from '../../componentes/basicos';
 import { claveVariante } from '../../datos/reglas';
 import type { DataStore, Pedido, Producto } from '../../datos/tipos';
 import { textos } from '../../textos/textos';
 
 const t = textos.admin;
-const ESPERA_MS = 900; // espera después del último toque antes de guardar
 
-type EstadoGuardado = 'quieto' | 'esperando' | 'guardando' | 'guardado' | 'error';
+type EstadoGuardado = 'quieto' | 'guardando' | 'error';
 
-export function AjusteRapido({ ds, producto, pendientes }: { ds: DataStore; producto: Producto; pendientes: Pedido[] }) {
+export function AjusteRapido({
+  ds,
+  producto,
+  pendientes,
+  alCerrar,
+}: {
+  ds: DataStore;
+  producto: Producto;
+  pendientes: Pedido[];
+  alCerrar: () => void;
+}) {
   const cs = producto.colores.length ? producto.colores : [''];
   const [color, setColor] = useState(cs[0]);
+  const desdeProducto = () => Object.fromEntries(producto.variantes.map((v) => [claveVariante(v.color, v.talle), v.cantidad]));
   // Borrador local: lo que el dueño ve y toca. No se pisa con datos que llegan mientras edita.
-  const [borrador, setBorrador] = useState<Record<string, number>>(() =>
-    Object.fromEntries(producto.variantes.map((v) => [claveVariante(v.color, v.talle), v.cantidad])),
-  );
+  const [borrador, setBorrador] = useState<Record<string, number>>(desdeProducto);
+  const [sucios, setSucios] = useState<Set<string>>(new Set());
   const [estado, setEstado] = useState<EstadoGuardado>('quieto');
   const [errorTexto, setErrorTexto] = useState('');
-  const sucios = useRef(new Set<string>());
-  const temporizador = useRef<ReturnType<typeof setTimeout>>();
-  const borradorRef = useRef(borrador);
-  borradorRef.current = borrador;
-  /** Valores que se mandaron a guardar en la última vuelta. */
-  const enviado = useRef<Record<string, number>>({});
 
-  // Si no hay cambios propios en curso, tomar los datos nuevos (por ejemplo, una venta confirmada).
+  // Si no hay cambios propios, tomar los datos nuevos (por ejemplo, una venta confirmada).
   useEffect(() => {
-    if (sucios.current.size === 0 && estado !== 'guardando') {
-      setBorrador(Object.fromEntries(producto.variantes.map((v) => [claveVariante(v.color, v.talle), v.cantidad])));
-    }
+    if (sucios.size === 0 && estado !== 'guardando') setBorrador(desdeProducto());
   }, [producto]);
 
-  // Si se cierra el producto con cambios sin guardar, se guardan en el momento.
-  useEffect(
-    () => () => {
-      clearTimeout(temporizador.current);
-      if (sucios.current.size) {
-        enviado.current = { ...borradorRef.current };
-        guardar();
-      }
-    },
-    [],
-  );
-
-  async function guardar() {
-    const claves = [...sucios.current];
-    if (!claves.length) return;
+  async function guardarYCerrar() {
+    if (estado === 'guardando') return;
+    if (!sucios.size) return alCerrar();
     setEstado('guardando');
-    const cambios = claves.map((k) => {
+    const cambios = [...sucios].map((k) => {
       const [c, s] = k.split('|');
-      return { color: c, talle: s, cantidad: borradorRef.current[k] ?? 0 };
+      return { color: c, talle: s, cantidad: borrador[k] ?? 0 };
     });
     try {
       await ds.ajustarStock(producto.id, cambios);
-      // Si tocó algo más mientras guardábamos, queda pendiente para la próxima vuelta.
-      claves.forEach((k) => {
-        if (enviado.current[k] === borradorRef.current[k]) sucios.current.delete(k);
-      });
-      setEstado(sucios.current.size ? 'esperando' : 'guardado');
-      if (sucios.current.size) programar();
+      pendiente.current.sucios = new Set();
+      setSucios(new Set());
+      setEstado('quieto');
+      mostrarToast(t.guardadoProducto(producto.nombre));
+      alCerrar();
     } catch (e) {
       setErrorTexto(mensajeDeError(e));
       setEstado('error');
     }
   }
 
-  function programar() {
-    clearTimeout(temporizador.current);
-    temporizador.current = setTimeout(() => {
-      enviado.current = { ...borradorRef.current };
-      guardar();
-    }, ESPERA_MS);
-  }
+  // Tocar afuera del producto, o la tecla Escape, cierra (guardando lo pendiente).
+  const guardarRef = useRef(guardarYCerrar);
+  guardarRef.current = guardarYCerrar;
+  const pendiente = useRef({ sucios, borrador });
+  pendiente.current = { sucios, borrador };
+
+  // Si se cierra de otra forma (por ejemplo, tocando de nuevo el producto) con cambios
+  // sin guardar, se guardan igual: nunca se pierde lo que tocó el dueño.
+  useEffect(
+    () => () => {
+      const { sucios: sinGuardar, borrador: b } = pendiente.current;
+      if (!sinGuardar.size) return;
+      const cambios = [...sinGuardar].map((k) => {
+        const [c, s] = k.split('|');
+        return { color: c, talle: s, cantidad: b[k] ?? 0 };
+      });
+      ds.ajustarStock(producto.id, cambios)
+        .then(() => mostrarToast(t.guardadoProducto(producto.nombre)))
+        .catch((e) => mostrarToast(`${t.noSeGuardo}: ${mensajeDeError(e)}`));
+    },
+    [],
+  );
+  useEffect(() => {
+    const afuera = (e: PointerEvent) => {
+      const el = e.target as Element | null;
+      if (el?.closest(`[data-producto="${CSS.escape(producto.id)}"]`) || el?.closest('dialog, .toast-zona')) return;
+      guardarRef.current();
+    };
+    const tecla = (e: KeyboardEvent) => e.key === 'Escape' && guardarRef.current();
+    document.addEventListener('pointerdown', afuera);
+    document.addEventListener('keydown', tecla);
+    return () => {
+      document.removeEventListener('pointerdown', afuera);
+      document.removeEventListener('keydown', tecla);
+    };
+  }, [producto.id]);
 
   function paso(k: string, d: number) {
-    const nuevo = Math.max(0, (borrador[k] ?? 0) + d);
-    setBorrador({ ...borrador, [k]: nuevo });
-    sucios.current.add(k);
-    setEstado('esperando');
-    programar();
+    setBorrador({ ...borrador, [k]: Math.max(0, (borrador[k] ?? 0) + d) });
+    setSucios(new Set(sucios).add(k));
+    if (estado === 'error') setEstado('quieto');
   }
 
   const reservas = (c: string, s: string) => {
@@ -102,6 +118,7 @@ export function AjusteRapido({ ds, producto, pendientes }: { ds: DataStore; prod
 
   const ts = producto.talles.length ? producto.talles : [''];
   const totalColor = (c: string) => ts.reduce((a, s) => a + (borrador[claveVariante(c, s)] ?? 0), 0);
+  const guardando = estado === 'guardando';
 
   return (
     <div class="ajuste">
@@ -130,7 +147,7 @@ export function AjusteRapido({ ds, producto, pendientes }: { ds: DataStore; prod
                 type="button"
                 class="paso"
                 aria-label={`Restar uno a ${etiqueta}`}
-                disabled={valor <= 0}
+                disabled={valor <= 0 || guardando}
                 onClick={() => paso(k, -1)}
               >
                 −
@@ -138,7 +155,13 @@ export function AjusteRapido({ ds, producto, pendientes }: { ds: DataStore; prod
               <output class="valor-stock num" aria-labelledby={`et-${producto.id}-${k}`} aria-live="polite">
                 {valor}
               </output>
-              <button type="button" class="paso" aria-label={`Sumar uno a ${etiqueta}`} onClick={() => paso(k, 1)}>
+              <button
+                type="button"
+                class="paso"
+                aria-label={`Sumar uno a ${etiqueta}`}
+                disabled={guardando}
+                onClick={() => paso(k, 1)}
+              >
                 +
               </button>
             </div>
@@ -153,34 +176,17 @@ export function AjusteRapido({ ds, producto, pendientes }: { ds: DataStore; prod
           </div>
         );
       })}
-      <div class="fila-extremos">
-        <span role="status" class="chico">
-          {estado === 'guardando' || estado === 'esperando' ? (
-            <span class="suave">{t.guardando}</span>
-          ) : estado === 'guardado' ? (
-            <span class="estado-ok">
-              <IconoCheck /> {t.guardado}
-            </span>
-          ) : estado === 'error' ? (
-            <span class="estado-error">
-              {t.noSeGuardo} · {errorTexto}{' '}
-              <button
-                type="button"
-                class="enlace"
-                onClick={() => {
-                  enviado.current = { ...borradorRef.current };
-                  guardar();
-                }}
-              >
-                {t.reintentar}
-              </button>
-            </span>
-          ) : null}
-        </span>
-        <a class="enlace" href={`#/productos/${encodeURIComponent(producto.id)}`}>
-          {t.editarProducto}
-        </a>
-      </div>
+      {estado === 'error' && (
+        <p class="estado-error chico" role="alert">
+          {t.noSeGuardo} · {errorTexto}
+        </p>
+      )}
+      <button type="button" class="boton chico" disabled={guardando} onClick={guardarYCerrar}>
+        {guardando ? t.guardando : estado === 'error' ? t.reintentar : t.guardarCambios}
+      </button>
+      <a class="enlace" style={{ alignSelf: 'flex-start' }} href={`#/productos/${encodeURIComponent(producto.id)}`}>
+        {t.editarProducto}
+      </a>
     </div>
   );
 }

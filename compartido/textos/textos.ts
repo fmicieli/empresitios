@@ -111,8 +111,7 @@ export const textos = {
     errorEnvioTitulo: 'No pudimos registrar tu pedido',
     errorEnvioAyuda: 'Tus productos y tus datos siguen guardados.',
 
-    // Pedido enviado (D-11)
-    abriendoWhatsapp: 'Abriendo WhatsApp…',
+    // Pedido enviado (D-11, D-13)
     pedidoEnviado: 'Pedido enviado con éxito',
     pedidoN: (n: number) => `Pedido #${n}`,
     volverInicio: 'Volver al inicio',
@@ -228,6 +227,8 @@ export const textos = {
     colorTab: (c: string, n: number) => `${c} · ${n}`,
     guardando: 'Guardando…',
     guardado: 'Cambios guardados',
+    guardarCambios: 'Guardar cambios',
+    guardadoProducto: (p: string) => `Stock de ${p} guardado.`,
     noSeGuardo: 'No se pudo guardar',
     reintentar: 'Reintentar',
     reservadas: (n: number, pedidos: string) => `${n} ${plural(n, 'reservada', 'reservadas')} en ${pedidos}`,

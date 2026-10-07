@@ -24,7 +24,6 @@ Español rioplatense, vos, frases cortas. Los textos que dependen del comercio (
 | Debajo del botón | Al enviarlo, te reservamos los productos por {h} h. |
 | Enviando (en el botón) | Enviando pedido… · Estamos reservando tus productos. No cierres esta pantalla. |
 | Pedido enviado | Pedido enviado con éxito · Pedido #{n} · Volver al inicio · ¿No se abrió WhatsApp? Tocá acá |
-| Pestaña nueva (mientras carga) | Abriendo WhatsApp… |
 
 ## Mensaje de WhatsApp (comprador → tienda)
 
@@ -55,7 +54,7 @@ Nota: {nota}            ← solo si hay
 | Vencido sin stock | No queda stock libre de este talle · Avisarle por WhatsApp · Confirmar igual, tengo la prenda · Si confirmás igual, el stock de ese talle queda en 0 hasta que lo corrijas. · Volver sin cambios |
 | Mensaje al comprador | Hola {nombre}, te escribo por tu pedido #{n}. |
 | Productos aviso | ¿Vendiste en el local o por Instagram? Abrí el producto y descontalo acá. |
-| Guardado stock | Guardando… / Cambios guardados / No se pudo guardar · Reintentar |
+| Guardado stock | Guardar cambios · Guardando… · Stock de {producto} guardado. · No se pudo guardar · Reintentar |
 | Reserva afectada | Hay {n} reservada(s) en #{pedido}. A ese pedido le falta la prenda. Avisale al comprador o cancelá el pedido. |
 | Formulario errores | Faltan {n} datos para guardar · Lo que ya completaste no se pierde. · Agregá al menos una foto. · Escribí el nombre del producto. · Elegí una categoría. · Escribí el precio, por ejemplo 15000. |
 | Categoría ayuda | ¿Falta una categoría? Pedila por WhatsApp y la sumamos. |

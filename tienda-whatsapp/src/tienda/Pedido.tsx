@@ -1,4 +1,4 @@
-// Pedido enviado: confirmación mínima. El mensaje de WhatsApp ya se abrió en una pestaña nueva (D-11).
+// Pedido enviado: confirmación mínima. Se ve al volver desde WhatsApp (D-13).
 
 import { useState } from 'preact/hooks';
 import { IconoCheck } from '@compartido/componentes/iconos';

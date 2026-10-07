@@ -99,6 +99,21 @@ Tomadas por Claude dentro de lo aprobado; se pueden revisar.
 - **Riesgo a tener en cuenta:** "enviado con éxito" quiere decir que el pedido quedó registrado en la tienda. Si el comprador no toca enviar en WhatsApp, a la tienda no le llega el mensaje (igual el pedido aparece en el admin como pendiente). Por eso se dejó un link chico de respaldo: "¿No se abrió WhatsApp? Tocá acá".
 - Decidió: Flor.
 
+## D-12 · Ajuste rápido de stock con botón "Guardar cambios"
+
+- **Decisión:** el desplegable de stock de cada producto tiene un botón **"Guardar cambios"** que guarda y cierra. Reemplaza al guardado automático de `03-admin.md`.
+- **Tocar afuera** del producto, o la tecla Escape, también cierra el desplegable. Antes no se cerraba.
+- **Para no perder nada:** si se cierra con cambios sin guardar (afuera, Escape o tocando de nuevo el producto), se guardan igual y aparece el aviso "Stock de {producto} guardado.". Si el guardado falla, el desplegable queda abierto con "No se pudo guardar" y el botón "Reintentar".
+- Decidió: Flor.
+
+## D-13 · WhatsApp en la misma pestaña (reemplaza la pestaña nueva de D-11)
+
+- **Decisión:** al tocar "Enviar pedido por WhatsApp" se registra el pedido y se va directo a WhatsApp en la misma pestaña, con el mensaje redactado. Si el comprador lo envía, terminó.
+- **Para seguir comprando:** si vuelve atrás desde WhatsApp, ve "Pedido enviado con éxito" y "Volver al inicio". Si cerró la pestaña, tiene que volver a entrar al sitio; Flor aceptó esa contra.
+- **Opción descartada: "Gestionando pedido" → "Éxito" o "Pedido cancelado" según lo que haga en WhatsApp.** No se puede hacer: WhatsApp no le avisa al sitio si el mensaje se envió ni si se cerró el chat (en el celular, además, se abre la app, fuera del navegador). El sitio no tiene forma de enterarse.
+- **Lo que cubre ese caso:** si el comprador nunca manda el mensaje, el pedido queda pendiente en el admin y la reserva vence sola a las 24 h. Funciona como un "cancelado" automático.
+- Decidió: Flor.
+
 ---
 
 ## Pendientes (al 6/10/2026)

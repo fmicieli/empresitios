@@ -90,9 +90,9 @@ Estado de error: sin conexión o error del servidor → mensaje claro y botón "
 
 Pantalla mínima, sin explicaciones (D-11, `07-decisiones.md`):
 
-- Al tocar "Enviar pedido por WhatsApp" se abre **una pestaña nueva** con WhatsApp y el mensaje ya redactado: el comprador solo tiene que tocar enviar.
-- En la pestaña de la tienda queda: tilde, "Pedido enviado con éxito", "Pedido #1015" y el botón **"Volver al inicio"**.
-- De respaldo, un link chico: "¿No se abrió WhatsApp? Tocá acá" (por si el navegador bloqueó la pestaña nueva).
+- Al tocar "Enviar pedido por WhatsApp" se registra el pedido y se va **directo a WhatsApp, en la misma pestaña**, con el mensaje ya redactado: el comprador solo tiene que tocar enviar (D-13).
+- Si vuelve atrás desde WhatsApp, ve: tilde, "Pedido enviado con éxito", "Pedido #1015" y el botón **"Volver al inicio"** para seguir comprando.
+- De respaldo, un link chico: "¿No se abrió WhatsApp? Tocá acá".
 - El carrito se vacía.
 
 ## 9. Mensaje de WhatsApp
