@@ -32,7 +32,7 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 
 1. Leé CLAUDE.md, docs/RETOMAR.md y docs/07-decisiones.md (sobre todo la sección "Pendientes") antes de hacer nada.
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
-3. Fase 1: ya está terminada y en revisión en el PR #1. Te paso mis respuestas a los pendientes 1 a 3: [COMPLETAR o escribir "todavía no lo decidí"].
+3. Fase 1: terminada y revisada (decisiones en D-15). Si el PR #1 todavía no está aprobado, recordámelo.
 4. Arrancá la Fase 2 (investigación técnica) según docs/05-arquitectura-y-fases.md, incluidos los puntos 8 a 10 que agregué. Es sin código de producción: entregala por escrito en docs/08-investigacion-fase-2.md, con fuentes oficiales y fecha de consulta. Verificá cada límite, cuota o precio en la documentación oficial (Google, Cloudflare). Si no podés acceder a alguna fuente, avisame en vez de suponer.
 5. Al terminar, explicame las recomendaciones en lenguaje claro, hacé commit y push, y esperá mi OK antes de la Fase 3.
 ```
