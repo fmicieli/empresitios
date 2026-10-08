@@ -174,10 +174,13 @@ describe('productos y stock', () => {
 });
 
 describe('herramientas de prueba', () => {
-  it('simula errores del servidor una sola vez', async () => {
-    ds.herramientas.setAjustes({ proximoError: 'servidor' });
-    await expect(ds.getProductos()).rejects.toMatchObject({ tipo: 'servidor' });
+  it('simula fallas al guardar mientras estén activas, sin afectar las lecturas', async () => {
+    ds.herramientas.setAjustes({ fallarAlGuardar: 'servidor' });
     await expect(ds.getProductos()).resolves.toBeTruthy();
+    await expect(ds.confirmarPedido(1003)).rejects.toMatchObject({ tipo: 'servidor' });
+    await expect(ds.ajustarStock('p5', [{ color: 'Negro', talle: '', cantidad: 1 }])).rejects.toMatchObject({ tipo: 'servidor' });
+    ds.herramientas.setAjustes({ fallarAlGuardar: null });
+    await expect(ds.confirmarPedido(1003)).resolves.toMatchObject({ ok: true });
   });
 
   it('restaurar vuelve a los datos de ejemplo', async () => {

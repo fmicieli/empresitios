@@ -102,16 +102,20 @@ export function PanelPruebas({
         <select
           id="t-error"
           class="entrada"
-          value={aj.proximoError ?? ''}
+          aria-describedby="t-error-ayuda"
+          value={aj.fallarAlGuardar ?? ''}
           onChange={(e) => {
             const v = (e.target as HTMLSelectElement).value;
-            setAj({ ...aj, proximoError: v ? (v as AjustesPrueba['proximoError']) : null });
+            setAj({ ...aj, fallarAlGuardar: v ? (v as AjustesPrueba['fallarAlGuardar']) : null });
           }}
         >
           <option value="">{t.errorNinguno}</option>
           <option value="sinConexion">{t.errorSinConexion}</option>
           <option value="servidor">{t.errorServidor}</option>
         </select>
+        <span id="t-error-ayuda" class="ayuda">
+          {t.errorAyuda}
+        </span>
       </div>
       <button type="button" class="boton chico" onClick={guardar}>
         {t.guardar}

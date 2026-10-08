@@ -54,8 +54,8 @@ interface EstadoLocal {
 /** Ajustes de las herramientas de prueba (no forman parte del producto). */
 export interface AjustesPrueba {
   demora: 'realista' | 'ninguna';
-  /** La próxima llamada falla con este error. */
-  proximoError: TipoError | null;
+  /** Mientras esté activo, todo lo que se guarda falla con este error (para ver los mensajes de error). */
+  fallarAlGuardar: TipoError | null;
   /** WhatsApp de la tienda para recibir los pedidos de prueba. */
   whatsappTienda: string;
 }
@@ -138,7 +138,7 @@ function estadoDesdeSemilla(s: Semilla, ahora: number): EstadoLocal {
   };
 }
 
-const AJUSTES_INICIALES: AjustesPrueba = { demora: 'realista', proximoError: null, whatsappTienda: '' };
+const AJUSTES_INICIALES: AjustesPrueba = { demora: 'realista', fallarAlGuardar: null, whatsappTienda: '' };
 
 export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
   const almacen = op.almacen ?? (typeof localStorage !== 'undefined' ? localStorage : memoria());
@@ -203,11 +203,9 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
       else ms = tipo === 'lectura' ? 300 + Math.random() * 600 : 1000 + Math.random() * 2000;
     }
     if (ms > 0) await new Promise((r) => setTimeout(r, ms));
-    if (aj.proximoError) {
-      const err = aj.proximoError;
-      almacen.setItem(claveAjustes, JSON.stringify({ ...aj, proximoError: null }));
-      throw new ErrorDatos(err);
-    }
+    // Solo fallan las operaciones que guardan (confirmar, enviar un pedido, guardar stock…):
+    // así las lecturas de fondo no "gastan" la falla antes de que la veas.
+    if (tipo === 'escritura' && aj.fallarAlGuardar) throw new ErrorDatos(aj.fallarAlGuardar);
     if (typeof navigator !== 'undefined' && navigator.onLine === false) throw new ErrorDatos('sinConexion');
   }
 

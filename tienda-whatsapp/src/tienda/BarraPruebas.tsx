@@ -11,6 +11,10 @@ export default function BarraPruebas() {
   const [abierto, setAbierto] = useState(false);
   const [horas, setHoras] = useState(24);
   const [vuelta, setVuelta] = useState(0);
+  const [, redibujar] = useState(0);
+
+  // Para mostrar al instante el aviso de "falla simulada" cuando cambian los ajustes.
+  useEffect(() => ds.alCambiar(() => redibujar((n) => n + 1)), []);
 
   useEffect(() => {
     if (abierto)
@@ -25,6 +29,7 @@ export default function BarraPruebas() {
     <div class="barra-pruebas" role="region" aria-label="Modo de prueba">
       <div class="barra-pruebas-interior">
         <strong>Modo de prueba</strong>
+        {ds.herramientas.getAjustes().fallarAlGuardar && <strong class="estado-error">⚠ {textos.pruebas.fallaActiva}</strong>}
         <a href="/" aria-current={!enAdmin ? 'page' : undefined}>
           {textos.pruebas.irTienda}
         </a>

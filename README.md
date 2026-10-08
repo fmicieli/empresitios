@@ -69,7 +69,7 @@ npm run build   # arma el sitio como quedaría publicado
 - **WhatsApp de la tienda**: tu número, para recibir los pedidos de prueba.
 - **Duración de la reserva**: horas que se reserva el stock (24 por defecto).
 - **Demora del servidor**: realista (1 a 3 s) o sin demora.
-- **Próxima llamada**: hace fallar la próxima operación ("sin conexión" o "error del servidor") para ver los mensajes de error.
+- **Simular una falla al guardar**: mientras esté activa, todo lo que se guarda falla ("como si no hubiera internet" o "como si fallara el servidor") para ver los mensajes de error. Arriba aparece "⚠ Falla simulada activada". Volvé a "No" para seguir probando normal.
 - **Simular que pasaron las horas**: vence las reservas pendientes.
 - **Volver a los datos de ejemplo**: borra todo lo que hiciste y vuelve a la tienda inicial.
 
@@ -109,7 +109,7 @@ Pedidos de ejemplo: **#1003 pendiente**, **#1002 vencido** (pide la Remera Negro
 4. Productos → tocar la Remera → sumar/restar stock → "Guardando…" → "Cambios guardados" (sin botón). Bajar Blanco M por debajo de 2 → aviso de la reserva afectada.
 5. + Agregar → guardar vacío (errores) → cargar fotos desde la galería o la cámara del celular, nombre, categoría, precio "15.000", talles, stock → Guardar → aparece en la tienda.
 6. Editar un producto y quitar un color con stock → aviso antes de descartar ese stock.
-7. Herramientas → Próxima llamada: "Falla: sin conexión" → confirmar un pedido → mensaje de error, nada se da por guardado.
+7. Herramientas → Simular una falla al guardar: "como si no hubiera internet" → confirmar un pedido o guardar stock → mensaje de error en rojo, nada se da por guardado. Después volvé a "No".
 
 ---
 
