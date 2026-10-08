@@ -1,0 +1,20 @@
+// Configuración de Cloudflare Workers (D-16). Guía: docs/09-guia-conectar-cliente.md
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "tienda-modelo",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    // Solo /api/* pasa por el puente; el resto se sirve directo (gratis e ilimitado).
+    "run_worker_first": ["/api/*"]
+  },
+  "vars": {
+    // ID de cliente de Google para "Iniciar sesión con Google" (no es secreto).
+    "GOOGLE_CLIENT_ID": ""
+  }
+  // Secretos (se cargan en el panel de Cloudflare o con `wrangler secret put`):
+  //   APPS_SCRIPT_URL, APPS_SCRIPT_SECRETO, TURNSTILE_SECRETO
+}
