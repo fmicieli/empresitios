@@ -20,6 +20,9 @@ import type { Semilla } from './semilla';
 
 const HORA = 3600 * 1000;
 
+/** Defensas contra pedidos falsos (D-16). Mismos valores iniciales que la planilla (pestaña Config). */
+export const LIMITES = { pendientesPorWhatsapp: 2, unidadesPorProducto: 10, unidadesPorPedido: 20 };
+
 type FilaProducto = Omit<Producto, 'variantes'>;
 type FilaStock = { productoId: string; color: string; talle: string; cantidad: number };
 
@@ -333,6 +336,21 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
         throw new ErrorDatos('servidor', 'Falta la dirección de entrega.');
       }
       return modificar((e, t) => {
+        // 0. Defensas contra pedidos falsos (D-16).
+        let total = 0;
+        const porProducto = new Map<string, number>();
+        for (const it of items) {
+          total += it.cantidad;
+          porProducto.set(it.productoId, (porProducto.get(it.productoId) ?? 0) + it.cantidad);
+        }
+        if (total > LIMITES.unidadesPorPedido || [...porProducto.values()].some((n) => n > LIMITES.unidadesPorProducto)) {
+          throw new ErrorDatos('limiteUnidades');
+        }
+        const pendientes = e.pedidos.filter(
+          (p) => p.estado === 'pendiente' && p.venceEn > t && p.comprador.whatsappNormalizado === comprador.whatsappNormalizado,
+        ).length;
+        if (pendientes >= LIMITES.pendientesPorWhatsapp) throw new ErrorDatos('limitePedidos');
+
         // 1. Verificar stock libre de cada línea (sumando líneas repetidas).
         const pedidoPorVariante = new Map<string, number>();
         const problemas: LineaConProblema[] = [];
@@ -465,6 +483,21 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
         p.actualizado = t;
         const a = registrar(e, t, 'pedido cancelado', `#${numero}`, { numero, estadoAnterior, ...antes, usado: false });
         return { accionId: a.id, pedido: copia(p) };
+      });
+    },
+
+    async cancelarPendientesDe(whatsappNormalizado) {
+      return modificar((e, t) => {
+        const cancelados: number[] = [];
+        for (const p of e.pedidos) {
+          if ((p.estado === 'pendiente' || p.estado === 'vencida') && p.comprador.whatsappNormalizado === whatsappNormalizado) {
+            p.estado = 'cancelada';
+            p.actualizado = t;
+            cancelados.push(p.numero);
+          }
+        }
+        if (cancelados.length) registrar(e, t, 'pendientes cancelados', `${cancelados.length} pedidos`);
+        return cancelados.sort((a, b) => a - b);
       });
     },
 

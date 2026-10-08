@@ -134,7 +134,19 @@ export interface ResultadoAccion {
   pedido: Pedido;
 }
 
-export type TipoError = 'sinConexion' | 'servidor' | 'sesion' | 'noEncontrado';
+export type TipoError =
+  | 'sinConexion'
+  | 'servidor'
+  | 'sesion'
+  | 'noEncontrado'
+  /** La cuenta de Google no está en la lista del negocio. */
+  | 'noAutorizado'
+  /** El número ya tiene el máximo de pedidos esperando confirmación (D-16). */
+  | 'limitePedidos'
+  /** El pedido supera el máximo de unidades (D-16). */
+  | 'limiteUnidades'
+  /** No pasó la verificación anti-robots (Turnstile). */
+  | 'antiRobot';
 
 /** Error de la capa de datos con un tipo que la interfaz sabe explicar. */
 export class ErrorDatos extends Error {
@@ -162,12 +174,14 @@ export interface DataStore {
   getProducto(id: string): Promise<Producto | null>;
 
   /** Atómico: verifica stock, numera y reserva. */
-  crearPedido(datos: { items: ItemCarrito[]; comprador: Comprador }): Promise<ResultadoCrearPedido>;
+  crearPedido(datos: { items: ItemCarrito[]; comprador: Comprador; verificacion?: string }): Promise<ResultadoCrearPedido>;
 
   getPedidos(filtro?: { estado?: EstadoPedido }): Promise<Pedido[]>;
   getPedido(numero: number): Promise<Pedido | null>;
   confirmarPedido(numero: number, opciones?: { forzar?: boolean }): Promise<ResultadoConfirmar>;
   cancelarPedido(numero: number): Promise<ResultadoAccion>;
+  /** Cancela todos los pedidos sin confirmar de un número (pendientes y vencidos). Devuelve sus números (D-16). */
+  cancelarPendientesDe(whatsappNormalizado: string): Promise<number[]>;
   deshacer(accionId: string): Promise<void>;
 
   /** Guarda varias cantidades de un producto en una sola llamada. */
@@ -181,5 +195,19 @@ export interface DataStore {
   urlFoto(id: string): Promise<string>;
 
   /** Avisa cuando los datos cambiaron (por ejemplo, desde otra pestaña). Devuelve cómo dejar de escuchar. */
+  alCambiar(fn: () => void): () => void;
+
+  /** Ingreso real con Google. Solo existe en la implementación conectada. */
+  readonly sesion?: SesionAdmin;
+}
+
+/** "Iniciar sesión con Google" del admin (D-16). */
+export interface SesionAdmin {
+  /** Correo de quien entró, o null si no hay sesión. */
+  correo(): string | null;
+  /** Recibe el pase que da el botón de Google, lo verifica y devuelve el correo. */
+  iniciar(credencial: string): Promise<string>;
+  cerrar(): void;
+  /** Avisa cuando la sesión empieza o se corta (por ejemplo, porque venció). */
   alCambiar(fn: () => void): () => void;
 }

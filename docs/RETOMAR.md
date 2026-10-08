@@ -1,8 +1,15 @@
 # Cómo retomar
 
-## 1. Links para revisar la última fase (Fase 2)
+## 1. Links para revisar la última fase (Fase 3)
 
-- **Investigación de la Fase 2:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/08-investigacion-fase-2.md
+- **Guía para conectar un cliente (lo principal para leer):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/09-guia-conectar-cliente.md
+- **Detalles para aprobar (D-17) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
+- **Código de Google (Apps Script):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/apps-script/Codigo.gs
+- **Qué cambió en tu localhost (modo de prueba):** en el admin, abrí un pedido de un número con 2 o más pedidos sin confirmar → aparece "Cancelar los pedidos sin confirmar de este número". En la tienda, un tercer pedido pendiente del mismo número muestra un aviso.
+
+### Fase 2 (aprobada)
+
+- **Investigación:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/08-investigacion-fase-2.md
 
 ### Fase 1 (aprobada)
 
@@ -36,7 +43,8 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 
 1. Leé CLAUDE.md, docs/RETOMAR.md y docs/07-decisiones.md (sobre todo la sección "Pendientes") antes de hacer nada.
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
-3. Fase 1: terminada y revisada (decisiones en D-15). Si el PR #1 todavía no está aprobado, recordámelo.
-4. La Fase 2 está entregada en docs/08-investigacion-fase-2.md. Mis decisiones están en docs/07-decisiones.md (D-16). Antes de la Fase 3, si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (punto 12).
-5. Con eso, arrancá la Fase 3 (conexión con Google) según docs/05-arquitectura-y-fases.md y lo decidido. Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
+3. Fases 1 y 2: aprobadas (D-15 y D-16).
+4. La Fase 3 (conexión con Google) está entregada: guía en docs/09-guia-conectar-cliente.md y detalles a aprobar en D-17. Preguntame si ya la revisé y qué cambios quiero. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12).
+5. Si quiero probar con Google de verdad, acompañame paso a paso con la guía (necesito una cuenta de Google de prueba y una de Cloudflare).
+6. Con mi OK, seguí con la Fase 4 (publicación de la demo) según docs/05-arquitectura-y-fases.md. Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```

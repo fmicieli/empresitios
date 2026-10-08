@@ -146,7 +146,17 @@ Basadas en `08-investigacion-fase-2.md`.
 
 ---
 
+## D-17 · Detalles de la Fase 3 (8/10/2026) — a confirmar por Flor
+
+1. **"Cancelar los pedidos sin confirmar de este número"** aparece en el detalle del pedido solo cuando ese número tiene 2 o más pedidos sin confirmar. Cancela pendientes y vencidos (no toca confirmados) y pide confirmación antes. Propuso: Claude.
+2. **La sesión del admin dura alrededor de una hora** (lo que dura el pase de Google). Después vuelve a la pantalla de ingreso y hay que tocar de nuevo "Iniciar sesión con Google". Si molesta, se puede hacer que Google renueve el pase solo. Propuso: Claude.
+3. **Los cambios del admin tardan hasta un minuto en verse en la tienda** de otros compradores (caché del catálogo, D-16). En el propio admin se ven al instante. Propuso: Claude.
+4. **Si se supera un tope**, el comprador ve: "Ya tenés pedidos esperando confirmación. Escribile a la tienda por WhatsApp." o "Tu pedido tiene demasiadas unidades. Sacá algunas o escribile a la tienda por WhatsApp." (`06-textos.md` a actualizar cuando Flor los apruebe). Propuso: Claude.
+5. **El ID de cliente de Google y la clave de sitio de Turnstile** van en `tienda.config.ts` (son públicos); los secretos van solo en Cloudflare (regla 2 de `CLAUDE.md`). Propuso: Claude.
+
 ## Pendientes (al 8/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12).
-2. **Fase 3** (conexión con Google): en curso.
+2. **Fase 3** (conexión con Google): entregada, espera revisión de Flor. Para probarla con Google de verdad hace falta una cuenta de Google de prueba y una de Cloudflare (guía: `09-guia-conectar-cliente.md`).
+3. **Revisar D-17** (detalles de la Fase 3).
+4. **Fase 4:** publicar la demo y las vistas previas del link (WhatsApp/Instagram) desde el puente.

@@ -805,7 +805,15 @@ function configurarPlanilla() {
 
   const props = PropertiesService.getScriptProperties();
   if (!props.getProperty('SECRETO')) props.setProperty('SECRETO', Utilities.getUuid() + Utilities.getUuid());
-  return 'Listo. Clave para el puente: ' + props.getProperty('SECRETO');
+  // El editor solo muestra lo que pasa por console.log (en el "Registro de ejecución").
+  console.log('Listo. Clave secreta para Cloudflare (APPS_SCRIPT_SECRETO): ' + props.getProperty('SECRETO'));
+  return props.getProperty('SECRETO');
+}
+
+/** Si la clave se filtró: crea una nueva. Después hay que cargarla en Cloudflare (la vieja deja de andar). */
+function cambiarClaveSecreta() {
+  PropertiesService.getScriptProperties().setProperty('SECRETO', Utilities.getUuid() + Utilities.getUuid());
+  return verClaveSecreta();
 }
 
 /** Muestra la clave secreta (para copiarla en Cloudflare). */

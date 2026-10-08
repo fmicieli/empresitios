@@ -23,10 +23,12 @@ export interface ConfigTienda {
     colorMarca: string;
     colorSobreMarca: string;
   };
-  /** De dónde salen los datos: "local" (prueba, en el navegador) o "appsScript" (Google, Fase 3). */
+  /** De dónde salen los datos: "local" (prueba, en el navegador) o "appsScript" (Google, ver docs/09). */
   datos: 'local' | 'appsScript';
-  /** Dirección del Apps Script publicado (Fase 3). */
-  appsScriptUrl: string;
+  /** ID de cliente de Google para "Iniciar sesión con Google" en el admin (público, no es secreto). */
+  googleClientId: string;
+  /** Clave de sitio de Turnstile, el anti-robots de Cloudflare (pública). Vacío = sin anti-robots. */
+  turnstileSiteKey: string;
   /** Identificador interno para lo que se guarda en el navegador. Sin espacios. */
   clave: string;
 }
@@ -47,7 +49,8 @@ const config: ConfigTienda = {
     colorSobreMarca: '#ffffff',
   },
   datos: 'local',
-  appsScriptUrl: '',
+  googleClientId: '',
+  turnstileSiteKey: '',
   clave: 'tienda-modelo',
 };
 

@@ -15,6 +15,10 @@ export const textos = {
       servidor: 'Algo falló de nuestro lado. Probá de nuevo en unos segundos.',
       sesion: 'Tu sesión se cerró. Volvé a entrar.',
       noEncontrado: 'No encontramos lo que buscabas.',
+      noAutorizado: 'Esta cuenta de Google no tiene acceso. Entrá con la cuenta del negocio.',
+      limitePedidos: 'Ya tenés pedidos esperando confirmación. Escribile a la tienda por WhatsApp.',
+      limiteUnidades: 'Tu pedido tiene demasiadas unidades. Sacá algunas o escribile a la tienda por WhatsApp.',
+      antiRobot: 'No pudimos verificar que seas una persona. Recargá la página y probá de nuevo.',
     },
   },
 
@@ -141,6 +145,9 @@ export const textos = {
     tipInicio: 'Tip: agregá esta página a la pantalla de inicio del celular para tenerla a mano.',
     ayudaWhatsapp: '¿Necesitás ayuda? Escribinos por WhatsApp',
     salir: 'Salir',
+    verificandoCuenta: 'Revisando tu cuenta…',
+    googleNoCargo: 'No pudimos mostrar el botón de Google. Revisá tu internet y recargá la página.',
+    faltaConfigurarGoogle: 'Falta configurar el ingreso con Google. Escribinos por WhatsApp.',
     verMiTienda: 'Ver mi tienda',
     navegacion: 'Secciones del admin',
 
@@ -203,6 +210,12 @@ export const textos = {
       `Hola ${nombre}, lamentablemente se agotó ${productos} de tu pedido #${n}.`,
     confirmarIgual: 'Confirmar igual, tengo la prenda',
     confirmarIgualAyuda: 'Si confirmás igual, el stock de ese talle queda en 0 hasta que lo corrijas.',
+    cancelarTodosDelNumero: (n: number) => `Cancelar los ${n} pedidos sin confirmar de este número`,
+    cancelarTodosTitulo: (n: number) => `¿Cancelar ${n} pedidos?`,
+    cancelarTodosTexto: (whatsapp: string) =>
+      `Se cancelan todos los pedidos pendientes y vencidos del ${whatsapp}, y el stock vuelve a la tienda. Usalo si son pedidos falsos.`,
+    cancelarTodosBoton: 'Sí, cancelar todos',
+    avisoCanceladosTodos: (n: number) => `${n} ${plural(n, 'pedido cancelado', 'pedidos cancelados')}.`,
     volverSinCambios: 'Volver sin cambios',
 
     // Productos

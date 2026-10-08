@@ -93,6 +93,24 @@ describe('crear pedido', () => {
   });
 });
 
+describe('defensas contra pedidos falsos (D-16)', () => {
+  const item = (cantidad: number) => ({ productoId: 'p1', color: 'Negro', talle: 'L', cantidad });
+
+  it('máximo de unidades por producto', async () => {
+    await expect(ds.crearPedido({ items: [item(11)], comprador })).rejects.toMatchObject({ tipo: 'limiteUnidades' });
+  });
+
+  it('máximo de pedidos pendientes por número y botón para cancelarlos todos', async () => {
+    const otro = { ...comprador, whatsappNormalizado: '1155556666' };
+    const p5 = { productoId: 'p5', color: 'Negro', talle: '', cantidad: 1 };
+    expect((await ds.crearPedido({ items: [p5], comprador: otro })).ok).toBe(true);
+    expect((await ds.crearPedido({ items: [p5], comprador: otro })).ok).toBe(true);
+    await expect(ds.crearPedido({ items: [p5], comprador: otro })).rejects.toMatchObject({ tipo: 'limitePedidos' });
+    expect(await ds.cancelarPendientesDe('1155556666')).toEqual([1004, 1005]);
+    expect((await ds.crearPedido({ items: [p5], comprador: otro })).ok).toBe(true);
+  });
+});
+
 describe('estados del pedido', () => {
   it('confirmar descuenta y cancelar devuelve', async () => {
     const r = await ds.confirmarPedido(1003);

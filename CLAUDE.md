@@ -64,6 +64,7 @@ Plantillas futuras (no construir ahora): tienda con pago online, reservas con pa
 - `docs/05-arquitectura-y-fases.md` — arquitectura, fases de trabajo y preguntas técnicas abiertas.
 - `docs/06-textos.md` — textos de interfaz y mensaje de WhatsApp.
 - `docs/08-investigacion-fase-2.md` — Fase 2: cuotas, admin, fotos, seguridad y arquitectura recomendada.
+- `docs/09-guia-conectar-cliente.md` — paso a paso para conectar la tienda de un cliente con Google y Cloudflare.
 - `docs/RETOMAR.md` — links para revisar lo hecho y prompt para continuar.
 - `docs/07-decisiones.md` — registro de decisiones posteriores a la especificación (manda sobre los demás).
 - `docs/referencia/prototipo-tienda.html` — prototipo navegable de un solo archivo con el comportamiento esperado (referencia de flujos y textos, no base de código).

@@ -15,7 +15,7 @@ export interface EntornoPuente {
   APPS_SCRIPT_SECRETO: string;
   /** Clave secreta de Turnstile. Si falta, no se exige Turnstile. */
   TURNSTILE_SECRETO?: string;
-  /** ID de cliente de Google para "Iniciar sesión con Google". */
+  /** ID de cliente de Google para "Iniciar sesión con Google" (sale de config/tienda.config.ts). */
   GOOGLE_CLIENT_ID?: string;
 }
 

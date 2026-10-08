@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { ErrorDeCampo, mensajeDeError, ResumenErrores } from '@compartido/componentes/basicos';
 import { IconoChat } from '@compartido/componentes/iconos';
+import { useTurnstile } from '@compartido/componentes/Turnstile';
 import { esLocal } from '@compartido/datos';
 import { evaluarCarrito, linkWhatsapp, normalizarWhatsapp } from '@compartido/datos/reglas';
 import type { Entrega, ItemCarrito, Pago, Producto } from '@compartido/datos/tipos';
@@ -78,6 +79,7 @@ export function FormularioComprador({
   const [errorEnvio, setErrorEnvio] = useState<unknown>(null);
   const refResumen = useRef<HTMLDivElement>(null);
   const cerrarPestanaActual = useRef<(() => void) | null>(null);
+  const antiRobot = useTurnstile(config.turnstileSiteKey);
 
   useEffect(() => borradorComprador.guardar(f), [f]);
 
@@ -113,7 +115,9 @@ export function FormularioComprador({
 
       // 2. Reservamos: el servidor vuelve a verificar, numera y reserva de una sola vez.
       const normal = normalizarWhatsapp(f.whatsapp);
+      const verificacion = await antiRobot.obtener();
       const r = await ds.crearPedido({
+        verificacion,
         items,
         comprador: {
           nombre: f.nombre.trim(),
@@ -126,7 +130,10 @@ export function FormularioComprador({
           nota: f.nota.trim(),
         },
       });
-      if (!r.ok) return stockCambio();
+      if (!r.ok) {
+        antiRobot.reiniciar();
+        return stockCambio();
+      }
 
       // 3. Mensaje de WhatsApp en la pestaña nueva.
       const mensaje = mensajePedido(r.pedido);
@@ -141,6 +148,7 @@ export function FormularioComprador({
       });
     } catch (e) {
       cerrarPestana();
+      antiRobot.reiniciar();
       setErrorEnvio(e);
       setEstado('formulario');
     }
@@ -315,6 +323,8 @@ export function FormularioComprador({
           <span class="suave chico">{t.errorEnvioAyuda}</span>
         </div>
       )}
+
+      {config.turnstileSiteKey && <div ref={antiRobot.refCaja} class="caja-turnstile" />}
 
       <button type="submit" class="boton" disabled={hayProblemas || enviando} aria-busy={enviando}>
         {enviando ? (
