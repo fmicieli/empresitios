@@ -142,12 +142,11 @@ Basadas en `08-investigacion-fase-2.md`.
 1. **Admin: opción B.** El admin está en el sitio de la tienda (`tutienda.com/admin`) con "Iniciar sesión con Google". El puente de Cloudflare verifica que el correo sea el del negocio (o de la lista de empleados, en el futuro). Se descarta servirlo desde Google (HtmlService). Decidió: Flor.
 2. **Publicación: Cloudflare Workers** en vez de Cloudflare Pages. La tienda (páginas y archivos) y el puente quedan en un solo proyecto. Sigue siendo gratis para el cliente. Cambia el stack de `CLAUDE.md`. Decidió: Flor.
 3. **Defensas contra pedidos falsos:** Cloudflare Turnstile, como máximo 2 pedidos pendientes por número de WhatsApp, 10 unidades por producto y 20 por pedido, una regla holgada por conexión (10 pedidos por minuto) y un botón en el admin para cancelar todos los pendientes de un número. Los números quedan en la pestaña `Config` de la planilla. Decidió: Flor.
-4. **Fotos:** se guardan en el Drive del comercio, el navegador las achica en WebP al subirlas (una versión grande y una chica) y el puente las muestra con caché larga. Se descarta Cloudflare R2. Recomendó: Claude (pendiente del OK de Flor).
+4. **Fotos:** se guardan en el Drive del comercio, el navegador las achica en WebP al subirlas (una versión grande y una chica) y el puente las muestra con caché larga. Se descarta Cloudflare R2. Recomendó: Claude. Aprobó: Flor.
 
 ---
 
 ## Pendientes (al 8/10/2026)
 
-1. **OK de Flor** a la recomendación de fotos (D-16, punto 4).
-2. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12).
-3. **Arrancar la Fase 3** (conexión con Google).
+1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12).
+2. **Fase 3** (conexión con Google): en curso.
