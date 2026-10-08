@@ -318,7 +318,7 @@ export const textos = {
     errorSinConexion: 'Sí: como si no hubiera internet',
     errorServidor: 'Sí: como si fallara el servidor',
     errorAyuda:
-      'Sirve para ver los mensajes de error. Mientras esté activo, nada se guarda: ni pedidos, ni confirmaciones, ni stock. Volvé a "No" para seguir probando normal.',
+      'Se activa apenas lo elegís. Sirve para ver los mensajes de error: mientras esté activo, nada se guarda (ni pedidos, ni confirmaciones, ni stock). Volvé a "No" para seguir probando normal.',
     fallaActiva: 'Falla simulada activada',
     guardar: 'Guardar',
     guardado: 'Configuración guardada.',

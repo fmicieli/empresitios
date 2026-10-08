@@ -91,7 +91,12 @@ export function PanelPruebas({
           id="t-demora"
           class="entrada"
           value={aj.demora}
-          onChange={(e) => setAj({ ...aj, demora: (e.target as HTMLSelectElement).value as AjustesPrueba['demora'] })}
+          onChange={(e) => {
+            // Se aplica en el momento, sin tener que tocar "Guardar".
+            const demora = (e.target as HTMLSelectElement).value as AjustesPrueba['demora'];
+            setAj({ ...aj, demora });
+            h.setAjustes({ demora });
+          }}
         >
           <option value="realista">{t.demoraRealista}</option>
           <option value="ninguna">{t.demoraNinguna}</option>
@@ -106,7 +111,10 @@ export function PanelPruebas({
           value={aj.fallarAlGuardar ?? ''}
           onChange={(e) => {
             const v = (e.target as HTMLSelectElement).value;
-            setAj({ ...aj, fallarAlGuardar: v ? (v as AjustesPrueba['fallarAlGuardar']) : null });
+            const fallarAlGuardar = v ? (v as AjustesPrueba['fallarAlGuardar']) : null;
+            // Se aplica en el momento, sin tener que tocar "Guardar".
+            setAj({ ...aj, fallarAlGuardar });
+            h.setAjustes({ fallarAlGuardar });
           }}
         >
           <option value="">{t.errorNinguno}</option>
