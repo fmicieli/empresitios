@@ -37,6 +37,6 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 1. Leé CLAUDE.md, docs/RETOMAR.md y docs/07-decisiones.md (sobre todo la sección "Pendientes") antes de hacer nada.
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
 3. Fase 1: terminada y revisada (decisiones en D-15). Si el PR #1 todavía no está aprobado, recordámelo.
-4. La Fase 2 está entregada en docs/08-investigacion-fase-2.md. Mis decisiones sobre el punto 13 son: [COMPLETAR]. Antes de la Fase 3, si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (punto 12).
+4. La Fase 2 está entregada en docs/08-investigacion-fase-2.md. Mis decisiones están en docs/07-decisiones.md (D-16). Antes de la Fase 3, si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (punto 12).
 5. Con eso, arrancá la Fase 3 (conexión con Google) según docs/05-arquitectura-y-fases.md y lo decidido. Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```

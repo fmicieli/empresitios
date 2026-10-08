@@ -24,7 +24,7 @@ Plantillas web funcionales que adapto a cada comercio argentino. Cobro un proyec
 
 ## Stack (decidido)
 
-- **Astro**, publicado en **Cloudflare Pages**.
+- **Astro**, publicado en **Cloudflare Workers** (antes Pages; ver `docs/07-decisiones.md`, D-16), con un "puente" en el mismo Worker entre la tienda y Google.
 - **Google Sheets + Google Apps Script** como base de datos detrás del admin, en la cuenta de Google del comercio. **Google Drive** del comercio para las fotos.
 - Sin Supabase en esta plantilla (sumaría un costo mensual al cliente). Sin pasarelas de pago.
 - Costo para el cliente: solo el dominio.
