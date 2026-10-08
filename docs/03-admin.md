@@ -59,7 +59,7 @@ El dueño usa una interfaz simple; detrás, el admin escribe solo en su planilla
 ### Ajuste rápido de stock
 
 - Al tocar un producto se despliega: pestañas por color (si tiene más de uno, con el total por color) y una fila por talle con − / + y el número.
-- **Se guarda solo, sin botón.** Espera unos instantes después del último toque y guarda una vez (para no llamar al servidor en cada toque). Estados visibles junto al producto: "Guardando…" → "Cambios guardados". Si falla: "No se pudo guardar · Reintentar", sin perder el número.
+- **Se guarda con el botón "Guardar cambios"** (D-12, `07-decisiones.md`), que guarda todo en una sola llamada y cierra el desplegable con el aviso "Stock de {producto} guardado.". Tocar afuera del producto o la tecla Escape también cierra; si había cambios sin guardar, se guardan antes de cerrar. Si falla: "No se pudo guardar" y el botón pasa a "Reintentar", sin perder el número.
 - Si hay unidades reservadas en esa variante, se muestra "1 reservada en #1014".
 - Si el stock queda por debajo de lo reservado: aviso con los pedidos afectados ("A ese pedido le falta la prenda. Avisale al comprador o cancelá el pedido") y link al pedido.
 - El stock nunca baja de 0.

@@ -1,0 +1,8 @@
+---
+import '@compartido/admin/admin.css';
+import Base from '../../layouts/Base.astro';
+import Admin from '../../tienda/Admin';
+---
+<Base titulo="Admin" sinIndexar>
+  <Admin client:only="preact" />
+</Base>

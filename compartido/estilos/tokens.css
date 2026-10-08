@@ -1,0 +1,51 @@
+/*
+  TOKENS DE ESTILO — el único archivo que se toca para cambiar el diseño.
+  Estilo actual: blanco y negro (escala de grises), sin modo oscuro.
+  Única excepción: los errores van en rojo.
+  El color de marca de cada cliente llega desde tienda.config.ts como
+  --marca / --sobre-marca; si no hay, se usa el negro.
+  Pesos de letra permitidos: regular, semi y bold (nada más grueso).
+*/
+:root {
+  /* Colores */
+  --fondo: #ffffff;
+  --superficie: #f2f2f2;
+  --linea: #d0d0d0;
+  --linea-suave: #e6e6e6;
+  --texto: #000000;
+  --texto-suave: #555555;
+  --acento: var(--marca, #000000);
+  --sobre-acento: var(--sobre-marca, #ffffff);
+  --aviso-fondo: #f2f2f2;
+  --aviso-texto: #000000;
+  --ok-texto: #000000;
+  --error-texto: #c00000; /* único color: errores en rojo (D-11) */
+  --velo: rgb(0 0 0 / 0.5);
+
+  /* Tipografía */
+  --fuente: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --peso-regular: 400;
+  --peso-semi: 600;
+  --peso-bold: 700;
+  --texto-base: 16px;
+  --texto-chico: 14px;
+  --texto-medio: 18px;
+  --titulo-1: 26px;
+  --titulo-2: 21px;
+  --numero-grande: 46px;
+
+  /* Formas y medidas */
+  --radio: 12px;
+  --radio-chico: 8px;
+  --radio-pastilla: 999px;
+  --toque: 44px; /* área táctil mínima */
+  --alto-boton: 52px;
+  --ancho-max: 1100px;
+  --ancho-lectura: 640px;
+  --separacion: 16px;
+  --foco: 3px solid var(--texto);
+  --sombra: 0 1px 2px rgb(0 0 0 / 0.12);
+  --proporcion-foto: 4 / 5;
+
+  color-scheme: light;
+}

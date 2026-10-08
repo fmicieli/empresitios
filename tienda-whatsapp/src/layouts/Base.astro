@@ -1,0 +1,39 @@
+---
+// Marco HTML común a todas las páginas: idioma, fuentes, tokens de estilo y color de marca.
+import '@compartido/estilos/tokens.css';
+import '@compartido/estilos/base.css';
+import '../tienda/tienda.css';
+import { config } from '../lib/config-servidor';
+import BarraPruebas from '../tienda/BarraPruebas';
+
+interface Props {
+  titulo?: string;
+  sinIndexar?: boolean;
+}
+const { titulo, sinIndexar = false } = Astro.props;
+const tituloCompleto = titulo ? `${titulo} · ${config.nombre}` : config.nombre;
+const e = config.estilo;
+const marca = `:root{--marca:${e.colorMarca};--sobre-marca:${e.colorSobreMarca}}`;
+---
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={config.descripcion} />
+    {sinIndexar && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content={e.colorMarca} />
+    <meta name="color-scheme" content="only light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;600;700&display=swap" />
+    <style set:html={marca}></style>
+  </head>
+  <body>
+    {config.datos === 'local' && <BarraPruebas client:only="preact" />}
+    <slot />
+    <noscript><p class="contenedor">Para comprar en esta tienda necesitás activar JavaScript en tu navegador.</p></noscript>
+  </body>
+</html>

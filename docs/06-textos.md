@@ -15,14 +15,17 @@ Español rioplatense, vos, frases cortas. Los textos que dependen del comercio (
 | Agregado | Agregaste {producto} ({variante}) al carrito. |
 | Consulta | ¿Dudas con el talle? Consultanos por WhatsApp |
 | Barra carrito | Ver carrito · {n} · {total} |
+| Agotado al enviar | Algunos productos se agotaron mientras completabas tus datos. Revisalos y volvé a enviar. |
 | Carrito agotado | Se agotó mientras elegías · Elegí otra opción o quitalo para seguir. |
 | Carrito parcial | Quedan {n} de esta opción · Bajá la cantidad para seguir. |
 | Aviso envío | El envío se cotiza por WhatsApp. Si elegís retiro, no tiene costo. |
 | Ayuda WhatsApp | Para que la tienda pueda responderte. Con o sin 0 y 15. |
 | Errores | Escribí tu nombre. / Escribí tu WhatsApp con código de área, por ejemplo 11 5555 0000. / Escribí la dirección de entrega. / Escribí la localidad. |
 | Botón datos | Enviar pedido por WhatsApp |
-| Enviando | Estamos reservando tus productos · En unos segundos se abre WhatsApp con tu pedido listo para enviar. · No cierres esta pantalla. |
-| Confirmación | Tu número de pedido · Te reservamos los productos por {h} h (hasta {fecha}). · Último paso: mandá el mensaje · Si no se abrió WhatsApp, tocá acá · Qué sigue: la tienda te responde por WhatsApp con el costo de envío y los datos para pagar. |
+| Debajo del botón | Al enviarlo, te reservamos los productos por {h} h. |
+| Enviando (en el botón) | Enviando pedido… · Estamos reservando tus productos. No cierres esta pantalla. |
+| Pestaña nueva | Abriendo WhatsApp… |
+| Después de enviar | ¡Listo! Te abrimos WhatsApp para confirmar tu pedido #{n}. · ¿No se abrió WhatsApp? Tocá acá · Seguir comprando |
 
 ## Mensaje de WhatsApp (comprador → tienda)
 
@@ -53,7 +56,7 @@ Nota: {nota}            ← solo si hay
 | Vencido sin stock | No queda stock libre de este talle · Avisarle por WhatsApp · Confirmar igual, tengo la prenda · Si confirmás igual, el stock de ese talle queda en 0 hasta que lo corrijas. · Volver sin cambios |
 | Mensaje al comprador | Hola {nombre}, te escribo por tu pedido #{n}. |
 | Productos aviso | ¿Vendiste en el local o por Instagram? Abrí el producto y descontalo acá. |
-| Guardado stock | Guardando… / Cambios guardados / No se pudo guardar · Reintentar |
+| Guardado stock | Guardar cambios · Guardando… · Stock de {producto} guardado. · No se pudo guardar · Reintentar |
 | Reserva afectada | Hay {n} reservada(s) en #{pedido}. A ese pedido le falta la prenda. Avisale al comprador o cancelá el pedido. |
 | Formulario errores | Faltan {n} datos para guardar · Lo que ya completaste no se pierde. · Agregá al menos una foto. · Escribí el nombre del producto. · Elegí una categoría. · Escribí el precio, por ejemplo 15000. |
 | Categoría ayuda | ¿Falta una categoría? Pedila por WhatsApp y la sumamos. |

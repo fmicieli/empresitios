@@ -5,7 +5,7 @@ Mobile-first; en escritorio el mismo sitio se adapta (encabezado con menú despl
 ## Mapa
 
 ```
-Catálogo (inicio) ──► Ficha de producto ──► Carrito ──► Datos del comprador ──► Enviando ──► Pedido registrado ──► WhatsApp
+Catálogo (inicio) ──► Ficha de producto ──► Carrito + Tus datos (una sola pantalla) ──► WhatsApp en pestaña nueva
      │    ▲
      ▼    │
   Menú de categorías / Búsqueda
@@ -46,12 +46,14 @@ Catálogo (inicio) ──► Ficha de producto ──► Carrito ──► Datos
 
 ## 5. Carrito
 
-- Cada línea: foto, nombre, variante, cantidad (− / +, limitada al stock libre), precio, "Quitar".
+El carrito y "Tus datos" están en **una sola pantalla** (D-14): en escritorio, el formulario va a la derecha de los productos; en el celular, debajo. No hay botón "Continuar".
+
+
+- Cada línea: foto, nombre, variante, cantidad (− / +, limitada al stock libre), precio, "Quitar". Con cantidad 1, el "−" también quita el producto (D-11).
 - Si una línea ya no tiene stock libre suficiente (porque otro comprador reservó mientras tanto): se marca con "Se agotó mientras elegías" o "Quedan N de esta opción", acciones "Ver otras opciones" y "Quitar". No cuenta en el subtotal y no se puede continuar hasta resolverlo.
 - Subtotal y aviso: "El envío se cotiza por WhatsApp. Si elegís retiro, no tiene costo."
-- "Continuar".
 
-## 6. Datos del comprador
+## 6. Datos del comprador (en la misma pantalla que el carrito)
 
 Campos, en este orden:
 
@@ -65,33 +67,27 @@ Campos, en este orden:
 | ¿Cómo preferís pagar? | Sí | Transferencia / Efectivo (por defecto transferencia) |
 | Nota | No | Ej.: horario para recibir |
 
-- Resumen: "1 producto · $ 15.000 + envío a cotizar".
 - Botón "Enviar pedido por WhatsApp".
 - Aviso de privacidad debajo del botón (texto configurable, pendiente de revisión legal).
 - Errores: lista arriba ("Revisá 2 datos") y mensaje junto a cada campo. No se pierde lo cargado.
 - No se pide correo ni se crea cuenta.
 
-## 7. Enviando
+## 7. Enviar pedido por WhatsApp (D-14)
 
-Al tocar "Enviar pedido":
+- Debajo del botón, un texto mínimo: "Al enviarlo, te reservamos los productos por 24 h." Si hay productos marcados como agotados, el botón queda deshabilitado con "Resolvé los productos marcados para enviar el pedido."
+- Al tocar el botón:
+  1. Se abre **una pestaña nueva** con "Abriendo WhatsApp…".
+  2. El botón muestra "Enviando pedido…" y abajo dice "Estamos reservando tus productos. No cierres esta pantalla."
+  3. Se verifica el stock libre, se crea el pedido con número correlativo y se reservan las unidades, en una sola operación atómica (ver `04-modelo-de-datos.md`).
+  4. La pestaña nueva pasa a WhatsApp con el mensaje redactado: el comprador solo toca enviar.
+- Si algo se agotó mientras completaba los datos, se cierra la pestaña nueva y el carrito marca las líneas con el aviso "Algunos productos se agotaron mientras completabas tus datos. Revisalos y volvé a enviar."
+- Si falla la conexión o el servidor, se cierra la pestaña nueva y aparece el error arriba del botón, sin perder carrito ni datos. Se puede volver a enviar.
 
-1. Se vuelve a verificar el stock libre de cada línea. Si algo ya no alcanza, se vuelve al carrito con las líneas marcadas.
-2. Se crea el pedido con número correlativo y se reservan las unidades por las horas configuradas (24 por defecto), en una sola operación atómica (ver `04-modelo-de-datos.md`).
-3. Se arma el mensaje de WhatsApp.
+## 8. Después de enviar
 
-Pantalla de espera con los tres pasos visibles ("Revisamos que haya stock", "Reservamos tus productos por 24 h", "Preparamos el mensaje de WhatsApp") y "No cierres esta pantalla". Tarda 1 a 3 segundos con Apps Script.
-
-Estado de error (a diseñar en la construcción): sin conexión o error del servidor → mensaje claro y botón "Intentar de nuevo", sin perder carrito ni datos.
-
-## 8. Pedido registrado
-
-- "Tu número de pedido" + número grande (#1015).
-- "Te reservamos los productos por 24 h (hasta mañana a las 15:20)."
-- Bloque destacado "Último paso: mandá el mensaje" con botón "Abrir WhatsApp" que abre `https://wa.me/<número de la tienda>?text=<mensaje codificado>`. Intentar abrirlo automáticamente al llegar a esta pantalla; el botón queda como respaldo ("Si no se abrió WhatsApp, tocá acá").
-- "Copiar el mensaje" (con respaldo si el portapapeles falla).
-- "Qué sigue: la tienda te responde por WhatsApp con el costo de envío y los datos para pagar."
-- Resumen del pedido y "Volver a la tienda".
-- El carrito se vacía.
+- El carrito **se vacía solo**.
+- En la pestaña de la tienda queda: "¡Listo! Te abrimos WhatsApp para confirmar tu pedido #1015.", el link chico "¿No se abrió WhatsApp? Tocá acá" y el botón "Seguir comprando".
+- Si el comprador vuelve a agregar productos, el aviso desaparece y el carrito funciona como siempre.
 
 ## 9. Mensaje de WhatsApp
 

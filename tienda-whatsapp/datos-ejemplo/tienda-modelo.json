@@ -1,0 +1,122 @@
+{
+  "config": { "horasReserva": 24, "proximoNumero": 1004 },
+  "categorias": [
+    { "id": "c1", "orden": 1, "categoria": "Mujer", "subcategoria": "Remeras", "visible": true },
+    { "id": "c2", "orden": 2, "categoria": "Mujer", "subcategoria": "Vestidos", "visible": true },
+    { "id": "c3", "orden": 3, "categoria": "Mujer", "subcategoria": "Pantalones", "visible": true },
+    { "id": "c4", "orden": 4, "categoria": "Hombre", "subcategoria": "Remeras", "visible": true },
+    { "id": "c5", "orden": 5, "categoria": "Hombre", "subcategoria": "Buzos", "visible": true },
+    { "id": "c6", "orden": 6, "categoria": "Accesorios", "subcategoria": "", "visible": true }
+  ],
+  "productos": [
+    {
+      "id": "p1", "nombre": "Remera básica", "categoriaId": "c1", "precio": 15000,
+      "descripcion": "Algodón peinado, calce regular. Cuello redondo con costura reforzada.",
+      "codigo": "", "visible": true,
+      "colores": ["Negro", "Blanco"], "talles": ["S", "M", "L", "XL"],
+      "fotos": ["remera-negro.svg", "remera-blanco.svg"],
+      "stock": [
+        { "color": "Negro", "talle": "S", "cantidad": 2 },
+        { "color": "Negro", "talle": "M", "cantidad": 1 },
+        { "color": "Negro", "talle": "L", "cantidad": 3 },
+        { "color": "Negro", "talle": "XL", "cantidad": 0 },
+        { "color": "Blanco", "talle": "S", "cantidad": 3 },
+        { "color": "Blanco", "talle": "M", "cantidad": 4 },
+        { "color": "Blanco", "talle": "L", "cantidad": 2 },
+        { "color": "Blanco", "talle": "XL", "cantidad": 2 }
+      ]
+    },
+    {
+      "id": "p2", "nombre": "Jean mom", "categoriaId": "c3", "precio": 27000,
+      "descripcion": "Tiro alto, denim rígido, cinco bolsillos.",
+      "codigo": "", "visible": true,
+      "colores": [], "talles": ["36", "38", "40", "42"],
+      "fotos": ["jean.svg"],
+      "stock": [
+        { "color": "", "talle": "36", "cantidad": 2 },
+        { "color": "", "talle": "38", "cantidad": 3 },
+        { "color": "", "talle": "40", "cantidad": 2 },
+        { "color": "", "talle": "42", "cantidad": 1 }
+      ]
+    },
+    {
+      "id": "p3", "nombre": "Vestido lino", "categoriaId": "c2", "precio": 35000,
+      "descripcion": "Lino liviano, largo midi, con breteles regulables.",
+      "codigo": "", "visible": true,
+      "colores": ["Arena"], "talles": ["S", "M", "L"],
+      "fotos": ["vestido.svg"],
+      "stock": [
+        { "color": "Arena", "talle": "S", "cantidad": 0 },
+        { "color": "Arena", "talle": "M", "cantidad": 0 },
+        { "color": "Arena", "talle": "L", "cantidad": 0 }
+      ]
+    },
+    {
+      "id": "p4", "nombre": "Buzo oversize", "categoriaId": "c5", "precio": 29000,
+      "descripcion": "Frisa invisible, capucha y bolsillo canguro.",
+      "codigo": "BZ-GR", "visible": true,
+      "colores": ["Gris", "Negro"], "talles": ["M", "L", "XL"],
+      "fotos": ["buzo-gris.svg", "buzo-negro.svg"],
+      "stock": [
+        { "color": "Gris", "talle": "M", "cantidad": 3 },
+        { "color": "Gris", "talle": "L", "cantidad": 4 },
+        { "color": "Gris", "talle": "XL", "cantidad": 2 },
+        { "color": "Negro", "talle": "M", "cantidad": 2 },
+        { "color": "Negro", "talle": "L", "cantidad": 2 },
+        { "color": "Negro", "talle": "XL", "cantidad": 1 }
+      ]
+    },
+    {
+      "id": "p5", "nombre": "Gorro de lana", "categoriaId": "c6", "precio": 9000,
+      "descripcion": "Tejido a mano. Talle único.",
+      "codigo": "", "visible": true,
+      "colores": ["Negro", "Crudo"], "talles": [],
+      "fotos": ["gorro-negro.svg", "gorro-crudo.svg"],
+      "stock": [
+        { "color": "Negro", "talle": "", "cantidad": 5 },
+        { "color": "Crudo", "talle": "", "cantidad": 3 }
+      ]
+    },
+    {
+      "id": "p6", "nombre": "Pañuelo de seda", "categoriaId": "c6", "precio": 12000,
+      "descripcion": "Estampado, 70 × 70 cm.",
+      "codigo": "PS-70", "visible": false,
+      "colores": [], "talles": [],
+      "fotos": ["panuelo.svg"],
+      "stock": [{ "color": "", "talle": "", "cantidad": 4 }]
+    }
+  ],
+  "pedidos": [
+    {
+      "numero": 1001, "haceMinutos": 1800, "estado": "confirmada",
+      "comprador": {
+        "nombre": "Lucía Gómez", "whatsapp": "11 5555-0001", "whatsappNormalizado": "1155550001",
+        "entrega": "retiro", "direccion": "", "localidad": "", "pago": "efectivo", "nota": ""
+      },
+      "items": [{ "productoId": "p4", "color": "Gris", "talle": "L", "cantidad": 1 }]
+    },
+    {
+      "numero": 1002, "haceMinutos": 1560, "estado": "vencida",
+      "comprador": {
+        "nombre": "Martín Pereyra", "whatsapp": "011 15 5555-0002", "whatsappNormalizado": "1155550002",
+        "entrega": "envio", "direccion": "Calle Modelo 456, 3° B", "localidad": "Caballito", "pago": "transferencia", "nota": ""
+      },
+      "items": [
+        { "productoId": "p1", "color": "Negro", "talle": "XL", "cantidad": 1 },
+        { "productoId": "p2", "color": "", "talle": "40", "cantidad": 1 }
+      ]
+    },
+    {
+      "numero": 1003, "haceMinutos": 45, "estado": "pendiente",
+      "comprador": {
+        "nombre": "Sofía Ruiz", "whatsapp": "+54 9 11 5555-0003", "whatsappNormalizado": "1155550003",
+        "entrega": "envio", "direccion": "Calle Modelo 789", "localidad": "Palermo", "pago": "transferencia",
+        "nota": "Mejor después de las 18."
+      },
+      "items": [
+        { "productoId": "p1", "color": "Blanco", "talle": "M", "cantidad": 2 },
+        { "productoId": "p5", "color": "Crudo", "talle": "", "cantidad": 1 }
+      ]
+    }
+  ]
+}

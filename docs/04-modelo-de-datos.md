@@ -8,29 +8,25 @@ Encabezados en la fila 1, protegidos. Pestañas sensibles protegidas para que so
 
 ### `Config` (clave / valor)
 
+Solo lo que el servidor necesita para funcionar (ver `07-decisiones.md`, D-01):
+
 | clave | ejemplo |
 | --- | --- |
-| nombreTienda | [Tu marca] |
-| whatsappTienda | 5491155550000 |
 | horasReserva | 24 |
-| direccionLocal | [Dirección del local] |
-| horarios | Lun a Vie 10 a 19 |
-| instagram | https://instagram.com/... |
-| textoPrivacidad | Usamos estos datos solo para gestionar tu pedido. |
 | proximoNumero | 1001 |
 
-(Estilo, colores y logo van en el archivo de configuración del repo, no acá.)
+Nombre, WhatsApp de la tienda, horarios, dirección, redes, texto de privacidad, estilo, colores y logo van en el archivo de configuración del repo (`tienda-whatsapp/config/tienda.config.ts`), no acá.
 
 ### `Categorias` (la edita solo quien mantiene el sitio)
 
-| orden | categoria | subcategoria | visible |
-| --- | --- | --- | --- |
-| 1 | Mujer | Remeras | sí |
-| 2 | Mujer | Vestidos | sí |
-| 3 | Hombre | Buzos | sí |
-| 4 | Accesorios |  | sí |
+| id | orden | categoria | subcategoria | visible |
+| --- | --- | --- | --- | --- |
+| c1 | 1 | Mujer | Remeras | sí |
+| c2 | 2 | Mujer | Vestidos | sí |
+| c3 | 3 | Hombre | Buzos | sí |
+| c4 | 4 | Accesorios |  | sí |
 
-Fila sin subcategoría = categoría de un solo nivel.
+Fila sin subcategoría = categoría de un solo nivel. El `id` nunca cambia; se puede renombrar la categoría sin tocar los productos (D-04).
 
 ### `Productos`
 
@@ -38,7 +34,7 @@ Fila sin subcategoría = categoría de un solo nivel.
 | --- | --- | --- |
 | id | texto | generado, nunca cambia |
 | nombre | texto | |
-| categoria | texto | "Mujer › Remeras" o "Accesorios" |
+| categoriaId | texto | id de la fila de `Categorias` (D-04). En pantalla se ve "Mujer › Remeras" |
 | precio | número | pesos, entero |
 | descripcion | texto | opcional |
 | codigo | texto | opcional (SKU) |
@@ -65,7 +61,9 @@ Fila sin subcategoría = categoría de un solo nivel.
 | creado | fecha y hora |
 | venceEn | creado + horasReserva |
 | estado | pendiente / confirmada / cancelada / vencida |
-| nombre, whatsapp | del comprador |
+| nombre | del comprador |
+| whatsapp | tal como lo escribió el comprador |
+| whatsappNormalizado | 10 dígitos (código de área + número), ver D-02 |
 | entrega | envio / retiro |
 | direccion, localidad | solo si envío |
 | pago | transferencia / efectivo |
@@ -75,8 +73,10 @@ Fila sin subcategoría = categoría de un solo nivel.
 
 ### `PedidoItems`
 
-| numero | productoId | nombreProducto | color | talle | cantidad | precioUnitario | codigo |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| numero | productoId | nombreProducto | color | talle | cantidad | precioUnitario | codigo | descontado |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+`descontado`: unidades que se restaron de verdad del stock al confirmar (puede ser menor que `cantidad` si se confirmó "igual" sin stock). Al cancelar una venta confirmada se devuelve esto (D-05).
 
 Se guarda nombre, precio y código **al momento del pedido**, por si después cambian en el producto.
 
@@ -94,15 +94,15 @@ Fecha, acción (pedido creado, confirmado, cancelado, vencido, stock ajustado, p
   3. Tomar `proximoNumero`, incrementarlo.
   4. Escribir `Pedidos` y `PedidoItems` con estado `pendiente` y `venceEn`.
   5. Liberar el bloqueo y devolver número y vencimiento.
-- **Confirmar**: estado → `confirmada`; restar cantidades de `Stock` (mínimo 0).
-- **Cancelar**: estado → `cancelada`; si venía de `confirmada`, sumar cantidades a `Stock`.
+- **Confirmar**: estado → `confirmada`; restar cantidades de `Stock` (mínimo 0) y anotar en `descontado` cuánto se restó de verdad.
+- **Cancelar**: estado → `cancelada`; si venía de `confirmada`, sumar `descontado` a `Stock`.
 - **Vencer**: un proceso automático periódico pasa a `vencida` los pendientes con `venceEn` pasado. Además, cualquier lectura de stock debe ignorar pendientes ya vencidos aunque el proceso todavía no haya corrido.
 - **Confirmar un vencido**: verificar stock libre; si no alcanza, el admin pregunta (ver `03-admin.md`); si confirma igual, restar con mínimo 0.
-- **Deshacer**: revertir el último cambio de estado y su efecto en el stock.
+- **Deshacer**: revertir el último cambio de estado y dejar el stock de las variantes afectadas en el valor exacto que tenían antes (D-05).
 - **Ajuste rápido**: escribir la nueva `cantidad` (nunca negativa). Si queda por debajo de lo reservado, el admin avisa; no se bloquea.
 
 ## Normalizaciones
 
 - **Precio**: quitar todo lo que no sea dígito ("15.000" → 15000).
-- **WhatsApp del comprador** para armar `wa.me`: quitar no dígitos; si empieza con 54 dejarlo; si empieza con 0, quitarlo; anteponer 549. Revisar el caso del 15 después del código de área (propuesta: avisar al validar y guardar el número tal como lo escribió además del normalizado).
+- **WhatsApp del comprador**: normalizar a 10 dígitos según D-02 (`07-decisiones.md`); `wa.me` usa `549` + esos 10 dígitos. Se guarda también lo que escribió.
 - **Búsqueda**: comparar sin mayúsculas ni tildes.

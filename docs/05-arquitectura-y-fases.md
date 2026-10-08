@@ -34,6 +34,8 @@ Ajustala si hace falta; lo importante es que la UI no dependa de la implementaci
 Leer `CLAUDE.md` y `docs/`, proponer estructura de carpetas, dependencias y plan de fases. Esperar OK.
 
 ### Fase 1 — Tienda y admin con datos locales
+**Estado: terminada (6/10/2026), esperando OK de Flor.** Cómo probarla: `README.md`.
+
 - Toda la tienda (`02-tienda.md`) y todo el admin (`03-admin.md`) con la implementación `local`.
 - Tienda y admin comparten los datos en el mismo navegador: lo que se carga en el admin aparece en la tienda y lo que se compra aparece en el admin.
 - Simular la demora del servidor (1 a 3 s) para diseñar bien los estados de carga.
@@ -51,6 +53,9 @@ Responder por escrito, con fuentes oficiales y fecha de consulta, y proponer arq
 5. **Seguridad del endpoint público** de creación de pedidos: spam, pedidos falsos masivos que bloqueen stock, validaciones del lado del servidor. Proponer mitigaciones sin fricción para el comprador (límite por número de WhatsApp, por IP vía Cloudflare, etc.).
 6. **Fotos.** Subida desde el admin a Drive y cómo se sirven optimizadas (WebP) desde el sitio sin servirlas directo desde Drive.
 7. **Empleados con cuentas propias** (futuro): si con la publicación elegida se puede identificar al visitante para chequear una lista de correos autorizados.
+8. **Admin en Cloudflare con "Iniciar sesión con Google"** y verificación del correo en Apps Script, comparado con servirlo desde Google. Recomendar una y explicar el impacto para el dueño (barra de aviso, dirección, seguridad). Ver `07-decisiones.md` (D-07).
+9. **Pedidos falsos**, en detalle: Cloudflare Turnstile (verificar límites del plan gratis), tope de pendientes por número de WhatsApp, máximo de unidades por pedido y botón en el admin para cancelar todos los pendientes de un número.
+10. **Fotos:** antes de cambiar el manejo de fotos de la especificación, explicarle la alternativa a Flor y esperar su OK.
 
 ### Fase 3 — Conexión con Google
 - Implementación `appsScript` según la fase 2.
