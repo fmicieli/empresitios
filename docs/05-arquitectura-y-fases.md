@@ -34,7 +34,7 @@ Ajustala si hace falta; lo importante es que la UI no dependa de la implementaci
 Leer `CLAUDE.md` y `docs/`, proponer estructura de carpetas, dependencias y plan de fases. Esperar OK.
 
 ### Fase 1 — Tienda y admin con datos locales
-**Estado: terminada (6/10/2026), esperando OK de Flor.** Cómo probarla: `README.md`.
+**Estado: terminada y aprobada (PR #1, 8/10/2026).** Cómo probarla: `README.md`.
 
 - Toda la tienda (`02-tienda.md`) y todo el admin (`03-admin.md`) con la implementación `local`.
 - Tienda y admin comparten los datos en el mismo navegador: lo que se carga en el admin aparece en la tienda y lo que se compra aparece en el admin.
@@ -44,6 +44,8 @@ Leer `CLAUDE.md` y `docs/`, proponer estructura de carpetas, dependencias y plan
 - Entregable: instrucciones para correrlo en local y probarlo desde el celular en la misma red.
 
 ### Fase 2 — Investigación técnica (sin código de producción)
+**Estado: entregada el 8/10/2026 en `08-investigacion-fase-2.md`, esperando decisiones de Flor.**
+
 Responder por escrito, con fuentes oficiales y fecha de consulta, y proponer arquitectura:
 
 1. **Cuotas de Apps Script** para cuentas gratuitas: ejecuciones, tiempo total por día, disparadores por tiempo, simultaneidad. ¿Alcanzan para una tienda chica con stock en vivo y vencimiento automático de reservas?

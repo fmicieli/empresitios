@@ -1,6 +1,10 @@
 # Cómo retomar
 
-## 1. Links para revisar la Fase 1
+## 1. Links para revisar la última fase (Fase 2)
+
+- **Investigación de la Fase 2:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/08-investigacion-fase-2.md
+
+### Fase 1 (aprobada)
 
 - **Pull request (cambios para revisar y aprobar):** https://github.com/fmicieli/empresitios/pull/1
 - **Rama de trabajo:** https://github.com/fmicieli/empresitios/tree/claude/quirky-cray-06mnp8
@@ -33,6 +37,6 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 1. Leé CLAUDE.md, docs/RETOMAR.md y docs/07-decisiones.md (sobre todo la sección "Pendientes") antes de hacer nada.
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
 3. Fase 1: terminada y revisada (decisiones en D-15). Si el PR #1 todavía no está aprobado, recordámelo.
-4. Arrancá la Fase 2 (investigación técnica) según docs/05-arquitectura-y-fases.md, incluidos los puntos 8 a 10 que agregué. Es sin código de producción: entregala por escrito en docs/08-investigacion-fase-2.md, con fuentes oficiales y fecha de consulta. Verificá cada límite, cuota o precio en la documentación oficial (Google, Cloudflare). Si no podés acceder a alguna fuente, avisame en vez de suponer.
-5. Al terminar, explicame las recomendaciones en lenguaje claro, hacé commit y push, y esperá mi OK antes de la Fase 3.
+4. La Fase 2 está entregada en docs/08-investigacion-fase-2.md. Mis decisiones sobre el punto 13 son: [COMPLETAR]. Antes de la Fase 3, si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (punto 12).
+5. Con eso, arrancá la Fase 3 (conexión con Google) según docs/05-arquitectura-y-fases.md y lo decidido. Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```

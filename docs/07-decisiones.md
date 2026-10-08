@@ -137,5 +137,10 @@ Tomadas por Claude dentro de lo aprobado; se pueden revisar.
 
 ## Pendientes (al 8/10/2026)
 
-1. **Aprobar** el PR de la Fase 1 (botón "Merge"): https://github.com/fmicieli/empresitios/pull/1
-2. **Fase 2 (investigación técnica):** sin empezar. En sesiones anteriores, la red de la máquina en la nube bloqueaba developers.google.com, así que todavía no se pudieron verificar las cuotas de Apps Script en la documentación oficial.
+1. **Decidir (Flor), sobre la Fase 2** (`08-investigacion-fase-2.md`, punto 13):
+   - admin opción B ("Iniciar sesión con Google"),
+   - fotos en Drive con puente y caché,
+   - Cloudflare Workers en vez de Pages,
+   - números anti-pedidos falsos.
+2. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12). Desde la máquina en la nube no se pudieron abrir.
+3. **Aprobar** la Fase 2 y arrancar la Fase 3 (conexión con Google).
