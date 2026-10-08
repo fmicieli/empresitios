@@ -317,8 +317,8 @@
   align-items: center;
   flex-wrap: wrap;
 }
-.barra-pruebas a,
-.barra-pruebas button {
+.barra-pruebas-interior a,
+.barra-pruebas-interior button {
   color: var(--aviso-texto);
   min-height: var(--toque);
   display: inline-flex;
