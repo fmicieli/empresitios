@@ -146,7 +146,7 @@ Basadas en `08-investigacion-fase-2.md`.
 
 ---
 
-## D-17 · Detalles de la Fase 3 (8/10/2026) — a confirmar por Flor
+## D-17 · Detalles de la Fase 3 (8/10/2026) — aprobados por Flor (9/10)
 
 1. **"Cancelar los pedidos pendientes de este número"** aparece en el detalle del pedido solo cuando ese número tiene 2 o más pedidos pendientes. Cancela solo los pendientes (no toca vencidos ni confirmados) y pide confirmación antes ("Sí, cancelar todos" / "No, volver"). Propuso: Claude; ajustó Flor (9/10: el número contaba también los vencidos y confundía).
 2. **La sesión del admin dura alrededor de una hora** (lo que dura el pase de Google). Después vuelve a la pantalla de ingreso y hay que tocar de nuevo "Iniciar sesión con Google". Si molesta, se puede hacer que Google renueve el pase solo. Propuso: Claude.
@@ -157,9 +157,19 @@ Basadas en `08-investigacion-fase-2.md`.
 7. **Tope de unidades visible:** al llegar al máximo por pedido (10 por producto, 20 en total, o lo que diga la planilla), el "+" se deshabilita en la ficha y en el carrito, con la línea "Llegaste al máximo de unidades por pedido." Decidió: Flor (9/10); la línea explicativa la sumó Claude (regla de accesibilidad: un botón deshabilitado sin motivo confunde).
 8. **Los topes y el bloqueo de repetidos dependen de cada comercio.** Los valores de hoy (10, 20, 2 pendientes, bloquear repetidos: sí, 24 h) son los de por defecto; se ajustan por cliente en la pestaña `Config` de la planilla, según lo que responda en `10-preguntas-al-cliente.md`. Decidió: Flor (9/10).
 
-## Pendientes (al 8/10/2026)
+## D-18 · Publicación de la demo (9/10/2026)
 
-1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12).
-2. **Fase 3** (conexión con Google): entregada, espera revisión de Flor. Para probarla con Google de verdad hace falta una cuenta de Google de prueba y una de Cloudflare (guía: `09-guia-conectar-cliente.md`).
-3. **Revisar D-17** (detalles de la Fase 3).
-4. **Fase 4:** publicar la demo y las vistas previas del link (WhatsApp/Instagram) desde el puente.
+1. **La demo funciona en modo de prueba:** cada visitante tiene su propia copia en el navegador y puede entrar al admin con el ingreso simulado. No usa Google. Decidió: Flor.
+2. **Nombre:** "Tienda Modelo" (cierra D-03). Decidió: Flor.
+3. **Sin WhatsApp por defecto:** quien prueba la demo carga su número en "Herramientas de prueba". Los botones de WhatsApp sin número lo explican y ofrecen "Cargar número". Decidió: Flor.
+4. **Cloudflare publica la rama `main`.** Los cambios llegan a `main` por pull request, con la aprobación de Flor. Decidió: Flor.
+5. **La demo no aparece en buscadores** (`noindex` en modo de prueba). Propuso: Claude.
+6. **Vista previa al compartir el link:** imagen `compartir.png` (1200 × 630) y, en las fichas, nombre, precio y descripción del producto. Con datos reales, también la primera foto del producto (⚠️ confirmar que WhatsApp muestra fotos WebP, que es como se guardan). Las fotos de la demo son dibujos SVG y WhatsApp no los muestra, por eso en la demo va la imagen general. Propuso: Claude.
+7. **La tienda conectada no se publica sin WhatsApp:** si `datos` es `appsScript` y falta el número, la compilación se frena con un aviso. Propuso: Claude.
+
+## Pendientes (al 9/10/2026)
+
+1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
+2. **Fase 4** (publicación de la demo): entregada. Falta que Flor una el pull request a `main` y conecte Cloudflare siguiendo `11-publicar-demo.md`.
+3. **Prueba con Google de verdad:** al final, con la lista de pruebas (guía `09`, paso 8).
+4. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, estilos predefinidos por tokens, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`).

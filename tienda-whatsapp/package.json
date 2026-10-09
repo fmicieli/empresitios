@@ -8,7 +8,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "probar:google": "astro build && wrangler dev",
-    "publicar": "astro build && wrangler deploy"
+    "publicar": "astro build && wrangler deploy",
+    "desplegar": "wrangler deploy"
   },
   "dependencies": {
     "@astrojs/preact": "^6.0.6",

@@ -59,15 +59,15 @@ Responder por escrito, con fuentes oficiales y fecha de consulta, y proponer arq
 9. **Pedidos falsos**, en detalle: Cloudflare Turnstile (verificar límites del plan gratis), tope de pendientes por número de WhatsApp, máximo de unidades por pedido y botón en el admin para cancelar todos los pendientes de un número.
 10. **Fotos:** antes de cambiar el manejo de fotos de la especificación, explicarle la alternativa a Flor y esperar su OK.
 
-### Fase 3 — Conexión con Google (entregada, a revisar)
+### Fase 3 — Conexión con Google (aprobada)
 Hecho: `apps-script/Codigo.gs` (planilla modelo + reglas del servidor), el puente en Cloudflare Workers (`compartido/puente/`), la implementación `appsScript` de la capa de datos, el ingreso con Google, Turnstile, los topes anti-pedidos falsos y la guía `09-guia-conectar-cliente.md`.
 - Implementación `appsScript` según la fase 2.
 - Planilla modelo con las pestañas de `04-modelo-de-datos.md`, encabezados y pestañas sensibles protegidas, validaciones.
 - Proceso automático de vencimiento de reservas.
 - Guía paso a paso para conectar la cuenta de un cliente (copiar planilla, autorizar Apps Script con la pantalla "app no verificada", publicar con acceso exclusivo, conectar la tienda).
 
-### Fase 4 — Publicación de la demo
-Cloudflare Workers (D-16) con la tienda de ropa ficticia. Al empezar, primera prueba con Google de verdad siguiendo `09-guia-conectar-cliente.md`. Checklist de lo que se configura por cliente.
+### Fase 4 — Publicación de la demo (entregada, a revisar)
+Cloudflare Workers (D-16) con la tienda de ropa ficticia en modo de prueba (D-18), vista previa al compartir el link y checklist por cliente: `11-publicar-demo.md`. La prueba con Google de verdad queda para el final, con la lista de pruebas. Checklist de lo que se configura por cliente.
 
 ### Después (no ahora)
 Pruebas en Android de gama media, prueba semanal automática de compra, estilos predefinidos (5 o 6) aplicados por tokens, script de alta de cliente nuevo.

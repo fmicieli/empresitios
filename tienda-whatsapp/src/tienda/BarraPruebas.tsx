@@ -16,6 +16,16 @@ export default function BarraPruebas() {
   // Para mostrar al instante el aviso de "falla simulada" cuando cambian los ajustes.
   useEffect(() => ds.alCambiar(() => redibujar((n) => n + 1)), []);
 
+  // Los links de WhatsApp sin número piden abrir las herramientas.
+  useEffect(() => {
+    const abrir = () => {
+      setVuelta((v) => v + 1);
+      setAbierto(true);
+    };
+    window.addEventListener('abrir-herramientas', abrir);
+    return () => window.removeEventListener('abrir-herramientas', abrir);
+  }, []);
+
   useEffect(() => {
     if (abierto)
       ds.getConfig()

@@ -8,8 +8,9 @@
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    // Solo /api/* pasa por el puente; el resto se sirve directo (gratis e ilimitado).
-    "run_worker_first": ["/api/*"]
+    // Solo pasan por el Worker /api/* (el puente), la portada y las fichas de producto
+    // (vista previa al compartir el link); el resto se sirve directo.
+    "run_worker_first": ["/api/*", "/", "/producto/*"]
   },
   "observability": { "enabled": true }
   // El ID de cliente de Google y la clave de Turnstile del sitio van en config/tienda.config.ts.

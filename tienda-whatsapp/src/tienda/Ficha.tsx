@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { useCarrito } from '@compartido/carrito/carrito';
 import { Cantidad, ErrorCarga, Foto, mostrarToast, useCarga } from '@compartido/componentes/basicos';
 import { IconoChat } from '@compartido/componentes/iconos';
-import { etiquetaVariante, formatoPrecio, linkWhatsapp, lugarEnPedido, variante } from '@compartido/datos/reglas';
+import { etiquetaVariante, formatoPrecio, lugarEnPedido, variante } from '@compartido/datos/reglas';
 import type { ConfigServidor, FilaCategoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
-import { carrito, ds, whatsappTienda } from '../lib/contexto';
+import { carrito, ds } from '../lib/contexto';
 import { BarraCarrito, linkCategoria, Marco } from './Marco';
+import { EnlaceWhatsapp } from './EnlaceWhatsapp';
 
 const t = textos.tienda;
 
@@ -205,9 +206,9 @@ function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: 
           </div>
         )}
 
-        <a class="enlace" href={linkWhatsapp(whatsappTienda(), t.consultaMensaje(p.nombre))} target="_blank" rel="noopener">
+        <EnlaceWhatsapp class="enlace" texto={t.consultaMensaje(p.nombre)}>
           <IconoChat /> {t.consultaTalle}
-        </a>
+        </EnlaceWhatsapp>
       </div>
     </div>
   );

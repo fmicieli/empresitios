@@ -60,6 +60,7 @@ export const textos = {
     consultaTalle: '¿Dudas con el talle? Consultanos por WhatsApp',
     consultaMensaje: (producto: string) => `Hola, tengo una consulta sobre ${producto}.`,
     productoNoEncontrado: 'Este producto ya no está disponible.',
+    paginaNoEncontrada: 'No encontramos esta página.',
     fotoDe: (producto: string, n: number, total: number) => `${producto}, foto ${n} de ${total}`,
     verFoto: (n: number) => `Ver foto ${n}`,
 
@@ -326,6 +327,10 @@ export const textos = {
     ayuda: 'No forman parte del producto. Sirven para probar el flujo. Los datos se guardan solo en este navegador.',
     whatsapp: 'WhatsApp de la tienda (para recibir los pedidos de prueba)',
     whatsappAyuda: 'Poné tu número: así el mensaje del comprador te llega a vos.',
+    faltaNumero: 'Es una demo: para probar WhatsApp, cargá tu número en “Herramientas de prueba”.',
+    cargarNumero: 'Cargar número',
+    sinNumero:
+      'Modo de prueba: no abrimos WhatsApp porque no cargaste tu número. Cargalo en “Herramientas de prueba” para recibir el mensaje.',
     horas: 'Duración de la reserva (horas)',
     demora: 'Demora del servidor',
     demoraRealista: 'Realista (1 a 3 s)',

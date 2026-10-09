@@ -89,6 +89,9 @@ Los secretos **nunca** van en GitHub, ni en el archivo de configuración, ni por
 En el repo del cliente, `tienda-whatsapp/config/tienda.config.ts`:
 
 ```ts
+url: 'https://www.dominio.com.ar',
+whatsapp: '5491112345678',        // el que recibe los pedidos (549 + área + número)
+whatsappSoporte: '5491187654321', // el tuyo, para la ayuda del admin
 datos: 'appsScript',
 googleClientId: '123…apps.googleusercontent.com',
 turnstileSiteKey: '0x4AAA…',
@@ -102,7 +105,7 @@ Y en `tienda-whatsapp/wrangler.jsonc`, cambiá `"name"` por el nombre del proyec
 2. Configuración de compilación (⚠️ los nombres de los campos pueden variar):
    - Directorio raíz: el del repo (vacío).
    - Comando de compilación: `npm run build`
-   - Comando de implementación: `npx wrangler deploy --config tienda-whatsapp/wrangler.jsonc`
+   - Comando de implementación: `npm run desplegar`
 3. Cuando termine, en el Worker: **Configuración → Variables y secretos → Agregar**, tipo **Secreto**, y cargá los tres 🔒: `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRETO` y `TURNSTILE_SECRETO`.
 4. Desde ahora, cada vez que subas cambios a la rama principal del repo del cliente, Cloudflare publica solo.
 

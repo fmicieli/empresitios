@@ -25,10 +25,7 @@ function Enviado({ p }: { p: PedidoEnviado }) {
           <span>{t.listo(p.numero)}</span>
         </p>
         {p.sinNumeroDePrueba ? (
-          <p class="aviso">
-            Modo de prueba: no abrimos WhatsApp porque no cargaste tu número. Cargalo en “Herramientas de prueba” para recibir el
-            mensaje.
-          </p>
+          <p class="aviso">{textos.pruebas.sinNumero}</p>
         ) : (
           <a class="enlace chico" href={p.link} target="_blank" rel="noopener">
             {t.siNoSeAbrio}

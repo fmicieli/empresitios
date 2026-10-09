@@ -15,6 +15,7 @@
     "test": "vitest run",
     "probar:google": "npm run probar:google -w tienda-whatsapp",
     "publicar": "npm run publicar -w tienda-whatsapp",
+    "desplegar": "npm run desplegar -w tienda-whatsapp",
     "format": "prettier --write \"compartido/**/*.{ts,tsx,css}\" \"tienda-whatsapp/src/**/*.{ts,tsx,css}\" \"tienda-whatsapp/config/*.ts\"",
     "actualizar": "git pull && npm install && npm run dev"
   },
