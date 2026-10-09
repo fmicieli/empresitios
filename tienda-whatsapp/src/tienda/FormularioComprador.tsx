@@ -7,7 +7,7 @@ import { IconoChat } from '@compartido/componentes/iconos';
 import { useTurnstile } from '@compartido/componentes/Turnstile';
 import { esLocal } from '@compartido/datos';
 import { evaluarCarrito, linkWhatsapp, normalizarWhatsapp } from '@compartido/datos/reglas';
-import type { Entrega, ItemCarrito, Pago, Producto } from '@compartido/datos/tipos';
+import { ErrorDatos, type Entrega, type ItemCarrito, type Pago, type Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
 import { mensajePedido } from '@compartido/whatsapp/mensajes';
 import { borradorComprador, carrito, config, ds, whatsappTienda } from '../lib/contexto';
@@ -318,7 +318,11 @@ export function FormularioComprador({
 
       {errorEnvio != null && (
         <div class="alerta error" role="alert">
-          <strong>{t.errorEnvioTitulo}</strong>
+          <strong>
+            {errorEnvio instanceof ErrorDatos && errorEnvio.tipo === 'pedidoRepetido'
+              ? t.pedidoRepetidoTitulo
+              : t.errorEnvioTitulo}
+          </strong>
           <span>{mensajeDeError(errorEnvio)}</span>
           <span class="suave chico">{t.errorEnvioAyuda}</span>
         </div>

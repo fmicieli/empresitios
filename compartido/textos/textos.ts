@@ -114,6 +114,7 @@ export const textos = {
     reservaAlEnviar: (h: number) => `Al enviarlo, te reservamos los productos por ${h} h.`,
     noCierres: 'Estamos reservando tus productos. No cierres esta pantalla.',
     errorEnvioTitulo: 'No pudimos registrar tu pedido',
+    pedidoRepetidoTitulo: 'Este pedido ya está registrado',
     errorEnvioAyuda: 'Tus productos y tus datos siguen guardados.',
 
     // Pedido enviado (D-14)
