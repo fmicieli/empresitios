@@ -14,6 +14,16 @@ const { titulo, sinIndexar = false } = Astro.props;
 const tituloCompleto = titulo ? `${titulo} · ${config.nombre}` : config.nombre;
 const e = config.estilo;
 const marca = `:root{--marca:${e.colorMarca};--sobre-marca:${e.colorSobreMarca}}`;
+
+// Con datos reales, una tienda sin WhatsApp no puede recibir pedidos: mejor que no se publique.
+if (config.datos === 'appsScript' && !config.whatsapp) {
+  throw new Error('Falta el WhatsApp de la tienda en config/tienda.config.ts.');
+}
+// La demo (datos de prueba) no aparece en buscadores.
+const noIndexar = sinIndexar || config.datos === 'local';
+// Vista previa al compartir el link: WhatsApp e Instagram necesitan direcciones completas.
+const origen = config.url.replace(/\/$/, '');
+const imagen = origen && config.imagenCompartir ? origen + config.imagenCompartir : '';
 ---
 <!doctype html>
 <html lang="es-AR">
@@ -22,7 +32,15 @@ const marca = `:root{--marca:${e.colorMarca};--sobre-marca:${e.colorSobreMarca}}
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{tituloCompleto}</title>
     <meta name="description" content={config.descripcion} />
-    {sinIndexar && <meta name="robots" content="noindex" />}
+    {noIndexar && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content={config.nombre} />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={config.descripcion} />
+    {origen && <meta property="og:url" content={origen + Astro.url.pathname} />}
+    {imagen && <meta property="og:image" content={imagen} />}
+    <meta name="twitter:card" content={imagen ? 'summary_large_image' : 'summary'} />
     <meta name="theme-color" content={e.colorMarca} />
     <meta name="color-scheme" content="only light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

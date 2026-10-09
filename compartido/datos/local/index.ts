@@ -2,7 +2,7 @@
 // dentro del navegador, con la demora y los errores de un servidor real.
 // Sirve para probar todo sin backend (Fase 1).
 
-import { armarVariantes, claveVariante, combinaciones, reservasPorVariante } from '../reglas';
+import { armarVariantes, claveVariante, combinaciones, huellaItems, reservasPorVariante } from '../reglas';
 import {
   ErrorDatos,
   type ConfigServidor,
@@ -19,6 +19,9 @@ import { esFotoLocal, fotosEnMemoria, type AlmacenFotos } from './fotos';
 import type { Semilla } from './semilla';
 
 const HORA = 3600 * 1000;
+
+/** Defensas contra pedidos falsos (D-16). Mismos valores iniciales que la planilla (pestaña Config). */
+export const LIMITES = { pendientesPorWhatsapp: 2, unidadesPorProducto: 10, unidadesPorPedido: 20, bloquearRepetidos: true };
 
 type FilaProducto = Omit<Producto, 'variantes'>;
 type FilaStock = { productoId: string; color: string; talle: string; cantidad: number };
@@ -302,7 +305,11 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
 
     async getConfig() {
       await viaje('lectura');
-      return { ...leerAlDia().e.config };
+      return {
+        ...leerAlDia().e.config,
+        maxUnidadesPorProducto: LIMITES.unidadesPorProducto,
+        maxUnidadesPorPedido: LIMITES.unidadesPorPedido,
+      };
     },
 
     async getCategorias() {
@@ -333,6 +340,25 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
         throw new ErrorDatos('servidor', 'Falta la dirección de entrega.');
       }
       return modificar((e, t) => {
+        // 0. Defensas contra pedidos falsos (D-16).
+        let total = 0;
+        const porProducto = new Map<string, number>();
+        for (const it of items) {
+          total += it.cantidad;
+          porProducto.set(it.productoId, (porProducto.get(it.productoId) ?? 0) + it.cantidad);
+        }
+        if (total > LIMITES.unidadesPorPedido || [...porProducto.values()].some((n) => n > LIMITES.unidadesPorProducto)) {
+          throw new ErrorDatos('limiteUnidades');
+        }
+        const pendientes = e.pedidos.filter(
+          (p) => p.estado === 'pendiente' && p.venceEn > t && p.comprador.whatsappNormalizado === comprador.whatsappNormalizado,
+        );
+        // El mismo pedido exacto, otra vez: seguramente se mandó dos veces.
+        const huella = huellaItems(items);
+        if (LIMITES.bloquearRepetidos && pendientes.some((p) => huellaItems(p.items) === huella))
+          throw new ErrorDatos('pedidoRepetido');
+        if (pendientes.length >= LIMITES.pendientesPorWhatsapp) throw new ErrorDatos('limitePedidos');
+
         // 1. Verificar stock libre de cada línea (sumando líneas repetidas).
         const pedidoPorVariante = new Map<string, number>();
         const problemas: LineaConProblema[] = [];
@@ -465,6 +491,21 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
         p.actualizado = t;
         const a = registrar(e, t, 'pedido cancelado', `#${numero}`, { numero, estadoAnterior, ...antes, usado: false });
         return { accionId: a.id, pedido: copia(p) };
+      });
+    },
+
+    async cancelarPendientesDe(whatsappNormalizado) {
+      return modificar((e, t) => {
+        const cancelados: number[] = [];
+        for (const p of e.pedidos) {
+          if (p.estado === 'pendiente' && p.comprador.whatsappNormalizado === whatsappNormalizado) {
+            p.estado = 'cancelada';
+            p.actualizado = t;
+            cancelados.push(p.numero);
+          }
+        }
+        if (cancelados.length) registrar(e, t, 'pendientes cancelados', `${cancelados.length} pedidos`);
+        return cancelados.sort((a, b) => a - b);
       });
     },
 

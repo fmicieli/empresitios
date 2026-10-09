@@ -1,0 +1,12 @@
+---
+// Página para direcciones que no existen (Cloudflare la muestra sola).
+import Base from '../layouts/Base.astro';
+import { textos } from '@compartido/textos/textos';
+const t = textos.tienda;
+---
+<Base titulo={t.paginaNoEncontrada} sinIndexar>
+  <main class="contenedor pila" style="padding-top: 32px">
+    <h1>{t.paginaNoEncontrada}</h1>
+    <a class="boton" href="/">{t.verProductos}</a>
+  </main>
+</Base>

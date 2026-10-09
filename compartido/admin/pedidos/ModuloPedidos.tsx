@@ -172,19 +172,59 @@ function DialogoVencido({ acc }: { acc: Acciones }) {
   );
 }
 
+/** Defensa contra pedidos falsos (D-16): cancela de una vez todos los pendientes de un número. */
+function CancelarTodosDelNumero({ p, cantidad, ds }: { p: Pedido; cantidad: number; ds: DataStore }) {
+  const [abierto, setAbierto] = useState(false);
+  const [ocupado, setOcupado] = useState(false);
+  if (cantidad < 2) return null;
+  async function cancelarTodos() {
+    setOcupado(true);
+    try {
+      const n = await ds.cancelarPendientesDe(p.comprador.whatsappNormalizado);
+      setAbierto(false);
+      mostrarToast(t.avisoCanceladosTodos(n.length));
+    } catch (e) {
+      mostrarToast(mensajeDeError(e));
+    } finally {
+      setOcupado(false);
+    }
+  }
+  return (
+    <>
+      <button type="button" class="enlace" onClick={() => setAbierto(true)}>
+        {t.cancelarTodosDelNumero(cantidad)}
+      </button>
+      <Dialogo abierto={abierto} alCerrar={() => setAbierto(false)} titulo={t.cancelarTodosTitulo(cantidad)}>
+        <p>{t.cancelarTodosTexto(p.comprador.whatsapp)}</p>
+        <button type="button" class="boton" disabled={ocupado} onClick={cancelarTodos}>
+          {ocupado ? t.cancelando : t.cancelarTodosBoton}
+        </button>
+        <button type="button" class="boton secundario" onClick={() => setAbierto(false)}>
+          {t.cancelarTodosNo}
+        </button>
+      </Dialogo>
+    </>
+  );
+}
+
 function Detalle({
   p,
   productos,
+  pedidos,
   ctx,
   acc,
   conVolver,
 }: {
   p: Pedido;
   productos: Producto[];
+  pedidos: Pedido[];
   ctx: ContextoAdmin;
   acc: Acciones;
   conVolver: boolean;
 }) {
+  const sinConfirmar = pedidos.filter(
+    (x) => x.estado === 'pendiente' && x.comprador.whatsappNormalizado === p.comprador.whatsappNormalizado,
+  ).length;
   const ahora = ctx.ds.ahora();
   const c = p.comprador;
   const fecha = new Date(p.creado).toLocaleString('es-AR', {
@@ -268,6 +308,7 @@ function Detalle({
         <IconoChat /> {t.abrirChat}
       </a>
       <BotonesPedido p={p} acc={acc} grandes />
+      <CancelarTodosDelNumero p={p} cantidad={sinConfirmar} ds={ctx.ds} />
     </article>
   );
 }
@@ -393,7 +434,7 @@ function Pantalla({ ruta, ctx }: { ruta: string[]; ctx: ContextoAdmin }) {
     return (
       <>
         {elegido ? (
-          <Detalle p={elegido} productos={productos} ctx={ctx} acc={acc} conVolver />
+          <Detalle p={elegido} productos={productos} pedidos={pedidos} ctx={ctx} acc={acc} conVolver />
         ) : (
           <div class="pila">
             <p>{textos.general.errores.noEncontrado}</p>
@@ -474,7 +515,7 @@ function Pantalla({ ruta, ctx }: { ruta: string[]; ctx: ContextoAdmin }) {
         </div>
         <aside class="panel-lateral" aria-label="Detalle del pedido">
           {elegido ? (
-            <Detalle p={elegido} productos={productos} ctx={ctx} acc={acc} conVolver={false} />
+            <Detalle p={elegido} productos={productos} pedidos={pedidos} ctx={ctx} acc={acc} conVolver={false} />
           ) : (
             <p class="suave">{t.elegiPedido}</p>
           )}

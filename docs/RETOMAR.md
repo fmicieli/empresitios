@@ -1,6 +1,23 @@
 # Cómo retomar
 
-## 1. Links para revisar la Fase 1
+## 1. Links para revisar la última fase (Fase 4)
+
+- **Cómo publicar la demo y checklist por cliente (lo principal):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/11-publicar-demo.md
+- **Pull request para pasar todo a `main` (lo que publica Cloudflare):** https://github.com/fmicieli/empresitios/pull/2
+- **Decisiones (D-18) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
+- **Qué cambió en tu localhost:** los botones de WhatsApp de la tienda, sin número cargado, muestran "Es una demo…" con el botón "Cargar número". Una dirección inventada (por ejemplo `/hola/`) muestra "No encontramos esta página".
+
+### Fase 3 (aprobada)
+
+- **Guía para conectar un cliente:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/09-guia-conectar-cliente.md
+- **Preguntas para el cliente:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/10-preguntas-al-cliente.md
+- **Código de Google (Apps Script):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/apps-script/Codigo.gs
+
+### Fase 2 (aprobada)
+
+- **Investigación:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/08-investigacion-fase-2.md
+
+### Fase 1 (aprobada)
 
 - **Pull request (cambios para revisar y aprobar):** https://github.com/fmicieli/empresitios/pull/1
 - **Rama de trabajo:** https://github.com/fmicieli/empresitios/tree/claude/quirky-cray-06mnp8
@@ -32,7 +49,8 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 
 1. Leé CLAUDE.md, docs/RETOMAR.md y docs/07-decisiones.md (sobre todo la sección "Pendientes") antes de hacer nada.
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
-3. Fase 1: terminada y revisada (decisiones en D-15). Si el PR #1 todavía no está aprobado, recordámelo.
-4. Arrancá la Fase 2 (investigación técnica) según docs/05-arquitectura-y-fases.md, incluidos los puntos 8 a 10 que agregué. Es sin código de producción: entregala por escrito en docs/08-investigacion-fase-2.md, con fuentes oficiales y fecha de consulta. Verificá cada límite, cuota o precio en la documentación oficial (Google, Cloudflare). Si no podés acceder a alguna fuente, avisame en vez de suponer.
-5. Al terminar, explicame las recomendaciones en lenguaje claro, hacé commit y push, y esperá mi OK antes de la Fase 3.
+3. Fases 1, 2 y 3: aprobadas (D-15, D-16 y D-17).
+4. La Fase 4 (publicación de la demo) está entregada: docs/11-publicar-demo.md y D-18. Preguntame si ya uní el pull request a main y si publiqué la demo en Cloudflare; si me trabé, acompañame paso a paso.
+5. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
+6. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```
