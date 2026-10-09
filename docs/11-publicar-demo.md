@@ -20,7 +20,7 @@ Lo hacés vos, con tu cuenta. Yo no puedo crear cuentas ni entrar a las tuyas.
 
 ### 1. Pasar los cambios a `main`
 
-Cloudflare publica la rama `main` (D-18). Antes de conectarlo, aprobá y uní el pull request que te dejo abierto en GitHub (**Merge pull request**). Desde ahí, lo que esté en `main` es lo publicado.
+Cloudflare publica la rama `main` (D-18). Antes de conectarlo, aprobá y uní el pull request https://github.com/fmicieli/empresitios/pull/2 (**Merge pull request**). Desde ahí, lo que esté en `main` es lo publicado.
 
 ### 2. Crear la cuenta de Cloudflare
 

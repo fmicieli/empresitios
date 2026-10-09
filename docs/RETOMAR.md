@@ -3,7 +3,7 @@
 ## 1. Links para revisar la última fase (Fase 4)
 
 - **Cómo publicar la demo y checklist por cliente (lo principal):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/11-publicar-demo.md
-- **Pull request para pasar todo a `main` (lo que publica Cloudflare):** https://github.com/fmicieli/empresitios/pulls
+- **Pull request para pasar todo a `main` (lo que publica Cloudflare):** https://github.com/fmicieli/empresitios/pull/2
 - **Decisiones (D-18) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
 - **Qué cambió en tu localhost:** los botones de WhatsApp de la tienda, sin número cargado, muestran "Es una demo…" con el botón "Cargar número". Una dirección inventada (por ejemplo `/hola/`) muestra "No encontramos esta página".
 
