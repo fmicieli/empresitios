@@ -204,6 +204,19 @@ const siNo = (v) => v === true || String(v).toLowerCase() === 'true' || String(v
 const ms = (v) => (v instanceof Date ? v.getTime() : Number(v) || 0);
 const clave = (pid, color, talle) => pid + '|' + (color || '') + '|' + (talle || '');
 
+/** "Huella" de un pedido: mismos productos, variantes y cantidades dan la misma huella. */
+function huellaItems(items) {
+  const suma = {};
+  items.forEach((it) => {
+    const k = clave(it.productoId, it.color, it.talle);
+    suma[k] = (suma[k] || 0) + Number(it.cantidad);
+  });
+  return Object.keys(suma)
+    .sort()
+    .map((k) => k + '×' + suma[k])
+    .join(';');
+}
+
 function conCandado(fn) {
   const candado = LockService.getScriptLock();
   if (!candado.tryLock(10000)) throw ErrorTienda('servidor', 'La tienda está ocupada. Probá de nuevo.');
@@ -295,7 +308,12 @@ function categorias() {
 function catalogoPublico() {
   const c = leerConfig();
   return {
-    config: { horasReserva: numeroConfig(c, 'horasReserva', 24), proximoNumero: 0 },
+    config: {
+      horasReserva: numeroConfig(c, 'horasReserva', 24),
+      proximoNumero: 0,
+      maxUnidadesPorProducto: numeroConfig(c, 'maxUnidadesPorProducto', 10),
+      maxUnidadesPorPedido: numeroConfig(c, 'maxUnidadesPorPedido', 20),
+    },
     categorias: categorias().filter((x) => x.visible),
     productos: armarProductos(false).map((p) => {
       p.codigo = '';
@@ -308,7 +326,12 @@ function catalogoPublico() {
 function catalogoAdmin() {
   const c = leerConfig();
   return {
-    config: { horasReserva: numeroConfig(c, 'horasReserva', 24), proximoNumero: Number(c.proximoNumero) || 0 },
+    config: {
+      horasReserva: numeroConfig(c, 'horasReserva', 24),
+      proximoNumero: Number(c.proximoNumero) || 0,
+      maxUnidadesPorProducto: numeroConfig(c, 'maxUnidadesPorProducto', 10),
+      maxUnidadesPorPedido: numeroConfig(c, 'maxUnidadesPorPedido', 20),
+    },
     categorias: categorias(),
     productos: armarProductos(true),
   };
@@ -362,8 +385,15 @@ function crearPedido(d) {
     }
     const pendientes = pedidos.filter(
       (p) => p.estado === 'pendiente' && ms(p.venceEn) > ahora && String(p.whatsappNormalizado) === comprador.whatsappNormalizado,
-    ).length;
-    if (pendientes >= maxPendientes) throw ErrorTienda('limitePedidos', 'Demasiados pedidos pendientes.');
+    );
+    if (pendientes.length) {
+      // El mismo pedido exacto, otra vez: seguramente se mandó dos veces.
+      const todos = leer('PedidoItems');
+      const huella = huellaItems(items);
+      const repetido = pendientes.some((p) => huellaItems(todos.filter((i) => Number(i.numero) === Number(p.numero))) === huella);
+      if (repetido) throw ErrorTienda('pedidoRepetido', 'Ese pedido ya está registrado.');
+    }
+    if (pendientes.length >= maxPendientes) throw ErrorTienda('limitePedidos', 'Demasiados pedidos pendientes.');
 
     // 1. Verificar stock libre (sumando líneas repetidas).
     const productos = armarProductos(false);
@@ -578,7 +608,7 @@ function cancelarPendientesDe(whatsappNormalizado) {
   return conCandado(() => {
     const cancelados = [];
     leer('Pedidos')
-      .filter((p) => (p.estado === 'pendiente' || p.estado === 'vencida') && String(p.whatsappNormalizado) === numero)
+      .filter((p) => p.estado === 'pendiente' && String(p.whatsappNormalizado) === numero)
       .forEach((p) => {
         p.estado = 'cancelada';
         p.actualizado = new Date();

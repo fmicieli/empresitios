@@ -120,11 +120,20 @@ describe('pedidos', () => {
 
   it('tope de pedidos pendientes por número de WhatsApp (D-16)', () => {
     llamar('crearPedido', { items: [item('M')], comprador: comprador() });
-    llamar('crearPedido', { items: [item('M')], comprador: comprador() });
-    expect(llamar('crearPedido', { items: [item('M')], comprador: comprador() })).toMatchObject({
+    llamar('crearPedido', { items: [item('M', 2)], comprador: comprador() });
+    expect(llamar('crearPedido', { items: [item('S')], comprador: comprador() })).toMatchObject({
       ok: false,
       error: { tipo: 'limitePedidos' },
     });
+  });
+
+  it('el mismo pedido exacto, dos veces, no se registra de nuevo', () => {
+    expect(llamar('crearPedido', { items: [item('M')], comprador: comprador() }).resultado.ok).toBe(true);
+    expect(llamar('crearPedido', { items: [item('M')], comprador: comprador() })).toMatchObject({
+      ok: false,
+      error: { tipo: 'pedidoRepetido' },
+    });
+    expect(llamar('crearPedido', { items: [item('M')], comprador: comprador('1144440001') }).resultado.ok).toBe(true);
   });
 
   it('máximo de unidades por producto y por pedido (D-16)', () => {
@@ -170,7 +179,7 @@ describe('pedidos', () => {
 
   it('cancela todos los pendientes de un número (D-16)', () => {
     llamar('crearPedido', { items: [item('M')], comprador: comprador() });
-    llamar('crearPedido', { items: [item('M')], comprador: comprador() });
+    llamar('crearPedido', { items: [item('M', 2)], comprador: comprador() });
     expect(admin('cancelarPendientesDe', { whatsappNormalizado: '1144440000' }).cancelados).toEqual([1001, 1002]);
     expect(libre('M')).toBe(5);
   });

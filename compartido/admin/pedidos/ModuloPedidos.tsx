@@ -172,7 +172,7 @@ function DialogoVencido({ acc }: { acc: Acciones }) {
   );
 }
 
-/** Defensa contra pedidos falsos (D-16): cancela de una vez todo lo sin confirmar de un número. */
+/** Defensa contra pedidos falsos (D-16): cancela de una vez todos los pendientes de un número. */
 function CancelarTodosDelNumero({ p, cantidad, ds }: { p: Pedido; cantidad: number; ds: DataStore }) {
   const [abierto, setAbierto] = useState(false);
   const [ocupado, setOcupado] = useState(false);
@@ -199,8 +199,8 @@ function CancelarTodosDelNumero({ p, cantidad, ds }: { p: Pedido; cantidad: numb
         <button type="button" class="boton" disabled={ocupado} onClick={cancelarTodos}>
           {ocupado ? t.cancelando : t.cancelarTodosBoton}
         </button>
-        <button type="button" class="enlace" onClick={() => setAbierto(false)}>
-          {t.volverSinCambios}
+        <button type="button" class="boton secundario" onClick={() => setAbierto(false)}>
+          {t.cancelarTodosNo}
         </button>
       </Dialogo>
     </>
@@ -223,8 +223,7 @@ function Detalle({
   conVolver: boolean;
 }) {
   const sinConfirmar = pedidos.filter(
-    (x) =>
-      (x.estado === 'pendiente' || x.estado === 'vencida') && x.comprador.whatsappNormalizado === p.comprador.whatsappNormalizado,
+    (x) => x.estado === 'pendiente' && x.comprador.whatsappNormalizado === p.comprador.whatsappNormalizado,
   ).length;
   const ahora = ctx.ds.ahora();
   const c = p.comprador;

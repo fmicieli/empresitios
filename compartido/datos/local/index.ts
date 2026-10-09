@@ -2,7 +2,7 @@
 // dentro del navegador, con la demora y los errores de un servidor real.
 // Sirve para probar todo sin backend (Fase 1).
 
-import { armarVariantes, claveVariante, combinaciones, reservasPorVariante } from '../reglas';
+import { armarVariantes, claveVariante, combinaciones, huellaItems, reservasPorVariante } from '../reglas';
 import {
   ErrorDatos,
   type ConfigServidor,
@@ -305,7 +305,11 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
 
     async getConfig() {
       await viaje('lectura');
-      return { ...leerAlDia().e.config };
+      return {
+        ...leerAlDia().e.config,
+        maxUnidadesPorProducto: LIMITES.unidadesPorProducto,
+        maxUnidadesPorPedido: LIMITES.unidadesPorPedido,
+      };
     },
 
     async getCategorias() {
@@ -348,8 +352,11 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
         }
         const pendientes = e.pedidos.filter(
           (p) => p.estado === 'pendiente' && p.venceEn > t && p.comprador.whatsappNormalizado === comprador.whatsappNormalizado,
-        ).length;
-        if (pendientes >= LIMITES.pendientesPorWhatsapp) throw new ErrorDatos('limitePedidos');
+        );
+        // El mismo pedido exacto, otra vez: seguramente se mandó dos veces.
+        const huella = huellaItems(items);
+        if (pendientes.some((p) => huellaItems(p.items) === huella)) throw new ErrorDatos('pedidoRepetido');
+        if (pendientes.length >= LIMITES.pendientesPorWhatsapp) throw new ErrorDatos('limitePedidos');
 
         // 1. Verificar stock libre de cada línea (sumando líneas repetidas).
         const pedidoPorVariante = new Map<string, number>();
@@ -490,7 +497,7 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
       return modificar((e, t) => {
         const cancelados: number[] = [];
         for (const p of e.pedidos) {
-          if ((p.estado === 'pendiente' || p.estado === 'vencida') && p.comprador.whatsappNormalizado === whatsappNormalizado) {
+          if (p.estado === 'pendiente' && p.comprador.whatsappNormalizado === whatsappNormalizado) {
             p.estado = 'cancelada';
             p.actualizado = t;
             cancelados.push(p.numero);

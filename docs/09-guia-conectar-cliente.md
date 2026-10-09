@@ -121,7 +121,8 @@ Necesita que el dominio del cliente esté en Cloudflare (no funciona con `.worke
 - [ ] Hacés un pedido desde el celular: se abre WhatsApp, el pedido aparece en el admin y en la pestaña `Pedidos`.
 - [ ] Confirmás el pedido: baja el stock. "Deshacer" lo vuelve atrás.
 - [ ] Un tercer pedido pendiente con el mismo número muestra el aviso "Ya tenés pedidos esperando confirmación".
-- [ ] "Cancelar los pedidos sin confirmar de este número" los cancela todos.
+- [ ] "Cancelar los pedidos pendientes de este número" los cancela todos.
+- [ ] Mandar dos veces el mismo pedido exacto muestra "Ya enviaste este mismo pedido".
 - [ ] Al rato (más de 24 h, o cambiando `horasReserva` a 1 para probar), un pendiente pasa solo a "Vencida".
 
 ## Probar con Google en tu computadora (opcional)

@@ -256,3 +256,36 @@ export function nombreCorto(nombre: string): string {
   const partes = nombre.trim().split(/\s+/);
   return partes.length > 1 ? `${partes[0]} ${partes[1].charAt(0)}.` : (partes[0] ?? '');
 }
+
+// ---------- Topes contra pedidos falsos (D-16) ----------
+
+export const TOPES_POR_DEFECTO = { maxUnidadesPorProducto: 10, maxUnidadesPorPedido: 20 };
+
+/**
+ * Cuántas unidades más de un producto entran en el pedido sin pasar los topes.
+ * No mira el stock: eso se resuelve aparte.
+ */
+export function lugarEnPedido(
+  items: ItemCarrito[],
+  productoId: string,
+  config?: { maxUnidadesPorProducto?: number; maxUnidadesPorPedido?: number },
+): number {
+  const porProducto = config?.maxUnidadesPorProducto ?? TOPES_POR_DEFECTO.maxUnidadesPorProducto;
+  const porPedido = config?.maxUnidadesPorPedido ?? TOPES_POR_DEFECTO.maxUnidadesPorPedido;
+  const delProducto = items.filter((i) => i.productoId === productoId).reduce((a, i) => a + i.cantidad, 0);
+  const total = items.reduce((a, i) => a + i.cantidad, 0);
+  return Math.max(0, Math.min(porProducto - delProducto, porPedido - total));
+}
+
+/** "Huella" de un pedido: mismos productos, variantes y cantidades dan la misma huella. */
+export function huellaItems(items: { productoId: string; color: string; talle: string; cantidad: number }[]): string {
+  const suma = new Map<string, number>();
+  for (const it of items) {
+    const k = `${it.productoId}|${it.color}|${it.talle}`;
+    suma.set(k, (suma.get(k) ?? 0) + it.cantidad);
+  }
+  return [...suma.keys()]
+    .sort()
+    .map((k) => `${k}×${suma.get(k)}`)
+    .join(';');
+}

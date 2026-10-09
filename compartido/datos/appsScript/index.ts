@@ -27,6 +27,7 @@ const TIPOS_CONOCIDOS: TipoError[] = [
   'noAutorizado',
   'limitePedidos',
   'limiteUnidades',
+  'pedidoRepetido',
   'antiRobot',
 ];
 

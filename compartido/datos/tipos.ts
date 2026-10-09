@@ -8,6 +8,9 @@ export type Pago = 'transferencia' | 'efectivo';
 export interface ConfigServidor {
   horasReserva: number;
   proximoNumero: number;
+  /** Topes contra pedidos falsos (D-16). Si faltan, se usan 10 y 20. */
+  maxUnidadesPorProducto?: number;
+  maxUnidadesPorPedido?: number;
 }
 
 /** Una fila de la pestaña Categorias. */
@@ -145,6 +148,8 @@ export type TipoError =
   | 'limitePedidos'
   /** El pedido supera el máximo de unidades (D-16). */
   | 'limiteUnidades'
+  /** El mismo número ya mandó este pedido exacto y sigue pendiente. */
+  | 'pedidoRepetido'
   /** No pasó la verificación anti-robots (Turnstile). */
   | 'antiRobot';
 
@@ -180,7 +185,7 @@ export interface DataStore {
   getPedido(numero: number): Promise<Pedido | null>;
   confirmarPedido(numero: number, opciones?: { forzar?: boolean }): Promise<ResultadoConfirmar>;
   cancelarPedido(numero: number): Promise<ResultadoAccion>;
-  /** Cancela todos los pedidos sin confirmar de un número (pendientes y vencidos). Devuelve sus números (D-16). */
+  /** Cancela todos los pedidos pendientes de un número. Devuelve sus números (D-16). */
   cancelarPendientesDe(whatsappNormalizado: string): Promise<number[]>;
   deshacer(accionId: string): Promise<void>;
 

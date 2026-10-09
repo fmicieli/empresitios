@@ -117,10 +117,14 @@ describe('tienda y admin conectados', () => {
     await expect(ds.crearPedido({ items: [item], comprador, verificacion: 'malo' })).rejects.toMatchObject({ tipo: 'antiRobot' });
     turnstileOk = true;
     await ds.crearPedido({ items: [item], comprador, verificacion: 'ok' });
-    await ds.crearPedido({ items: [item], comprador, verificacion: 'ok' });
     await expect(ds.crearPedido({ items: [item], comprador, verificacion: 'ok' })).rejects.toMatchObject({
+      tipo: 'pedidoRepetido',
+    });
+    await ds.crearPedido({ items: [{ ...item, cantidad: 2 }], comprador, verificacion: 'ok' });
+    await expect(ds.crearPedido({ items: [{ ...item, cantidad: 3 }], comprador, verificacion: 'ok' })).rejects.toMatchObject({
       tipo: 'limitePedidos',
     });
+    expect((await ds.getConfig()).maxUnidadesPorProducto).toBe(10);
     await ds.sesion!.iniciar('pase-' + ++n);
     expect(await ds.cancelarPendientesDe('1144440000')).toEqual([1001, 1002]);
   });

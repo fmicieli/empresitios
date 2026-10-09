@@ -67,7 +67,7 @@ Hecho: `apps-script/Codigo.gs` (planilla modelo + reglas del servidor), el puent
 - Guía paso a paso para conectar la cuenta de un cliente (copiar planilla, autorizar Apps Script con la pantalla "app no verificada", publicar con acceso exclusivo, conectar la tienda).
 
 ### Fase 4 — Publicación de la demo
-Cloudflare Pages con la tienda de ropa ficticia. Checklist de lo que se configura por cliente.
+Cloudflare Workers (D-16) con la tienda de ropa ficticia. Al empezar, primera prueba con Google de verdad siguiendo `09-guia-conectar-cliente.md`. Checklist de lo que se configura por cliente.
 
 ### Después (no ahora)
 Pruebas en Android de gama media, prueba semanal automática de compra, estilos predefinidos (5 o 6) aplicados por tokens, script de alta de cliente nuevo.

@@ -48,6 +48,7 @@ const ESTADO_POR_TIPO: Record<string, number> = {
   noEncontrado: 404,
   limitePedidos: 429,
   limiteUnidades: 400,
+  pedidoRepetido: 409,
   antiRobot: 403,
   invalido: 400,
   servidor: 502,

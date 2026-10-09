@@ -148,11 +148,13 @@ Basadas en `08-investigacion-fase-2.md`.
 
 ## D-17 · Detalles de la Fase 3 (8/10/2026) — a confirmar por Flor
 
-1. **"Cancelar los pedidos sin confirmar de este número"** aparece en el detalle del pedido solo cuando ese número tiene 2 o más pedidos sin confirmar. Cancela pendientes y vencidos (no toca confirmados) y pide confirmación antes. Propuso: Claude.
+1. **"Cancelar los pedidos pendientes de este número"** aparece en el detalle del pedido solo cuando ese número tiene 2 o más pedidos pendientes. Cancela solo los pendientes (no toca vencidos ni confirmados) y pide confirmación antes ("Sí, cancelar todos" / "No, volver"). Propuso: Claude; ajustó Flor (9/10: el número contaba también los vencidos y confundía).
 2. **La sesión del admin dura alrededor de una hora** (lo que dura el pase de Google). Después vuelve a la pantalla de ingreso y hay que tocar de nuevo "Iniciar sesión con Google". Si molesta, se puede hacer que Google renueve el pase solo. Propuso: Claude.
 3. **Los cambios del admin tardan hasta un minuto en verse en la tienda** de otros compradores (caché del catálogo, D-16). En el propio admin se ven al instante. Propuso: Claude.
 4. **Si se supera un tope**, el comprador ve: "Ya tenés pedidos esperando confirmación. Escribile a la tienda por WhatsApp." o "Tu pedido tiene demasiadas unidades. Sacá algunas o escribile a la tienda por WhatsApp." (`06-textos.md` a actualizar cuando Flor los apruebe). Propuso: Claude.
 5. **El ID de cliente de Google y la clave de sitio de Turnstile** van en `tienda.config.ts` (son públicos); los secretos van solo en Cloudflare (regla 2 de `CLAUDE.md`). Propuso: Claude.
+6. **Pedido repetido:** si el mismo número manda el mismo pedido exacto (mismos productos, variantes y cantidades) mientras el anterior sigue pendiente, no se registra de nuevo y ve: "Ya enviaste este mismo pedido. La tienda te va a responder por WhatsApp." Decidió: Flor (9/10).
+7. **Tope de unidades visible:** al llegar al máximo por pedido (10 por producto, 20 en total, o lo que diga la planilla), el "+" se deshabilita en la ficha y en el carrito, con la línea "Llegaste al máximo de unidades por pedido." Decidió: Flor (9/10); la línea explicativa la sumó Claude (regla de accesibilidad: un botón deshabilitado sin motivo confunde).
 
 ## Pendientes (al 8/10/2026)
 

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { useCarrito } from '@compartido/carrito/carrito';
 import { Cantidad, ErrorCarga, Foto, useCarga } from '@compartido/componentes/basicos';
 import { IconoCheck } from '@compartido/componentes/iconos';
-import { etiquetaVariante, evaluarCarrito, formatoPrecio } from '@compartido/datos/reglas';
+import { etiquetaVariante, evaluarCarrito, formatoPrecio, lugarEnPedido } from '@compartido/datos/reglas';
 import { textos } from '@compartido/textos/textos';
 import { carrito, ds, ultimoPedido } from '../lib/contexto';
 import { FormularioComprador, type PedidoEnviado } from './FormularioComprador';
@@ -102,6 +102,9 @@ export default function CarritoPagina() {
                   const p = l.producto;
                   const problema = l.estado !== 'ok';
                   const nombre = p?.nombre ?? 'Producto';
+                  // Topes contra pedidos falsos (D-16): el "+" se deshabilita al llegar al máximo por pedido.
+                  const maxPorTope = l.item.cantidad + lugarEnPedido(items, l.item.productoId, cfg);
+                  const llegoAlTope = !problema && maxPorTope < l.libre && l.item.cantidad >= maxPorTope;
                   return (
                     <li key={`${l.item.productoId}|${l.item.color}|${l.item.talle}`} class="linea-carrito">
                       <div class="miniatura-carrito">
@@ -145,7 +148,7 @@ export default function CarritoPagina() {
                           <div class="fila-extremos">
                             <Cantidad
                               valor={l.item.cantidad}
-                              max={Math.max(l.libre, 1)}
+                              max={Math.max(Math.min(l.libre, maxPorTope), 1)}
                               alCambiar={(n) => carrito.cambiarCantidad(i, n)}
                               alQuitar={() => carrito.quitar(i)}
                               etiqueta={`Cantidad de ${nombre}`}
@@ -157,6 +160,7 @@ export default function CarritoPagina() {
                             )}
                           </div>
                         )}
+                        {llegoAlTope && <span class="suave chico">{t.topeUnidades}</span>}
                       </div>
                     </li>
                   );
