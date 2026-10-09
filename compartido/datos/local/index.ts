@@ -21,7 +21,7 @@ import type { Semilla } from './semilla';
 const HORA = 3600 * 1000;
 
 /** Defensas contra pedidos falsos (D-16). Mismos valores iniciales que la planilla (pestaña Config). */
-export const LIMITES = { pendientesPorWhatsapp: 2, unidadesPorProducto: 10, unidadesPorPedido: 20 };
+export const LIMITES = { pendientesPorWhatsapp: 2, unidadesPorProducto: 10, unidadesPorPedido: 20, bloquearRepetidos: true };
 
 type FilaProducto = Omit<Producto, 'variantes'>;
 type FilaStock = { productoId: string; color: string; talle: string; cantidad: number };
@@ -355,7 +355,8 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
         );
         // El mismo pedido exacto, otra vez: seguramente se mandó dos veces.
         const huella = huellaItems(items);
-        if (pendientes.some((p) => huellaItems(p.items) === huella)) throw new ErrorDatos('pedidoRepetido');
+        if (LIMITES.bloquearRepetidos && pendientes.some((p) => huellaItems(p.items) === huella))
+          throw new ErrorDatos('pedidoRepetido');
         if (pendientes.length >= LIMITES.pendientesPorWhatsapp) throw new ErrorDatos('limitePedidos');
 
         // 1. Verificar stock libre de cada línea (sumando líneas repetidas).

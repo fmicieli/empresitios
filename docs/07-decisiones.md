@@ -155,6 +155,7 @@ Basadas en `08-investigacion-fase-2.md`.
 5. **El ID de cliente de Google y la clave de sitio de Turnstile** van en `tienda.config.ts` (son públicos); los secretos van solo en Cloudflare (regla 2 de `CLAUDE.md`). Propuso: Claude.
 6. **Pedido repetido:** si el mismo número manda el mismo pedido exacto (mismos productos, variantes y cantidades) mientras el anterior sigue pendiente, no se registra de nuevo y ve: "Ya enviaste este mismo pedido. La tienda te va a responder por WhatsApp." Decidió: Flor (9/10).
 7. **Tope de unidades visible:** al llegar al máximo por pedido (10 por producto, 20 en total, o lo que diga la planilla), el "+" se deshabilita en la ficha y en el carrito, con la línea "Llegaste al máximo de unidades por pedido." Decidió: Flor (9/10); la línea explicativa la sumó Claude (regla de accesibilidad: un botón deshabilitado sin motivo confunde).
+8. **Los topes y el bloqueo de repetidos dependen de cada comercio.** Los valores de hoy (10, 20, 2 pendientes, bloquear repetidos: sí, 24 h) son los de por defecto; se ajustan por cliente en la pestaña `Config` de la planilla, según lo que responda en `10-preguntas-al-cliente.md`. Decidió: Flor (9/10).
 
 ## Pendientes (al 8/10/2026)
 

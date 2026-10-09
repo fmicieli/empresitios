@@ -134,6 +134,9 @@ describe('pedidos', () => {
       error: { tipo: 'pedidoRepetido' },
     });
     expect(llamar('crearPedido', { items: [item('M')], comprador: comprador('1144440001') }).resultado.ok).toBe(true);
+    // Si el comercio lo desactiva en Config, se registra igual.
+    g.hojas.get('Config')!.datos.find((f) => f[0] === 'bloquearPedidosRepetidos')![1] = false;
+    expect(llamar('crearPedido', { items: [item('M')], comprador: comprador() }).resultado.ok).toBe(true);
   });
 
   it('máximo de unidades por producto y por pedido (D-16)', () => {

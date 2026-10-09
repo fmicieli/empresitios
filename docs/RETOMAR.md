@@ -4,6 +4,7 @@
 
 - **Guía para conectar un cliente (lo principal para leer):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/09-guia-conectar-cliente.md
 - **Detalles para aprobar (D-17) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
+- **Preguntas para el cliente (nuevo):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/10-preguntas-al-cliente.md
 - **Código de Google (Apps Script):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/apps-script/Codigo.gs
 - **Qué cambió en tu localhost (modo de prueba):** en el admin, abrí un pedido de un número con 2 o más pedidos pendientes → aparece "Cancelar los pedidos pendientes de este número". En la tienda: un tercer pedido pendiente del mismo número, o el mismo pedido exacto dos veces, muestra un aviso; y el "+" se frena al llegar a 10 unidades de un producto.
 

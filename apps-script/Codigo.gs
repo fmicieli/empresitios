@@ -37,6 +37,7 @@ const CONFIG_INICIAL = [
   ['maxPendientesPorWhatsapp', 2, 'Pedidos pendientes que puede tener un mismo número de WhatsApp.'],
   ['maxUnidadesPorProducto', 10, 'Unidades máximas de un mismo producto en un pedido.'],
   ['maxUnidadesPorPedido', 20, 'Unidades máximas en total por pedido.'],
+  ['bloquearPedidosRepetidos', true, 'Si el mismo número manda el mismo pedido exacto mientras el anterior está pendiente, no se registra de nuevo.'],
   ['correosAdmin', '', 'Correos que pueden entrar al admin, separados por coma. El primero es el del negocio.'],
   ['carpetaFotosId', '', 'Carpeta de Drive con las fotos. Se completa sola.'],
 ];
@@ -386,7 +387,8 @@ function crearPedido(d) {
     const pendientes = pedidos.filter(
       (p) => p.estado === 'pendiente' && ms(p.venceEn) > ahora && String(p.whatsappNormalizado) === comprador.whatsappNormalizado,
     );
-    if (pendientes.length) {
+    const bloquearRepetidos = !('bloquearPedidosRepetidos' in c) || siNo(c.bloquearPedidosRepetidos);
+    if (bloquearRepetidos && pendientes.length) {
       // El mismo pedido exacto, otra vez: seguramente se mandó dos veces.
       const todos = leer('PedidoItems');
       const huella = huellaItems(items);
