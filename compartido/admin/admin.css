@@ -175,9 +175,17 @@
 }
 .pedidos-escritorio {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   align-items: start;
+}
+.pedidos-escritorio.con-detalle {
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+/* Con el detalle abierto, los productos se ven en el detalle: la tabla los esconde para no cortarse. */
+.con-detalle .tabla th:nth-child(3),
+.con-detalle .tabla td:nth-child(3) {
+  display: none;
 }
 .pedidos-escritorio .chips {
   flex-wrap: wrap;
@@ -424,4 +432,9 @@ details > summary {
 }
 .admin-nav-lateral .boton-salir {
   padding: 10px 12px;
+}
+
+/* En el panel de detalle (angosto), los dos botones van uno debajo del otro. */
+.panel-lateral .dos-botones {
+  grid-template-columns: 1fr;
 }

@@ -25,6 +25,10 @@
   --acento-texto: var(--acento);
   /* Fondo muy suave de la marca: botón secundario al pasar el mouse. */
   --acento-suave: color-mix(in srgb, var(--acento) 8%, #ffffff);
+  --icono: var(--texto); /* íconos del encabezado, links y menús (contraste mínimo 3:1) */
+  --enlace: var(--texto); /* texto de los links */
+  --contador-fondo: var(--acento); /* circulito con números (carrito, pendientes) */
+  --contador-texto: var(--sobre-acento);
   --linea-fuerte: #8c8c8c; /* bordes de campos y opciones (contraste mínimo 3:1) */
   --aviso-fondo: #f2f2f2;
   --aviso-texto: #000000;
@@ -36,7 +40,7 @@
     Tipografía. La escala (tamaños, pesos e interlineados) es fija para todas las
     tiendas (D-19): cada cliente solo cambia las familias, en config/estilo.css.
   */
-  --fuente-texto: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fuente-texto: 'Roboto Variable', Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --fuente-titulos: var(--fuente-texto);
   --peso-regular: 400;
   --peso-semi: 600;

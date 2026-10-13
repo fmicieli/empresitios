@@ -185,7 +185,7 @@ th {
   padding: 10px 0;
   min-height: var(--toque);
   font-size: var(--texto-base);
-  color: var(--texto);
+  color: var(--enlace);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -201,7 +201,7 @@ th {
   justify-content: center;
   cursor: pointer;
   position: relative;
-  color: var(--texto);
+  color: var(--icono);
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -212,8 +212,8 @@ th {
   min-width: 22px;
   height: 22px;
   border-radius: var(--radio-pastilla);
-  background: var(--acento);
-  color: var(--sobre-acento);
+  background: var(--contador-fondo);
+  color: var(--contador-texto);
   font-size: var(--texto-mini);
   font-weight: var(--peso-semi);
   display: flex;
@@ -709,4 +709,10 @@ select.entrada {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Íconos dentro de links y del buscador: toman el color de íconos (el texto sigue con su color). */
+.enlace > svg,
+.buscador > svg {
+  color: var(--icono);
 }

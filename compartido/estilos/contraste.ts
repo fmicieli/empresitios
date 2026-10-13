@@ -54,6 +54,9 @@ const PARES: { frente: string; fondo: string; minimo: number; que: string }[] = 
     que: 'el color de marca como texto (botón secundario, talle y color elegidos). Si no alcanza, poné una versión más oscura en --acento-texto',
   },
   { frente: '--error-texto', fondo: '--fondo', minimo: 4.5, que: 'los errores sobre el fondo' },
+  { frente: '--icono', fondo: '--fondo', minimo: 3, que: 'los íconos sobre el fondo' },
+  { frente: '--enlace', fondo: '--fondo', minimo: 4.5, que: 'los links sobre el fondo' },
+  { frente: '--contador-texto', fondo: '--contador-fondo', minimo: 4.5, que: 'los números de los contadores' },
   { frente: '--aviso-texto', fondo: '--aviso-fondo', minimo: 4.5, que: 'el texto de los avisos' },
 ];
 

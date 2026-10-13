@@ -21,16 +21,20 @@
     @import '@fontsource/lato/700.css';
     @import '@fontsource/playfair-display/700.css';
 */
-@import '@fontsource/atkinson-hyperlegible-next/400.css';
-@import '@fontsource/atkinson-hyperlegible-next/600.css';
-@import '@fontsource/atkinson-hyperlegible-next/700.css';
+@import '@fontsource-variable/roboto/wght.css'; /* Roboto, todos los pesos en un solo archivo */
 
 :root {
   /* Fuentes (si los títulos usan la misma que el texto, dejá --fuente-titulos como está). */
-  --fuente-texto: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fuente-texto: 'Roboto Variable', Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --fuente-titulos: var(--fuente-texto);
 
-  /* 2. COLORES — ejemplo (descomentá y cambiá):
+  /* 2. COLORES — íconos, links y contadores (por defecto, negro y el color de marca):
+  --icono: var(--marca);
+  --enlace: var(--texto);
+  --contador-fondo: var(--acento);
+  --contador-texto: var(--sobre-acento);
+
+  Fondos, líneas y textos — ejemplo (descomentá y cambiá):
   --fondo: #fbf8f3;
   --superficie: #f1ece4;
   --linea: #d8d0c4;
