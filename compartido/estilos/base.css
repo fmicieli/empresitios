@@ -14,9 +14,9 @@ body {
   margin: 0;
 }
 body {
-  font-family: var(--fuente);
+  font-family: var(--fuente-texto);
   font-size: var(--texto-base);
-  line-height: 1.45;
+  line-height: var(--interlineado);
   -webkit-text-size-adjust: 100%;
 }
 button,
@@ -41,9 +41,10 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-weight: var(--peso-bold);
+  font-family: var(--fuente-titulos);
+  font-weight: var(--peso-titulos);
   text-wrap: balance;
-  line-height: 1.2;
+  line-height: var(--interlineado-titulos);
 }
 h1 {
   font-size: var(--titulo-1);
@@ -128,7 +129,7 @@ th {
 }
 .separador {
   border: 0;
-  border-top: 1px solid var(--linea-suave);
+  border-top: var(--borde) solid var(--linea-suave);
   margin: 4px 0;
 }
 
@@ -140,7 +141,7 @@ th {
   background: var(--acento);
   color: var(--sobre-acento);
   font-weight: var(--peso-semi);
-  font-size: 17px;
+  font-size: var(--texto-medio);
   padding: 0 20px;
   cursor: pointer;
   display: inline-flex;
@@ -153,11 +154,11 @@ th {
 .boton.secundario {
   background: var(--fondo);
   color: var(--texto);
-  border: 1px solid var(--texto);
+  border: var(--borde) solid var(--texto);
 }
 .boton.chico {
   min-height: var(--toque);
-  font-size: 15px;
+  font-size: var(--texto-base);
   padding: 0 14px;
 }
 .boton.ancho {
@@ -175,7 +176,7 @@ th {
   cursor: pointer;
   padding: 10px 0;
   min-height: var(--toque);
-  font-size: 15px;
+  font-size: var(--texto-base);
   color: var(--texto);
   display: inline-flex;
   align-items: center;
@@ -184,8 +185,8 @@ th {
 .boton-icono {
   width: var(--toque);
   height: var(--toque);
-  border-radius: 10px;
-  border: 1px solid var(--linea);
+  border-radius: var(--radio-control);
+  border: var(--borde) solid var(--linea);
   background: var(--fondo);
   display: inline-flex;
   align-items: center;
@@ -202,10 +203,10 @@ th {
   right: -6px;
   min-width: 22px;
   height: 22px;
-  border-radius: 11px;
+  border-radius: var(--radio-control);
   background: var(--acento);
   color: var(--sobre-acento);
-  font-size: 12px;
+  font-size: var(--texto-mini);
   font-weight: var(--peso-semi);
   display: flex;
   align-items: center;
@@ -229,11 +230,11 @@ th {
   min-height: var(--toque);
   padding: 0 16px;
   border-radius: var(--radio-pastilla);
-  border: 1px solid var(--linea);
+  border: var(--borde) solid var(--linea);
   background: var(--fondo);
   white-space: nowrap;
   cursor: pointer;
-  font-size: 15px;
+  font-size: var(--texto-base);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -255,8 +256,8 @@ th {
 }
 .talle {
   min-height: var(--alto-boton);
-  border-radius: 10px;
-  border: 1px solid var(--texto-suave);
+  border-radius: var(--radio-control);
+  border: var(--borde) solid var(--texto-suave);
   background: var(--fondo);
   cursor: pointer;
   font-size: var(--texto-base);
@@ -279,7 +280,7 @@ th {
   align-items: center;
   gap: 12px;
   min-height: 56px;
-  border: 1px solid var(--texto-suave);
+  border: var(--borde) solid var(--texto-suave);
   border-radius: var(--radio);
   padding: 10px 14px;
   cursor: pointer;
@@ -320,11 +321,11 @@ legend {
 }
 .entrada {
   min-height: var(--alto-boton);
-  border: 1px solid var(--texto-suave);
-  border-radius: 10px;
+  border: var(--borde) solid var(--texto-suave);
+  border-radius: var(--radio-control);
   padding: 0 14px;
   background: var(--fondo);
-  font-size: 17px;
+  font-size: var(--texto-medio);
   width: 100%;
 }
 textarea.entrada {
@@ -339,7 +340,7 @@ select.entrada {
   border: 3px solid var(--error-texto);
 }
 .error-campo {
-  font-size: 15px;
+  font-size: var(--texto-base);
   font-weight: var(--peso-semi);
   color: var(--error-texto);
   display: flex;
@@ -351,7 +352,7 @@ select.entrada {
   color: var(--texto-suave);
 }
 .ok-campo {
-  font-size: 15px;
+  font-size: var(--texto-base);
   color: var(--ok-texto);
   font-weight: var(--peso-semi);
 }
@@ -360,7 +361,7 @@ select.entrada {
   align-items: center;
   gap: 8px;
   min-height: 48px;
-  border: 1px solid var(--linea);
+  border: var(--borde) solid var(--linea);
   border-radius: var(--radio);
   background: var(--superficie);
   padding: 0 12px;
@@ -383,7 +384,7 @@ select.entrada {
 .cantidad {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--texto-suave);
+  border: var(--borde) solid var(--texto-suave);
   border-radius: var(--radio);
 }
 .cantidad button {
@@ -391,7 +392,7 @@ select.entrada {
   height: 48px;
   border: 0;
   background: transparent;
-  font-size: 22px;
+  font-size: var(--titulo-2);
   cursor: pointer;
 }
 .cantidad button:disabled {
@@ -429,13 +430,13 @@ select.entrada {
 .aviso {
   background: var(--aviso-fondo);
   color: var(--aviso-texto);
-  border-radius: 10px;
+  border-radius: var(--radio-control);
   padding: 10px 12px;
-  font-size: 15px;
+  font-size: var(--texto-base);
 }
 .panel {
   background: var(--superficie);
-  border: 1px solid var(--linea-suave);
+  border: var(--borde) solid var(--linea-suave);
   border-radius: var(--radio);
   padding: 14px;
 }
@@ -451,9 +452,9 @@ select.entrada {
   font-weight: var(--peso-semi);
 }
 .pastilla {
-  font-size: 13px;
+  font-size: var(--texto-chico);
   padding: 3px 10px;
-  border-radius: 6px;
+  border-radius: var(--radio-mini);
   background: var(--linea-suave);
   font-weight: var(--peso-semi);
   white-space: nowrap;
@@ -470,9 +471,9 @@ select.entrada {
 .foto {
   aspect-ratio: var(--proporcion-foto);
   width: 100%;
-  border-radius: 10px;
+  border-radius: var(--radio-control);
   background: var(--superficie);
-  border: 1px solid var(--linea-suave);
+  border: var(--borde) solid var(--linea-suave);
   overflow: hidden;
   position: relative;
   display: flex;
@@ -484,7 +485,7 @@ select.entrada {
 }
 .foto .inicial {
   margin: auto;
-  font-size: 28px;
+  font-size: var(--titulo-1);
   font-weight: var(--peso-semi);
   color: var(--texto-suave);
 }
@@ -493,10 +494,10 @@ select.entrada {
   top: 8px;
   left: 8px;
   background: var(--fondo);
-  border: 1px solid var(--linea);
+  border: var(--borde) solid var(--linea);
   padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 13px;
+  border-radius: var(--radio-mini);
+  font-size: var(--texto-chico);
   font-weight: var(--peso-semi);
 }
 .foto.cuadrada {
@@ -506,7 +507,7 @@ select.entrada {
 /* ---------- Esqueletos de carga ---------- */
 .esqueleto {
   background: var(--superficie);
-  border-radius: 8px;
+  border-radius: var(--radio-chico);
   animation: latido 1.4s ease-in-out infinite;
 }
 @keyframes latido {
@@ -556,7 +557,7 @@ select.entrada {
 .toast {
   background: var(--acento);
   color: var(--sobre-acento);
-  border-radius: 12px;
+  border-radius: var(--radio);
   padding: 10px 10px 10px 16px;
   display: flex;
   gap: 12px;
@@ -569,9 +570,9 @@ select.entrada {
 }
 .toast button {
   background: transparent;
-  border: 1px solid var(--sobre-acento);
+  border: var(--borde) solid var(--sobre-acento);
   color: var(--sobre-acento);
-  border-radius: 8px;
+  border-radius: var(--radio-chico);
   min-height: var(--toque);
   padding: 0 14px;
   font-weight: var(--peso-semi);
@@ -584,7 +585,7 @@ select.entrada {
 /* ---------- Diálogo ---------- */
 .dialogo {
   border: 0;
-  border-radius: 18px;
+  border-radius: var(--radio-grande);
   padding: 20px 16px;
   max-width: 520px;
   width: calc(100% - 32px);
@@ -604,9 +605,9 @@ select.entrada {
   white-space: pre-wrap;
   background: var(--fondo);
   border: 2px solid var(--texto);
-  border-radius: 14px 14px 4px 14px;
+  border-radius: var(--radio-grande) var(--radio-grande) var(--radio-mini) var(--radio-grande);
   padding: 12px 14px;
-  font-size: 15px;
+  font-size: var(--texto-base);
   max-width: 420px;
   align-self: flex-end;
   overflow-wrap: anywhere;
@@ -650,11 +651,11 @@ select.entrada {
   color: var(--texto-suave);
   font-weight: var(--peso-regular);
   padding: 8px;
-  border-bottom: 1px solid var(--linea);
+  border-bottom: var(--borde) solid var(--linea);
 }
 .tabla td {
   padding: 10px 8px;
-  border-bottom: 1px solid var(--linea-suave);
+  border-bottom: var(--borde) solid var(--linea-suave);
   vertical-align: middle;
 }
 .tabla tr[aria-selected='true'] td {

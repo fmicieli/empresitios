@@ -46,7 +46,7 @@ Plantillas futuras (no construir ahora): tienda con pago online, reservas con pa
 
 1. **El contenido nunca va dentro del código.** Productos, categorías, pedidos y textos de la tienda vienen de la capa de datos o de la configuración.
 2. **Configuración por cliente en un solo archivo** (`tienda-whatsapp/config/tienda.config.*`): nombre, WhatsApp, estilo, color de marca, redes, horarios, dirección del local, texto de privacidad. (Las horas de reserva viven en la planilla porque las usa el servidor: ver `docs/07-decisiones.md`, D-01.)
-3. **Estilos en tokens** en un solo archivo. Por ahora, estilo neutro de bocetos; el diseño final se aplica cambiando tokens, no componentes.
+3. **Estilos en tokens.** Los valores por defecto están en `compartido/estilos/tokens.css` (no se toca por cliente). Cada cliente pisa solo fuentes, colores y formas en un único archivo, `tienda-whatsapp/config/estilo.css`; la escala de textos (tamaños, pesos, interlineados) es fija (D-19). El diseño se aplica cambiando tokens, nunca componentes.
 4. **Capa de datos detrás de una interfaz** con implementaciones intercambiables (`local` para testear, `appsScript` para producción). El resto del código no sabe cuál se usa.
 5. **Los errores se arreglan en la plantilla, nunca en el repo de un cliente.** En el repo de un cliente solo cambian configuración, estilo y contenido.
 6. **La adaptación por cliente es de estilo, no de estructura.**

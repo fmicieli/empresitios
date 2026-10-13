@@ -1,0 +1,51 @@
+/*
+  ESTILO DEL CLIENTE — junto con tienda.config.ts, lo único de diseño que cambia por comercio (D-19).
+  Acá se pisan solo los tokens que cambian para esta marca. Todos los tokens y sus valores
+  por defecto están en compartido/estilos/tokens.css (ese archivo no se toca).
+
+  Qué se puede cambiar:
+    - Fuentes: familia del texto y de los títulos.
+    - Colores: fondos, líneas y textos. El color de marca va en tienda.config.ts (estilo.colorMarca).
+    - Formas: redondeo de bordes y grosor de líneas.
+  Qué NO se cambia: tamaños, pesos e interlineados de los textos (la escala es fija).
+
+  Al compilar, se revisa el contraste de los colores y se avisa si algún texto queda difícil de leer.
+*/
+
+/*
+  1. FUENTES — guardadas dentro del sitio (más privado y más rápido que cargarlas de Google).
+  Para usar otra: buscala en https://fontsource.org (tiene todas las de Google Fonts),
+  instalala con  npm install -w tienda-whatsapp @fontsource/NOMBRE  e importá los pesos 400, 600 y 700.
+  Ejemplo con Lato para el texto y Playfair Display para los títulos:
+    @import '@fontsource/lato/400.css';
+    @import '@fontsource/lato/700.css';
+    @import '@fontsource/playfair-display/700.css';
+*/
+@import '@fontsource/atkinson-hyperlegible-next/400.css';
+@import '@fontsource/atkinson-hyperlegible-next/600.css';
+@import '@fontsource/atkinson-hyperlegible-next/700.css';
+
+:root {
+  /* Fuentes (si los títulos usan la misma que el texto, dejá --fuente-titulos como está). */
+  --fuente-texto: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fuente-titulos: var(--fuente-texto);
+
+  /* 2. COLORES — ejemplo (descomentá y cambiá):
+  --fondo: #fbf8f3;
+  --superficie: #f1ece4;
+  --linea: #d8d0c4;
+  --linea-suave: #e8e1d6;
+  --texto: #2a2420;
+  --texto-suave: #6b6058;
+  */
+
+  /* 3. FORMAS — ejemplo para un estilo de bordes rectos y líneas más marcadas:
+  --radio-mini: 0;
+  --radio-chico: 0;
+  --radio-control: 0;
+  --radio: 0;
+  --radio-grande: 0;
+  --radio-pastilla: 0; (chips y etiquetas; dejalo en 999px si las querés redondeadas)
+  --borde: 2px;
+  */
+}

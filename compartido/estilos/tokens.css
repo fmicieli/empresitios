@@ -1,6 +1,8 @@
 /*
-  TOKENS DE ESTILO — el único archivo que se toca para cambiar el diseño.
-  Estilo actual: blanco y negro (escala de grises), sin modo oscuro.
+  TOKENS DE ESTILO DE LA PLANTILLA — valores por defecto.
+  Cada cliente NO toca este archivo: pisa lo que necesite en
+  tienda-whatsapp/config/estilo.css (fuentes, colores y formas; D-19).
+  Estilo por defecto: blanco y negro (escala de grises), sin modo oscuro.
   Única excepción: los errores van en rojo.
   El color de marca de cada cliente llega desde tienda.config.ts como
   --marca / --sobre-marca; si no hay, se usa el negro.
@@ -22,22 +24,39 @@
   --error-texto: #c00000; /* único color: errores en rojo (D-11) */
   --velo: rgb(0 0 0 / 0.5);
 
-  /* Tipografía */
-  --fuente: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /*
+    Tipografía. La escala (tamaños, pesos e interlineados) es fija para todas las
+    tiendas (D-19): cada cliente solo cambia las familias, en config/estilo.css.
+  */
+  --fuente-texto: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fuente-titulos: var(--fuente-texto);
   --peso-regular: 400;
   --peso-semi: 600;
   --peso-bold: 700;
-  --texto-base: 16px;
-  --texto-chico: 14px;
-  --texto-medio: 18px;
-  --titulo-1: 26px;
-  --titulo-2: 21px;
+  --peso-titulos: var(--peso-bold);
+  --interlineado: 1.45;
+  --interlineado-titulos: 1.2;
+
+  /* Escala de textos (de más chico a más grande) */
+  --texto-mini: 12px; /* contadores, marcas sobre fotos */
+  --texto-chico: 14px; /* ayudas, etiquetas, migas */
+  --texto-base: 16px; /* texto general, links, chips, avisos */
+  --texto-medio: 18px; /* botones, campos, totales */
+  --titulo-3: 20px; /* títulos de tarjetas */
+  --titulo-2: 22px; /* secciones, precio de la ficha */
+  --titulo-1: 28px; /* título de cada pantalla */
   --numero-grande: 46px;
 
-  /* Formas y medidas */
-  --radio: 12px;
+  /* Formas: con todo en 0 queda un estilo de bordes rectos. */
+  --radio-mini: 4px;
   --radio-chico: 8px;
+  --radio-control: 10px; /* botones, campos, chips */
+  --radio: 12px; /* tarjetas, paneles */
+  --radio-grande: 16px; /* hojas y diálogos */
   --radio-pastilla: 999px;
+  --borde: 1px; /* grosor de líneas */
+
+  /* Medidas */
   --toque: 44px; /* área táctil mínima */
   --alto-boton: 52px;
   --ancho-max: 1100px;

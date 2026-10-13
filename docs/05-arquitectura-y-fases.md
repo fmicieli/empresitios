@@ -70,7 +70,7 @@ Hecho: `apps-script/Codigo.gs` (planilla modelo + reglas del servidor), el puent
 Cloudflare Workers (D-16) con la tienda de ropa ficticia en modo de prueba (D-18), vista previa al compartir el link y checklist por cliente: `11-publicar-demo.md`. La prueba con Google de verdad queda para el final, con la lista de pruebas. Checklist de lo que se configura por cliente.
 
 ### Después (no ahora)
-Pruebas en Android de gama media, prueba semanal automática de compra, estilos predefinidos (5 o 6) aplicados por tokens, script de alta de cliente nuevo.
+Pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo. (Estilo por cliente: hecho en D-19, sin estilos predefinidos.)
 
 ## Datos de ejemplo de la demo
 

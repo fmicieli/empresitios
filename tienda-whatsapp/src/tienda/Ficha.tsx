@@ -156,7 +156,7 @@ function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: 
           <Migas p={p} filas={filas} />
           <h1>{p.nombre}</h1>
           <div class="fila-extremos">
-            <span class="precio" style={{ fontSize: '24px' }}>
+            <span class="precio" style={{ fontSize: 'var(--titulo-2)' }}>
               {formatoPrecio(p.precio)}
             </span>
             <button type="button" class="enlace" aria-label={t.compartirProducto(p.nombre)} onClick={() => compartir(p)}>
