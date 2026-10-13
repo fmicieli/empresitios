@@ -66,7 +66,7 @@ Hecho: `apps-script/Codigo.gs` (planilla modelo + reglas del servidor), el puent
 - Proceso automático de vencimiento de reservas.
 - Guía paso a paso para conectar la cuenta de un cliente (copiar planilla, autorizar Apps Script con la pantalla "app no verificada", publicar con acceso exclusivo, conectar la tienda).
 
-### Fase 4 — Publicación de la demo (entregada, a revisar)
+### Fase 4 — Publicación de la demo (aprobada, 13/10)
 Cloudflare Workers (D-16) con la tienda de ropa ficticia en modo de prueba (D-18), vista previa al compartir el link y checklist por cliente: `11-publicar-demo.md`. La prueba con Google de verdad queda para el final, con la lista de pruebas. Checklist de lo que se configura por cliente.
 
 ### Después (no ahora)
