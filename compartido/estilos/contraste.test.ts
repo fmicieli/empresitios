@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { contraste, leerTokens, resolverColor, revisarContraste } from './contraste';
+import { ajustesAutomaticos, contraste, leerTokens, resolverColor, revisarContraste } from './contraste';
 
 const leer = (ruta: string) => readFileSync(new URL(ruta, import.meta.url), 'utf8');
 
@@ -26,5 +26,17 @@ describe('contraste de colores', () => {
     const t = leerTokens(leer('./tokens.css'));
     const problemas = revisarContraste({ ...t, '--marca': '#f5c6d0', '--sobre-marca': '#ffffff' });
     expect(problemas.map((p) => p.que)).toContain('el texto de los botones sobre el color de marca');
+  });
+
+  it('si el color de marca no se lee como texto, los textos de marca pasan a negro', () => {
+    const t = { ...leerTokens(leer('./tokens.css')), '--marca': '#f5c6d0', '--sobre-marca': '#000000' };
+    const ajustes = ajustesAutomaticos(t);
+    expect(ajustes).toEqual({ '--acento-texto': 'var(--texto)' });
+    expect(
+      revisarContraste({ ...t, ...ajustes })
+        .map((p) => p.que)
+        .some((q) => q.startsWith('el color de marca como texto')),
+    ).toBe(false);
+    expect(ajustesAutomaticos({ ...t, '--marca': '#1f6f5c' })).toEqual({});
   });
 });

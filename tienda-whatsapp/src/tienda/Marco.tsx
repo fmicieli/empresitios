@@ -4,7 +4,7 @@ import type { ComponentChildren } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { unidades, useCarrito } from '@compartido/carrito/carrito';
 import { useCarga, ZonaToast } from '@compartido/componentes/basicos';
-import { IconoBolsa, IconoBuscar, IconoCerrar, IconoChat, IconoFlecha, IconoMenu } from '@compartido/componentes/iconos';
+import { IconoBolsa, IconoCerrar, IconoChat, IconoFlecha, IconoMenu } from '@compartido/componentes/iconos';
 import { agruparCategorias, evaluarCarrito, formatoPrecio } from '@compartido/datos/reglas';
 import type { Categoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
@@ -184,15 +184,7 @@ export function BarraCarrito({ productos }: { productos: Producto[] | undefined 
   );
 }
 
-export function Marco({
-  children,
-  buscadorEnEncabezado = true,
-  conBarraAbajo = false,
-}: {
-  children: ComponentChildren;
-  buscadorEnEncabezado?: boolean;
-  conBarraAbajo?: boolean;
-}) {
+export function Marco({ children, conBarraAbajo = false }: { children: ComponentChildren; conBarraAbajo?: boolean }) {
   const items = useCarrito(carrito);
   const n = unidades(items);
   const [menu, setMenu] = useState(false);
@@ -214,15 +206,6 @@ export function Marco({
           </button>
           <Logo />
           <MenuEscritorio categorias={categorias} />
-          {buscadorEnEncabezado && (
-            <form class="buscador buscador-encabezado" action="/" method="get" role="search">
-              <IconoBuscar />
-              <label class="sr" for="buscar-encabezado">
-                {t.buscar}
-              </label>
-              <input id="buscar-encabezado" type="search" name="q" placeholder={t.buscar} autocomplete="off" />
-            </form>
-          )}
           <a class="boton-icono" href="/carrito/" aria-label={t.carrito(n)}>
             <IconoBolsa />
             {n > 0 && (

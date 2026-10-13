@@ -46,7 +46,7 @@ export default function Catalogo() {
   }
 
   return (
-    <Marco buscadorEnEncabezado={false} conBarraAbajo>
+    <Marco conBarraAbajo>
       <div class="pila" style={{ paddingTop: '14px' }}>
         <h1 class="sr">{t.buscar}</h1>
         <div class="buscador" role="search">

@@ -7,7 +7,7 @@ import '../tienda/tienda.css';
 import '../../config/estilo.css';
 import { config } from '../lib/config-servidor';
 import BarraPruebas from '../tienda/BarraPruebas';
-import { revisarColores } from '../lib/revisar-colores';
+import { coloresDeMarca } from '../lib/revisar-colores';
 
 interface Props {
   titulo?: string;
@@ -16,14 +16,13 @@ interface Props {
 const { titulo, sinIndexar = false } = Astro.props;
 const tituloCompleto = titulo ? `${titulo} · ${config.nombre}` : config.nombre;
 const e = config.estilo;
-const marca = `:root{--marca:${e.colorMarca};--sobre-marca:${e.colorSobreMarca}}`;
+// Color de marca, con el ajuste automático de contraste (D-19).
+const marca = coloresDeMarca(e.colorMarca, e.colorSobreMarca);
 
 // Con datos reales, una tienda sin WhatsApp no puede recibir pedidos: mejor que no se publique.
 if (config.datos === 'appsScript' && !config.whatsapp) {
   throw new Error('Falta el WhatsApp de la tienda en config/tienda.config.ts.');
 }
-// Contraste de los colores de la tienda (D-19): avisa al compilar, una sola vez, si algo se lee mal.
-revisarColores(e.colorMarca, e.colorSobreMarca);
 // La demo (datos de prueba) no aparece en buscadores.
 const noIndexar = sinIndexar || config.datos === 'local';
 // Vista previa al compartir el link: WhatsApp e Instagram necesitan direcciones completas.

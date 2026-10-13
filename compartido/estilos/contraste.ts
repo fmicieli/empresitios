@@ -77,6 +77,17 @@ export function revisarContraste(tokens: Tokens): ProblemaContraste[] {
   return problemas;
 }
 
+/**
+ * Si el color de marca no se lee como texto sobre el fondo (4,5:1), los textos y bordes de marca
+ * (botón secundario, talle y color elegidos) pasan al color del texto. El botón principal no cambia.
+ */
+export function ajustesAutomaticos(tokens: Tokens): Tokens {
+  const textoMarca = resolverColor('var(--acento-texto)', tokens);
+  const fondo = resolverColor('var(--fondo)', tokens);
+  if (textoMarca && fondo && contraste(textoMarca, fondo) < 4.5) return { '--acento-texto': 'var(--texto)' };
+  return {};
+}
+
 /** Texto para mostrar en la consola al compilar. */
 export function explicarProblemas(problemas: ProblemaContraste[]): string {
   return [
