@@ -175,12 +175,12 @@ Basadas en `08-investigacion-fase-2.md`.
 3. **Un archivo de estilo por cliente:** `tienda-whatsapp/config/estilo.css` pisa fuentes, colores y formas (redondeo de bordes y grosor de líneas). `compartido/estilos/tokens.css` queda con los valores por defecto y no se toca, así las mejoras de la plantilla no chocan con el diseño de cada cliente. Propuso: Claude.
 4. **Fuentes guardadas dentro del sitio** (paquetes de Fontsource), sin cargarlas de Google Fonts: más privado y más rápido en celulares de gama media. Propuso: Claude.
 5. **Control de contraste al compilar:** si un color del cliente deja un texto difícil de leer (mínimo AA: 4,5:1 para texto, 3:1 para botones), la compilación avisa qué par falla. Propuso: Claude.
-6. **El admin toma el mismo estilo que la tienda** (fuentes, colores y formas del cliente). A confirmar por Flor.
+6. **El admin toma el mismo estilo que la tienda** (fuentes, colores y formas del cliente). Decidió: Flor (13/10).
 
 ## Pendientes (al 13/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
 2. **Fase 4** (publicación de la demo): aprobada el 13/10. Publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev desde `main`; probada por Flor desde el celular.
-3. **Estilo por cliente (D-19):** entregado, a revisar por Flor. Falta decidir si se arma un muestrario de estilos de inspiración y si el admin sigue el estilo de la tienda.
+3. **Estilo por cliente (D-19):** entregado, a revisar por Flor. Falta decidir si se arma un muestrario de estilos de inspiración.
 4. **Prueba con Google de verdad:** al final, con la lista de pruebas (guía `09`, paso 8).
 5. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`).

@@ -56,7 +56,7 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
 3. Fases 1, 2 y 3: aprobadas (D-15, D-16 y D-17).
 4. Fase 4 aprobada: la demo está publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev. Cloudflare publica solo la rama main: cada cambio llega por pull request y yo lo uno.
-5. El estilo por cliente (D-19) está entregado: preguntame si ya lo revisé, si quiero el muestrario de estilos de inspiración y si el admin sigue el estilo de la tienda.
+5. El estilo por cliente (D-19) está entregado: preguntame si ya lo revisé, y si quiero el muestrario de estilos de inspiración (el admin sigue el mismo estilo que la tienda: decidido).
 6. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
 7. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```
