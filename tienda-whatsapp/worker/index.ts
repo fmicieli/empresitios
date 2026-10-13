@@ -39,8 +39,12 @@ async function conVistaPrevia(req: Request, env: EntornoPuente): Promise<Respons
   }
   const vista = vistaPreviaProducto(producto, {
     descripcionTienda: config.descripcion,
-    // Las fotos de Drive se sirven por el puente. Las de la demo son dibujos (SVG), que WhatsApp no muestra.
-    urlFoto: (foto) => (config.datos === 'appsScript' ? `${url.origin}/api/fotos/${encodeURIComponent(foto)}` : null),
+    // Las fotos de Drive se sirven por el puente. Las de la demo son dibujos SVG, que WhatsApp no muestra:
+    // para la tarjeta se usa la copia en PNG que está al lado (public/fotos-demo/).
+    urlFoto: (foto) =>
+      config.datos === 'appsScript'
+        ? `${url.origin}/api/fotos/${encodeURIComponent(foto)}`
+        : `${url.origin}/fotos-demo/${encodeURIComponent(foto.replace(/\.svg$/, '.png'))}`,
   });
   const imagen = vista?.imagen ?? (config.imagenCompartir ? url.origin + config.imagenCompartir : null);
   const fijar = (valor: string) => ({ element: (e: Element) => void e.setAttribute('content', valor) });

@@ -8,7 +8,7 @@ Es la plantilla publicada en internet con la tienda ficticia "Tienda Modelo", en
 - No usa Google ni guarda datos de nadie en un servidor.
 - **No tiene WhatsApp por defecto.** Quien la prueba carga su número en "Herramientas de prueba". Si toca un botón de WhatsApp sin haberlo cargado, la demo se lo explica y le ofrece cargarlo.
 - No aparece en buscadores (`noindex`).
-- Al compartir el link por WhatsApp o Instagram, la vista previa muestra la imagen `compartir.png` y, en las fichas, el nombre y el precio del producto.
+- Al compartir el link por WhatsApp o Instagram, la vista previa muestra la imagen `compartir.png` y, en las fichas, la foto, el nombre y el precio del producto. Cada ficha tiene un botón "Compartir".
 
 **Dirección de la demo:** https://tienda-modelo.atlas-de5cd208129d.workers.dev (publicada el 13/10/2026).
 

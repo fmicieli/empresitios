@@ -164,7 +164,8 @@ Basadas en `08-investigacion-fase-2.md`.
 3. **Sin WhatsApp por defecto:** quien prueba la demo carga su número en "Herramientas de prueba". Los botones de WhatsApp sin número lo explican y ofrecen "Cargar número". Decidió: Flor.
 4. **Cloudflare publica la rama `main`.** Los cambios llegan a `main` por pull request, con la aprobación de Flor. Decidió: Flor.
 5. **La demo no aparece en buscadores** (`noindex` en modo de prueba). Propuso: Claude.
-6. **Vista previa al compartir el link:** imagen `compartir.png` (1200 × 630) y, en las fichas, nombre, precio y descripción del producto. Con datos reales, también la primera foto del producto (⚠️ confirmar que WhatsApp muestra fotos WebP, que es como se guardan). Las fotos de la demo son dibujos SVG y WhatsApp no los muestra, por eso en la demo va la imagen general. Propuso: Claude.
+6. **Vista previa al compartir el link:** imagen `compartir.png` (1200 × 630) y, en las fichas, nombre, precio y descripción del producto. Con datos reales, también la primera foto del producto (⚠️ confirmar que WhatsApp muestra fotos WebP, que es como se guardan). Las fotos de la demo son dibujos SVG, que WhatsApp no muestra: para la tarjeta se usa una copia en PNG de cada uno (ajustado el 13/10 a pedido de Flor). Propuso: Claude.
+8. **Compartir un producto** (13/10): botón "Compartir" junto al precio en la ficha, y el link "¿Tenés alguna duda con este producto? Preguntá acá" manda a WhatsApp el nombre y el link del producto, así la tienda ve la tarjeta. Decidió: Flor.
 7. **La tienda conectada no se publica sin WhatsApp:** si `datos` es `appsScript` y falta el número, la compilación se frena con un aviso. Propuso: Claude.
 
 ## Pendientes (al 9/10/2026)
