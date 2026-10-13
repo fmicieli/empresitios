@@ -4,7 +4,7 @@
 
 - **Demo publicada:** https://tienda-modelo.atlas-de5cd208129d.workers.dev
 - **Cómo publicar la demo y checklist por cliente:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/11-publicar-demo.md
-- **Pull request con los últimos ajustes de la publicación:** https://github.com/fmicieli/empresitios/pulls
+- **Pull request con los últimos ajustes de la publicación:** https://github.com/fmicieli/empresitios/pull/3
 - **Decisiones (D-18) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
 - **Qué cambió en tu localhost:** los botones de WhatsApp de la tienda, sin número cargado, muestran "Es una demo…" con el botón "Cargar número". Una dirección inventada (por ejemplo `/hola/`) muestra "No encontramos esta página".
 
