@@ -10,6 +10,8 @@ Es la plantilla publicada en internet con la tienda ficticia "Tienda Modelo", en
 - No aparece en buscadores (`noindex`).
 - Al compartir el link por WhatsApp o Instagram, la vista previa muestra la imagen `compartir.png` y, en las fichas, el nombre y el precio del producto.
 
+**Dirección de la demo:** https://tienda-modelo.atlas-de5cd208129d.workers.dev (publicada el 13/10/2026).
+
 Costo: **cero**. Usa el plan gratis de Cloudflare Workers y la dirección `.workers.dev` (⚠️ límites del plan gratis sin confirmar en la página oficial: `08-investigacion-fase-2.md`, punto 12.3).
 
 ---
@@ -31,15 +33,19 @@ Cloudflare publica la rama `main` (D-18). Antes de conectarlo, aprobá y uní el
 
 ⚠️ Los nombres de los menús de Cloudflare cambian seguido. Si algo no coincide, buscá el más parecido y avisame.
 
-1. En el panel: **Workers y Pages → Crear → Importar un repositorio**.
-2. Conectá tu cuenta de GitHub y elegí `fmicieli/empresitios`. Cuando pregunte, dale acceso **solo a ese repositorio**.
-3. Completá:
-   - **Nombre del proyecto:** `tienda-modelo`. Tiene que ser igual al `"name"` de `tienda-whatsapp/wrangler.jsonc`.
-   - **Rama de producción:** `main`.
-   - **Directorio raíz:** vacío (la raíz del repo).
-   - **Comando de compilación:** `npm run build`
-   - **Comando de implementación:** `npm run desplegar`
-4. **Guardar e implementar.** La primera vez tarda unos minutos. Al terminar, te da la dirección, del estilo `https://tienda-modelo.TU-SUBDOMINIO.workers.dev`.
+0. **Antes:** en GitHub, el repo tiene que tener `main` como rama principal (**Settings → Default branch**). Cloudflare toma esa rama al crear el proyecto y no la pregunta.
+1. En el panel: **Workers & Pages → Create → Import a repository**.
+2. Conectá tu cuenta de GitHub y elegí el repo. Cuando GitHub pregunte, elegí **Only select repositories** y marcá solo ese repo.
+   - Si no se guardó y en el segundo intento no te deja elegir: entrá a https://github.com/settings/installations → **Cloudflare Workers and Pages** → **Configure** → marcá el repo → **Save**, y volvé a Cloudflare.
+3. Completá (pantalla *Set up your application*):
+   - **Project name:** `tienda-modelo`. Tiene que ser igual al `"name"` de `tienda-whatsapp/wrangler.jsonc`.
+   - **Build command:** `npm run build`
+   - **Deploy command:** `npm run desplegar` (no el que viene de fábrica)
+   - **Enable Preview builds:** apagado.
+   - **Protect with Cloudflare Access:** apagado.
+   - **Advanced settings:** *Path* `/`; *API token* "Create new token" (lo crea solo); sin variables.
+4. **Deploy.** La primera vez tarda un par de minutos. Al terminar, el registro muestra la dirección, del estilo `https://tienda-modelo.TU-SUBDOMINIO.workers.dev`.
+5. **Revisá la rama:** en el proyecto → **Settings → Build → Branch control**, la rama de producción tiene que ser `main`.
 
 No hace falta cargar ningún secreto: la demo no usa Google.
 

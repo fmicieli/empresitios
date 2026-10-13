@@ -12,6 +12,10 @@
     // (vista previa al compartir el link); el resto se sirve directo.
     "run_worker_first": ["/api/*", "/", "/producto/*"]
   },
+  // La dirección .workers.dev queda prendida (es la de la demo hasta tener dominio propio).
+  "workers_dev": true,
+  // Sin direcciones de vista previa: solo se publica la rama main, con la aprobación de Flor (D-18).
+  "preview_urls": false,
   "observability": { "enabled": true }
   // El ID de cliente de Google y la clave de Turnstile del sitio van en config/tienda.config.ts.
   // Secretos (se cargan en el panel de Cloudflare o con `wrangler secret put`):
