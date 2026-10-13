@@ -53,7 +53,7 @@ const config: ConfigTienda = {
   redes: [{ nombre: 'Instagram', url: 'https://instagram.com/' }],
   textoPrivacidad: 'Usamos estos datos solo para gestionar tu pedido. (Texto pendiente de revisión legal.)',
   estilo: {
-    logo: '',
+    logo: '/logo.svg',
     colorMarca: '#000000',
     colorSobreMarca: '#ffffff',
   },

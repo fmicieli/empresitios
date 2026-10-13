@@ -4,7 +4,7 @@ import type { ComponentChildren } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { unidades, useCarrito } from '@compartido/carrito/carrito';
 import { useCarga, ZonaToast } from '@compartido/componentes/basicos';
-import { IconoBolsa, IconoBuscar, IconoCerrar, IconoChat, IconoFlecha, IconoMenu } from '@compartido/componentes/iconos';
+import { IconoCarrito, IconoBuscar, IconoCerrar, IconoChat, IconoFlecha, IconoMenu } from '@compartido/componentes/iconos';
 import { agruparCategorias, evaluarCarrito, formatoPrecio } from '@compartido/datos/reglas';
 import type { Categoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
@@ -214,23 +214,25 @@ export function Marco({
           </button>
           <Logo />
           <MenuEscritorio categorias={categorias} />
-          {buscadorEnEncabezado && (
-            <form class="buscador buscador-encabezado" action="/" method="get" role="search">
-              <IconoBuscar />
-              <label class="sr" for="buscar-encabezado">
-                {t.buscar}
-              </label>
-              <input id="buscar-encabezado" type="search" name="q" placeholder={t.buscar} autocomplete="off" />
-            </form>
-          )}
-          <a class="boton-icono" href="/carrito/" aria-label={t.carrito(n)}>
-            <IconoBolsa />
-            {n > 0 && (
-              <span class="contador num" aria-hidden="true">
-                {n}
-              </span>
+          <div class="acciones-encabezado">
+            {buscadorEnEncabezado && (
+              <form class="buscador buscador-encabezado" action="/" method="get" role="search">
+                <IconoBuscar />
+                <label class="sr" for="buscar-encabezado">
+                  {t.buscar}
+                </label>
+                <input id="buscar-encabezado" type="search" name="q" placeholder={t.buscar} autocomplete="off" />
+              </form>
             )}
-          </a>
+            <a class="boton-icono" href="/carrito/" aria-label={t.carrito(n)}>
+              <IconoCarrito />
+              {n > 0 && (
+                <span class="contador num" aria-hidden="true">
+                  {n}
+                </span>
+              )}
+            </a>
+          </div>
         </div>
       </header>
       <MenuLateral abierto={menu} alCerrar={() => setMenu(false)} categorias={categorias} />

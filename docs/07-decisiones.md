@@ -183,6 +183,7 @@ Basadas en `08-investigacion-fase-2.md`.
 11. **Roboto como fuente por defecto** (13/10, Flor), guardada en el sitio.
 12. **Colores de íconos, links y contadores** como tokens (`--icono`, `--enlace`, `--contador-fondo`, `--contador-texto`), con control de contraste. Por defecto: íconos y links del color de marca (en negro si la marca no se lee, ver punto 9), contadores del color de marca.
 13. **Todo se deriva del color de marca** (13/10, Flor; referencia: tienda "ShopMate" verde oliva). Del color de marca salen: botón principal (pleno) y su hover (más oscuro); botón secundario, selecciones, íconos y links (color de marca como texto); y un tono muy suave de la marca (`--superficie-marca`) para avisos, paneles, etiquetas ("Sin stock") y círculos de íconos. Las tarjetas de producto son blancas con borde finito. Con la marca negra de la demo, todo queda en blanco, negro y grises.
+14. **Encabezado y márgenes en computadora** (13/10, Flor): logo a la izquierda (en la demo, un logo de ejemplo en `public/logo.svg`), categorías principales centradas, buscador y carrito a la derecha. Ícono de carrito en lugar del de bolsa (que parecía un tacho). Contenido más ancho: hasta 1360 px.
 
 ## Pendientes (al 13/10/2026)
 

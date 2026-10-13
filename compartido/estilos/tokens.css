@@ -73,7 +73,7 @@
   /* Medidas */
   --toque: 44px; /* área táctil mínima */
   --alto-boton: 52px;
-  --ancho-max: 1100px;
+  --ancho-max: 1360px; /* ancho máximo del contenido en computadora */
   --ancho-lectura: 640px;
   --separacion: 16px;
   --foco: 3px solid var(--texto);

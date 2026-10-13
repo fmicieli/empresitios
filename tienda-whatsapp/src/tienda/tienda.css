@@ -39,18 +39,29 @@
 .buscador-encabezado {
   display: none;
 }
+.acciones-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
 @media (min-width: 900px) {
   .boton-menu {
     display: none;
   }
+  /* Escritorio: logo a la izquierda, categorías al centro, buscador y carrito a la derecha. */
+  .encabezado-interior {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+  }
   .logo {
-    flex: 0 0 auto;
+    justify-self: start;
     justify-content: flex-start;
   }
   .menu-escritorio {
     display: flex;
     gap: 4px;
-    flex: 1;
+    justify-self: center;
   }
   .buscador-encabezado {
     display: flex;

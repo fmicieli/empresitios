@@ -14,7 +14,7 @@ Catálogo (inicio) ──► Ficha de producto ──► Carrito + Tus datos (un
 ## 1. Encabezado (todas las pantallas)
 
 - Logo de la tienda (vuelve al catálogo), botón de menú (celular) y carrito con contador.
-- En escritorio: logo, categorías con desplegable de subcategorías, buscador y carrito.
+- En escritorio: logo a la izquierda, categorías centradas (con desplegable de subcategorías), buscador y carrito a la derecha (D-19).
 
 ## 2. Catálogo
 
