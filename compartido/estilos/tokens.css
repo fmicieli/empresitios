@@ -18,6 +18,9 @@
   --texto-suave: #555555;
   --acento: var(--marca, #000000);
   --sobre-acento: var(--sobre-marca, #ffffff);
+  /* Botón principal al pasar el mouse o tocarlo: el color de marca un poco más oscuro. */
+  --acento-hover: color-mix(in srgb, var(--acento) 82%, #000000);
+  --linea-fuerte: #8c8c8c; /* bordes de campos y opciones (contraste mínimo 3:1) */
   --aviso-fondo: #f2f2f2;
   --aviso-texto: #000000;
   --ok-texto: #000000;
@@ -50,10 +53,11 @@
   /* Formas: con todo en 0 queda un estilo de bordes rectos. */
   --radio-mini: 4px;
   --radio-chico: 8px;
-  --radio-control: 10px; /* botones, campos, chips */
-  --radio: 12px; /* tarjetas, paneles */
-  --radio-grande: 16px; /* hojas y diálogos */
+  --radio-control: 12px; /* campos, talles, opciones */
+  --radio: 16px; /* tarjetas, paneles, fotos */
+  --radio-grande: 22px; /* hojas y diálogos */
   --radio-pastilla: 999px;
+  --radio-boton: var(--radio-pastilla); /* botones, buscador, chips */
   --borde: 1px; /* grosor de líneas */
 
   /* Medidas */
@@ -64,6 +68,7 @@
   --separacion: 16px;
   --foco: 3px solid var(--texto);
   --sombra: 0 1px 2px rgb(0 0 0 / 0.12);
+  --sombra-suave: 0 1px 2px rgb(0 0 0 / 0.06), 0 6px 20px rgb(0 0 0 / 0.08);
   --proporcion-foto: 4 / 5;
 
   color-scheme: light;

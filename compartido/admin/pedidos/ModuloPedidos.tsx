@@ -494,11 +494,11 @@ function Pantalla({ ruta, ctx }: { ruta: string[]; ctx: ContextoAdmin }) {
         />
       </div>
       {!q && (
-        <div class="chips" role="group" aria-label="Filtrar pedidos">
+        <div class="filtros-pestana" role="group" aria-label="Filtrar pedidos">
           {FILTROS.map((f) => (
-            <button key={f} type="button" class="chip" aria-pressed={filtro === f} onClick={() => setFiltro(f)}>
+            <button key={f} type="button" class="pestana-filtro" aria-pressed={filtro === f} onClick={() => setFiltro(f)}>
               {t.filtros[f]}
-              {f !== 'todas' && <span class="num"> · {cuenta(f)}</span>}
+              {f !== 'todas' && <span class="num">{cuenta(f)}</span>}
             </button>
           ))}
         </div>

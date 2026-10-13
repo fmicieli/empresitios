@@ -159,7 +159,8 @@
   padding: 0;
 }
 .tarjeta-pedido {
-  border: var(--borde) solid var(--linea);
+  border: 0;
+  box-shadow: var(--sombra-suave);
   border-radius: var(--radio);
   padding: 14px;
   display: flex;
@@ -261,7 +262,7 @@
   border: 0;
   background: transparent;
   border-radius: var(--radio-chico);
-  min-height: 40px;
+  min-height: var(--toque);
   padding: 0 14px;
   cursor: pointer;
   white-space: nowrap;

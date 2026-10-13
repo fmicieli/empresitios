@@ -176,6 +176,7 @@ Basadas en `08-investigacion-fase-2.md`.
 4. **Fuentes guardadas dentro del sitio** (paquetes de Fontsource), sin cargarlas de Google Fonts: más privado y más rápido en celulares de gama media. Propuso: Claude.
 5. **Control de contraste al compilar:** si un color del cliente deja un texto difícil de leer (mínimo AA: 4,5:1 para texto, 3:1 para botones), la compilación avisa qué par falla. Propuso: Claude.
 6. **El admin toma el mismo estilo que la tienda** (fuentes, colores y formas del cliente). Decidió: Flor (13/10).
+7. **Base más trabajada** (13/10, pedido de Flor, a revisar): fondo blanco y texto negro por defecto; botón principal del color de marca, con un tono más oscuro de la misma marca al pasar el mouse o tocarlo; botones con bordes redondeados (tipo pastilla); avisos que suben desde abajo en blanco, con sombra suave y borde del color de marca; filtros del admin como pestañas en lugar de píldoras. Además (propuesta de Claude): íconos del encabezado sin caja, filtros de la tienda rellenos en gris, fotos y tarjetas más redondeadas, campos con bordes más suaves (con el contraste mínimo de 3:1) y tarjetas de pedidos con sombra en lugar de borde.
 
 ## Pendientes (al 13/10/2026)
 

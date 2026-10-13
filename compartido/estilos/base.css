@@ -136,7 +136,8 @@ th {
 /* ---------- Botones ---------- */
 .boton {
   min-height: var(--alto-boton);
-  border-radius: var(--radio);
+  border-radius: var(--radio-boton);
+  transition: background-color 0.15s ease;
   border: 0;
   background: var(--acento);
   color: var(--sobre-acento);
@@ -154,7 +155,14 @@ th {
 .boton.secundario {
   background: var(--fondo);
   color: var(--texto);
-  border: var(--borde) solid var(--texto);
+  border: 1.5px solid var(--texto);
+}
+.boton:not(.secundario):not(:disabled):hover,
+.boton:not(.secundario):not(:disabled):active {
+  background: var(--acento-hover);
+}
+.boton.secundario:not(:disabled):hover {
+  background: var(--superficie);
 }
 .boton.chico {
   min-height: var(--toque);
@@ -185,9 +193,9 @@ th {
 .boton-icono {
   width: var(--toque);
   height: var(--toque);
-  border-radius: var(--radio-control);
-  border: var(--borde) solid var(--linea);
-  background: var(--fondo);
+  border-radius: var(--radio-pastilla);
+  border: 0;
+  background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -203,7 +211,7 @@ th {
   right: -6px;
   min-width: 22px;
   height: 22px;
-  border-radius: var(--radio-control);
+  border-radius: var(--radio-pastilla);
   background: var(--acento);
   color: var(--sobre-acento);
   font-size: var(--texto-mini);
@@ -229,9 +237,9 @@ th {
 .chip {
   min-height: var(--toque);
   padding: 0 16px;
-  border-radius: var(--radio-pastilla);
-  border: var(--borde) solid var(--linea);
-  background: var(--fondo);
+  border-radius: var(--radio-boton);
+  border: var(--borde) solid transparent;
+  background: var(--superficie);
   white-space: nowrap;
   cursor: pointer;
   font-size: var(--texto-base);
@@ -257,7 +265,7 @@ th {
 .talle {
   min-height: var(--alto-boton);
   border-radius: var(--radio-control);
-  border: var(--borde) solid var(--texto-suave);
+  border: var(--borde) solid var(--linea-fuerte);
   background: var(--fondo);
   cursor: pointer;
   font-size: var(--texto-base);
@@ -280,7 +288,7 @@ th {
   align-items: center;
   gap: 12px;
   min-height: 56px;
-  border: var(--borde) solid var(--texto-suave);
+  border: var(--borde) solid var(--linea-fuerte);
   border-radius: var(--radio);
   padding: 10px 14px;
   cursor: pointer;
@@ -321,7 +329,7 @@ legend {
 }
 .entrada {
   min-height: var(--alto-boton);
-  border: var(--borde) solid var(--texto-suave);
+  border: var(--borde) solid var(--linea-fuerte);
   border-radius: var(--radio-control);
   padding: 0 14px;
   background: var(--fondo);
@@ -361,10 +369,10 @@ select.entrada {
   align-items: center;
   gap: 8px;
   min-height: 48px;
-  border: var(--borde) solid var(--linea);
-  border-radius: var(--radio);
-  background: var(--superficie);
-  padding: 0 12px;
+  border: var(--borde) solid var(--linea-fuerte);
+  border-radius: var(--radio-boton);
+  background: var(--fondo);
+  padding: 0 16px;
 }
 .buscador input {
   flex: 1;
@@ -384,8 +392,8 @@ select.entrada {
 .cantidad {
   display: inline-flex;
   align-items: center;
-  border: var(--borde) solid var(--texto-suave);
-  border-radius: var(--radio);
+  border: var(--borde) solid var(--linea-fuerte);
+  border-radius: var(--radio-boton);
 }
 .cantidad button {
   width: var(--toque);
@@ -436,7 +444,7 @@ select.entrada {
 }
 .panel {
   background: var(--superficie);
-  border: var(--borde) solid var(--linea-suave);
+  border: 0;
   border-radius: var(--radio);
   padding: 14px;
 }
@@ -471,9 +479,9 @@ select.entrada {
 .foto {
   aspect-ratio: var(--proporcion-foto);
   width: 100%;
-  border-radius: var(--radio-control);
+  border-radius: var(--radio);
   background: var(--superficie);
-  border: var(--borde) solid var(--linea-suave);
+  border: 0;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -555,24 +563,25 @@ select.entrada {
   pointer-events: none;
 }
 .toast {
-  background: var(--acento);
-  color: var(--sobre-acento);
+  background: var(--fondo);
+  color: var(--texto);
+  border: var(--borde) solid var(--acento);
   border-radius: var(--radio);
   padding: 10px 10px 10px 16px;
   display: flex;
   gap: 12px;
   align-items: center;
   pointer-events: auto;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
+  box-shadow: var(--sombra-suave);
 }
 .toast span {
   flex: 1;
 }
 .toast button {
   background: transparent;
-  border: var(--borde) solid var(--sobre-acento);
-  color: var(--sobre-acento);
-  border-radius: var(--radio-chico);
+  border: 1.5px solid var(--texto);
+  color: var(--texto);
+  border-radius: var(--radio-boton);
   min-height: var(--toque);
   padding: 0 14px;
   font-weight: var(--peso-semi);
@@ -660,4 +669,44 @@ select.entrada {
 }
 .tabla tr[aria-selected='true'] td {
   background: var(--superficie);
+}
+
+/* ---------- Pestañas (filtros del admin) ---------- */
+.filtros-pestana {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  border-bottom: var(--borde) solid var(--linea-suave);
+  scrollbar-width: none;
+}
+.pestana-filtro {
+  min-height: var(--toque);
+  padding: 0 12px;
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  margin-bottom: calc(-1 * var(--borde));
+  color: var(--texto-suave);
+  font-size: var(--texto-base);
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pestana-filtro[aria-pressed='true'] {
+  color: var(--texto);
+  font-weight: var(--peso-semi);
+  border-bottom-color: var(--acento);
+}
+.pestana-filtro .num {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: var(--radio-pastilla);
+  background: var(--superficie);
+  font-size: var(--texto-mini);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
