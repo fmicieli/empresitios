@@ -113,13 +113,9 @@
   color: var(--texto);
 }
 .admin-nav-lateral a[aria-current='page'] {
-  background: var(--acento);
-  color: var(--sobre-acento);
+  background: var(--superficie);
+  color: var(--texto);
   font-weight: var(--peso-semi);
-}
-.admin-nav-lateral a[aria-current='page'] .contador {
-  background: var(--sobre-acento);
-  color: var(--acento);
 }
 .admin-nav-lateral .abajo {
   margin-top: auto;

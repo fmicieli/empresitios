@@ -177,6 +177,7 @@ Basadas en `08-investigacion-fase-2.md`.
 5. **Control de contraste al compilar:** si un color del cliente deja un texto difícil de leer (mínimo AA: 4,5:1 para texto, 3:1 para botones), la compilación avisa qué par falla. Propuso: Claude.
 6. **El admin toma el mismo estilo que la tienda** (fuentes, colores y formas del cliente). Decidió: Flor (13/10).
 7. **Base más trabajada** (13/10, pedido de Flor, a revisar): fondo blanco y texto negro por defecto; botón principal del color de marca, con un tono más oscuro de la misma marca al pasar el mouse o tocarlo; botones con bordes redondeados (tipo pastilla); avisos que suben desde abajo en blanco, con sombra suave y borde del color de marca; filtros del admin como pestañas en lugar de píldoras. Además (propuesta de Claude): íconos del encabezado sin caja, filtros de la tienda rellenos en gris, fotos y tarjetas más redondeadas, campos con bordes más suaves (con el contraste mínimo de 3:1) y tarjetas de pedidos con sombra en lugar de borde.
+8. **Selecciones y botón secundario** (13/10, pedido de Flor): el botón secundario es blanco, con texto y borde del color de marca. El talle, el color y la categoría elegidos usan ese mismo estilo (blanco con borde de 2 px y texto de marca). En el admin de computadora, la sección elegida de la barra lateral va en gris claro. Si un color de marca es muy claro para leerse como texto, se pone una versión más oscura en `--acento-texto`; el control de contraste lo avisa.
 
 ## Pendientes (al 13/10/2026)
 

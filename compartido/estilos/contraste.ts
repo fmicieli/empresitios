@@ -46,7 +46,13 @@ const PARES: { frente: string; fondo: string; minimo: number; que: string }[] = 
   { frente: '--texto-suave', fondo: '--fondo', minimo: 4.5, que: 'el texto suave sobre el fondo' },
   { frente: '--texto-suave', fondo: '--superficie', minimo: 4.5, que: 'el texto suave sobre los paneles' },
   { frente: '--sobre-acento', fondo: '--acento', minimo: 4.5, que: 'el texto de los botones sobre el color de marca' },
-  { frente: '--acento', fondo: '--fondo', minimo: 3, que: 'el color de marca sobre el fondo (botones y selecciones)' },
+  { frente: '--acento', fondo: '--fondo', minimo: 3, que: 'el color de marca sobre el fondo (botones)' },
+  {
+    frente: '--acento-texto',
+    fondo: '--fondo',
+    minimo: 4.5,
+    que: 'el color de marca como texto (botón secundario, talle y color elegidos). Si no alcanza, poné una versión más oscura en --acento-texto',
+  },
   { frente: '--error-texto', fondo: '--fondo', minimo: 4.5, que: 'los errores sobre el fondo' },
   { frente: '--aviso-texto', fondo: '--aviso-fondo', minimo: 4.5, que: 'el texto de los avisos' },
 ];

@@ -154,15 +154,15 @@ th {
 }
 .boton.secundario {
   background: var(--fondo);
-  color: var(--texto);
-  border: 1.5px solid var(--texto);
+  color: var(--acento-texto);
+  border: 1.5px solid var(--acento-texto);
 }
 .boton:not(.secundario):not(:disabled):hover,
 .boton:not(.secundario):not(:disabled):active {
   background: var(--acento-hover);
 }
 .boton.secundario:not(:disabled):hover {
-  background: var(--superficie);
+  background: var(--acento-suave);
 }
 .boton.chico {
   min-height: var(--toque);
@@ -248,9 +248,9 @@ th {
   gap: 6px;
 }
 .chip[aria-pressed='true'] {
-  background: var(--acento);
-  color: var(--sobre-acento);
-  border-color: var(--acento);
+  background: var(--fondo);
+  color: var(--acento-texto);
+  border: 2px solid var(--acento-texto);
   font-weight: var(--peso-semi);
 }
 .chips.secundarios .chip {
@@ -271,9 +271,9 @@ th {
   font-size: var(--texto-base);
 }
 .talle[aria-pressed='true'] {
-  background: var(--acento);
-  color: var(--sobre-acento);
-  border: 2px solid var(--acento);
+  background: var(--fondo);
+  color: var(--acento-texto);
+  border: 2px solid var(--acento-texto);
   font-weight: var(--peso-semi);
 }
 .talle:disabled {

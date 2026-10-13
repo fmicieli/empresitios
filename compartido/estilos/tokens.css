@@ -20,6 +20,11 @@
   --sobre-acento: var(--sobre-marca, #ffffff);
   /* Botón principal al pasar el mouse o tocarlo: el color de marca un poco más oscuro. */
   --acento-hover: color-mix(in srgb, var(--acento) 82%, #000000);
+  /* Color de marca usado como texto y borde (botón secundario, talle y color elegidos).
+     Si el color de marca es muy claro para leerse sobre blanco, el cliente pone acá una versión más oscura. */
+  --acento-texto: var(--acento);
+  /* Fondo muy suave de la marca: botón secundario al pasar el mouse. */
+  --acento-suave: color-mix(in srgb, var(--acento) 8%, #ffffff);
   --linea-fuerte: #8c8c8c; /* bordes de campos y opciones (contraste mínimo 3:1) */
   --aviso-fondo: #f2f2f2;
   --aviso-texto: #000000;
