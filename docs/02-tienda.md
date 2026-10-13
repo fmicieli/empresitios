@@ -42,7 +42,8 @@ Catálogo (inicio) ──► Ficha de producto ──► Carrito + Tus datos (un
 - Cantidad con − / +, limitada al stock libre menos lo que ya está en el carrito.
 - "Agregar al carrito" (deshabilitado si no hay stock libre o falta elegir talle). Al agregar: aviso breve "Agregaste Remera básica (Negro · Talle M) al carrito".
 - Descripción.
-- Link "¿Dudas con el talle? Consultanos por WhatsApp" (abre chat con la tienda con el nombre del producto).
+- Link "¿Tenés alguna duda con este producto? Preguntá acá" (abre chat con la tienda con el nombre y el link del producto; ver D-18).
+- Botón "Compartir" junto al precio: en el celular abre el menú de compartir del teléfono; si no hay, copia el link (D-18).
 
 ## 5. Carrito
 

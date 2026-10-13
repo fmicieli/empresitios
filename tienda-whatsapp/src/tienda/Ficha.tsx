@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { useCarrito } from '@compartido/carrito/carrito';
-import { Cantidad, ErrorCarga, Foto, mostrarToast, useCarga } from '@compartido/componentes/basicos';
-import { IconoChat } from '@compartido/componentes/iconos';
+import { Cantidad, copiarTexto, ErrorCarga, Foto, mostrarToast, useCarga } from '@compartido/componentes/basicos';
+import { IconoChat, IconoCompartir } from '@compartido/componentes/iconos';
 import { etiquetaVariante, formatoPrecio, lugarEnPedido, variante } from '@compartido/datos/reglas';
 import type { ConfigServidor, FilaCategoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
-import { carrito, ds } from '../lib/contexto';
+import { carrito, config, ds } from '../lib/contexto';
 import { BarraCarrito, linkCategoria, Marco } from './Marco';
 import { EnlaceWhatsapp } from './EnlaceWhatsapp';
 
@@ -90,6 +90,26 @@ function Migas({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
   );
 }
 
+/** Link del producto para compartir (sin otros datos en la dirección). */
+function linkProducto(p: Producto): string {
+  const base = (config.url || location.origin).replace(/\/$/, '');
+  return `${base}/producto/?id=${encodeURIComponent(p.id)}`;
+}
+
+/** En el celular abre el menú de compartir del teléfono; si no hay, copia el link. */
+async function compartir(p: Producto) {
+  const url = linkProducto(p);
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: p.nombre, url });
+      return;
+    } catch (e) {
+      if (e instanceof DOMException && e.name === 'AbortError') return; // La persona cerró el menú.
+    }
+  }
+  mostrarToast((await copiarTexto(url)) ? t.linkProductoCopiado : url);
+}
+
 function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: ConfigServidor }) {
   const items = useCarrito(carrito);
   const libreDe = (c: string, s: string) => variante(p, c, s)?.libre ?? 0;
@@ -135,9 +155,14 @@ function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: 
         <div class="pila-chica">
           <Migas p={p} filas={filas} />
           <h1>{p.nombre}</h1>
-          <span class="precio" style={{ fontSize: '24px' }}>
-            {formatoPrecio(p.precio)}
-          </span>
+          <div class="fila-extremos">
+            <span class="precio" style={{ fontSize: '24px' }}>
+              {formatoPrecio(p.precio)}
+            </span>
+            <button type="button" class="enlace" aria-label={t.compartirProducto(p.nombre)} onClick={() => compartir(p)}>
+              <IconoCompartir /> {t.compartir}
+            </button>
+          </div>
         </div>
 
         {p.colores.length > 0 && (
@@ -206,7 +231,7 @@ function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: 
           </div>
         )}
 
-        <EnlaceWhatsapp class="enlace" texto={t.consultaMensaje(p.nombre)}>
+        <EnlaceWhatsapp class="enlace" texto={t.consultaMensaje(p.nombre, linkProducto(p))}>
           <IconoChat /> {t.consultaTalle}
         </EnlaceWhatsapp>
       </div>

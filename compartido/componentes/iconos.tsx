@@ -94,3 +94,10 @@ export const IconoHerramienta = ({ tam = 20 }: P) => (
     <path d="M14 6l-2-2" />
   </svg>
 );
+export const IconoCompartir = ({ tam = 20 }: P) => (
+  <svg {...base(tam)}>
+    <path d="M12 3v12" />
+    <path d="M8 7l4-4 4 4" />
+    <path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" />
+  </svg>
+);

@@ -13,7 +13,9 @@ Español rioplatense, vos, frases cortas. Los textos que dependen del comercio (
 | Pocas unidades | Queda 1 en talle {talle} / Quedan {n} en talle {talle} |
 | Botón ficha | Agregar al carrito |
 | Agregado | Agregaste {producto} ({variante}) al carrito. |
-| Consulta | ¿Dudas con el talle? Consultanos por WhatsApp |
+| Consulta | ¿Tenés alguna duda con este producto? Preguntá acá |
+| Mensaje de consulta | Hola, tengo una consulta sobre {producto}: {link} |
+| Compartir | Compartir · (si se copia) Link copiado. Pegalo donde quieras compartirlo. |
 | Barra carrito | Ver carrito · {n} · {total} |
 | Agotado al enviar | Algunos productos se agotaron mientras completabas tus datos. Revisalos y volvé a enviar. |
 | Carrito agotado | Se agotó mientras elegías · Elegí otra opción o quitalo para seguir. |
