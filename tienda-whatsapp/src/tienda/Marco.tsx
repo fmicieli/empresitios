@@ -13,10 +13,37 @@ import { EnlaceWhatsapp } from './EnlaceWhatsapp';
 
 const t = textos.tienda;
 
-export function linkCategoria(cat: string, subId?: string): string {
+export function linkCategoria(cat: string, subId?: string, grupo?: string): string {
   const q = new URLSearchParams({ cat });
+  if (grupo) q.set('grupo', grupo);
   if (subId) q.set('sub', subId);
   return `/?${q}`;
+}
+
+/** Items de un desplegable: "Todo Mujer" y las subcategorías, con el título de cada grupo si hay 3 niveles. */
+function ItemsSubcategorias({ c }: { c: Categoria }) {
+  let grupoAnterior = '';
+  const items = [
+    <li key="todo">
+      <a href={linkCategoria(c.nombre)}>{t.todoDe(c.nombre)}</a>
+    </li>,
+  ];
+  for (const s of c.subcategorias) {
+    if (s.grupo && s.grupo !== grupoAnterior) {
+      items.push(
+        <li key={'g-' + s.grupo} class="grupo-menu">
+          <a href={linkCategoria(c.nombre, undefined, s.grupo)}>{s.grupo}</a>
+        </li>,
+      );
+    }
+    grupoAnterior = s.grupo;
+    items.push(
+      <li key={s.id} class={s.grupo ? 'en-grupo' : undefined}>
+        <a href={linkCategoria(c.nombre, s.id)}>{s.nombre}</a>
+      </li>,
+    );
+  }
+  return <>{items}</>;
 }
 
 /** Breadcrumb: "Inicio / Mujer / Remeras". El último paso es la página actual (sin link). */
@@ -43,14 +70,7 @@ function Buscador({ id }: { id: string }) {
       <label class="sr" for={id}>
         {t.buscar}
       </label>
-      <input
-        id={id}
-        type="search"
-        name="q"
-        placeholder={t.buscar}
-        autocomplete="off"
-        defaultValue={actual}
-      />
+      <input id={id} type="search" name="q" placeholder={t.buscar} autocomplete="off" defaultValue={actual} />
     </form>
   );
 }
@@ -94,14 +114,7 @@ function MenuEscritorio({ categorias }: { categorias: Categoria[] }) {
               </button>
               {abierto === c.nombre && (
                 <ul class="desplegable">
-                  <li>
-                    <a href={linkCategoria(c.nombre)}>{t.todoDe(c.nombre)}</a>
-                  </li>
-                  {c.subcategorias.map((s) => (
-                    <li key={s.id}>
-                      <a href={linkCategoria(c.nombre, s.id)}>{s.nombre}</a>
-                    </li>
-                  ))}
+                  <ItemsSubcategorias c={c} />
                 </ul>
               )}
             </li>
@@ -145,7 +158,7 @@ function MenuLateral({ abierto, alCerrar, categorias }: { abierto: boolean; alCe
         <nav aria-label="Categorías">
           <ul class="lista-menu">
             <li>
-              <a href="/">{t.todo}</a>
+              <a href="/">{t.inicio}</a>
             </li>
             {categorias.map((c) =>
               c.subcategorias.length ? (
@@ -159,14 +172,7 @@ function MenuLateral({ abierto, alCerrar, categorias }: { abierto: boolean; alCe
                   </button>
                   {desplegada === c.nombre && (
                     <ul>
-                      <li>
-                        <a href={linkCategoria(c.nombre)}>{t.todoDe(c.nombre)}</a>
-                      </li>
-                      {c.subcategorias.map((s) => (
-                        <li key={s.id}>
-                          <a href={linkCategoria(c.nombre, s.id)}>{s.nombre}</a>
-                        </li>
-                      ))}
+                      <ItemsSubcategorias c={c} />
                     </ul>
                   )}
                 </li>

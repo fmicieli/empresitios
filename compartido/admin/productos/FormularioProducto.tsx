@@ -517,7 +517,7 @@ function Editor({
                   <optgroup key={c.nombre} label={c.nombre}>
                     {c.subcategorias.map((s) => (
                       <option key={s.id} value={s.id}>
-                        {c.nombre} › {s.nombre}
+                        {[c.nombre, s.grupo, s.nombre].filter(Boolean).join(' › ')}
                       </option>
                     ))}
                   </optgroup>

@@ -8,21 +8,21 @@
       "id": "c1",
       "orden": 1,
       "categoria": "Mujer",
-      "subcategoria": "Remeras",
+      "subcategoria": "Indumentaria > Remeras",
       "visible": true
     },
     {
       "id": "c2",
       "orden": 2,
       "categoria": "Mujer",
-      "subcategoria": "Vestidos",
+      "subcategoria": "Indumentaria > Vestidos",
       "visible": true
     },
     {
       "id": "c3",
       "orden": 3,
       "categoria": "Mujer",
-      "subcategoria": "Pantalones",
+      "subcategoria": "Indumentaria > Pantalones",
       "visible": true
     },
     {

@@ -11,8 +11,10 @@ import {
   coincide,
   destacadosPorCategoria,
   formatoPrecio,
+  grupoCategoria,
   libreTotal,
   resaltar,
+  rutaCategoria,
 } from '@compartido/datos/reglas';
 import type { Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
@@ -24,7 +26,12 @@ const t = textos.tienda;
 
 function leerUrl() {
   const q = new URLSearchParams(location.search);
-  return { cat: q.get('cat') ?? '', sub: q.get('sub') ?? '', busqueda: (q.get('q') ?? '').trim() };
+  return {
+    cat: q.get('cat') ?? '',
+    grupo: q.get('grupo') ?? '',
+    sub: q.get('sub') ?? '',
+    busqueda: (q.get('q') ?? '').trim(),
+  };
 }
 
 function TarjetaProducto({ p, busqueda = '' }: { p: Producto; busqueda?: string }) {
@@ -155,14 +162,25 @@ export default function Catalogo() {
       </div>
     );
   } else if (filtro.cat) {
+    // Subcategoría elegida, o grupo (nivel del medio, si la tienda usa 3 niveles), o toda la categoría.
+    const grupoDe = (id: string) => {
+      const f = filas.find((x) => x.id === id);
+      return f ? grupoCategoria(f) : '';
+    };
     const lista = productos.filter(
-      (p) => categoriaPrincipal(filas, p.categoriaId) === filtro.cat && (!filtro.sub || p.categoriaId === filtro.sub),
+      (p) =>
+        categoriaPrincipal(filas, p.categoriaId) === filtro.cat &&
+        (!filtro.sub || p.categoriaId === filtro.sub) &&
+        (!filtro.grupo || grupoDe(p.categoriaId) === filtro.grupo),
     );
-    const titulo = subFila?.subcategoria || filtro.cat;
+    const ruta = subFila ? rutaCategoria(subFila) : [filtro.cat, ...(filtro.grupo ? [filtro.grupo] : [])];
+    const titulo = ruta[ruta.length - 1];
     const pasos = [
       { texto: t.inicio, link: '/' },
-      { texto: filtro.cat, link: linkCategoria(filtro.cat) },
-      ...(subFila?.subcategoria ? [{ texto: subFila.subcategoria }] : []),
+      ...ruta.map((texto, i) => ({
+        texto,
+        link: i === 0 ? linkCategoria(filtro.cat) : i < ruta.length - 1 ? linkCategoria(filtro.cat, undefined, texto) : undefined,
+      })),
     ];
     contenido = (
       <div class="pila">

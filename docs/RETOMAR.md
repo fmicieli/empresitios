@@ -1,11 +1,12 @@
 # Cómo retomar
 
-## 1. Links para revisar lo último (estilo por cliente, D-19)
+## 1. Links para revisar lo último (diseño de la tienda: D-19 y D-20)
 
+- **Decisiones de diseño (D-19, D-20) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
 - **Archivo de estilo del cliente (fuentes, colores, formas):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/tienda-whatsapp/config/estilo.css
-- **Valores por defecto y escala de textos fija:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/compartido/estilos/tokens.css
-- **Decisiones (D-19) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
-- **Qué cambió en tu localhost:** algunos textos quedaron apenas más grandes, porque la escala se ordenó en pasos fijos. La fuente ahora se carga desde el propio sitio (no desde Google). Probá cambiar algo en `config/estilo.css` (por ejemplo, descomentá el bloque de "FORMAS") y mirá la tienda.
+- **Configuración del banner (inicio.banner):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/tienda-whatsapp/config/tienda.config.ts
+- **Pull request con todo esto (unir después de revisar):** https://github.com/fmicieli/empresitios/pull/5
+- **Qué cambió en tu localhost:** inicio con banner y filas de destacados por categoría; breadcrumb en categorías, búsqueda y ficha; buscador chico en el encabezado (lupa en el celular); Mujer con 3 niveles (Mujer / Indumentaria / Remeras); colores derivados de la marca; Roboto; logo de ejemplo; casilla "Destacado en el inicio" en el admin. Los datos de prueba del navegador se reinician una vez.
 
 ### Fase 4 (aprobada)
 

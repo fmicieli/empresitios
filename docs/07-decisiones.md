@@ -192,7 +192,7 @@ Basadas en `08-investigacion-fase-2.md`.
 3. **Banner desde la configuración** (`inicio.banner` en `tienda.config.ts`): imagen, título, texto y botón. Lo cambia quien mantiene el sitio. Decidió: Flor.
 4. **Breadcrumb en lugar de filtros:** en categorías, búsqueda y ficha ("Inicio / Mujer / Remeras"), arriba del título. Decidió: Flor.
 5. **Buscador chico en el encabezado**, a la izquierda del carrito. En el celular, una lupa que abre el buscador debajo del encabezado. Decidió: Flor.
-6. **Niveles de categorías:** dependen de la clasificación de cada tienda y se definen al armarla (2 o 3 niveles, por ejemplo Mujer / Indumentaria / Remeras). Decidió: Flor.
+6. **Niveles de categorías:** dependen de la clasificación de cada tienda y se definen al armarla (2 o 3 niveles, por ejemplo Mujer / Indumentaria / Remeras). Decidió: Flor. Cómo (propuso Claude): sin columnas nuevas; para un tercer nivel, la columna `subcategoria` lleva el camino con `>` ("Indumentaria > Remeras"). El menú muestra el grupo como título y el breadcrumb lo incluye con link. La demo usa 3 niveles en Mujer y 2 en Hombre.
 7. La demo suma productos de ejemplo para que las filas tengan con qué desplazarse. Los datos de prueba guardados en el navegador se reinician una vez (versión nueva). Propuso: Claude.
 
 ## Pendientes (al 13/10/2026)

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   agruparCategorias,
+  nombreCategoria,
+  rutaCategoria,
   coincide,
   destacadosPorCategoria,
   evaluarCarrito,
@@ -129,12 +131,25 @@ describe('categorías', () => {
         nombre: 'Mujer',
         id: null,
         subcategorias: [
-          { id: 'c1', nombre: 'Remeras' },
-          { id: 'c2', nombre: 'Vestidos' },
+          { id: 'c1', nombre: 'Remeras', grupo: '' },
+          { id: 'c2', nombre: 'Vestidos', grupo: '' },
         ],
       },
       { nombre: 'Accesorios', id: 'c3', subcategorias: [] },
     ]);
+  });
+
+  it('acepta un tercer nivel con ">" en la subcategoría (D-20)', () => {
+    const filas = [
+      { id: 'c1', orden: 1, categoria: 'Mujer', subcategoria: 'Indumentaria > Remeras', visible: true },
+      { id: 'c2', orden: 2, categoria: 'Mujer', subcategoria: 'Calzado', visible: true },
+    ];
+    expect(agruparCategorias(filas)[0].subcategorias).toEqual([
+      { id: 'c1', nombre: 'Remeras', grupo: 'Indumentaria' },
+      { id: 'c2', nombre: 'Calzado', grupo: '' },
+    ]);
+    expect(nombreCategoria(filas, 'c1')).toBe('Mujer › Indumentaria › Remeras');
+    expect(rutaCategoria(filas[0])).toEqual(['Mujer', 'Indumentaria', 'Remeras']);
   });
 });
 

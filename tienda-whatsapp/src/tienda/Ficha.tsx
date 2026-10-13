@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { useCarrito } from '@compartido/carrito/carrito';
 import { Cantidad, copiarTexto, ErrorCarga, Foto, mostrarToast, useCarga } from '@compartido/componentes/basicos';
 import { IconoChat, IconoCompartir } from '@compartido/componentes/iconos';
-import { etiquetaVariante, formatoPrecio, lugarEnPedido, variante } from '@compartido/datos/reglas';
+import { etiquetaVariante, formatoPrecio, lugarEnPedido, variante, rutaCategoria } from '@compartido/datos/reglas';
 import type { ConfigServidor, FilaCategoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
 import { carrito, config, ds } from '../lib/contexto';
@@ -72,10 +72,19 @@ function Galeria({ p }: { p: Producto }) {
 function MigasFicha({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
   const fila = filas.find((f) => f.id === p.categoriaId);
   if (!fila) return null;
+  // Inicio / Mujer / Indumentaria / Remeras / Producto (con 2 o 3 niveles según la tienda).
+  const ruta = rutaCategoria(fila);
   const pasos = [
     { texto: t.inicio, link: '/' },
-    { texto: fila.categoria, link: linkCategoria(fila.categoria) },
-    ...(fila.subcategoria ? [{ texto: fila.subcategoria, link: linkCategoria(fila.categoria, fila.id) }] : []),
+    ...ruta.map((texto, i) => ({
+      texto,
+      link:
+        i === 0
+          ? linkCategoria(fila.categoria)
+          : i === ruta.length - 1
+            ? linkCategoria(fila.categoria, fila.id)
+            : linkCategoria(fila.categoria, undefined, texto),
+    })),
     { texto: p.nombre },
   ];
   return <Migas pasos={pasos} />;

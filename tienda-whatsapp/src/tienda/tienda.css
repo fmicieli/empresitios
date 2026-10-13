@@ -463,3 +463,11 @@
     grid-auto-columns: 220px;
   }
 }
+
+/* Menús con 3 niveles: título del grupo y sus subcategorías con sangría. */
+.grupo-menu a {
+  font-weight: var(--peso-semi);
+}
+.en-grupo a {
+  padding-left: 28px;
+}

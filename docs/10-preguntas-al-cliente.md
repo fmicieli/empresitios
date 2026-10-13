@@ -50,7 +50,7 @@ En el admin, si un mismo número tiene 2 o más pedidos pendientes, aparece "Can
 
 | # | Pregunta | Dónde |
 |---|---|---|
-| 4.1 | Categorías y subcategorías (por ejemplo, Mujer › Remeras). | Planilla → pestaña `Categorias` |
+| 4.1 | Categorías y subcategorías: ¿2 niveles (Mujer › Remeras) o 3 (Mujer › Indumentaria › Remeras)? | Planilla → pestaña `Categorias` |
 | 4.2 | ¿Los productos tienen colores? ¿Talles? ¿Las dos cosas? | Se carga por producto en el admin |
 | 4.3 | ¿Usan un código interno por producto? | Se carga por producto en el admin |
 | 4.4 | ¿Cuántos productos tienen, más o menos? ¿Tienen fotos? | Para calcular la carga inicial |

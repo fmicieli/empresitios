@@ -151,7 +151,7 @@ const AJUSTES_INICIALES: AjustesPrueba = { demora: 'realista', fallarAlGuardar: 
 export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
   const almacen = op.almacen ?? (typeof localStorage !== 'undefined' ? localStorage : memoria());
   const fotos = op.fotos ?? fotosEnMemoria();
-  const claveDatos = `${op.clave}:datos:v2`; // v2: productos destacados y más productos de ejemplo
+  const claveDatos = `${op.clave}:datos:v3`; // v3: destacados, más productos y categorías de 3 niveles en la demo
   const claveAjustes = `${op.clave}:pruebas`;
   const oyentes = new Set<() => void>();
 
