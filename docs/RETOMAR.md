@@ -34,7 +34,7 @@
 
 La copia del proyecto está en `Claude Code/Empresitios`, bajada con GitHub Desktop en la rama `claude/quirky-cray-06mnp8`.
 
-**Atajo (un solo comando):** con la tienda cortada (`Ctrl + C`), corré `npm run actualizar` en la Terminal. Trae los cambios, instala lo que haga falta y levanta la tienda. Si dice que no encuentra `git`, aceptá la instalación que te ofrece la Mac ("herramientas de línea de comandos") o usá los pasos de abajo.
+**Atajo (un solo comando):** con la tienda cortada (`Ctrl + C`), corré `npm run actualizar` en la Terminal. Trae los cambios, instala lo que haga falta y levanta la tienda. (Antes descarta los cambios automáticos que `npm install` hace en `package-lock.json` en tu Mac, que si no frenan la actualización con el error "Your local changes … would be overwritten".) Si dice que no encuentra `git`, aceptá la instalación que te ofrece la Mac ("herramientas de línea de comandos") o usá los pasos de abajo.
 
 **Cada vez que Claude avisa que subió cambios (paso a paso):**
 1. En la Terminal donde corre la tienda, cortala con `Ctrl + C`.
