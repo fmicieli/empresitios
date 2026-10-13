@@ -12,6 +12,8 @@ export interface SemillaProducto {
   descripcion: string;
   codigo: string;
   visible: boolean;
+  /** Opcional en los datos de ejemplo (y en datos guardados antes de existir). */
+  destacado?: boolean;
   colores: string[];
   talles: string[];
   fotos: string[];

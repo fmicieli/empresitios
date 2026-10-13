@@ -43,6 +43,7 @@ Fila sin subcategoría = categoría de un solo nivel. El `id` nunca cambia; se p
 | talles | texto | lista separada por `|`, vacía si no tiene |
 | fotos | texto | ids de archivos de Drive separados por `|`, en orden (la primera es la principal) |
 | creado / actualizado | fecha | |
+| destacado | sí/no | aparece en la fila de su categoría en el inicio (D-20). Columna al final, para no mover las anteriores |
 
 ### `Stock` (una fila por variante)
 

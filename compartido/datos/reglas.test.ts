@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   agruparCategorias,
   coincide,
+  destacadosPorCategoria,
   evaluarCarrito,
   fechaReserva,
   formatoPrecio,
@@ -85,6 +86,7 @@ describe('carrito', () => {
     descripcion: '',
     codigo: '',
     visible: true,
+    destacado: false,
     colores: ['Negro'],
     talles: ['S', 'M'],
     fotos: [],
@@ -148,5 +150,32 @@ describe('tiempo', () => {
     const ahora = new Date(2026, 9, 6, 15, 20).getTime();
     expect(fechaReserva(ahora + 24 * H, ahora)).toBe('mañana a las 15:20');
     expect(fechaReserva(ahora + 2 * H, ahora)).toBe('hoy a las 17:20');
+  });
+});
+
+describe('destacados del inicio', () => {
+  const filasCat = [
+    { id: 'c1', orden: 1, categoria: 'Mujer', subcategoria: 'Remeras', visible: true },
+    { id: 'c2', orden: 2, categoria: 'Hombre', subcategoria: '', visible: true },
+    { id: 'c3', orden: 3, categoria: 'Niños', subcategoria: '', visible: true },
+  ];
+  const prod = (id: string, categoriaId: string, destacado: boolean, creado: number, visible = true) =>
+    ({ id, categoriaId, destacado, creado, visible }) as unknown as Producto;
+
+  it('muestra los marcados; si no hay, los más nuevos; y omite categorías vacías', () => {
+    const r = destacadosPorCategoria(
+      [
+        prod('a', 'c1', true, 1),
+        prod('b', 'c1', false, 9),
+        prod('c', 'c2', false, 1),
+        prod('d', 'c2', false, 5),
+        prod('e', 'c1', true, 3, false),
+      ],
+      filasCat,
+    );
+    expect(r.map((f) => [f.categoria, f.productos.map((p) => p.id)])).toEqual([
+      ['Mujer', ['a']],
+      ['Hombre', ['d', 'c']],
+    ]);
   });
 });

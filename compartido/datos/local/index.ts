@@ -104,7 +104,12 @@ function nuevoId(prefijo: string): string {
 }
 
 function estadoDesdeSemilla(s: Semilla, ahora: number): EstadoLocal {
-  const productos: FilaProducto[] = s.productos.map(({ stock: _s, ...p }) => ({ ...p, creado: ahora, actualizado: ahora }));
+  const productos: FilaProducto[] = s.productos.map(({ stock: _s, ...p }) => ({
+    ...p,
+    destacado: !!p.destacado,
+    creado: ahora,
+    actualizado: ahora,
+  }));
   const stock: FilaStock[] = s.productos.flatMap((p) => p.stock.map((st) => ({ productoId: p.id, ...st })));
   const pedidos: Pedido[] = s.pedidos.map((sp) => {
     const creado = ahora - sp.haceMinutos * 60000;
@@ -146,7 +151,7 @@ const AJUSTES_INICIALES: AjustesPrueba = { demora: 'realista', fallarAlGuardar: 
 export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
   const almacen = op.almacen ?? (typeof localStorage !== 'undefined' ? localStorage : memoria());
   const fotos = op.fotos ?? fotosEnMemoria();
-  const claveDatos = `${op.clave}:datos:v1`;
+  const claveDatos = `${op.clave}:datos:v2`; // v2: productos destacados y más productos de ejemplo
   const claveAjustes = `${op.clave}:pruebas`;
   const oyentes = new Set<() => void>();
 
@@ -266,7 +271,7 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
   function armarProducto(e: EstadoLocal, p: FilaProducto, t: number): Producto {
     const reservas = reservasPorVariante(e.pedidos, t);
     const filas = e.stock.filter((s) => s.productoId === p.id);
-    return { ...p, variantes: armarVariantes(p.id, p.colores, p.talles, filas, reservas) };
+    return { ...p, destacado: !!p.destacado, variantes: armarVariantes(p.id, p.colores, p.talles, filas, reservas) };
   }
 
   function filaStock(e: EstadoLocal, productoId: string, color: string, talle: string): FilaStock | undefined {
@@ -560,6 +565,7 @@ export function crearDataStoreLocal(op: OpcionesLocal): DataStoreLocal {
           descripcion: datos.descripcion.trim(),
           codigo: datos.codigo.trim(),
           visible: datos.visible,
+          destacado: !!datos.destacado,
           colores: [...datos.colores],
           talles: [...datos.talles],
           fotos: [...datos.fotos],

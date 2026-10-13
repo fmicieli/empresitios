@@ -47,6 +47,7 @@ interface Borrador {
   descripcion: string;
   codigo: string;
   visible: boolean;
+  destacado: boolean;
   colores: string[];
   talles: string[];
   stock: Record<string, string>;
@@ -74,6 +75,7 @@ function desdeProducto(p: Producto | null): Borrador {
       descripcion: '',
       codigo: '',
       visible: true,
+      destacado: false,
       colores: [],
       talles: [],
       stock: {},
@@ -87,6 +89,7 @@ function desdeProducto(p: Producto | null): Borrador {
     descripcion: p.descripcion,
     codigo: p.codigo,
     visible: p.visible,
+    destacado: p.destacado,
     colores: [...p.colores],
     talles: [...p.talles],
     stock: Object.fromEntries(p.variantes.map((v) => [claveVariante(v.color, v.talle), String(v.cantidad)])),
@@ -395,6 +398,7 @@ function Editor({
         descripcion: b.descripcion.trim(),
         codigo: b.codigo.trim(),
         visible: b.visible,
+        destacado: b.destacado,
         colores: b.colores,
         talles: b.talles,
         fotos: fotos.map((f) => f.id!),
@@ -665,6 +669,20 @@ function Editor({
               class="interruptor"
               checked={b.visible}
               onChange={(e) => cambiar({ visible: (e.target as HTMLInputElement).checked })}
+            />
+          </label>
+
+          <label class="fila" style={{ flexWrap: 'nowrap', minHeight: '52px' }}>
+            <span class="pila-chica" style={{ gap: 0, flex: 1 }}>
+              <strong>{t.destacado}</strong>
+              <span class="ayuda">{t.destacadoAyuda}</span>
+            </span>
+            <input
+              type="checkbox"
+              role="switch"
+              class="interruptor"
+              checked={b.destacado}
+              onChange={(e) => cambiar({ destacado: (e.target as HTMLInputElement).checked })}
             />
           </label>
 

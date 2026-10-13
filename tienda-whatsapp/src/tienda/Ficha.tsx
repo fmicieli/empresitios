@@ -8,7 +8,7 @@ import { etiquetaVariante, formatoPrecio, lugarEnPedido, variante } from '@compa
 import type { ConfigServidor, FilaCategoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
 import { carrito, config, ds } from '../lib/contexto';
-import { BarraCarrito, linkCategoria, Marco } from './Marco';
+import { BarraCarrito, linkCategoria, Marco, Migas } from './Marco';
 import { EnlaceWhatsapp } from './EnlaceWhatsapp';
 
 const t = textos.tienda;
@@ -68,26 +68,17 @@ function Galeria({ p }: { p: Producto }) {
   );
 }
 
-function Migas({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
+/** Breadcrumb de la ficha: Inicio / Categoría / Subcategoría. */
+function MigasFicha({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
   const fila = filas.find((f) => f.id === p.categoriaId);
   if (!fila) return null;
-  return (
-    <nav aria-label="Estás en">
-      <ol class="migas">
-        <li>
-          <a href={linkCategoria(fila.categoria)}>{fila.categoria}</a>
-        </li>
-        {fila.subcategoria && (
-          <>
-            <li aria-hidden="true">›</li>
-            <li>
-              <a href={linkCategoria(fila.categoria, fila.id)}>{fila.subcategoria}</a>
-            </li>
-          </>
-        )}
-      </ol>
-    </nav>
-  );
+  const pasos = [
+    { texto: t.inicio, link: '/' },
+    { texto: fila.categoria, link: linkCategoria(fila.categoria) },
+    ...(fila.subcategoria ? [{ texto: fila.subcategoria, link: linkCategoria(fila.categoria, fila.id) }] : []),
+    { texto: p.nombre },
+  ];
+  return <Migas pasos={pasos} />;
 }
 
 /** Link del producto para compartir (sin otros datos en la dirección). */
@@ -153,7 +144,7 @@ function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: 
       <Galeria p={p} />
       <div class="pila">
         <div class="pila-chica">
-          <Migas p={p} filas={filas} />
+          <MigasFicha p={p} filas={filas} />
           <h1>{p.nombre}</h1>
           <div class="fila-extremos">
             <span class="precio" style={{ fontSize: 'var(--titulo-2)' }}>

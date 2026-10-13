@@ -36,8 +36,23 @@
   width: auto;
 }
 .menu-escritorio,
-.buscador-encabezado {
+.solo-escritorio {
   display: none;
+}
+@media (min-width: 900px) {
+  .solo-escritorio {
+    display: block;
+  }
+}
+.buscador-encabezado {
+  min-height: var(--toque);
+  width: 220px;
+}
+.buscador-celular {
+  padding: 0 var(--separacion) 12px;
+}
+.buscador-celular .buscador-encabezado {
+  width: 100%;
 }
 .acciones-encabezado {
   display: flex;
@@ -63,9 +78,8 @@
     gap: 4px;
     justify-self: center;
   }
-  .buscador-encabezado {
-    display: flex;
-    width: 260px;
+  .solo-celular {
+    display: none;
   }
 }
 .menu-escritorio > li {
@@ -245,20 +259,33 @@
   }
 }
 .migas {
-  font-size: var(--texto-chico);
-  color: var(--texto-suave);
+  font-size: var(--texto-base);
+  color: var(--texto);
   display: flex;
-  gap: 6px;
   flex-wrap: wrap;
+  align-items: center;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.migas a {
-  color: var(--texto-suave);
-  min-height: 32px;
+.migas li {
   display: inline-flex;
   align-items: center;
+}
+.migas li + li::before {
+  content: '/';
+  color: var(--texto-suave);
+  padding: 0 10px;
+}
+.migas a {
+  color: var(--texto);
+  text-decoration: none;
+  min-height: var(--toque);
+  display: inline-flex;
+  align-items: center;
+}
+.migas a:hover {
+  text-decoration: underline;
 }
 .galeria {
   display: flex;
@@ -374,4 +401,65 @@
 /* Anti-robots (Turnstile): solo ocupa lugar si Cloudflare muestra la casilla. */
 .caja-turnstile:empty {
   display: none;
+}
+
+/* ---------- Inicio: banner ---------- */
+.banner {
+  display: grid;
+  border-radius: var(--radio-grande);
+  overflow: hidden;
+  background: var(--superficie-marca);
+}
+.banner-imagen {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+.banner-texto {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+.banner-texto p {
+  margin: 0;
+  color: var(--texto-suave);
+  max-width: 46ch;
+}
+@media (min-width: 800px) {
+  .banner {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+  .banner-imagen {
+    order: 2;
+    aspect-ratio: 4 / 3;
+    height: 100%;
+  }
+  .banner-texto {
+    padding: 48px;
+    gap: 16px;
+  }
+}
+
+/* ---------- Inicio: filas de destacados con desplazamiento horizontal ---------- */
+.fila-productos {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 44%;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+.fila-productos > li {
+  scroll-snap-align: start;
+}
+@media (min-width: 700px) {
+  .fila-productos {
+    grid-auto-columns: 220px;
+  }
 }

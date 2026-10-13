@@ -50,6 +50,8 @@ export interface Producto {
   descripcion: string;
   codigo: string;
   visible: boolean;
+  /** Aparece en las filas de destacados del inicio. */
+  destacado: boolean;
   colores: string[];
   talles: string[];
   /** ids de fotos en orden; la primera es la principal. */
@@ -68,6 +70,8 @@ export interface ProductoAGuardar {
   descripcion: string;
   codigo: string;
   visible: boolean;
+  /** Aparece en las filas de destacados del inicio. */
+  destacado: boolean;
   colores: string[];
   talles: string[];
   fotos: string[];

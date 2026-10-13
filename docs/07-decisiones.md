@@ -185,6 +185,16 @@ Basadas en `08-investigacion-fase-2.md`.
 13. **Todo se deriva del color de marca** (13/10, Flor; referencia: tienda "ShopMate" verde oliva). Del color de marca salen: botón principal (pleno) y su hover (más oscuro); botón secundario, selecciones, íconos y links (color de marca como texto); y un tono muy suave de la marca (`--superficie-marca`) para avisos, paneles, etiquetas ("Sin stock") y círculos de íconos. Las tarjetas de producto son blancas con borde finito. Con la marca negra de la demo, todo queda en blanco, negro y grises.
 14. **Encabezado y márgenes en computadora** (13/10, Flor): logo a la izquierda (en la demo, un logo de ejemplo en `public/logo.svg`), categorías principales centradas, buscador y carrito a la derecha. Ícono de carrito en lugar del de bolsa (que parecía un tacho). Contenido más ancho: hasta 1360 px.
 
+## D-20 · Inicio con banner y destacados (13/10/2026)
+
+1. **Inicio:** banner arriba y una fila por categoría principal con sus productos destacados, con desplazamiento horizontal ("Destacados de Mujer", "Destacados de Hombre"…). Decidió: Flor.
+2. **Destacados:** casilla "Destacado en el inicio" en el admin, por producto (columna `destacado` en la planilla). Si en una categoría no hay ninguno marcado, se muestran los más nuevos. Decidió: Flor.
+3. **Banner desde la configuración** (`inicio.banner` en `tienda.config.ts`): imagen, título, texto y botón. Lo cambia quien mantiene el sitio. Decidió: Flor.
+4. **Breadcrumb en lugar de filtros:** en categorías, búsqueda y ficha ("Inicio / Mujer / Remeras"), arriba del título. Decidió: Flor.
+5. **Buscador chico en el encabezado**, a la izquierda del carrito. En el celular, una lupa que abre el buscador debajo del encabezado. Decidió: Flor.
+6. **Niveles de categorías:** dependen de la clasificación de cada tienda y se definen al armarla (2 o 3 niveles, por ejemplo Mujer / Indumentaria / Remeras). Decidió: Flor.
+7. La demo suma productos de ejemplo para que las filas tengan con qué desplazarse. Los datos de prueba guardados en el navegador se reinician una vez (versión nueva). Propuso: Claude.
+
 ## Pendientes (al 13/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

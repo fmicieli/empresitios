@@ -289,3 +289,26 @@ export function huellaItems(items: { productoId: string; color: string; talle: s
     .map((k) => `${k}×${suma.get(k)}`)
     .join(';');
 }
+
+// ---------- Inicio: filas de destacados ----------
+
+export interface FilaDestacados {
+  categoria: string;
+  productos: Producto[];
+}
+
+/**
+ * Una fila por categoría principal, en el orden de la planilla. En cada una van los productos
+ * marcados como destacados; si no hay ninguno marcado, los más nuevos. Sin productos, no hay fila.
+ */
+export function destacadosPorCategoria(productos: Producto[], filas: FilaCategoria[], maximo = 10): FilaDestacados[] {
+  return agruparCategorias(filas)
+    .map((c) => {
+      const deLaCategoria = productos
+        .filter((p) => p.visible && categoriaPrincipal(filas, p.categoriaId) === c.nombre)
+        .sort((a, b) => b.creado - a.creado);
+      const marcados = deLaCategoria.filter((p) => p.destacado);
+      return { categoria: c.nombre, productos: (marcados.length ? marcados : deLaCategoria).slice(0, maximo) };
+    })
+    .filter((f) => f.productos.length > 0);
+}

@@ -19,6 +19,42 @@ export function linkCategoria(cat: string, subId?: string): string {
   return `/?${q}`;
 }
 
+/** Breadcrumb: "Inicio / Mujer / Remeras". El último paso es la página actual (sin link). */
+export function Migas({ pasos }: { pasos: { texto: string; link?: string }[] }) {
+  return (
+    <nav aria-label="Estás en">
+      <ol class="migas">
+        {pasos.map((p, i) => (
+          <li key={i}>
+            {p.link && i < pasos.length - 1 ? <a href={p.link}>{p.texto}</a> : <span aria-current="page">{p.texto}</span>}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
+/** Buscador del encabezado: lleva al catálogo con los resultados. */
+function Buscador({ id }: { id: string }) {
+  const actual = new URLSearchParams(location.search).get('q') ?? '';
+  return (
+    <form class="buscador buscador-encabezado" action="/" method="get" role="search">
+      <IconoBuscar />
+      <label class="sr" for={id}>
+        {t.buscar}
+      </label>
+      <input
+        id={id}
+        type="search"
+        name="q"
+        placeholder={t.buscar}
+        autocomplete="off"
+        defaultValue={actual}
+      />
+    </form>
+  );
+}
+
 function Logo() {
   return (
     <a class="logo" href="/">
@@ -184,18 +220,11 @@ export function BarraCarrito({ productos }: { productos: Producto[] | undefined 
   );
 }
 
-export function Marco({
-  children,
-  buscadorEnEncabezado = true,
-  conBarraAbajo = false,
-}: {
-  children: ComponentChildren;
-  buscadorEnEncabezado?: boolean;
-  conBarraAbajo?: boolean;
-}) {
+export function Marco({ children, conBarraAbajo = false }: { children: ComponentChildren; conBarraAbajo?: boolean }) {
   const items = useCarrito(carrito);
   const n = unidades(items);
   const [menu, setMenu] = useState(false);
+  const [busquedaCelular, setBusquedaCelular] = useState(false);
   const cats = useCarga(() => ds.getCategorias(), []);
   const categorias = cats.datos ? agruparCategorias(cats.datos) : [];
 
@@ -215,15 +244,24 @@ export function Marco({
           <Logo />
           <MenuEscritorio categorias={categorias} />
           <div class="acciones-encabezado">
-            {buscadorEnEncabezado && (
-              <form class="buscador buscador-encabezado" action="/" method="get" role="search">
-                <IconoBuscar />
-                <label class="sr" for="buscar-encabezado">
-                  {t.buscar}
-                </label>
-                <input id="buscar-encabezado" type="search" name="q" placeholder={t.buscar} autocomplete="off" />
-              </form>
-            )}
+            <div class="solo-escritorio">
+              <Buscador id="buscar-encabezado" />
+            </div>
+            <button
+              type="button"
+              class="boton-icono solo-celular"
+              aria-label={busquedaCelular ? t.cerrarBuscador : t.abrirBuscador}
+              aria-expanded={busquedaCelular}
+              aria-controls="buscador-celular"
+              onClick={() => {
+                const abrir = !busquedaCelular;
+                setBusquedaCelular(abrir);
+                // El cursor queda listo para escribir (y se abre el teclado del celular).
+                if (abrir) setTimeout(() => document.getElementById('buscar-celular')?.focus(), 0);
+              }}
+            >
+              {busquedaCelular ? <IconoCerrar /> : <IconoBuscar />}
+            </button>
             <a class="boton-icono" href="/carrito/" aria-label={t.carrito(n)}>
               <IconoCarrito />
               {n > 0 && (
@@ -234,6 +272,11 @@ export function Marco({
             </a>
           </div>
         </div>
+        {busquedaCelular && (
+          <div class="buscador-celular" id="buscador-celular">
+            <Buscador id="buscar-celular" />
+          </div>
+        )}
       </header>
       <MenuLateral abierto={menu} alCerrar={() => setMenu(false)} categorias={categorias} />
       <main class="contenedor" id="contenido">

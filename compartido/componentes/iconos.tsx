@@ -102,3 +102,8 @@ export const IconoCompartir = ({ tam = 20 }: P) => (
     <path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" />
   </svg>
 );
+export const IconoDerecha = ({ tam = 18 }: P) => (
+  <svg {...base(tam)}>
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);
