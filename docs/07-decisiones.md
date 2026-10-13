@@ -170,6 +170,6 @@ Basadas en `08-investigacion-fase-2.md`.
 ## Pendientes (al 9/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
-2. **Fase 4** (publicación de la demo): entregada. Falta que Flor una el pull request a `main` y conecte Cloudflare siguiendo `11-publicar-demo.md`.
+2. **Fase 4** (publicación de la demo): publicada el 13/10 en https://tienda-modelo.atlas-de5cd208129d.workers.dev, desde `main`. Falta que Flor la pruebe desde el celular (`11-publicar-demo.md`, punto 4) y dé el OK.
 3. **Prueba con Google de verdad:** al final, con la lista de pruebas (guía `09`, paso 8).
 4. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, estilos predefinidos por tokens, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`).
