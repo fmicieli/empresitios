@@ -179,9 +179,25 @@
 .tarjeta {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+  height: 100%;
+  padding-bottom: 12px;
   text-decoration: none;
   color: var(--texto);
+  background: var(--fondo);
+  border: var(--borde) solid var(--linea-suave);
+  border-radius: var(--radio);
+  overflow: hidden;
+}
+.tarjeta .foto {
+  border-radius: 0;
+  margin-bottom: 6px;
+}
+.tarjeta > :not(.foto) {
+  padding: 0 12px;
+}
+.tarjeta .precio {
+  font-weight: var(--peso-bold);
 }
 .tarjeta-nombre mark {
   background: none;

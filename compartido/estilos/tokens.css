@@ -25,12 +25,13 @@
   --acento-texto: var(--acento);
   /* Fondo muy suave de la marca: botón secundario al pasar el mouse. */
   --acento-suave: color-mix(in srgb, var(--acento) 8%, #ffffff);
-  --icono: var(--texto); /* íconos del encabezado, links y menús (contraste mínimo 3:1) */
-  --enlace: var(--texto); /* texto de los links */
+  --icono: var(--acento-texto); /* íconos del encabezado, links y menús (contraste mínimo 3:1) */
+  --enlace: var(--acento-texto); /* texto de los links */
+  --superficie-marca: var(--acento-suave); /* fondos suaves de marca: avisos, etiquetas, círculos de íconos */
   --contador-fondo: var(--acento); /* circulito con números (carrito, pendientes) */
   --contador-texto: var(--sobre-acento);
   --linea-fuerte: #8c8c8c; /* bordes de campos y opciones (contraste mínimo 3:1) */
-  --aviso-fondo: #f2f2f2;
+  --aviso-fondo: var(--superficie-marca);
   --aviso-texto: #000000;
   --ok-texto: #000000;
   --error-texto: #c00000; /* único color: errores en rojo (D-11) */

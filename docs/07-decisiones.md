@@ -181,7 +181,8 @@ Basadas en `08-investigacion-fase-2.md`.
 9. **Ajuste automático de contraste** (13/10, Flor): si el color de marca no se lee como texto sobre el fondo (4,5:1), al compilar los textos y bordes de marca pasan solos al color del texto (negro). El botón principal mantiene el color de marca.
 10. **Admin en computadora sin el cuadro vacío de la derecha** (13/10, Flor): la lista de pedidos usa todo el ancho; el detalle aparece a la derecha solo al elegir un pedido (con flecha para cerrarlo) y, mientras está abierto, la tabla esconde la columna de productos para no cortarse.
 11. **Roboto como fuente por defecto** (13/10, Flor), guardada en el sitio.
-12. **Colores de íconos, links y contadores** como tokens (`--icono`, `--enlace`, `--contador-fondo`, `--contador-texto`), con control de contraste. Por defecto: íconos y links negros, contadores del color de marca.
+12. **Colores de íconos, links y contadores** como tokens (`--icono`, `--enlace`, `--contador-fondo`, `--contador-texto`), con control de contraste. Por defecto: íconos y links del color de marca (en negro si la marca no se lee, ver punto 9), contadores del color de marca.
+13. **Todo se deriva del color de marca** (13/10, Flor; referencia: tienda "ShopMate" verde oliva). Del color de marca salen: botón principal (pleno) y su hover (más oscuro); botón secundario, selecciones, íconos y links (color de marca como texto); y un tono muy suave de la marca (`--superficie-marca`) para avisos, paneles, etiquetas ("Sin stock") y círculos de íconos. Las tarjetas de producto son blancas con borde finito. Con la marca negra de la demo, todo queda en blanco, negro y grises.
 
 ## Pendientes (al 13/10/2026)
 

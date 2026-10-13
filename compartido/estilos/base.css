@@ -443,7 +443,7 @@ select.entrada {
   font-size: var(--texto-base);
 }
 .panel {
-  background: var(--superficie);
+  background: var(--superficie-marca);
   border: 0;
   border-radius: var(--radio);
   padding: 14px;
@@ -462,8 +462,8 @@ select.entrada {
 .pastilla {
   font-size: var(--texto-chico);
   padding: 3px 10px;
-  border-radius: var(--radio-mini);
-  background: var(--linea-suave);
+  border-radius: var(--radio-pastilla);
+  background: var(--superficie-marca);
   font-weight: var(--peso-semi);
   white-space: nowrap;
   display: inline-flex;
@@ -501,10 +501,10 @@ select.entrada {
   position: absolute;
   top: 8px;
   left: 8px;
-  background: var(--fondo);
-  border: var(--borde) solid var(--linea);
-  padding: 2px 8px;
-  border-radius: var(--radio-mini);
+  background: var(--superficie-marca);
+  border: 0;
+  padding: 3px 10px;
+  border-radius: var(--radio-pastilla);
   font-size: var(--texto-chico);
   font-weight: var(--peso-semi);
 }
@@ -626,8 +626,8 @@ select.entrada {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--acento);
-  color: var(--sobre-acento);
+  background: var(--superficie-marca);
+  color: var(--acento-texto);
   display: inline-flex;
   align-items: center;
   justify-content: center;
