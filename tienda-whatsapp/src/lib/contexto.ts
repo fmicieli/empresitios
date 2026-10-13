@@ -14,7 +14,6 @@ export const ds = crearDataStore({
   clave: config.clave,
   semilla: semilla as Semilla,
   baseFotos: '/fotos-demo/',
-  url: config.appsScriptUrl,
 });
 
 export const carrito = crearCarrito(config.clave);

@@ -9,7 +9,13 @@ export default function Admin() {
   return (
     <AdminApp
       ds={ds}
-      config={{ nombre: config.nombre, urlTienda: config.url, whatsappSoporte: config.whatsappSoporte, clave: config.clave }}
+      config={{
+        nombre: config.nombre,
+        urlTienda: config.url,
+        whatsappSoporte: config.whatsappSoporte,
+        clave: config.clave,
+        googleClientId: config.googleClientId,
+      }}
       modulos={[moduloPedidos, moduloProductos]}
     />
   );

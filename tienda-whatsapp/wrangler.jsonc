@@ -1,0 +1,19 @@
+// Configuración de Cloudflare Workers (D-16). Guía: docs/09-guia-conectar-cliente.md
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "tienda-modelo", // nombre del proyecto en Cloudflare (uno por cliente)
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    // Solo pasan por el Worker /api/* (el puente), la portada y las fichas de producto
+    // (vista previa al compartir el link); el resto se sirve directo.
+    "run_worker_first": ["/api/*", "/", "/producto/*"]
+  },
+  "observability": { "enabled": true }
+  // El ID de cliente de Google y la clave de Turnstile del sitio van en config/tienda.config.ts.
+  // Secretos (se cargan en el panel de Cloudflare o con `wrangler secret put`):
+  //   APPS_SCRIPT_URL, APPS_SCRIPT_SECRETO, TURNSTILE_SECRETO
+}

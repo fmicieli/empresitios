@@ -1,0 +1,8 @@
+# Copiá este archivo como ".dev.vars" (sin ".ejemplo") para probar con Google en tu computadora
+# (npm run probar:google). ".dev.vars" NO se sube a GitHub: tiene claves secretas.
+# Paso a paso en docs/09-guia-conectar-cliente.md.
+
+APPS_SCRIPT_URL=https://script.google.com/macros/s/PEGAR_ACA/exec
+APPS_SCRIPT_SECRETO=PEGAR_ACA
+# Opcional. Clave de prueba de Cloudflare que siempre aprueba:
+TURNSTILE_SECRETO=1x0000000000000000000000000000000AA

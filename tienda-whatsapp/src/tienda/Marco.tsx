@@ -5,10 +5,11 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { unidades, useCarrito } from '@compartido/carrito/carrito';
 import { useCarga, ZonaToast } from '@compartido/componentes/basicos';
 import { IconoBolsa, IconoBuscar, IconoCerrar, IconoChat, IconoFlecha, IconoMenu } from '@compartido/componentes/iconos';
-import { agruparCategorias, evaluarCarrito, formatoPrecio, linkWhatsapp } from '@compartido/datos/reglas';
+import { agruparCategorias, evaluarCarrito, formatoPrecio } from '@compartido/datos/reglas';
 import type { Categoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
-import { carrito, config, ds, whatsappTienda } from '../lib/contexto';
+import { carrito, config, ds } from '../lib/contexto';
+import { EnlaceWhatsapp } from './EnlaceWhatsapp';
 
 const t = textos.tienda;
 
@@ -141,9 +142,9 @@ function MenuLateral({ abierto, alCerrar, categorias }: { abierto: boolean; alCe
             )}
           </ul>
         </nav>
-        <a class="boton secundario" href={linkWhatsapp(whatsappTienda())} target="_blank" rel="noopener">
+        <EnlaceWhatsapp class="boton secundario">
           <IconoChat /> {t.menuConsultas}
-        </a>
+        </EnlaceWhatsapp>
         {config.horarios && (
           <div class="pila-chica">
             <strong>{t.menuHorarios}</strong>

@@ -7,9 +7,17 @@ export interface ConfigTienda {
   nombre: string;
   /** Descripción corta para buscadores y al compartir el link. */
   descripcion: string;
-  /** Link público de la tienda (para "Copiar link de mi tienda"). Vacío = el link actual. */
+  /**
+   * Link público de la tienda, por ejemplo "https://tiendamodelo.com.ar", para "Copiar link de mi tienda".
+   * Vacío = el link desde donde se abre el admin.
+   */
   url: string;
-  /** WhatsApp de la tienda en formato internacional, solo números: 549 + código de área + número. */
+  /** Imagen para la vista previa al compartir el link, en public/ (1200 × 630 px, PNG o JPG). Vacío = sin imagen. */
+  imagenCompartir: string;
+  /**
+   * WhatsApp de la tienda en formato internacional, solo números: 549 + código de área + número.
+   * Vacío solo en la demo: quien la prueba carga su número en "Herramientas de prueba".
+   */
   whatsapp: string;
   /** WhatsApp de quien mantiene el sitio (ayuda del admin y "¿Falta una categoría?"). */
   whatsappSoporte: string;
@@ -23,10 +31,12 @@ export interface ConfigTienda {
     colorMarca: string;
     colorSobreMarca: string;
   };
-  /** De dónde salen los datos: "local" (prueba, en el navegador) o "appsScript" (Google, Fase 3). */
+  /** De dónde salen los datos: "local" (prueba, en el navegador) o "appsScript" (Google, ver docs/09). */
   datos: 'local' | 'appsScript';
-  /** Dirección del Apps Script publicado (Fase 3). */
-  appsScriptUrl: string;
+  /** ID de cliente de Google para "Iniciar sesión con Google" en el admin (público, no es secreto). */
+  googleClientId: string;
+  /** Clave de sitio de Turnstile, el anti-robots de Cloudflare (pública). Vacío = sin anti-robots. */
+  turnstileSiteKey: string;
   /** Identificador interno para lo que se guarda en el navegador. Sin espacios. */
   clave: string;
 }
@@ -35,8 +45,9 @@ const config: ConfigTienda = {
   nombre: 'Tienda Modelo',
   descripcion: 'Ropa y accesorios. Elegí, pedí y coordiná por WhatsApp.',
   url: '',
-  whatsapp: '5491155550000',
-  whatsappSoporte: '5491155550000',
+  imagenCompartir: '/compartir.png',
+  whatsapp: '',
+  whatsappSoporte: '',
   direccionLocal: 'Calle Modelo 123, CABA',
   horarios: 'Lun a Vie de 10 a 19 · Sáb de 10 a 14',
   redes: [{ nombre: 'Instagram', url: 'https://instagram.com/' }],
@@ -47,7 +58,8 @@ const config: ConfigTienda = {
     colorSobreMarca: '#ffffff',
   },
   datos: 'local',
-  appsScriptUrl: '',
+  googleClientId: '',
+  turnstileSiteKey: '',
   clave: 'tienda-modelo',
 };
 

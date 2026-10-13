@@ -14,6 +14,8 @@ export interface ConfigAdmin {
   whatsappSoporte: string;
   /** Clave para lo que se guarda en el navegador. */
   clave: string;
+  /** ID de cliente de Google para "Iniciar sesión con Google" (solo con datos reales). */
+  googleClientId: string;
 }
 
 export interface ContextoAdmin {

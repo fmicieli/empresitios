@@ -7,7 +7,7 @@ import { fotosIndexedDB } from './local/fotos';
 import type { Semilla } from './local/semilla';
 import type { DataStore } from './tipos';
 
-export type { DataStore } from './tipos';
+export type { DataStore, SesionAdmin } from './tipos';
 export type { DataStoreLocal } from './local';
 
 export interface OpcionesDatos {
@@ -18,12 +18,12 @@ export interface OpcionesDatos {
   semilla?: Semilla;
   /** Solo para "local": carpeta pública de las fotos de ejemplo. */
   baseFotos?: string;
-  /** Solo para "appsScript". */
-  url?: string;
+  /** Solo para "appsScript": dónde está el puente (por defecto, /api en el mismo sitio). */
+  base?: string;
 }
 
 export function crearDataStore(op: OpcionesDatos): DataStore {
-  if (op.tipo === 'appsScript') return crearDataStoreAppsScript({ url: op.url ?? '' });
+  if (op.tipo === 'appsScript') return crearDataStoreAppsScript({ clave: op.clave, base: op.base });
   if (!op.semilla) throw new Error('Falta la semilla de datos de ejemplo.');
   return crearDataStoreLocal({
     semilla: op.semilla,

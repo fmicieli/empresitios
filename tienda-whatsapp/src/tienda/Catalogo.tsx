@@ -3,18 +3,11 @@
 import { useEffect, useState } from 'preact/hooks';
 import { ErrorCarga, Foto, useCarga } from '@compartido/componentes/basicos';
 import { IconoBuscar, IconoChat } from '@compartido/componentes/iconos';
-import {
-  agruparCategorias,
-  categoriaPrincipal,
-  coincide,
-  formatoPrecio,
-  libreTotal,
-  linkWhatsapp,
-  resaltar,
-} from '@compartido/datos/reglas';
+import { agruparCategorias, categoriaPrincipal, coincide, formatoPrecio, libreTotal, resaltar } from '@compartido/datos/reglas';
 import { textos } from '@compartido/textos/textos';
-import { ds, whatsappTienda } from '../lib/contexto';
+import { ds } from '../lib/contexto';
 import { BarraCarrito, linkCategoria, Marco } from './Marco';
+import { EnlaceWhatsapp } from './EnlaceWhatsapp';
 
 const t = textos.tienda;
 
@@ -145,14 +138,9 @@ export default function Catalogo() {
                   </a>
                 ))}
               </div>
-              <a
-                class="boton secundario"
-                href={linkWhatsapp(whatsappTienda(), `Hola, estoy buscando ${busqueda}.`)}
-                target="_blank"
-                rel="noopener"
-              >
+              <EnlaceWhatsapp class="boton secundario" texto={`Hola, estoy buscando ${busqueda}.`}>
                 <IconoChat /> {t.consultarWhatsapp}
-              </a>
+              </EnlaceWhatsapp>
             </div>
           ) : (
             <p class="suave">{t.categoriaVacia}</p>

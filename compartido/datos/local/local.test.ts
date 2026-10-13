@@ -65,7 +65,7 @@ describe('crear pedido', () => {
     const item = { productoId: 'p1', color: 'Negro', talle: 'M', cantidad: 1 };
     const [a, b] = await Promise.all([
       ds.crearPedido({ items: [item], comprador }),
-      ds.crearPedido({ items: [item], comprador }),
+      ds.crearPedido({ items: [item], comprador: { ...comprador, whatsappNormalizado: '1155557777' } }),
     ]);
     expect([a.ok, b.ok].filter(Boolean)).toHaveLength(1);
     const fallido = a.ok ? b : a;
@@ -90,6 +90,42 @@ describe('crear pedido', () => {
         comprador: { ...comprador, whatsappNormalizado: '123' },
       }),
     ).rejects.toThrow();
+  });
+});
+
+describe('defensas contra pedidos falsos (D-16)', () => {
+  const item = (cantidad: number) => ({ productoId: 'p1', color: 'Negro', talle: 'L', cantidad });
+
+  it('máximo de unidades por producto', async () => {
+    await expect(ds.crearPedido({ items: [item(11)], comprador })).rejects.toMatchObject({ tipo: 'limiteUnidades' });
+  });
+
+  it('máximo de pedidos pendientes por número y botón para cancelarlos todos', async () => {
+    const otro = { ...comprador, whatsappNormalizado: '1155556666' };
+    const p5 = (cantidad: number) => ({ productoId: 'p5', color: 'Negro', talle: '', cantidad });
+    expect((await ds.crearPedido({ items: [p5(1)], comprador: otro })).ok).toBe(true);
+    expect((await ds.crearPedido({ items: [p5(2)], comprador: otro })).ok).toBe(true);
+    await expect(ds.crearPedido({ items: [p5(3)], comprador: otro })).rejects.toMatchObject({ tipo: 'limitePedidos' });
+    expect(await ds.cancelarPendientesDe('1155556666')).toEqual([1004, 1005]);
+    expect((await ds.crearPedido({ items: [p5(1)], comprador: otro })).ok).toBe(true);
+  });
+
+  it('el mismo pedido exacto, dos veces, no se registra de nuevo', async () => {
+    const items = [
+      { productoId: 'p5', color: 'Negro', talle: '', cantidad: 1 },
+      { productoId: 'p1', color: 'Negro', talle: 'L', cantidad: 1 },
+    ];
+    expect((await ds.crearPedido({ items, comprador })).ok).toBe(true);
+    await expect(ds.crearPedido({ items: [...items].reverse(), comprador })).rejects.toMatchObject({ tipo: 'pedidoRepetido' });
+    // Otro número, u otra cantidad, sí.
+    expect((await ds.crearPedido({ items, comprador: { ...comprador, whatsappNormalizado: '1155557777' } })).ok).toBe(true);
+    expect((await ds.crearPedido({ items: [{ ...items[0], cantidad: 2 }], comprador })).ok).toBe(true);
+  });
+
+  it('cancelar todos solo toca los pendientes (no los vencidos)', async () => {
+    // El 1002 de los datos de ejemplo está vencido.
+    expect(await ds.cancelarPendientesDe('1155550002')).toEqual([]);
+    expect((await ds.getPedido(1002))!.estado).toBe('vencida');
   });
 });
 

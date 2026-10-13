@@ -15,6 +15,11 @@ export const textos = {
       servidor: 'Algo falló de nuestro lado. Probá de nuevo en unos segundos.',
       sesion: 'Tu sesión se cerró. Volvé a entrar.',
       noEncontrado: 'No encontramos lo que buscabas.',
+      noAutorizado: 'Esta cuenta de Google no tiene acceso. Entrá con la cuenta del negocio.',
+      limitePedidos: 'Ya tenés pedidos esperando confirmación. Escribile a la tienda por WhatsApp.',
+      limiteUnidades: 'Tu pedido tiene demasiadas unidades. Sacá algunas o escribile a la tienda por WhatsApp.',
+      pedidoRepetido: 'Ya enviaste este mismo pedido. La tienda te va a responder por WhatsApp.',
+      antiRobot: 'No pudimos verificar que seas una persona. Recargá la página y probá de nuevo.',
     },
   },
 
@@ -49,11 +54,13 @@ export const textos = {
     restar: 'Restar uno',
     sumar: 'Sumar uno',
     agregar: 'Agregar al carrito',
+    topeUnidades: 'Llegaste al máximo de unidades por pedido.',
     agregado: (producto: string, variante: string) => `Agregaste ${producto}${variante ? ` (${variante})` : ''} al carrito.`,
     descripcion: 'Descripción',
     consultaTalle: '¿Dudas con el talle? Consultanos por WhatsApp',
     consultaMensaje: (producto: string) => `Hola, tengo una consulta sobre ${producto}.`,
     productoNoEncontrado: 'Este producto ya no está disponible.',
+    paginaNoEncontrada: 'No encontramos esta página.',
     fotoDe: (producto: string, n: number, total: number) => `${producto}, foto ${n} de ${total}`,
     verFoto: (n: number) => `Ver foto ${n}`,
 
@@ -108,6 +115,7 @@ export const textos = {
     reservaAlEnviar: (h: number) => `Al enviarlo, te reservamos los productos por ${h} h.`,
     noCierres: 'Estamos reservando tus productos. No cierres esta pantalla.',
     errorEnvioTitulo: 'No pudimos registrar tu pedido',
+    pedidoRepetidoTitulo: 'Este pedido ya está registrado',
     errorEnvioAyuda: 'Tus productos y tus datos siguen guardados.',
 
     // Pedido enviado (D-14)
@@ -141,6 +149,9 @@ export const textos = {
     tipInicio: 'Tip: agregá esta página a la pantalla de inicio del celular para tenerla a mano.',
     ayudaWhatsapp: '¿Necesitás ayuda? Escribinos por WhatsApp',
     salir: 'Salir',
+    verificandoCuenta: 'Revisando tu cuenta…',
+    googleNoCargo: 'No pudimos mostrar el botón de Google. Revisá tu internet y recargá la página.',
+    faltaConfigurarGoogle: 'Falta configurar el ingreso con Google. Escribinos por WhatsApp.',
     verMiTienda: 'Ver mi tienda',
     navegacion: 'Secciones del admin',
 
@@ -203,6 +214,13 @@ export const textos = {
       `Hola ${nombre}, lamentablemente se agotó ${productos} de tu pedido #${n}.`,
     confirmarIgual: 'Confirmar igual, tengo la prenda',
     confirmarIgualAyuda: 'Si confirmás igual, el stock de ese talle queda en 0 hasta que lo corrijas.',
+    cancelarTodosDelNumero: (n: number) => `Cancelar los ${n} pedidos pendientes de este número`,
+    cancelarTodosTitulo: (n: number) => `¿Cancelar ${n} pedidos?`,
+    cancelarTodosTexto: (whatsapp: string) =>
+      `Se cancelan todos los pedidos pendientes del ${whatsapp} y el stock vuelve a la tienda. Usalo si son pedidos falsos.`,
+    cancelarTodosBoton: 'Sí, cancelar todos',
+    cancelarTodosNo: 'No, volver',
+    avisoCanceladosTodos: (n: number) => `${n} ${plural(n, 'pedido cancelado', 'pedidos cancelados')}.`,
     volverSinCambios: 'Volver sin cambios',
 
     // Productos
@@ -309,6 +327,10 @@ export const textos = {
     ayuda: 'No forman parte del producto. Sirven para probar el flujo. Los datos se guardan solo en este navegador.',
     whatsapp: 'WhatsApp de la tienda (para recibir los pedidos de prueba)',
     whatsappAyuda: 'Poné tu número: así el mensaje del comprador te llega a vos.',
+    faltaNumero: 'Es una demo: para probar WhatsApp, cargá tu número en “Herramientas de prueba”.',
+    cargarNumero: 'Cargar número',
+    sinNumero:
+      'Modo de prueba: no abrimos WhatsApp porque no cargaste tu número. Cargalo en “Herramientas de prueba” para recibir el mensaje.',
     horas: 'Duración de la reserva (horas)',
     demora: 'Demora del servidor',
     demoraRealista: 'Realista (1 a 3 s)',

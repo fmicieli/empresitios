@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { useCarrito } from '@compartido/carrito/carrito';
 import { Cantidad, ErrorCarga, Foto, mostrarToast, useCarga } from '@compartido/componentes/basicos';
 import { IconoChat } from '@compartido/componentes/iconos';
-import { etiquetaVariante, formatoPrecio, linkWhatsapp, variante } from '@compartido/datos/reglas';
-import type { FilaCategoria, Producto } from '@compartido/datos/tipos';
+import { etiquetaVariante, formatoPrecio, lugarEnPedido, variante } from '@compartido/datos/reglas';
+import type { ConfigServidor, FilaCategoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
-import { carrito, ds, whatsappTienda } from '../lib/contexto';
+import { carrito, ds } from '../lib/contexto';
 import { BarraCarrito, linkCategoria, Marco } from './Marco';
+import { EnlaceWhatsapp } from './EnlaceWhatsapp';
 
 const t = textos.tienda;
 
@@ -89,7 +90,7 @@ function Migas({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
   );
 }
 
-function Detalle({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
+function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: ConfigServidor }) {
   const items = useCarrito(carrito);
   const libreDe = (c: string, s: string) => variante(p, c, s)?.libre ?? 0;
 
@@ -105,7 +106,11 @@ function Detalle({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
   const enCarrito = items
     .filter((i) => i.productoId === p.id && i.color === color && i.talle === talle)
     .reduce((a, i) => a + i.cantidad, 0);
-  const maximo = libre === null ? 0 : Math.max(0, libre - enCarrito);
+  const porStock = libre === null ? 0 : Math.max(0, libre - enCarrito);
+  // Topes contra pedidos falsos (D-16): el "+" se deshabilita al llegar al máximo por pedido.
+  const porTope = lugarEnPedido(items, p.id, cfg);
+  const maximo = Math.min(porStock, porTope);
+  const llegoAlTope = libre !== null && porTope < porStock && cant >= maximo;
 
   useEffect(() => {
     if (cant > Math.max(1, maximo)) setCant(Math.max(1, maximo));
@@ -184,6 +189,7 @@ function Detalle({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
             <span class="negrita num">{t.pocas(libre, talle)}</span>
           ) : null}
           {enCarrito > 0 && <span class="suave chico num">{t.yaEnCarrito(enCarrito)}</span>}
+          {llegoAlTope && <span class="suave chico">{t.topeUnidades}</span>}
         </div>
 
         <div class="fila" style={{ flexWrap: 'nowrap' }}>
@@ -200,9 +206,9 @@ function Detalle({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
           </div>
         )}
 
-        <a class="enlace" href={linkWhatsapp(whatsappTienda(), t.consultaMensaje(p.nombre))} target="_blank" rel="noopener">
+        <EnlaceWhatsapp class="enlace" texto={t.consultaMensaje(p.nombre)}>
           <IconoChat /> {t.consultaTalle}
-        </a>
+        </EnlaceWhatsapp>
       </div>
     </div>
   );
@@ -210,8 +216,8 @@ function Detalle({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
 
 export default function Ficha() {
   const id = new URLSearchParams(location.search).get('id') ?? '';
-  const datos = useCarga(() => Promise.all([ds.getProductos(), ds.getCategorias()]), [id], ds);
-  const [productos, filas] = datos.datos ?? [undefined, undefined];
+  const datos = useCarga(() => Promise.all([ds.getProductos(), ds.getCategorias(), ds.getConfig()]), [id], ds);
+  const [productos, filas, cfg] = datos.datos ?? [undefined, undefined, undefined];
   const p = productos?.find((x) => x.id === id);
 
   useEffect(() => {
@@ -233,7 +239,7 @@ export default function Ficha() {
         <div style={{ paddingTop: '16px' }}>
           <ErrorCarga error={datos.error} alReintentar={datos.recargar} />
         </div>
-      ) : !p || !filas ? (
+      ) : !p || !filas || !cfg ? (
         <div class="pila" style={{ paddingTop: '24px' }}>
           <h1>{t.productoNoEncontrado}</h1>
           <a class="boton secundario" href="/">
@@ -241,7 +247,7 @@ export default function Ficha() {
           </a>
         </div>
       ) : (
-        <Detalle key={p.id} p={p} filas={filas} />
+        <Detalle key={p.id} p={p} filas={filas} cfg={cfg!} />
       )}
       <BarraCarrito productos={productos} />
     </Marco>

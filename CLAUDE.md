@@ -24,7 +24,7 @@ Plantillas web funcionales que adapto a cada comercio argentino. Cobro un proyec
 
 ## Stack (decidido)
 
-- **Astro**, publicado en **Cloudflare Pages**.
+- **Astro**, publicado en **Cloudflare Workers** (antes Pages; ver `docs/07-decisiones.md`, D-16), con un "puente" en el mismo Worker entre la tienda y Google.
 - **Google Sheets + Google Apps Script** como base de datos detrás del admin, en la cuenta de Google del comercio. **Google Drive** del comercio para las fotos.
 - Sin Supabase en esta plantilla (sumaría un costo mensual al cliente). Sin pasarelas de pago.
 - Costo para el cliente: solo el dominio.
@@ -63,6 +63,10 @@ Plantillas futuras (no construir ahora): tienda con pago online, reservas con pa
 - `docs/04-modelo-de-datos.md` — planilla de Google, estados, reglas de stock y reservas.
 - `docs/05-arquitectura-y-fases.md` — arquitectura, fases de trabajo y preguntas técnicas abiertas.
 - `docs/06-textos.md` — textos de interfaz y mensaje de WhatsApp.
+- `docs/08-investigacion-fase-2.md` — Fase 2: cuotas, admin, fotos, seguridad y arquitectura recomendada.
+- `docs/09-guia-conectar-cliente.md` — paso a paso para conectar la tienda de un cliente con Google y Cloudflare.
+- `docs/10-preguntas-al-cliente.md` — cuestionario para la primera reunión con un comercio (reglas de pedidos, admin, datos, catálogo).
+- `docs/11-publicar-demo.md` — cómo publicar la demo en Cloudflare y checklist de lo que se cambia por cliente.
 - `docs/RETOMAR.md` — links para revisar lo hecho y prompt para continuar.
 - `docs/07-decisiones.md` — registro de decisiones posteriores a la especificación (manda sobre los demás).
 - `docs/referencia/prototipo-tienda.html` — prototipo navegable de un solo archivo con el comportamiento esperado (referencia de flujos y textos, no base de código).
