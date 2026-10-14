@@ -21,16 +21,17 @@
     @import '@fontsource/lato/700.css';
     @import '@fontsource/playfair-display/700.css';
 */
-@import '@fontsource-variable/roboto/wght.css'; /* Roboto, todos los pesos en un solo archivo */
+@import '@fontsource-variable/nunito-sans/wght.css'; /* Nunito Sans, todos los pesos en un solo archivo */
 
 :root {
   /* Fuentes (si los títulos usan la misma que el texto, dejá --fuente-titulos como está). */
-  --fuente-texto: 'Roboto Variable', Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fuente-texto: 'Nunito Sans Variable', 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --fuente-titulos: var(--fuente-texto);
 
-  /* 2. COLORES — íconos, links y contadores (por defecto, negro y el color de marca):
-  --icono: var(--marca);
-  --enlace: var(--texto);
+  /* 2. COLORES — íconos, links y contadores (por defecto: íconos y links en el color del texto,
+     contadores en el color de marca). Para usar el color de marca en íconos y links:
+  --icono: var(--acento-texto);
+  --enlace: var(--acento-texto);
   --contador-fondo: var(--acento);
   --contador-texto: var(--sobre-acento);
 
@@ -38,7 +39,7 @@
   --fondo: #fbf8f3;
   --superficie: #f1ece4;
   --linea: #d8d0c4;
-  --linea-suave: #e8e1d6;
+  --linea-fuerte: #8a7f72;
   --texto: #2a2420;
   --texto-suave: #6b6058;
   */
@@ -49,7 +50,11 @@
   --radio-control: 0;
   --radio: 0;
   --radio-grande: 0;
-  --radio-pastilla: 0; (chips y etiquetas; dejalo en 999px si las querés redondeadas)
+  --radio-boton: 0;
+  --radio-pastilla: 0; (buscador, botones de ícono e interruptores; dejalo en 9999px si los querés redondos)
   --borde: 2px;
+
+  O botones redondeados tipo pastilla:
+  --radio-boton: var(--radio-pastilla);
   */
 }

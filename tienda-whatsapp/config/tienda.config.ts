@@ -65,8 +65,8 @@ const config: ConfigTienda = {
   textoPrivacidad: 'Usamos estos datos solo para gestionar tu pedido. (Texto pendiente de revisión legal.)',
   estilo: {
     logo: '/logo.svg',
-    colorMarca: '#000000',
-    colorSobreMarca: '#ffffff',
+    colorMarca: '#2c2c2c',
+    colorSobreMarca: '#f5f5f5',
   },
   inicio: {
     banner: {

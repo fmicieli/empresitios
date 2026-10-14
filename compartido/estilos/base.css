@@ -1,6 +1,7 @@
 /*
-  Estilos de los componentes. Solo usan tokens (tokens.css): para cambiar
-  el diseño de un cliente se cambian los tokens, no este archivo.
+  Estilos de los componentes, según el Simple Design System (D-21). Solo usan tokens (tokens.css):
+  para cambiar el diseño de un cliente se cambian los tokens, no este archivo.
+  Cada bloque dice a qué componente del sistema corresponde.
 */
 *,
 *::before,
@@ -27,7 +28,7 @@ textarea {
   color: inherit;
 }
 a {
-  color: var(--texto);
+  color: var(--enlace);
 }
 img {
   max-width: 100%;
@@ -37,20 +38,30 @@ img {
   outline: var(--foco);
   outline-offset: 2px;
 }
+
+/* ---------- Textos (Typography) ---------- */
 h1,
 h2,
 h3 {
   margin: 0;
   font-family: var(--fuente-titulos);
   font-weight: var(--peso-titulos);
+  letter-spacing: var(--espaciado-titulos);
   text-wrap: balance;
   line-height: var(--interlineado-titulos);
 }
 h1 {
-  font-size: var(--titulo-1);
+  font-size: var(--titulo-1); /* Heading Large */
 }
 h2 {
-  font-size: var(--titulo-2);
+  font-size: var(--titulo-2); /* Heading */
+}
+h3 {
+  font-size: var(--titulo-3); /* Heading Small */
+}
+.titulo-chico {
+  font-size: var(--texto-base); /* Body Strong */
+  letter-spacing: 0;
 }
 p {
   margin: 0;
@@ -75,17 +86,17 @@ th {
   color: var(--texto-suave);
 }
 .chico {
-  font-size: var(--texto-chico);
+  font-size: var(--texto-chico); /* Body Small */
 }
 .negrita {
-  font-weight: var(--peso-semi);
+  font-weight: var(--peso-semi); /* Body Strong */
 }
 
-/* ---------- Disposición ---------- */
+/* ---------- Disposición (Flex del sistema: separaciones de la escala Space) ---------- */
 .contenedor {
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: 0 var(--separacion) 120px;
+  padding: 0 var(--separacion) var(--espacio-4000);
 }
 .lectura {
   max-width: var(--ancho-lectura);
@@ -93,35 +104,37 @@ th {
 .pila {
   display: flex;
   flex-direction: column;
-  gap: var(--separacion);
+  gap: var(--espacio-600);
 }
 .pila-chica {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--espacio-200);
 }
 .fila {
   display: flex;
-  gap: 12px;
+  gap: var(--espacio-300);
   align-items: center;
   flex-wrap: wrap;
 }
 .fila-extremos {
   display: flex;
-  gap: 12px;
+  gap: var(--espacio-300);
   align-items: center;
   justify-content: space-between;
 }
+/* Dos columnas en computadora y una en el celular (FlexItem "Half"). */
 .dos-columnas {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-  gap: 24px;
+  gap: var(--espacio-600);
   align-items: start;
 }
+/* Grupo de botones (Button Group): separación de 16. */
 .dos-botones {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: var(--espacio-400);
 }
 .centrado {
   text-align: center;
@@ -129,67 +142,86 @@ th {
 }
 .separador {
   border: 0;
-  border-top: var(--borde) solid var(--linea-suave);
-  margin: 4px 0;
+  border-top: var(--borde) solid var(--linea);
+  margin: var(--espacio-100) 0;
 }
 
-/* ---------- Botones ---------- */
+/* ---------- Botones (Button) ---------- */
+/* Principal = "Primary" (color de marca). Secundario = "Neutral". */
 .boton {
   min-height: var(--alto-boton);
   border-radius: var(--radio-boton);
-  transition: background-color 0.15s ease;
-  border: 0;
+  border: var(--borde) solid var(--acento);
   background: var(--acento);
   color: var(--sobre-acento);
-  font-weight: var(--peso-semi);
-  font-size: var(--texto-medio);
-  padding: 0 20px;
+  font-weight: var(--peso-regular);
+  font-size: var(--texto-base);
+  line-height: var(--interlineado-linea);
+  padding: 0 var(--espacio-300);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--espacio-200);
   text-decoration: none;
   text-align: center;
+  transition: background-color 0.15s ease;
+}
+.boton:not(:disabled):not([aria-disabled='true']):hover,
+.boton:not(:disabled):not([aria-disabled='true']):active {
+  background: var(--acento-hover);
+  border-color: var(--acento-hover);
 }
 .boton.secundario {
-  background: var(--fondo);
-  color: var(--acento-texto);
-  border: 1.5px solid var(--acento-texto);
+  background: var(--neutro-fondo);
+  color: var(--neutro-texto);
+  border-color: var(--neutro-borde);
 }
-.boton:not(.secundario):not(:disabled):hover,
-.boton:not(.secundario):not(:disabled):active {
-  background: var(--acento-hover);
+.boton.secundario:not(:disabled):not([aria-disabled='true']):hover,
+.boton.secundario:not(:disabled):not([aria-disabled='true']):active {
+  background: var(--neutro-fondo-hover);
+  border-color: var(--neutro-borde);
 }
-.boton.secundario:not(:disabled):hover {
-  background: var(--acento-suave);
+/* "Danger": acciones que borran o cancelan. */
+.boton.peligro {
+  background: var(--peligro);
+  border-color: var(--peligro-hover);
+  color: var(--sobre-peligro);
+}
+.boton.peligro:not(:disabled):hover {
+  background: var(--peligro-hover);
+  border-color: var(--peligro-hover);
 }
 .boton.chico {
-  min-height: var(--toque);
-  font-size: var(--texto-base);
-  padding: 0 14px;
+  min-height: var(--alto-boton-chico);
+  padding: 0 var(--espacio-200);
 }
 .boton.ancho {
   width: 100%;
 }
 .boton:disabled,
 .boton[aria-disabled='true'] {
-  opacity: 0.45;
+  background: var(--fondo-deshabilitado);
+  border-color: var(--linea-deshabilitada);
+  color: var(--texto-deshabilitado);
   cursor: not-allowed;
 }
+/* "Subtle" / Body Link: link subrayado. */
 .enlace {
   background: none;
   border: 0;
   text-decoration: underline;
+  text-underline-offset: 2px;
   cursor: pointer;
-  padding: 10px 0;
+  padding: var(--espacio-200) 0;
   min-height: var(--toque);
   font-size: var(--texto-base);
   color: var(--enlace);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--espacio-200);
 }
+/* "Icon Button" en su variante Subtle: redondo, sin fondo. */
 .boton-icono {
   width: var(--toque);
   height: var(--toque);
@@ -205,102 +237,120 @@ th {
   text-decoration: none;
   flex-shrink: 0;
 }
+.boton-icono:hover {
+  background: var(--fondo-hover);
+}
 .contador {
   position: absolute;
-  top: -6px;
-  right: -6px;
-  min-width: 22px;
-  height: 22px;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
   border-radius: var(--radio-pastilla);
   background: var(--contador-fondo);
   color: var(--contador-texto);
   font-size: var(--texto-mini);
   font-weight: var(--peso-semi);
+  line-height: var(--interlineado-linea);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 5px;
+  padding: 0 var(--espacio-150);
 }
 
-/* ---------- Chips y opciones ---------- */
+/* ---------- Opciones para elegir (Tag Toggle) ---------- */
+/* Sin elegir: fondo suave de marca. Elegida: color de marca y tilde (no solo color). */
 .chips {
   display: flex;
-  gap: 8px;
+  gap: var(--espacio-200);
   overflow-x: auto;
-  padding: 4px 2px;
+  padding: var(--espacio-050);
   scrollbar-width: thin;
 }
 .chips.envolver {
   flex-wrap: wrap;
   overflow: visible;
 }
-.chip {
-  min-height: var(--toque);
-  padding: 0 16px;
-  border-radius: var(--radio-boton);
+.chip,
+.talle {
+  min-height: var(--alto-boton);
+  padding: 0 var(--espacio-300);
+  border-radius: var(--radio-control);
   border: var(--borde) solid transparent;
-  background: var(--superficie);
+  background: var(--acento-suave);
+  color: var(--acento-texto);
   white-space: nowrap;
   cursor: pointer;
   font-size: var(--texto-base);
+  line-height: var(--interlineado-linea);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: var(--espacio-200);
+  text-decoration: none;
 }
-.chip[aria-pressed='true'] {
-  background: var(--fondo);
-  color: var(--acento-texto);
-  border: 2px solid var(--acento-texto);
-  font-weight: var(--peso-semi);
+.chip:not([aria-pressed='true']):hover,
+.talle:not(:disabled):not([aria-pressed='true']):hover {
+  background: var(--acento-suave-hover);
 }
-.chips.secundarios .chip {
-  border-radius: var(--radio-chico);
-  font-size: var(--texto-chico);
+.chip[aria-pressed='true'],
+.talle[aria-pressed='true'] {
+  background: var(--acento);
+  color: var(--sobre-acento);
+}
+.chip[aria-pressed='true']::before,
+.talle[aria-pressed='true']::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")
+    center / contain no-repeat;
 }
 .talles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: var(--espacio-200);
 }
-.talle {
-  min-height: var(--alto-boton);
-  border-radius: var(--radio-control);
-  border: var(--borde) solid var(--linea-fuerte);
-  background: var(--fondo);
-  cursor: pointer;
-  font-size: var(--texto-base);
-}
-.talle[aria-pressed='true'] {
-  background: var(--fondo);
-  color: var(--acento-texto);
-  border: 2px solid var(--acento-texto);
-  font-weight: var(--peso-semi);
-}
+/* Talle sin stock: deshabilitado (gris) y tachado. */
 .talle:disabled {
-  border-style: dashed;
-  color: var(--texto-suave);
+  background: var(--fondo-deshabilitado);
+  color: var(--texto-deshabilitado);
   text-decoration: line-through;
   cursor: not-allowed;
-  background: var(--superficie);
 }
+/* Opción con radio (Radio Field) dentro de una tarjeta: entrega y forma de pago. */
 .opcion {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--espacio-300);
   min-height: 56px;
-  border: var(--borde) solid var(--linea-fuerte);
+  border: var(--borde) solid var(--linea);
   border-radius: var(--radio);
-  padding: 10px 14px;
+  padding: var(--espacio-300) var(--espacio-400);
   cursor: pointer;
+  background: var(--fondo);
+}
+.opcion:hover {
+  background: var(--fondo-hover);
 }
 .opcion:has(input:checked) {
-  border: 2px solid var(--texto);
+  border-color: var(--acento-texto);
+  box-shadow: inset 0 0 0 1px var(--acento-texto);
 }
 .opcion input {
-  width: 22px;
-  height: 22px;
-  accent-color: var(--texto);
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--acento);
   flex-shrink: 0;
+}
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: var(--acento);
 }
 fieldset {
   border: 0;
@@ -310,18 +360,19 @@ fieldset {
 }
 legend {
   font-weight: var(--peso-semi);
-  padding: 0 0 8px;
+  padding: 0 0 var(--espacio-200);
 }
 
-/* ---------- Formularios ---------- */
+/* ---------- Campos (Input Field, Select Field, Textarea Field) ---------- */
+/* Etiqueta arriba, descripción gris, campo y error abajo; separación de 8. */
 .campo {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--espacio-200);
 }
 .campo > label,
 .campo > .etiqueta {
-  font-weight: var(--peso-semi);
+  font-weight: var(--peso-regular);
 }
 .opcional {
   font-weight: var(--peso-regular);
@@ -331,29 +382,42 @@ legend {
   min-height: var(--alto-boton);
   border: var(--borde) solid var(--linea-fuerte);
   border-radius: var(--radio-control);
-  padding: 0 14px;
+  padding: 0 var(--espacio-400);
   background: var(--fondo);
-  font-size: var(--texto-medio);
+  font-size: var(--texto-base);
+  line-height: var(--interlineado-linea);
   width: 100%;
 }
+.entrada::placeholder {
+  color: var(--texto-terciario);
+}
 textarea.entrada {
-  padding: 12px 14px;
-  min-height: 88px;
+  padding: var(--espacio-300) var(--espacio-400);
+  min-height: 80px;
+  line-height: var(--interlineado);
   resize: vertical;
 }
 select.entrada {
-  appearance: auto;
+  appearance: none;
+  padding-right: calc(var(--espacio-300) + 16px + var(--espacio-200)); /* 12 + flecha de 16 + 8, como el Select del sistema */
+  background: var(--fondo)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231e1e1e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")
+    no-repeat right var(--espacio-300) center;
 }
 .entrada[aria-invalid='true'] {
-  border: 3px solid var(--error-texto);
+  border-color: var(--error-texto);
+  box-shadow: inset 0 0 0 1px var(--error-texto);
 }
 .error-campo {
   font-size: var(--texto-base);
-  font-weight: var(--peso-semi);
   color: var(--error-texto);
   display: flex;
-  gap: 6px;
+  gap: var(--espacio-200);
   align-items: flex-start;
+}
+.error-campo svg {
+  margin-top: 2px;
+  flex-shrink: 0;
 }
 .ayuda {
   font-size: var(--texto-chico);
@@ -364,23 +428,36 @@ select.entrada {
   color: var(--ok-texto);
   font-weight: var(--peso-semi);
 }
+/* Campos deshabilitados (Disabled): fondo gris y texto suave, para que se note que todavía no se pueden usar. */
+.entrada:disabled {
+  background-color: var(--fondo-deshabilitado);
+  color: var(--texto-deshabilitado);
+  border-color: var(--linea-deshabilitada);
+  cursor: not-allowed;
+  opacity: 1;
+}
+/* Buscador (Search): redondo, ícono a la derecha. */
 .buscador {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 48px;
+  gap: var(--espacio-200);
+  min-height: var(--alto-boton);
   border: var(--borde) solid var(--linea-fuerte);
-  border-radius: var(--radio-boton);
+  border-radius: var(--radio-pastilla);
   background: var(--fondo);
-  padding: 0 16px;
+  padding: 0 var(--espacio-400);
 }
 .buscador input {
   flex: 1;
   min-width: 0;
-  min-height: 46px;
+  min-height: calc(var(--alto-boton) - 2px);
   border: 0;
   background: transparent;
   font-size: var(--texto-base);
+  line-height: var(--interlineado-linea);
+}
+.buscador input::placeholder {
+  color: var(--texto-terciario);
 }
 .buscador input:focus {
   outline: none;
@@ -389,22 +466,33 @@ select.entrada {
   outline: var(--foco);
   outline-offset: 2px;
 }
+.buscador > svg {
+  color: var(--icono);
+  flex-shrink: 0;
+}
+/* Cantidad: − número + */
 .cantidad {
   display: inline-flex;
   align-items: center;
   border: var(--borde) solid var(--linea-fuerte);
-  border-radius: var(--radio-boton);
+  border-radius: var(--radio-control);
+  background: var(--fondo);
 }
 .cantidad button {
   width: var(--toque);
-  height: 48px;
+  height: calc(var(--alto-boton) - 2px);
   border: 0;
   background: transparent;
-  font-size: var(--titulo-2);
+  border-radius: var(--radio-control);
+  font-size: var(--texto-medio);
+  line-height: var(--interlineado-linea);
   cursor: pointer;
 }
+.cantidad button:not(:disabled):hover {
+  background: var(--fondo-hover);
+}
 .cantidad button:disabled {
-  opacity: 0.35;
+  color: var(--texto-deshabilitado);
   cursor: not-allowed;
 }
 .cantidad output {
@@ -412,75 +500,112 @@ select.entrada {
   text-align: center;
   font-weight: var(--peso-semi);
 }
+/* Interruptor (Switch): 40 × 24, redondo. Prendido: color de marca y el círculo a la derecha. */
 .interruptor {
-  width: 28px;
-  height: 28px;
-  accent-color: var(--texto);
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  width: 40px;
+  height: 24px;
   flex-shrink: 0;
+  border-radius: var(--radio-pastilla);
+  border: var(--borde) solid var(--linea-fuerte);
+  background: var(--fondo) radial-gradient(circle at 11px 50%, var(--linea-fuerte) 7px, transparent 7.5px);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.interruptor:checked {
+  border-color: var(--acento);
+  background: var(--acento) radial-gradient(circle at calc(100% - 11px) 50%, var(--sobre-acento) 7px, transparent 7.5px);
+}
+.interruptor:disabled {
+  border-color: var(--linea-deshabilitada);
+  background-color: var(--fondo-deshabilitado);
+  cursor: not-allowed;
 }
 
-/* ---------- Avisos ---------- */
+/* Dentro de los paneles grises, el texto suave se oscurece para seguir leyéndose bien. */
+.panel,
+.linea-stock,
+.tabla tr[aria-selected='true'],
+.banner {
+  --texto-suave: var(--texto-suave-sobre-superficie);
+}
+
+/* ---------- Avisos (Notification) ---------- */
+/* "Message": blanco con borde gris. "Alert" (error): rojo suave con borde rojo. */
 .alerta {
-  border: 2px solid var(--texto);
+  border: var(--borde) solid var(--linea-fuerte);
+  background: var(--fondo);
   border-radius: var(--radio);
-  padding: 12px 14px;
+  padding: var(--espacio-400);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--espacio-100);
 }
 .alerta.error {
-  border-color: var(--error-texto);
+  background: var(--error-fondo);
+  border-color: var(--error-borde);
+  color: var(--error-texto);
+}
+.alerta.error a,
+.alerta.error .enlace {
+  color: var(--error-texto);
 }
 .alerta ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: var(--espacio-600);
 }
 .aviso {
   background: var(--aviso-fondo);
   color: var(--aviso-texto);
-  border-radius: var(--radio-control);
-  padding: 10px 12px;
+  border-radius: var(--radio);
+  padding: var(--espacio-300) var(--espacio-400);
   font-size: var(--texto-base);
 }
+/* Panel informativo (Card con fondo gris). */
 .panel {
-  background: var(--superficie-marca);
+  background: var(--superficie);
   border: 0;
   border-radius: var(--radio);
-  padding: 14px;
+  padding: var(--espacio-400);
 }
 .estado-ok {
   color: var(--ok-texto);
   font-weight: var(--peso-semi);
   display: inline-flex;
-  gap: 6px;
+  gap: var(--espacio-200);
   align-items: center;
 }
 .estado-error {
   color: var(--error-texto);
   font-weight: var(--peso-semi);
 }
+/* Etiqueta (Tag): "Secondary" = fondo suave de marca; "fuerte" = "Primary" (color de marca). */
 .pastilla {
   font-size: var(--texto-chico);
-  padding: 3px 10px;
-  border-radius: var(--radio-pastilla);
-  background: var(--superficie-marca);
-  font-weight: var(--peso-semi);
+  line-height: var(--interlineado-linea);
+  padding: var(--espacio-150) var(--espacio-200);
+  border-radius: var(--radio-control);
+  background: var(--acento-suave);
+  color: var(--acento-texto);
   white-space: nowrap;
   display: inline-flex;
-  gap: 4px;
+  gap: var(--espacio-100);
   align-items: center;
 }
 .pastilla.fuerte {
-  background: transparent;
-  border: 2px solid var(--texto);
+  background: var(--acento);
+  color: var(--sobre-acento);
 }
 
-/* ---------- Fotos ---------- */
+/* ---------- Fotos (Image) ---------- */
+/* Proporción fija, la foto cubre el cuadro y queda centrada (Composition guide). */
 .foto {
   aspect-ratio: var(--proporcion-foto);
   width: 100%;
   border-radius: var(--radio);
-  background: var(--superficie);
+  background: var(--pizarra-200);
   border: 0;
   overflow: hidden;
   position: relative;
@@ -490,6 +615,7 @@ select.entrada {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 .foto .inicial {
   margin: auto;
@@ -499,14 +625,14 @@ select.entrada {
 }
 .foto .etiqueta-foto {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  background: var(--superficie-marca);
-  border: 0;
-  padding: 3px 10px;
-  border-radius: var(--radio-pastilla);
+  top: var(--espacio-200);
+  left: var(--espacio-200);
+  background: var(--fondo);
+  color: var(--texto);
+  padding: var(--espacio-150) var(--espacio-200);
+  border-radius: var(--radio-control);
   font-size: var(--texto-chico);
-  font-weight: var(--peso-semi);
+  line-height: var(--interlineado-linea);
 }
 .foto.cuadrada {
   aspect-ratio: 1;
@@ -528,13 +654,13 @@ select.entrada {
   height: 48px;
   border-radius: 50%;
   border: 4px solid var(--linea);
-  border-top-color: var(--texto);
+  border-top-color: var(--acento);
   animation: girar 0.9s linear infinite;
   margin: 0 auto;
 }
 .girando.chico {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-width: 2px;
   margin: 0;
 }
@@ -552,70 +678,75 @@ select.entrada {
   }
 }
 
-/* ---------- Aviso flotante (toast) ---------- */
+/* ---------- Aviso flotante (Notification "Message" con sombra) ---------- */
 .toast-zona {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(var(--espacio-600) + env(safe-area-inset-bottom, 0px));
   z-index: 40;
-  width: min(520px, calc(100% - 32px));
+  width: min(480px, calc(100% - 2 * var(--espacio-400)));
   pointer-events: none;
 }
 .toast {
   background: var(--fondo);
   color: var(--texto);
-  border: var(--borde) solid var(--acento);
+  border: var(--borde) solid var(--linea-fuerte);
   border-radius: var(--radio);
-  padding: 10px 10px 10px 16px;
+  padding: var(--espacio-300) var(--espacio-300) var(--espacio-300) var(--espacio-400);
   display: flex;
-  gap: 12px;
+  gap: var(--espacio-300);
   align-items: center;
   pointer-events: auto;
-  box-shadow: var(--sombra-suave);
+  box-shadow: var(--sombra-400);
 }
 .toast span {
   flex: 1;
 }
 .toast button {
-  background: transparent;
-  border: 1.5px solid var(--texto);
-  color: var(--texto);
+  background: var(--neutro-fondo);
+  border: var(--borde) solid var(--neutro-borde);
+  color: var(--neutro-texto);
   border-radius: var(--radio-boton);
-  min-height: var(--toque);
-  padding: 0 14px;
-  font-weight: var(--peso-semi);
+  min-height: var(--alto-boton-chico);
+  padding: 0 var(--espacio-300);
   cursor: pointer;
 }
 .con-barra-abajo .toast-zona {
-  bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
-/* ---------- Diálogo ---------- */
+/* ---------- Diálogo (Dialog) ---------- */
 .dialogo {
-  border: 0;
-  border-radius: var(--radio-grande);
-  padding: 20px 16px;
+  border: var(--borde) solid var(--linea);
+  border-radius: var(--radio);
+  padding: var(--espacio-600);
   max-width: 520px;
-  width: calc(100% - 32px);
+  width: calc(100% - 2 * var(--espacio-400));
   background: var(--fondo);
   color: var(--texto);
   max-height: 90vh;
+  box-shadow: var(--sombra-400);
+}
+@media (min-width: 700px) {
+  .dialogo {
+    padding: var(--espacio-800);
+  }
 }
 .dialogo::backdrop {
   background: var(--velo);
 }
 .dialogo .pila {
-  gap: 12px;
+  gap: var(--espacio-600);
 }
 
 /* ---------- Mensaje de WhatsApp ---------- */
 .mensaje {
   white-space: pre-wrap;
   background: var(--fondo);
-  border: 2px solid var(--texto);
+  border: var(--borde) solid var(--linea-fuerte);
   border-radius: var(--radio-grande) var(--radio-grande) var(--radio-mini) var(--radio-grande);
-  padding: 12px 14px;
+  padding: var(--espacio-300) var(--espacio-400);
   font-size: var(--texto-base);
   max-width: 420px;
   align-self: flex-end;
@@ -626,21 +757,32 @@ select.entrada {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--superficie-marca);
-  color: var(--acento-texto);
+  background: var(--ok-fondo);
+  color: var(--ok-texto);
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.numero-grande {
-  font-size: var(--numero-grande);
+/* Número de pedido y precio de la ficha: Title Page. */
+.numero-grande,
+.precio-grande {
+  font-size: var(--titulo-pagina-chico);
   font-weight: var(--peso-bold);
-  letter-spacing: 0.02em;
-  line-height: 1;
+  letter-spacing: var(--espaciado-titulos);
+  line-height: var(--interlineado-titulos);
+}
+@media (min-width: 900px) {
+  .numero-grande,
+  .precio-grande {
+    font-size: var(--titulo-pagina);
+  }
 }
 .precio {
-  font-weight: var(--peso-semi);
+  font-weight: var(--peso-semi); /* Body Strong */
   font-variant-numeric: tabular-nums;
+}
+.precio.precio-grande {
+  font-weight: var(--peso-bold);
 }
 .tachado {
   text-decoration: line-through;
@@ -658,70 +800,63 @@ select.entrada {
   text-align: left;
   font-size: var(--texto-chico);
   color: var(--texto-suave);
-  font-weight: var(--peso-regular);
-  padding: 8px;
+  font-weight: var(--peso-semi);
+  padding: var(--espacio-200) var(--espacio-300);
   border-bottom: var(--borde) solid var(--linea);
 }
 .tabla td {
-  padding: 10px 8px;
-  border-bottom: var(--borde) solid var(--linea-suave);
+  padding: var(--espacio-300);
+  border-bottom: var(--borde) solid var(--linea);
   vertical-align: middle;
 }
 .tabla tr[aria-selected='true'] td {
   background: var(--superficie);
 }
 
-/* ---------- Pestañas (filtros del admin) ---------- */
+/* ---------- Pestañas (Tabs) ---------- */
+/* Línea gris debajo de todas; la elegida, con texto y línea oscuros (y línea más gruesa: no solo color). */
 .filtros-pestana {
   display: flex;
-  gap: 4px;
+  gap: 0;
   overflow-x: auto;
-  border-bottom: var(--borde) solid var(--linea-suave);
   scrollbar-width: none;
 }
 .pestana-filtro {
   min-height: var(--toque);
-  padding: 0 12px;
+  padding: var(--espacio-100) var(--espacio-300);
   background: none;
   border: 0;
-  border-bottom: 3px solid transparent;
-  margin-bottom: calc(-1 * var(--borde));
-  color: var(--texto-suave);
+  border-bottom: var(--borde) solid var(--pestana-linea);
+  color: var(--pestana-texto);
   font-size: var(--texto-base);
   white-space: nowrap;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--espacio-200);
+}
+.pestana-filtro:hover {
+  background: var(--fondo-hover);
 }
 .pestana-filtro[aria-pressed='true'] {
   color: var(--texto);
-  font-weight: var(--peso-semi);
-  border-bottom-color: var(--acento);
+  border-bottom-color: var(--texto);
+  box-shadow: inset 0 -1px 0 var(--texto);
 }
 .pestana-filtro .num {
-  min-width: 22px;
-  height: 22px;
-  padding: 0 6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--espacio-150);
   border-radius: var(--radio-pastilla);
   background: var(--superficie);
+  color: var(--texto);
   font-size: var(--texto-mini);
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Íconos dentro de links y del buscador: toman el color de íconos (el texto sigue con su color). */
-.enlace > svg,
-.buscador > svg {
+/* Íconos dentro de links: toman el color de íconos (el texto sigue con su color). */
+.enlace > svg {
   color: var(--icono);
-}
-
-/* Campos deshabilitados: fondo gris y texto suave, para que se note que todavía no se pueden usar. */
-.entrada:disabled {
-  background: var(--superficie);
-  color: var(--texto-suave);
-  border-color: var(--linea-suave);
-  cursor: not-allowed;
-  opacity: 1;
 }

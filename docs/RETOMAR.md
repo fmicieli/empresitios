@@ -1,13 +1,18 @@
 # Cómo retomar
 
-## 1. Links para revisar lo último (diseño de la tienda: D-19 y D-20, ya unido a main)
+## 1. Links para revisar lo último (sistema de diseño de base: D-21)
 
-- **Decisiones de diseño (D-19, D-20) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
+- **Decisión D-21 (qué se tomó del sistema y qué se adaptó por accesibilidad):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
+- **Tokens del sistema (colores, textos, espacios, radios, sombras):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/compartido/estilos/tokens.css
+- **Estilos de los componentes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/compartido/estilos/base.css
 - **Archivo de estilo del cliente (fuentes, colores, formas):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/tienda-whatsapp/config/estilo.css
-- **Configuración del banner (inicio.banner):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/tienda-whatsapp/config/tienda.config.ts
-- **Pull request con todo esto (unido el 14/10, publicado en la demo):** https://github.com/fmicieli/empresitios/pull/5
+- **Figma de referencia:** https://www.figma.com/design/9mND0DF4l37xKvbAtIlLLY
+- **Qué cambió en tu localhost:** Nunito Sans; botones con radio 8 (principal en el color de marca, secundario gris "Neutral"); talles y colores como etiquetas con tilde; campos, tarjetas, avisos, menú y pestañas con el diseño del sistema; íconos Feather; espacios de la escala del sistema. Todavía no está en la demo publicada: se suma cuando lo apruebes (pull request a `main`).
+
+### Diseño D-19 y D-20 (unido a main el 14/10, publicado en la demo)
+
+- **Pull request:** https://github.com/fmicieli/empresitios/pull/5
 - **Verlo publicado:** https://tienda-modelo.atlas-de5cd208129d.workers.dev (recargá con `Cmd + Shift + R`)
-- **Qué cambió en tu localhost:** inicio con banner y filas de destacados por categoría; breadcrumb en categorías, búsqueda y ficha; buscador chico en el encabezado (lupa en el celular); Mujer con 3 niveles (Mujer / Indumentaria / Remeras); colores derivados de la marca; Roboto; logo de ejemplo; casilla "Destacado en el inicio" en el admin. Los datos de prueba del navegador se reinician una vez.
 
 ### Fase 4 (aprobada)
 
@@ -58,7 +63,7 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
 3. Fases 1, 2 y 3: aprobadas (D-15, D-16 y D-17).
 4. Fase 4 aprobada: la demo está publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev. Cloudflare publica solo la rama main: cada cambio llega por pull request y yo lo uno.
-5. El diseño de la tienda y el admin (D-19 y D-20) está unido a main y publicado (PR #5). Quedan abiertas tres preguntas mías: (a) en la lista de productos del admin, ¿mostrar el stock por combinación o el total más cuántas combinaciones están agotadas?; (b) si sigo viendo el stock sumado al cargar un producto nuevo (te mando captura); (c) en qué formato quiero el muestrario de estilos de inspiración (página, documento o Figma).
+5. El diseño D-19/D-20 está unido a main y publicado (PR #5). El sistema de diseño de base (D-21, Simple Design System con Nunito Sans) está en la rama, a revisar por mí antes de pasarlo a main. Quedan abiertas tres preguntas mías: (a) en la lista de productos del admin, ¿mostrar el stock por combinación o el total más cuántas combinaciones están agotadas?; (b) si sigo viendo el stock sumado al cargar un producto nuevo (te mando captura); (c) en qué formato quiero el muestrario de estilos de inspiración (página, documento o Figma).
 6. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
 7. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```

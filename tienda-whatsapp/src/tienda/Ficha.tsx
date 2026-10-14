@@ -154,11 +154,9 @@ function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: 
       <div class="pila">
         <div class="pila-chica">
           <MigasFicha p={p} filas={filas} />
-          <h1>{p.nombre}</h1>
+          <h1 class="titulo-ficha">{p.nombre}</h1>
           <div class="fila-extremos">
-            <span class="precio" style={{ fontSize: 'var(--titulo-2)' }}>
-              {formatoPrecio(p.precio)}
-            </span>
+            <span class="precio precio-grande">{formatoPrecio(p.precio)}</span>
             <button type="button" class="enlace" aria-label={t.compartirProducto(p.nombre)} onClick={() => compartir(p)}>
               <IconoCompartir /> {t.compartir}
             </button>
@@ -226,7 +224,7 @@ function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: 
 
         {p.descripcion && (
           <div class="pila-chica">
-            <h2 style={{ fontSize: 'var(--texto-base)' }}>{t.descripcion}</h2>
+            <h2 class="titulo-chico">{t.descripcion}</h2>
             <p style={{ whiteSpace: 'pre-line' }}>{p.descripcion}</p>
           </div>
         )}

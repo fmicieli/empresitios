@@ -195,7 +195,7 @@ export default function Catalogo() {
 
   return (
     <Marco conBarraAbajo>
-      <div style={{ paddingTop: '14px' }}>{contenido}</div>
+      <div style={{ paddingTop: 'var(--espacio-400)' }}>{contenido}</div>
       <BarraCarrito productos={productos} />
     </Marco>
   );
