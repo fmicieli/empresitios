@@ -228,30 +228,20 @@
     gap: var(--espacio-600);
   }
 }
-/* Tarjeta de producto (14/10, Flor): sin borde, la foto ocupa todo el ancho; abajo nombre, precio y un botón
-   secundario a todo el ancho (agrega directo si hay una sola opción; si hay que elegir talle o color, va a la ficha). */
+/* Tarjeta de producto (14/10, Flor): sin borde, la foto ocupa todo el ancho y abajo el nombre y el precio. */
 .tarjeta {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-300);
-  height: 100%;
-}
-.tarjeta-link {
-  display: flex;
-  flex-direction: column;
   gap: var(--espacio-100);
-  flex: 1;
+  height: 100%;
   text-decoration: none;
   color: var(--texto);
 }
-.tarjeta-link .foto {
+.tarjeta .foto {
   margin-bottom: var(--espacio-200);
 }
-.tarjeta-link:hover .tarjeta-nombre {
+.tarjeta:hover .tarjeta-nombre {
   text-decoration: underline;
-}
-.tarjeta.agotada .tarjeta-link {
-  opacity: 0.6;
 }
 .tarjeta-nombre mark {
   background: none;
