@@ -229,6 +229,9 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 12 c. **Más aire dentro de los botones** (14/10, Flor): margen interno de 24 px a los costados (12 arriba y abajo) en los botones normales, y de 16 px en los chicos; los chicos pasan a 40 px de alto con mouse (antes 32), igual que los campos.
 12 d. **Títulos más chicos y con más aire arriba** (14/10, Flor): el título de cada pantalla pasa a 24 px (Heading), los de sección a 20 y los menores a 16 (antes 32, 24 y 20). Entre el encabezado y el contenido hay 32 px en el celular y 48 en computadora (24 en el admin del celular).
 12 e. **Separación entre tarjetas en el celular: 8 px** (14/10, Flor), menor que el margen de 16 px con la pantalla, para que no se vean iguales. En computadora sigue en 24.
+12 f. **Tarjetas de producto sin borde** (14/10, Flor): la foto ocupa todo el ancho de la tarjeta y abajo van el nombre y el precio. Al pasar el mouse se subraya el nombre. En el celular, 8 px entre columnas y 24 entre filas (sin borde, las filas necesitan más aire).
+12 g. **Sin botón en las tarjetas** (14/10, Flor): se probó un botón "Agregar al carrito / Elegir talle" debajo del precio y se sacó. Toda la tarjeta lleva a la ficha.
+12 h. **Precio primero en las tarjetas** (14/10, Flor): el precio va arriba, en 20 px y semi negrita; el nombre debajo, en gris (texto secundario, 4,6:1). Para lectores de pantalla el nombre se sigue leyendo primero.
 13. **Línea de campos y buscador** (14/10, Flor): gris de 1 px por defecto; al escribir, la misma línea pasa a 2 px y negra, sin contorno de foco aparte (evita la doble línea); con error, 2 px en rojo. Si un campo con error está activo, sigue rojo y suma un fondo rojo muy suave, para que se note dónde se está escribiendo (propuso Claude).
 14. **Borde de campos, buscador y cantidad en gris claro** (14/10, Flor): vuelve al gris del sistema (#d9d9d9). Riesgo de accesibilidad (avisado por Claude): da 1,4:1 sobre blanco, menos que el 3:1 recomendado para bordes de controles; personas con baja visión o con el brillo bajo pueden no ver dónde está el campo. Se compensa con la etiqueta arriba de cada campo y la línea negra de 2 px al escribir. Para un cliente que lo necesite más marcado: `--linea-campo: var(--linea-fuerte);` en su `estilo.css`.
 
@@ -245,6 +248,6 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
 2. **Fase 4** (publicación de la demo): aprobada el 13/10. Publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev desde `main`; probada por Flor desde el celular.
-3. **Estilo por cliente (D-19) y sistema de diseño de base (D-21):** D-21 aprobado por Flor el 14/10 (PR #6 a `main`). Falta decidir si se arma un muestrario de estilos de inspiración.
+3. **Estilo por cliente (D-19) y sistema de diseño de base (D-21):** D-21 y D-22 aprobados por Flor y unidos a `main` el 14/10 (PR #6), publicados en la demo. Falta decidir si se arma un muestrario de estilos de inspiración.
 4. **Prueba con Google de verdad:** al final, con la lista de pruebas (guía `09`, paso 8).
 5. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`).
