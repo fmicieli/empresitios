@@ -243,6 +243,20 @@
 .tarjeta:hover .tarjeta-nombre {
   text-decoration: underline;
 }
+/* Primero el precio, un paso más grande; abajo el nombre, en gris (14/10, Flor).
+   En el código el nombre va antes, así los lectores de pantalla lo leen primero; el orden se cambia solo a la vista. */
+.tarjeta .precio {
+  order: 1;
+  font-size: var(--texto-medio);
+  line-height: var(--interlineado-titulos);
+}
+.tarjeta .tarjeta-nombre {
+  order: 2;
+  color: var(--texto-suave);
+}
+.tarjeta .sr {
+  order: 3;
+}
 .tarjeta-nombre mark {
   background: none;
   color: inherit;
