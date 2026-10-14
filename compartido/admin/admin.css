@@ -1,4 +1,4 @@
-/* Disposición del admin. Solo usa tokens. */
+/* Disposición del admin, según el Simple Design System (D-21). Solo usa tokens. */
 
 .admin {
   min-height: 100vh;
@@ -8,24 +8,24 @@
   top: 0;
   z-index: 15;
   background: var(--fondo);
-  border-bottom: var(--borde) solid var(--linea-suave);
+  border-bottom: var(--borde) solid var(--linea);
 }
 .admin-encabezado-interior {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 6px var(--separacion);
+  gap: var(--espacio-300);
+  padding: var(--espacio-200) var(--separacion);
   max-width: var(--ancho-max);
   margin: 0 auto;
 }
 .admin-contenido {
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: 12px var(--separacion) 120px;
+  padding: var(--espacio-600) var(--separacion) var(--espacio-4000);
 }
 
-/* Navegación: barra inferior en celular, menú lateral en escritorio */
+/* Navegación: barra inferior en celular (Navigation Button en columna), menú lateral en escritorio (Navigation Pill). */
 .admin-nav-inferior {
   position: fixed;
   left: 0;
@@ -40,29 +40,32 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 .admin-nav-inferior a {
-  min-height: 60px;
+  min-height: 64px;
+  padding: var(--espacio-200);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: var(--espacio-100);
   text-decoration: none;
-  color: var(--texto-suave);
+  color: var(--icono-suave);
   font-size: var(--texto-chico);
+  font-weight: var(--peso-semi); /* Body Small Strong */
+  line-height: var(--interlineado-linea);
   position: relative;
 }
 .admin-nav-inferior a[aria-current='page'] {
-  color: var(--texto);
-  font-weight: var(--peso-semi);
+  color: var(--acento-texto);
 }
+/* Además del color, una línea arriba marca la sección actual. */
 .admin-nav-inferior a[aria-current='page']::before {
   content: '';
   position: absolute;
   top: 0;
   left: 25%;
   right: 25%;
-  height: 3px;
-  background: var(--acento);
+  height: 2px;
+  background: var(--acento-texto);
   border-radius: 0 0 var(--radio-mini) var(--radio-mini);
 }
 .admin-nav-inferior .contador,
@@ -70,7 +73,7 @@
   position: static;
 }
 .admin .toast-zona {
-  bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(80px + env(safe-area-inset-bottom, 0px));
 }
 
 .admin-escritorio {
@@ -82,39 +85,44 @@
 .admin-escritorio .admin-contenido {
   max-width: none;
   margin: 0;
-  padding: 20px 24px 80px;
+  padding: var(--espacio-800) var(--espacio-800) var(--espacio-2400);
 }
 .admin-escritorio .toast-zona {
-  bottom: 24px;
+  bottom: var(--espacio-600);
 }
 .admin-nav-lateral {
   position: sticky;
   top: 0;
   align-self: start;
   height: 100vh;
-  border-right: var(--borde) solid var(--linea-suave);
-  padding: 20px 12px;
+  border-right: var(--borde) solid var(--linea);
+  padding: var(--espacio-800) var(--espacio-400);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--espacio-200);
 }
 .admin-nav-lateral .nombre-comercio {
   font-weight: var(--peso-semi);
-  padding: 0 12px 16px;
+  padding: 0 var(--espacio-200) var(--espacio-400);
 }
 .admin-nav-lateral a {
   min-height: var(--toque);
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 12px;
-  border-radius: var(--radio-control);
+  gap: var(--espacio-200);
+  padding: var(--espacio-200);
+  border-radius: var(--radio-chico);
   text-decoration: none;
   color: var(--texto);
+  line-height: var(--interlineado-linea);
 }
+.admin-nav-lateral a:hover {
+  background: var(--fondo-hover);
+}
+/* Elegida: fondo suave de marca (Navigation Pill "Active") y texto en negrita (no solo color). */
 .admin-nav-lateral a[aria-current='page'] {
-  background: var(--superficie);
-  color: var(--texto);
+  background: var(--acento-suave);
+  color: var(--acento-texto);
   font-weight: var(--peso-semi);
 }
 .admin-nav-lateral .abajo {
@@ -124,11 +132,11 @@
 /* Ingreso */
 .ingreso {
   max-width: 420px;
-  margin: 48px auto;
+  margin: var(--espacio-1200) auto;
   padding: 0 var(--separacion);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--espacio-600);
   text-align: center;
 }
 .ingreso-logo {
@@ -136,8 +144,9 @@
   height: 72px;
   margin: 0 auto;
   border-radius: var(--radio-grande);
-  background: var(--superficie);
-  border: var(--borde) solid var(--linea);
+  background: var(--acento-suave);
+  color: var(--acento-texto);
+  border: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -149,24 +158,25 @@
 .tarjetas {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
-  gap: 12px;
+  gap: var(--espacio-400);
   list-style: none;
   margin: 0;
   padding: 0;
 }
+/* Card: borde gris, sin sombra. */
 .tarjeta-pedido {
-  border: 0;
-  box-shadow: var(--sombra-suave);
+  border: var(--borde) solid var(--linea);
   border-radius: var(--radio);
-  padding: 14px;
+  padding: var(--espacio-400);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--espacio-300);
   background: var(--fondo);
 }
 .tarjeta-pedido .titulo-pedido {
   font-size: var(--titulo-3);
   font-weight: var(--peso-semi);
+  letter-spacing: var(--espaciado-titulos);
   text-decoration: none;
   color: var(--texto);
   min-height: var(--toque);
@@ -176,7 +186,7 @@
 .pedidos-escritorio {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 20px;
+  gap: var(--espacio-600);
   align-items: start;
 }
 .pedidos-escritorio.con-detalle {
@@ -198,11 +208,11 @@
 }
 .panel-lateral {
   position: sticky;
-  top: 20px;
+  top: var(--espacio-600);
   border: var(--borde) solid var(--linea);
   border-radius: var(--radio);
-  padding: 16px;
-  max-height: calc(100vh - 40px);
+  padding: var(--espacio-600);
+  max-height: calc(100vh - 2 * var(--espacio-600));
   overflow: auto;
 }
 .tabla .fila-clic {
@@ -224,7 +234,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
-  gap: 12px;
+  gap: var(--espacio-400);
   align-items: start;
 }
 .fila-producto {
@@ -234,9 +244,9 @@
 }
 .cabeza-producto {
   display: flex;
-  gap: 12px;
+  gap: var(--espacio-300);
   align-items: center;
-  padding: 12px;
+  padding: var(--espacio-400);
   width: 100%;
   background: none;
   border: 0;
@@ -249,84 +259,99 @@
   flex-shrink: 0;
 }
 .ajuste {
-  padding: 0 12px 14px;
+  padding: 0 var(--espacio-400) var(--espacio-400);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--espacio-300);
 }
+/* Pestañas (Tabs), igual que los filtros de pedidos. */
 .pestanas {
   display: flex;
-  background: var(--linea-suave);
-  border-radius: var(--radio-control);
-  padding: 3px;
-  gap: 3px;
   overflow-x: auto;
+  scrollbar-width: none;
 }
 .pestanas button {
   border: 0;
+  border-bottom: var(--borde) solid var(--pestana-linea);
   background: transparent;
-  border-radius: var(--radio-chico);
+  color: var(--pestana-texto);
   min-height: var(--toque);
-  padding: 0 14px;
+  padding: var(--espacio-100) var(--espacio-300);
   cursor: pointer;
   white-space: nowrap;
   flex: 1;
 }
+.pestanas button:hover {
+  background: var(--fondo-hover);
+}
 .pestanas button[aria-pressed='true'] {
-  background: var(--fondo);
-  font-weight: var(--peso-semi);
-  box-shadow: var(--sombra);
+  color: var(--texto);
+  border-bottom-color: var(--texto);
+  box-shadow: inset 0 -1px 0 var(--texto);
 }
 .linea-stock {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--espacio-300);
   background: var(--superficie);
-  border-radius: var(--radio-control);
-  padding: 6px 6px 6px 12px;
+  border-radius: var(--radio);
+  padding: var(--espacio-150) var(--espacio-150) var(--espacio-150) var(--espacio-300);
 }
 .linea-stock .etiqueta-stock {
   flex: 1;
 }
+/* Icon Button "Neutral": redondo, gris claro con borde. */
 .paso {
   width: var(--toque);
   height: var(--toque);
-  border-radius: var(--radio-chico);
-  border: var(--borde) solid var(--texto);
+  border-radius: var(--radio-pastilla);
+  border: var(--borde) solid var(--linea);
   background: var(--fondo);
-  font-size: var(--titulo-3);
+  font-size: var(--texto-medio);
+  line-height: var(--interlineado-linea);
   cursor: pointer;
 }
+.paso:not(:disabled):hover {
+  background: var(--superficie-hover);
+}
 .paso:disabled {
-  opacity: 0.35;
+  color: var(--texto-deshabilitado);
+  background: var(--fondo-deshabilitado);
+  border-color: var(--linea-deshabilitada);
   cursor: not-allowed;
 }
 .valor-stock {
   min-width: 32px;
   text-align: center;
   font-weight: var(--peso-semi);
-  font-size: var(--texto-medio);
+  font-size: var(--texto-base);
 }
 
 /* Formulario de producto */
 .form-producto {
   display: grid;
-  gap: 24px;
+  gap: var(--espacio-600);
 }
 @media (min-width: 1000px) {
+  .form-producto .fotos-producto {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
   .form-producto {
-    grid-template-columns: 360px minmax(0, 1fr);
+    /* Fotos y datos en dos mitades iguales (14/10, Flor): antes las fotos tenían 360 px fijos y los campos
+       quedaban demasiado anchos. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--espacio-1600);
     align-items: start;
   }
   .form-producto .columna-fotos {
     position: sticky;
-    top: 20px;
+    top: var(--espacio-600);
   }
 }
 .fotos-producto {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 8px;
+  gap: var(--espacio-300);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -334,57 +359,93 @@
 .foto-producto {
   position: relative;
   aspect-ratio: 1;
-  border-radius: var(--radio-control);
+  border-radius: var(--radio);
   overflow: hidden;
-  background: var(--superficie);
+  background: var(--pizarra-200);
   border: var(--borde) solid var(--linea);
+  cursor: grab;
+  touch-action: pan-y; /* deslizar mueve la página; mantener apretado y mover, ordena */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 .foto-producto img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+}
+/* La primera foto es la principal: línea negra de 2 px y la etiqueta "Principal" abajo. */
+.foto-producto.es-principal {
+  border-color: var(--texto);
+  box-shadow: inset 0 0 0 1px var(--texto);
 }
 .foto-producto .marca-principal {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  font-size: var(--texto-mini);
-  background: var(--acento);
-  color: var(--sobre-acento);
-  padding: 2px 6px;
-  border-radius: var(--radio-mini);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: var(--texto-chico);
+  line-height: var(--interlineado-linea);
+  text-align: center;
+  background: var(--texto);
+  color: var(--fondo);
+  padding: var(--espacio-150) var(--espacio-100);
 }
-.foto-producto .acciones-foto {
+/* Mientras se arrastra: la foto se levanta un poco. */
+.foto-producto.arrastrando {
+  cursor: grabbing;
+  opacity: 0.85;
+  transform: scale(1.04);
+  box-shadow: var(--sombra-400);
+  z-index: 2;
+}
+/* Quitar: una X arriba a la derecha. El círculo se ve de 28 px, pero se puede tocar en 44 × 44. */
+.quitar-foto {
   position: absolute;
-  bottom: 4px;
-  left: 4px;
-  right: 4px;
-  display: flex;
-  gap: 4px;
-  justify-content: space-between;
-}
-.foto-producto .acciones-foto button {
-  font-size: var(--texto-mini);
-  border: var(--borde) solid var(--linea);
-  border-radius: var(--radio-mini);
-  min-height: 32px;
-  padding: 0 6px;
-  background: var(--fondo);
+  top: 0;
+  right: 0;
+  width: var(--toque);
+  height: var(--toque);
+  border: 0;
+  background: none;
+  padding: 0;
   cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.quitar-foto > span {
+  margin: var(--espacio-150);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radio-pastilla);
+  background: var(--fondo);
+  color: var(--icono);
+  box-shadow: var(--sombra-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quitar-foto:hover > span {
+  background: var(--superficie-hover);
 }
 .zona-fotos {
   aspect-ratio: 1;
-  border: 2px dashed var(--texto-suave);
-  border-radius: var(--radio-control);
+  border: var(--borde) dashed var(--linea-fuerte);
+  border-radius: var(--radio);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: var(--espacio-100);
   cursor: pointer;
   font-size: var(--texto-chico);
   text-align: center;
-  padding: 6px;
+  padding: var(--espacio-150);
+}
+.zona-fotos:hover {
+  background: var(--fondo-hover);
 }
 .zona-fotos.encima,
 .zona-fotos:focus-within {
@@ -396,31 +457,36 @@
 }
 .grilla-stock table {
   border-collapse: separate;
-  border-spacing: 6px;
+  border-spacing: var(--espacio-200);
 }
 .grilla-stock th {
   font-size: var(--texto-base);
   text-align: left;
 }
 .grilla-stock input {
-  width: 68px;
-  min-height: 48px;
+  width: 72px;
+  min-height: var(--alto-control);
   text-align: center;
-  border: var(--borde) solid var(--texto-suave);
-  border-radius: var(--radio-chico);
+  border: var(--borde) solid var(--linea-campo);
+  border-radius: var(--radio-control);
   background: var(--fondo);
-  font-size: var(--texto-medio);
+  font-size: var(--texto-base);
+}
+.grilla-stock input:focus {
+  outline: none;
+  border-color: var(--texto);
+  box-shadow: inset 0 0 0 1px var(--texto);
 }
 .barra-progreso {
   width: 100%;
-  height: 10px;
+  height: 8px;
   accent-color: var(--acento);
 }
 details > summary {
   min-height: var(--toque);
   display: flex;
   align-items: center;
-  font-weight: var(--peso-semi);
+  font-weight: var(--peso-semi); /* Accordion: título Body Strong */
   cursor: pointer;
 }
 
@@ -431,7 +497,7 @@ details > summary {
   min-height: 44px;
 }
 .admin-nav-lateral .boton-salir {
-  padding: 10px 12px;
+  padding: var(--espacio-200);
 }
 
 /* En el panel de detalle (angosto), los dos botones van uno debajo del otro. */
@@ -443,7 +509,7 @@ details > summary {
    hasta elegir el anterior. En celular, uno debajo del otro; en computadora, en una fila (hasta 3; si son 4, dos y dos). */
 .selector-categoria {
   display: grid;
-  gap: 12px;
+  gap: var(--espacio-400);
 }
 @media (min-width: 900px) {
   .selector-categoria {
@@ -458,4 +524,31 @@ details > summary {
   .selector-categoria.niveles-4 {
     --columnas: 2;
   }
+}
+
+/* Colores y talles cargados: con el borde normal (no como elegidos) y una X de 18 px para quitarlos.
+   La X queda a la misma distancia del borde derecho (12 px) que el texto del borde izquierdo (14/10, Flor). */
+.chip-quitable {
+  cursor: default;
+  padding-right: 0;
+  gap: 0;
+}
+.chip-quitable:hover {
+  background: var(--fondo);
+}
+.quitar-chip {
+  align-self: stretch;
+  /* El dibujo de la X ya trae ~4 px de aire propio: con 8 px a la derecha, se ve a 12 px del borde, como el texto. */
+  padding: 0 var(--espacio-200) 0 var(--espacio-100);
+  border: 0;
+  background: none;
+  color: var(--icono);
+  border-radius: 0 var(--radio-control) var(--radio-control) 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.quitar-chip:hover {
+  background: var(--fondo-hover);
 }

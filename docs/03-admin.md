@@ -71,7 +71,7 @@ El dueño usa una interfaz simple; detrás, el admin escribe solo en su planilla
 
 | Campo | Obligatorio | Detalle |
 | --- | --- | --- |
-| Fotos | Al menos 1 | Varias. Galería o cámara en celular, arrastrar o elegir en compu. La primera es la principal; se puede elegir otra como principal y quitar. Se achican en el navegador antes de subir (ej. lado mayor ~1600 px, JPEG/WebP) y se muestra el progreso de subida |
+| Fotos | Al menos 1 | Varias. Galería o cámara en celular, arrastrar o elegir en compu. La primera es la principal (línea negra y etiqueta "Principal" abajo); el orden se cambia arrastrando con el mouse o, en el celular, manteniendo apretada la foto y moviéndola (con teclado: flechas). Cada foto se quita con la X de arriba a la derecha (D-22). Se achican en el navegador antes de subir (ej. lado mayor ~1600 px, JPEG/WebP) y se muestra el progreso de subida |
 | Nombre | Sí | — |
 | Categoría | Sí | Lista cerrada desde la pestaña Categorías, en selectores separados por nivel: Categoría, Subcategoría y, si la tienda usa 3 niveles, Tipo (D-20). El dueño no crea categorías. Ayuda: "¿Falta una categoría? Pedila por WhatsApp y la sumamos." |
 | Precio | Sí | Acepta "15000" y "15.000"; se guarda como número entero de pesos |

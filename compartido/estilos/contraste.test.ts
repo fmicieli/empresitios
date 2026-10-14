@@ -19,7 +19,7 @@ describe('contraste de colores', () => {
 
   it('la plantilla tal como está no tiene problemas', () => {
     const t = leerTokens(leer('./tokens.css'), leer('../../tienda-whatsapp/config/estilo.css'));
-    expect(revisarContraste({ ...t, '--marca': '#000000', '--sobre-marca': '#ffffff' })).toEqual([]);
+    expect(revisarContraste({ ...t, '--marca': '#2c2c2c', '--sobre-marca': '#f5f5f5' })).toEqual([]);
   });
 
   it('avisa si el color de marca es muy claro para texto blanco', () => {

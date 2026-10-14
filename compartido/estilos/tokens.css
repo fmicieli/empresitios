@@ -1,92 +1,221 @@
 /*
   TOKENS DE ESTILO DE LA PLANTILLA — valores por defecto.
+  Base: "Simple Design System" de Figma (D-21), con Nunito Sans en lugar de Inter.
   Cada cliente NO toca este archivo: pisa lo que necesite en
   tienda-whatsapp/config/estilo.css (fuentes, colores y formas; D-19).
-  Estilo por defecto: blanco y negro (escala de grises), sin modo oscuro.
-  Única excepción: los errores van en rojo.
-  El color de marca de cada cliente llega desde tienda.config.ts como
-  --marca / --sobre-marca; si no hay, se usa el negro.
-  Pesos de letra permitidos: regular, semi y bold (nada más grueso).
+
+  Regla de marca: todo lo que en el sistema es "Brand" (botón principal, casillas marcadas,
+  pestañas y links activos) toma el color de marca del cliente, que llega desde tienda.config.ts
+  como --marca / --sobre-marca. Sin color de marca se usa el gris oscuro del sistema (#2c2c2c).
+
+  Organización:
+    1. Primitivos: las paletas del sistema (no se usan directo en los componentes).
+    2. Semánticos: qué color va en cada cosa (fondo, texto, borde, ícono…). Los componentes usan estos.
+    3. Tipografía, espacios, radios, sombras y medidas.
 */
 :root {
-  /* Colores */
-  --fondo: #ffffff;
-  --superficie: #f2f2f2;
-  --linea: #d0d0d0;
-  --linea-suave: #e6e6e6;
-  --texto: #000000;
-  --texto-suave: #555555;
-  --acento: var(--marca, #000000);
-  --sobre-acento: var(--sobre-marca, #ffffff);
-  /* Botón principal al pasar el mouse o tocarlo: el color de marca un poco más oscuro. */
-  --acento-hover: color-mix(in srgb, var(--acento) 82%, #000000);
-  /* Color de marca usado como texto y borde (botón secundario, talle y color elegidos).
-     Si el color de marca es muy claro para leerse sobre blanco, el cliente pone acá una versión más oscura. */
-  --acento-texto: var(--acento);
-  /* Fondo muy suave de la marca: botón secundario al pasar el mouse. */
-  --acento-suave: color-mix(in srgb, var(--acento) 8%, #ffffff);
-  --icono: var(--acento-texto); /* íconos del encabezado, links y menús (contraste mínimo 3:1) */
-  --enlace: var(--acento-texto); /* texto de los links */
-  --superficie-marca: var(--acento-suave); /* fondos suaves de marca: avisos, etiquetas, círculos de íconos */
-  --contador-fondo: var(--acento); /* circulito con números (carrito, pendientes) */
-  --contador-texto: var(--sobre-acento);
-  --linea-fuerte: #8c8c8c; /* bordes de campos y opciones (contraste mínimo 3:1) */
-  --aviso-fondo: var(--superficie-marca);
-  --aviso-texto: #000000;
-  --ok-texto: #000000;
-  --error-texto: #c00000; /* único color: errores en rojo (D-11) */
-  --velo: rgb(0 0 0 / 0.5);
+  /* ---------- 1. Primitivos (paletas del sistema) ---------- */
+  --gris-100: #f5f5f5;
+  --gris-200: #e6e6e6;
+  --gris-300: #d9d9d9;
+  --gris-400: #b3b3b3;
+  --gris-500: #757575;
+  --gris-600: #444444;
+  --gris-700: #383838;
+  --gris-800: #2c2c2c;
+  --gris-900: #1e1e1e;
+  --gris-1000: #111111;
+  --pizarra-100: #f3f3f3;
+  --pizarra-200: #e3e3e3;
+  --pizarra-300: #cdcdcd;
+  --pizarra-400: #b2b2b2;
+  --pizarra-500: #949494;
+  --pizarra-600: #767676;
+  --pizarra-700: #5a5a5a;
+  --pizarra-800: #434343;
+  --pizarra-900: #303030;
+  --rojo-100: #fee9e7;
+  --rojo-200: #fdd3d0;
+  --rojo-500: #ec221f;
+  --rojo-600: #c00f0c;
+  --rojo-700: #900b09;
+  --amarillo-100: #fffbeb;
+  --amarillo-200: #fff1c2;
+  --amarillo-400: #e8b931;
+  --amarillo-900: #522504;
+  --verde-100: #ebffee;
+  --verde-200: #cff7d3;
+  --verde-500: #14ae5c;
+  --verde-700: #008043;
+  --verde-800: #02542d;
 
-  /*
-    Tipografía. La escala (tamaños, pesos e interlineados) es fija para todas las
-    tiendas (D-19): cada cliente solo cambia las familias, en config/estilo.css.
-  */
-  --fuente-texto: 'Roboto Variable', Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* ---------- 2. Semánticos ---------- */
+  /* Fondos */
+  --fondo: #ffffff; /* Background/Default */
+  --superficie: var(--gris-100); /* Background/Default/Secondary: paneles, tarjetas cerradas, fotos vacías */
+  --superficie-hover: var(--gris-200); /* Background/Default/Secondary Hover */
+  --fondo-hover: var(--gris-100); /* Background/Default/Default Hover: links y pestañas al pasar el mouse */
+  --fondo-deshabilitado: var(--gris-300); /* Background/Disabled */
+
+  /* Textos */
+  --texto: var(--gris-900); /* Text/Default */
+  --texto-suave: var(--gris-500); /* Text/Default/Secondary (4,6:1 sobre blanco) */
+  /* Sobre los paneles grises, el gris del sistema no llega a 4,5:1: ahí se usa uno más oscuro de la paleta. */
+  --texto-suave-sobre-superficie: var(--pizarra-700);
+  --texto-terciario: var(--gris-400); /* Text/Default/Tertiary: textos de ejemplo dentro de los campos */
+  --texto-deshabilitado: var(--gris-400); /* Text/Disabled */
+
+  /* Líneas */
+  --linea: var(--gris-300); /* Border/Default: tarjetas, separadores, encabezado */
+  --linea-suave: var(--gris-300);
+  /* Border/Default/Secondary: bordes de campos y casillas. El sistema usa --linea en los campos;
+     acá van con este gris más marcado para llegar al contraste mínimo 3:1 (accesibilidad, regla 7). */
+  --linea-fuerte: var(--gris-500);
+  /* Borde de campos, buscador y cantidad sin usar: el gris claro del sistema (Border/Default), a pedido de Flor
+     (14/10). Ojo: da 1,4:1 sobre blanco, menos que el 3:1 recomendado para bordes de controles. Se compensa
+     con la etiqueta arriba de cada campo y la línea negra de 2 px al escribir. Si un cliente lo necesita más
+     marcado, en su estilo.css: --linea-campo: var(--linea-fuerte); */
+  --linea-campo: var(--gris-300);
+  --linea-deshabilitada: var(--gris-400); /* Border/Disabled */
+
+  /* Marca (Brand) — reemplazada por el color de marca del cliente */
+  --acento: var(--marca, #2c2c2c); /* Background/Brand/Default: botón principal */
+  --sobre-acento: var(--sobre-marca, #f5f5f5); /* Text/Brand/On Brand */
+  --acento-hover: color-mix(in srgb, var(--acento) 82%, #000000); /* Background/Brand/Hover */
+  /* Text/Brand/Default: la marca usada como texto o borde (links, pestaña activa). Si el color de marca es
+     muy claro para leerse sobre blanco, se pasa solo al color del texto al compilar. */
+  --acento-texto: var(--acento);
+  /* Más claros que en el sistema (14/10, Flor): con la marca gris quedan casi como Gray/100 y Gray/200. */
+  --acento-suave: color-mix(in srgb, var(--acento) 5%, #ffffff); /* Background/Brand/Tertiary */
+  --acento-suave-hover: color-mix(in srgb, var(--acento) 10%, #ffffff); /* Background/Brand/Tertiary Hover */
+  --superficie-marca: var(--acento-suave); /* fondos suaves de marca: avisos, etiquetas, ítem activo del menú */
+
+  /* Neutro (botón secundario del sistema: "Neutral") */
+  /* Fondo blanco en lugar del gris del sistema (14/10, Flor); al pasar el mouse, gris muy suave. */
+  --neutro-fondo: var(--fondo);
+  --neutro-fondo-hover: var(--gris-100);
+  --neutro-borde: var(--pizarra-600); /* Border/Neutral/Secondary */
+  --neutro-texto: var(--gris-900);
+  --pestana-linea: var(--pizarra-400); /* Border/Neutral/Tertiary: línea de las pestañas sin elegir */
+  --pestana-texto: var(--pizarra-600); /* Text/Neutral/Tertiary: pestañas sin elegir */
+
+  /* Íconos, links y contadores */
+  --icono: var(--texto); /* Icon/Default */
+  --icono-suave: var(--texto-suave); /* Icon/Default/Secondary: navegación sin elegir */
+  --enlace: var(--texto); /* Body Link: subrayado, mismo color que el texto */
+  --contador-fondo: var(--acento);
+  --contador-texto: var(--sobre-acento);
+
+  /* Estados */
+  --error-texto: var(--rojo-700); /* Text/Danger/Default (también el borde de un campo con error) */
+  --error-fondo: var(--rojo-100); /* Background/Danger/Tertiary */
+  --error-borde: var(--rojo-500); /* Border/Danger/Tertiary */
+  --peligro: var(--rojo-500); /* Background/Danger/Default: botones para borrar o cancelar */
+  --peligro-hover: var(--rojo-600);
+  --sobre-peligro: var(--rojo-100);
+  --ok-texto: var(--verde-800); /* Text/Positive/Default */
+  --ok-fondo: var(--verde-100); /* Background/Positive/Tertiary */
+  --ok-borde: var(--verde-500);
+  --ok-icono: var(--verde-700); /* Positive: tilde de "Estás al día" (4,4:1 sobre su círculo; mínimo para íconos 3:1) */
+  --alerta-fondo: var(--amarillo-100); /* Background/Warning/Tertiary */
+  --alerta-texto: var(--amarillo-900);
+  --aviso-fondo: var(--superficie-marca);
+  --aviso-texto: var(--texto);
+  --velo: rgb(0 0 0 / 0.5); /* Background/Utilities/Overlay: detrás de menús y diálogos */
+
+  /* ---------- 3. Tipografía ---------- */
+  /* La escala (tamaños, pesos, interlineados) es fija para todas las tiendas (D-19):
+     cada cliente solo cambia las familias, en config/estilo.css. */
+  --fuente-texto: 'Nunito Sans Variable', 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --fuente-titulos: var(--fuente-texto);
   --peso-regular: 400;
-  --peso-semi: 600;
-  --peso-bold: 700;
-  --peso-titulos: var(--peso-bold);
-  --interlineado: 1.45;
+  --peso-semi: 600; /* Body Strong, Heading */
+  --peso-bold: 700; /* Title Page, Title Hero */
+  --peso-titulos: var(--peso-semi);
+  --interlineado: 1.4; /* Body */
   --interlineado-titulos: 1.2;
+  --interlineado-linea: 1; /* "Single Line": botones, campos, etiquetas */
+  --espaciado-titulos: -0.02em; /* Heading y Title Page */
+  --espaciado-hero: -0.03em; /* Title Hero */
 
-  /* Escala de textos (de más chico a más grande) */
-  --texto-mini: 12px; /* contadores, marcas sobre fotos */
-  --texto-chico: 14px; /* ayudas, etiquetas, migas */
-  --texto-base: 16px; /* texto general, links, chips, avisos */
-  --texto-medio: 18px; /* botones, campos, totales */
-  --titulo-3: 20px; /* títulos de tarjetas */
-  --titulo-2: 22px; /* secciones, precio de la ficha */
-  --titulo-1: 28px; /* título de cada pantalla */
-  --numero-grande: 46px;
+  /* Escala de textos (Typography/Scale del sistema) */
+  --texto-mini: 12px; /* Scale 01: contadores */
+  --texto-chico: 14px; /* Body Small: ayudas, etiquetas, migas, navegación inferior */
+  --texto-base: 16px; /* Body Base: texto general, botones, campos */
+  --texto-medio: 20px; /* Body Large / Subheading: totales, bajadas */
+  --titulo-3: 20px; /* Heading Small: títulos de tarjetas */
+  --titulo-2: 24px; /* Heading: secciones */
+  --titulo-1: 32px; /* Heading Large: título de cada pantalla */
+  --titulo-pagina: 48px; /* Title Page: precio de la ficha, números grandes */
+  --titulo-pagina-chico: 40px; /* Title Page / Size Small (celular) */
+  --titulo-hero: 72px; /* Title Hero: banner del inicio en computadora */
+  --numero-grande: var(--titulo-pagina);
 
-  /* Formas: con todo en 0 queda un estilo de bordes rectos. */
-  --radio-mini: 4px;
-  --radio-chico: 8px;
-  --radio-control: 12px; /* campos, talles, opciones */
-  --radio: 16px; /* tarjetas, paneles, fotos */
-  --radio-grande: 22px; /* hojas y diálogos */
-  --radio-pastilla: 999px;
-  --radio-boton: var(--radio-pastilla); /* botones, buscador, chips */
-  --borde: 1px; /* grosor de líneas */
+  /* ---------- Espacios (Size/Space del sistema) ---------- */
+  --espacio-050: 2px;
+  --espacio-100: 4px;
+  --espacio-150: 6px;
+  --espacio-200: 8px;
+  --espacio-300: 12px;
+  --espacio-400: 16px;
+  --espacio-600: 24px;
+  --espacio-800: 32px;
+  --espacio-1200: 48px;
+  --espacio-1600: 64px;
+  --espacio-2400: 96px;
+  --espacio-4000: 160px;
 
-  /* Medidas */
-  --toque: 44px; /* área táctil mínima */
-  --alto-boton: 52px;
-  --ancho-max: 1360px; /* en computadora se pisa abajo: el contenido usa el 90% del ancho */
+  /* ---------- Formas (Size/Radius del sistema) ---------- */
+  /* Con todo en 0 queda un estilo de bordes rectos. */
+  --radio-mini: 4px; /* Radius/100: casillas */
+  --radio-chico: 8px; /* Radius/200 */
+  --radio-control: 8px; /* campos, talles, etiquetas */
+  --radio: 8px; /* tarjetas, paneles, fotos, diálogos */
+  --radio-grande: 16px; /* Radius/400: banner y hojas que suben desde abajo */
+  --radio-pastilla: 9999px; /* Radius/Full: botones de ícono, buscador, interruptores */
+  --radio-boton: 8px; /* botones */
+  --borde: 1px; /* Stroke/Border */
+
+  /* ---------- Sombras (Effect styles del sistema) ---------- */
+  --sombra-100: 0 1px 4px rgb(12 12 13 / 0.05);
+  --sombra-200: 0 1px 4px rgb(12 12 13 / 0.05), 0 1px 4px rgb(12 12 13 / 0.1); /* listas desplegables */
+  --sombra-300: 0 4px 4px -1px rgb(12 12 13 / 0.05), 0 4px 4px -1px rgb(12 12 13 / 0.1); /* menús */
+  --sombra-400: 0 4px 4px -4px rgb(12 12 13 / 0.05), 0 16px 32px -4px rgb(12 12 13 / 0.1); /* diálogos */
+  --sombra-500: 0 4px 4px -4px rgb(12 12 13 / 0.05), 0 16px 16px -8px rgb(12 12 13 / 0.1);
+  --sombra-600: 0 16px 32px -8px rgb(12 12 13 / 0.4);
+  --sombra: var(--sombra-100);
+  --sombra-suave: var(--sombra-400);
+
+  /* ---------- Medidas ---------- */
+  /* Alto de campos y opciones: el sistema usa 40 px, pero en pantallas táctiles subimos a 44 px,
+     el área mínima para tocar con el dedo (regla 7). Los botones van en 48 px, un paso más grandes. */
+  --toque: 44px;
+  --alto-boton: 48px; /* botones: más altos que las opciones y los campos, para que no se confundan (14/10, Flor) */
+  --alto-boton-chico: 44px;
+  --alto-control: 44px; /* campos, talles, colores y otras opciones para elegir */
+  --ancho-max: 1200px; /* Device Width del sistema; en computadora se pisa abajo (90% del ancho, D-20) */
   --ancho-lectura: 640px;
-  --separacion: 16px;
-  --foco: 3px solid var(--texto);
-  --sombra: 0 1px 2px rgb(0 0 0 / 0.12);
-  --sombra-suave: 0 1px 2px rgb(0 0 0 / 0.06), 0 6px 20px rgb(0 0 0 / 0.08);
+  --separacion: var(--espacio-400); /* margen de los costados y separación general */
+  --foco: 2px solid var(--texto); /* Stroke/Focus Ring */
   --proporcion-foto: 4 / 5;
 
   color-scheme: light;
 }
 
+/* Con mouse (computadora), botones y campos con las medidas del sistema. */
+@media (pointer: fine) {
+  :root {
+    --toque: 40px;
+    --alto-boton: 48px;
+    --alto-boton-chico: 40px; /* igual que los campos, para que "Sumar" quede a la par del campo de al lado */
+    --alto-control: 40px;
+  }
+}
+
 /* En computadora, el contenido ocupa el 90% del ancho de la pantalla (D-20). */
 @media (min-width: 900px) {
   :root {
+    --separacion: var(--espacio-800);
     --ancho-max: calc(90vw + 2 * var(--separacion));
   }
 }

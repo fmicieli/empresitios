@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { useCarrito } from '@compartido/carrito/carrito';
 import { Cantidad, ErrorCarga, Foto, useCarga } from '@compartido/componentes/basicos';
-import { IconoCheck } from '@compartido/componentes/iconos';
+import { IconoCarrito, IconoCheck } from '@compartido/componentes/iconos';
 import { etiquetaVariante, evaluarCarrito, formatoPrecio, lugarEnPedido } from '@compartido/datos/reglas';
 import { textos } from '@compartido/textos/textos';
 import { carrito, ds, ultimoPedido } from '../lib/contexto';
@@ -15,7 +15,7 @@ const t = textos.tienda;
 
 function Enviado({ p }: { p: PedidoEnviado }) {
   return (
-    <div class="pila lectura" style={{ paddingTop: '24px' }}>
+    <div class="pila lectura">
       <h1>{t.tuCarrito}</h1>
       <div class="panel pila" role="status">
         <p class="fila" style={{ flexWrap: 'nowrap', alignItems: 'flex-start' }}>
@@ -68,8 +68,8 @@ export default function CarritoPagina() {
 
   return (
     <Marco>
-      <div class="pila" style={{ paddingTop: '16px' }}>
-        <h1>{t.tuCarrito}</h1>
+      <div class="pila">
+        <h1 class={!items.length ? 'centrado' : undefined}>{t.tuCarrito}</h1>
         {aviso && (
           <div class="alerta error" role="alert">
             <strong>{aviso}</strong>
@@ -77,9 +77,12 @@ export default function CarritoPagina() {
         )}
 
         {!items.length ? (
-          <div class="pila lectura">
+          <div class="estado-vacio">
+            <span class="estado-vacio-icono">
+              <IconoCarrito tam={32} />
+            </span>
             <p class="suave">{t.carritoVacio}</p>
-            <a class="boton secundario" href="/" style={{ alignSelf: 'flex-start' }}>
+            <a class="boton secundario" href="/">
               {t.verProductos}
             </a>
           </div>
