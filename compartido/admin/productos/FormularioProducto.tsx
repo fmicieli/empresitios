@@ -14,13 +14,14 @@ import {
 } from '../../componentes/basicos';
 import { IconoAtras, IconoFoto } from '../../componentes/iconos';
 import {
-  agruparCategorias,
+  caminoDeCategoria,
   claveVariante,
   combinaciones,
   etiquetaVariante,
   formatoPrecio,
   linkWhatsapp,
   nombreCategoria,
+  opcionesDeNivel,
   parsePrecio,
 } from '../../datos/reglas';
 import type { FilaCategoria, Producto } from '../../datos/tipos';
@@ -291,6 +292,67 @@ function Fotos({
   );
 }
 
+/**
+ * Categoría en pasos (D-20): primero la categoría, después la subcategoría y, si la tienda
+ * usa 3 niveles, el tercero. Cada selector muestra solo lo que corresponde al anterior.
+ */
+function SelectorCategoria({
+  filas,
+  valor,
+  error,
+  alCambiar,
+}: {
+  filas: FilaCategoria[];
+  valor: string;
+  error?: string;
+  alCambiar: (categoriaId: string) => void;
+}) {
+  const [elegidos, setElegidos] = useState<string[]>(() => caminoDeCategoria(filas, valor));
+  const titulos = [t.categoria, t.subcategoria, t.subcategoria3];
+  const niveles: { opciones: { nombre: string; id: string | null }[]; elegido: string }[] = [];
+  for (let n = 0; n < 3; n++) {
+    if (n > 0 && !elegidos[n - 1]) break;
+    const opciones = opcionesDeNivel(filas, elegidos.slice(0, n));
+    if (!opciones.length) break;
+    niveles.push({ opciones, elegido: elegidos[n] ?? '' });
+    const actual = opciones.find((o) => o.nombre === elegidos[n]);
+    if (!actual || actual.id) break; // Sin elegir, o ya es la categoría final.
+  }
+
+  function elegir(nivel: number, nombre: string) {
+    const nuevos = [...elegidos.slice(0, nivel), ...(nombre ? [nombre] : [])];
+    setElegidos(nuevos);
+    const opcion = opcionesDeNivel(filas, nuevos.slice(0, nivel)).find((o) => o.nombre === nombre);
+    alCambiar(opcion?.id ?? '');
+  }
+
+  return (
+    <fieldset class="pila-chica">
+      <legend class="sr">{t.categoria}</legend>
+      {niveles.map((nv, n) => (
+        <div key={n} class="campo">
+          <label for={`pf-categoria${n ? '-' + n : ''}`}>{titulos[n]}</label>
+          <select
+            id={`pf-categoria${n ? '-' + n : ''}`}
+            class="entrada"
+            value={nv.elegido}
+            aria-invalid={!!error && !nv.elegido}
+            aria-describedby={error && !nv.elegido ? 'e-categoria' : undefined}
+            onChange={(e) => elegir(n, (e.target as HTMLSelectElement).value)}
+          >
+            <option value="">{n === 0 ? t.elegiCategoria : t.elegiOpcion}</option>
+            {nv.opciones.map((o) => (
+              <option key={o.nombre} value={o.nombre}>
+                {o.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+      ))}
+    </fieldset>
+  );
+}
+
 function VistaPrevia({ ctx, b, filas }: { ctx: ContextoAdmin; b: Borrador; filas: FilaCategoria[] }) {
   const f = b.fotos[0];
   const pr = parsePrecio(b.precio);
@@ -443,7 +505,6 @@ function Editor({
   const listaErrores = ORDEN.filter((c) => errores[c]).map((c) => ({ campo: ID_CAMPO[c], texto: errores[c]! }));
   const cs = b.colores.length ? b.colores : [''];
   const ts = b.talles.length ? b.talles : [''];
-  const categorias = agruparCategorias(filas);
 
   if (guardando) {
     return (
@@ -501,33 +562,13 @@ function Editor({
             <ErrorDeCampo id="e-nombre" error={errores.nombre} />
           </div>
 
-          <div class="campo">
-            <label for="pf-categoria">{t.categoria}</label>
-            <select
-              id="pf-categoria"
-              class="entrada"
-              value={b.categoriaId}
-              aria-invalid={!!errores.categoriaId}
-              aria-describedby={['a-categoria', errores.categoriaId ? 'e-categoria' : ''].join(' ').trim()}
-              onChange={(e) => cambiar({ categoriaId: (e.target as HTMLSelectElement).value })}
-            >
-              <option value="">{t.elegiCategoria}</option>
-              {categorias.map((c) =>
-                c.subcategorias.length ? (
-                  <optgroup key={c.nombre} label={c.nombre}>
-                    {c.subcategorias.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {[c.nombre, s.grupo, s.nombre].filter(Boolean).join(' › ')}
-                      </option>
-                    ))}
-                  </optgroup>
-                ) : (
-                  <option key={c.nombre} value={c.id ?? ''}>
-                    {c.nombre}
-                  </option>
-                ),
-              )}
-            </select>
+          <SelectorCategoria
+            filas={filas}
+            valor={b.categoriaId}
+            error={errores.categoriaId}
+            alCambiar={(categoriaId) => cambiar({ categoriaId })}
+          />
+          <div class="campo" style={{ marginTop: '-8px' }}>
             <ErrorDeCampo id="e-categoria" error={errores.categoriaId} />
             <span id="a-categoria" class="ayuda">
               {ctx.config.whatsappSoporte ? (

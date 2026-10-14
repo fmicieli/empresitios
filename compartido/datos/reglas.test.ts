@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import {
   agruparCategorias,
   nombreCategoria,
+  opcionesDeNivel,
+  caminoDeCategoria,
   rutaCategoria,
   coincide,
   destacadosPorCategoria,
@@ -192,5 +194,26 @@ describe('destacados del inicio', () => {
       ['Mujer', ['a']],
       ['Hombre', ['d', 'c']],
     ]);
+  });
+});
+
+describe('categoría por niveles (admin)', () => {
+  const filas = [
+    { id: 'c1', orden: 1, categoria: 'Mujer', subcategoria: 'Indumentaria > Remeras', visible: true },
+    { id: 'c2', orden: 2, categoria: 'Mujer', subcategoria: 'Indumentaria > Vestidos', visible: true },
+    { id: 'c3', orden: 3, categoria: 'Mujer', subcategoria: 'Calzado', visible: true },
+    { id: 'c4', orden: 4, categoria: 'Accesorios', subcategoria: '', visible: true },
+  ];
+  it('cada nivel muestra solo lo que corresponde a lo elegido antes', () => {
+    expect(opcionesDeNivel(filas, [])).toEqual([
+      { nombre: 'Mujer', id: null },
+      { nombre: 'Accesorios', id: 'c4' },
+    ]);
+    expect(opcionesDeNivel(filas, ['Mujer'])).toEqual([
+      { nombre: 'Indumentaria', id: null },
+      { nombre: 'Calzado', id: 'c3' },
+    ]);
+    expect(opcionesDeNivel(filas, ['Mujer', 'Indumentaria']).map((o) => o.id)).toEqual(['c1', 'c2']);
+    expect(caminoDeCategoria(filas, 'c2')).toEqual(['Mujer', 'Indumentaria', 'Vestidos']);
   });
 });

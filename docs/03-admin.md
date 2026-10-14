@@ -73,7 +73,7 @@ El dueño usa una interfaz simple; detrás, el admin escribe solo en su planilla
 | --- | --- | --- |
 | Fotos | Al menos 1 | Varias. Galería o cámara en celular, arrastrar o elegir en compu. La primera es la principal; se puede elegir otra como principal y quitar. Se achican en el navegador antes de subir (ej. lado mayor ~1600 px, JPEG/WebP) y se muestra el progreso de subida |
 | Nombre | Sí | — |
-| Categoría | Sí | Lista cerrada desde la pestaña Categorías, agrupada por categoría principal ("Mujer › Remeras"). El dueño no crea categorías. Ayuda: "¿Falta una categoría? Pedila por WhatsApp y la sumamos." |
+| Categoría | Sí | Lista cerrada desde la pestaña Categorías, en selectores separados por nivel: Categoría, Subcategoría y, si la tienda usa 3 niveles, Tipo (D-20). El dueño no crea categorías. Ayuda: "¿Falta una categoría? Pedila por WhatsApp y la sumamos." |
 | Precio | Sí | Acepta "15000" y "15.000"; se guarda como número entero de pesos |
 | Descripción | No | Texto libre |
 | Colores | No | Chips; agregar escribiendo y quitar con × |
@@ -89,7 +89,7 @@ El dueño usa una interfaz simple; detrás, el admin escribe solo en su planilla
 
 ## Categorías
 
-No hay pantalla de categorías en el admin. Las define quien mantiene el sitio en la pestaña `Categorias` de la planilla (protegida). Hasta dos niveles. El orden de la pestaña es el orden del menú de la tienda.
+No hay pantalla de categorías en el admin. Las define quien mantiene el sitio en la pestaña `Categorias` de la planilla (protegida). Dos o tres niveles, según la tienda (D-20). El orden de la pestaña es el orden del menú de la tienda.
 
 ## Casos borde
 

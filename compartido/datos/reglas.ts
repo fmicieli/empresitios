@@ -332,3 +332,26 @@ export function destacadosPorCategoria(productos: Producto[], filas: FilaCategor
     })
     .filter((f) => f.productos.length > 0);
 }
+
+// ---------- Elegir categoría por niveles (admin) ----------
+
+/** Opciones de un nivel, dado lo elegido en los niveles anteriores. `id` es la fila si esa opción ya es final. */
+export function opcionesDeNivel(filas: FilaCategoria[], elegidos: string[]): { nombre: string; id: string | null }[] {
+  const salida: { nombre: string; id: string | null }[] = [];
+  for (const f of [...filas].filter((x) => x.visible).sort((a, b) => a.orden - b.orden)) {
+    const ruta = rutaCategoria(f);
+    if (ruta.length <= elegidos.length || elegidos.some((e, i) => ruta[i] !== e)) continue;
+    const nombre = ruta[elegidos.length];
+    const final = ruta.length === elegidos.length + 1;
+    const ya = salida.find((o) => o.nombre === nombre);
+    if (!ya) salida.push({ nombre, id: final ? f.id : null });
+    else if (final) ya.id = f.id;
+  }
+  return salida;
+}
+
+/** Camino de nombres de una fila (para mostrar lo ya elegido al editar un producto). */
+export function caminoDeCategoria(filas: FilaCategoria[], id: string): string[] {
+  const f = filas.find((x) => x.id === id);
+  return f ? rutaCategoria(f) : [];
+}

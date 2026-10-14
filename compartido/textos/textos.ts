@@ -286,6 +286,9 @@ export const textos = {
     nombreEjemplo: 'Nombre del producto',
     categoria: 'Categoría',
     elegiCategoria: 'Elegí una categoría',
+    subcategoria: 'Subcategoría',
+    subcategoria3: 'Tipo',
+    elegiOpcion: 'Elegí una opción',
     categoriaAyuda: '¿Falta una categoría? Pedila por WhatsApp y la sumamos.',
     precio: 'Precio',
     precioEjemplo: 'Ej.: 15000',
@@ -322,7 +325,7 @@ export const textos = {
     eliminado: 'Producto eliminado.',
     errFotos: 'Agregá al menos una foto.',
     errNombre: 'Escribí el nombre del producto.',
-    errCategoria: 'Elegí una categoría.',
+    errCategoria: 'Elegí la categoría hasta el último nivel.',
     errPrecio: 'Escribí el precio, por ejemplo 15000.',
     stockDescartado: 'Vas a descartar stock',
     stockDescartadoTexto: (detalle: string) =>
