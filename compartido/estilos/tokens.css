@@ -90,8 +90,9 @@
   --superficie-marca: var(--acento-suave); /* fondos suaves de marca: avisos, etiquetas, ítem activo del menú */
 
   /* Neutro (botón secundario del sistema: "Neutral") */
-  --neutro-fondo: var(--pizarra-200); /* Background/Neutral/Tertiary */
-  --neutro-fondo-hover: var(--pizarra-300); /* Background/Neutral/Tertiary Hover */
+  /* Fondo blanco en lugar del gris del sistema (14/10, Flor); al pasar el mouse, gris muy suave. */
+  --neutro-fondo: var(--fondo);
+  --neutro-fondo-hover: var(--gris-100);
   --neutro-borde: var(--pizarra-600); /* Border/Neutral/Secondary */
   --neutro-texto: var(--gris-900);
   --pestana-linea: var(--pizarra-400); /* Border/Neutral/Tertiary: línea de las pestañas sin elegir */
