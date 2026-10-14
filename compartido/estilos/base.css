@@ -256,10 +256,9 @@ th {
   padding: 0 var(--espacio-150);
 }
 
-/* ---------- Opciones para elegir (Tag Toggle) ---------- */
-/* Sin elegir: fondo gris muy claro, sin borde. Elegida: fondo blanco con borde de 2 px y texto del color
-   de marca (14/10, Flor). Así se distingue del botón, que va relleno, y el estado no depende solo del color:
-   aparece un borde. */
+/* ---------- Opciones para elegir (talles, colores) ---------- */
+/* Igual que los campos (14/10, Flor): blancas con línea gris de 1 px; la elegida, con la línea en 2 px negra.
+   El grosor de la línea marca la elegida, además del color (regla 7). */
 .chips {
   display: flex;
   gap: var(--espacio-200);
@@ -276,8 +275,8 @@ th {
   min-height: var(--alto-control);
   padding: 0 var(--espacio-300);
   border-radius: var(--radio-control);
-  border: 2px solid transparent;
-  background: var(--acento-suave);
+  border: var(--borde) solid var(--linea-campo);
+  background: var(--fondo);
   color: var(--texto);
   white-space: nowrap;
   cursor: pointer;
@@ -291,13 +290,12 @@ th {
 }
 .chip:not([aria-pressed='true']):hover,
 .talle:not(:disabled):not([aria-pressed='true']):hover {
-  background: var(--acento-suave-hover);
+  background: var(--fondo-hover);
 }
 .chip[aria-pressed='true'],
 .talle[aria-pressed='true'] {
-  background: var(--fondo);
-  border-color: var(--acento-texto);
-  color: var(--acento-texto);
+  border-color: var(--texto);
+  box-shadow: inset 0 0 0 1px var(--texto);
   font-weight: var(--peso-semi);
 }
 .talles {
@@ -305,9 +303,10 @@ th {
   grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
   gap: var(--espacio-200);
 }
-/* Talle sin stock: deshabilitado (gris) y tachado. */
+/* Talle sin stock: línea gris más clara, texto gris y tachado. */
 .talle:disabled {
-  background: var(--fondo-deshabilitado);
+  background: var(--fondo);
+  border-color: var(--gris-200);
   color: var(--texto-deshabilitado);
   text-decoration: line-through;
   cursor: not-allowed;
