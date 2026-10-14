@@ -207,7 +207,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 4. **Escala de textos** (sigue fija para todas las tiendas, D-19): 12 · 14 · 16 · 20 · 24 · 32 · 40/48 · 72 px. Texto general 16 (Body), ayudas 14 (Body Small), títulos de tarjetas 20, secciones 24 (Heading), título de cada pantalla 32, precio de la ficha y número de pedido 40 en celular / 48 en computadora (Title Page), título del banner hasta 72 (Title Hero). Pesos: 400, 600 (Heading y Body Strong) y 700 (Title).
 5. **Componentes, cómo quedaron:**
    - Botón principal = "Primary" (color de marca, radio 8). Botón secundario = "Neutral" (gris claro con borde gris). Borrar o cancelar = "Danger" (rojo), disponible como `.boton.peligro`.
-   - Talles, colores y filtros elegibles = "Tag Toggle": sin elegir, fondo suave de marca; elegido, relleno con el color de marca (sin tilde, ver punto 9).
+   - Talles, colores y filtros elegibles = "Tag Toggle", adaptado: ver punto 9.
    - Campos = "Input/Select/Textarea Field": etiqueta arriba, borde gris, radio 8, error en rojo con mensaje abajo. Interruptores = "Switch" (40 × 24).
    - Tarjetas de producto = "Product Info Card" (borde gris, foto adentro, nombre y precio). Tarjetas de pedido y paneles = "Card" (borde gris, sin sombra).
    - Avisos = "Notification" (blanco con borde gris; los de error, rojo suave con borde rojo). Diálogos = "Dialog" (radio 8, sombra 400).
@@ -221,7 +221,10 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
    - Los textos de ejemplo dentro de los campos ("Ej.: 15000") quedan en el gris claro del sistema (#b3b3b3), que tiene poco contraste. Es aceptable porque son solo ejemplos y cada campo tiene su etiqueta arriba, pero conviene no poner información importante ahí.
 7. **Otras adaptaciones** (propuso Claude): la tienda sigue con 2 columnas de productos en el celular (el ejemplo del sistema usa 1), porque el comprador recorre el catálogo con el pulgar; la proporción de fotos de producto sigue en 4:5 (la del ejemplo de tarjeta del sistema es parecida, ~5:6); el contenido sigue ocupando el 90% del ancho en computadora (D-20).
 8. **Íconos Feather** (licencia MIT, se puede usar en proyectos de clientes). Tamaños del sistema: 16 dentro de botones y campos, 20 en botones de ícono, 24 en la navegación.
-9. **Talles y colores elegidos sin tilde** (14/10, Flor): solo cambian de relleno (de un fondo casi blanco al color de marca pleno). Riesgo de accesibilidad (avisado por Claude): con un color de marca muy claro, la diferencia entre elegido y sin elegir puede quedar poco visible; si pasa con algún cliente, se vuelve a sumar el tilde o un borde.
+9. **Opciones elegidas solo con borde** (14/10, Flor; reemplaza al relleno con tilde): talles, colores y filtros sin elegir van en gris muy claro, sin borde; la elegida, blanca con borde de 2 px y texto del color de marca (en negrita). Así no se confunden con los botones, que van rellenos. El borde que aparece hace que el estado no dependa solo del color (regla 7).
+10. **Botones más altos que las opciones** (14/10, Flor): botones 48 px; campos, talles y colores 44 px en pantallas táctiles y 40 px con mouse (el sistema usa 40 para todo).
+11. **Grises suaves de marca más claros** (14/10, Flor): el fondo suave de marca (opciones sin elegir, ítem activo del menú, etiquetas) pasa del 8% al 5% del color de marca.
+12. **Solo el botón secundario lleva borde** (14/10, Flor): el principal y el de borrar o cancelar van sin borde en todos sus estados (normal, al pasar el mouse y deshabilitado). El secundario mantiene fondo claro con borde.
 
 ## Pendientes (al 14/10/2026)
 

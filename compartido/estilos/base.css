@@ -147,11 +147,12 @@ th {
 }
 
 /* ---------- Botones (Button) ---------- */
-/* Principal = "Primary" (color de marca). Secundario = "Neutral". */
+/* Principal = "Primary" (color de marca, sin borde en ningún estado). Secundario = "Neutral" (fondo claro con borde).
+   Solo el secundario lleva borde (14/10, Flor). */
 .boton {
   min-height: var(--alto-boton);
   border-radius: var(--radio-boton);
-  border: var(--borde) solid var(--acento);
+  border: var(--borde) solid transparent; /* sin borde visible: solo el secundario lleva borde (14/10, Flor) */
   background: var(--acento);
   color: var(--sobre-acento);
   font-weight: var(--peso-regular);
@@ -170,7 +171,6 @@ th {
 .boton:not(:disabled):not([aria-disabled='true']):hover,
 .boton:not(:disabled):not([aria-disabled='true']):active {
   background: var(--acento-hover);
-  border-color: var(--acento-hover);
 }
 .boton.secundario {
   background: var(--neutro-fondo);
@@ -185,12 +185,10 @@ th {
 /* "Danger": acciones que borran o cancelan. */
 .boton.peligro {
   background: var(--peligro);
-  border-color: var(--peligro-hover);
   color: var(--sobre-peligro);
 }
 .boton.peligro:not(:disabled):hover {
   background: var(--peligro-hover);
-  border-color: var(--peligro-hover);
 }
 .boton.chico {
   min-height: var(--alto-boton-chico);
@@ -202,7 +200,7 @@ th {
 .boton:disabled,
 .boton[aria-disabled='true'] {
   background: var(--fondo-deshabilitado);
-  border-color: var(--linea-deshabilitada);
+  border-color: transparent;
   color: var(--texto-deshabilitado);
   cursor: not-allowed;
 }
@@ -259,8 +257,9 @@ th {
 }
 
 /* ---------- Opciones para elegir (Tag Toggle) ---------- */
-/* Sin elegir: fondo suave de marca. Elegida: rellena con el color de marca (sin tilde, D-21 punto 9).
-   La diferencia no es solo de tono: pasa de un fondo casi blanco a uno pleno. */
+/* Sin elegir: fondo gris muy claro, sin borde. Elegida: fondo blanco con borde de 2 px y texto del color
+   de marca (14/10, Flor). Así se distingue del botón, que va relleno, y el estado no depende solo del color:
+   aparece un borde. */
 .chips {
   display: flex;
   gap: var(--espacio-200);
@@ -274,12 +273,12 @@ th {
 }
 .chip,
 .talle {
-  min-height: var(--alto-boton);
+  min-height: var(--alto-control);
   padding: 0 var(--espacio-300);
   border-radius: var(--radio-control);
-  border: var(--borde) solid transparent;
+  border: 2px solid transparent;
   background: var(--acento-suave);
-  color: var(--acento-texto);
+  color: var(--texto);
   white-space: nowrap;
   cursor: pointer;
   font-size: var(--texto-base);
@@ -296,8 +295,10 @@ th {
 }
 .chip[aria-pressed='true'],
 .talle[aria-pressed='true'] {
-  background: var(--acento);
-  color: var(--sobre-acento);
+  background: var(--fondo);
+  border-color: var(--acento-texto);
+  color: var(--acento-texto);
+  font-weight: var(--peso-semi);
 }
 .talles {
   display: grid;
@@ -368,7 +369,7 @@ legend {
   color: var(--texto-suave);
 }
 .entrada {
-  min-height: var(--alto-boton);
+  min-height: var(--alto-control);
   border: var(--borde) solid var(--linea-fuerte);
   border-radius: var(--radio-control);
   padding: 0 var(--espacio-400);
@@ -430,7 +431,7 @@ select.entrada {
   display: flex;
   align-items: center;
   gap: var(--espacio-200);
-  min-height: var(--alto-boton);
+  min-height: var(--alto-control);
   border: var(--borde) solid var(--linea-fuerte);
   border-radius: var(--radio-pastilla);
   background: var(--fondo);
@@ -439,7 +440,7 @@ select.entrada {
 .buscador input {
   flex: 1;
   min-width: 0;
-  min-height: calc(var(--alto-boton) - 2px);
+  min-height: calc(var(--alto-control) - 2px);
   border: 0;
   background: transparent;
   font-size: var(--texto-base);

@@ -79,8 +79,9 @@
   /* Text/Brand/Default: la marca usada como texto o borde (links, pestaña activa). Si el color de marca es
      muy claro para leerse sobre blanco, se pasa solo al color del texto al compilar. */
   --acento-texto: var(--acento);
-  --acento-suave: color-mix(in srgb, var(--acento) 8%, #ffffff); /* Background/Brand/Tertiary */
-  --acento-suave-hover: color-mix(in srgb, var(--acento) 16%, #ffffff); /* Background/Brand/Tertiary Hover */
+  /* Más claros que en el sistema (14/10, Flor): con la marca gris quedan casi como Gray/100 y Gray/200. */
+  --acento-suave: color-mix(in srgb, var(--acento) 5%, #ffffff); /* Background/Brand/Tertiary */
+  --acento-suave-hover: color-mix(in srgb, var(--acento) 10%, #ffffff); /* Background/Brand/Tertiary Hover */
   --superficie-marca: var(--acento-suave); /* fondos suaves de marca: avisos, etiquetas, ítem activo del menú */
 
   /* Neutro (botón secundario del sistema: "Neutral") */
@@ -178,11 +179,12 @@
   --sombra-suave: var(--sombra-400);
 
   /* ---------- Medidas ---------- */
-  /* Alto de botones y campos: el sistema usa 40 px (y 32 los chicos), pero en pantallas táctiles
-     subimos a 44 px, el área mínima para tocar con el dedo (regla 7). Con mouse se usan los del sistema. */
+  /* Alto de campos y opciones: el sistema usa 40 px, pero en pantallas táctiles subimos a 44 px,
+     el área mínima para tocar con el dedo (regla 7). Los botones van en 48 px, un paso más grandes. */
   --toque: 44px;
-  --alto-boton: 44px;
+  --alto-boton: 48px; /* botones: más altos que las opciones y los campos, para que no se confundan (14/10, Flor) */
   --alto-boton-chico: 44px;
+  --alto-control: 44px; /* campos, talles, colores y otras opciones para elegir */
   --ancho-max: 1200px; /* Device Width del sistema; en computadora se pisa abajo (90% del ancho, D-20) */
   --ancho-lectura: 640px;
   --separacion: var(--espacio-400); /* margen de los costados y separación general */
@@ -196,8 +198,9 @@
 @media (pointer: fine) {
   :root {
     --toque: 40px;
-    --alto-boton: 40px;
+    --alto-boton: 48px;
     --alto-boton-chico: 32px;
+    --alto-control: 40px;
   }
 }
 

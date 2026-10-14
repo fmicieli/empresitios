@@ -429,7 +429,7 @@
 }
 .grilla-stock input {
   width: 72px;
-  min-height: var(--alto-boton);
+  min-height: var(--alto-control);
   text-align: center;
   border: var(--borde) solid var(--linea-fuerte);
   border-radius: var(--radio-control);
