@@ -70,6 +70,11 @@
   /* Border/Default/Secondary: bordes de campos y casillas. El sistema usa --linea en los campos;
      acá van con este gris más marcado para llegar al contraste mínimo 3:1 (accesibilidad, regla 7). */
   --linea-fuerte: var(--gris-500);
+  /* Borde de campos, buscador y cantidad sin usar: el gris claro del sistema (Border/Default), a pedido de Flor
+     (14/10). Ojo: da 1,4:1 sobre blanco, menos que el 3:1 recomendado para bordes de controles. Se compensa
+     con la etiqueta arriba de cada campo y la línea negra de 2 px al escribir. Si un cliente lo necesita más
+     marcado, en su estilo.css: --linea-campo: var(--linea-fuerte); */
+  --linea-campo: var(--gris-300);
   --linea-deshabilitada: var(--gris-400); /* Border/Disabled */
 
   /* Marca (Brand) — reemplazada por el color de marca del cliente */

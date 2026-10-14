@@ -215,7 +215,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
    - Barra inferior del admin = "Navigation Button" (ícono 24 y texto 14). Barra lateral = "Navigation Pill" (la elegida, fondo suave de marca).
 6. **Adaptaciones por accesibilidad** (propuso Claude; son desvíos chicos del sistema para cumplir la regla 7 de `CLAUDE.md`):
    - **Alto de botones y campos:** el sistema usa 40 px (32 los chicos). En pantallas táctiles quedan en 44 px (área mínima para el dedo); con mouse, en las medidas del sistema.
-   - **Borde de los campos** en el gris "Border/Default/Secondary" (#757575) en lugar del gris claro del sistema (#d9d9d9), que no llega al contraste mínimo de 3:1 para bordes de controles.
+   - ~~Borde de los campos en un gris más marcado (#757575).~~ Revertido a pedido de Flor (punto 14).
    - **Texto gris sobre paneles grises:** el gris secundario del sistema da 4,2:1 sobre el fondo gris (mínimo 4,5:1). Dentro de los paneles se usa un gris más oscuro de la misma paleta (Slate 700).
    - **Pestaña elegida con línea de 2 px** (el sistema usa 1 px para todas y cambia solo el color): así el estado no depende solo del color.
    - Los textos de ejemplo dentro de los campos ("Ej.: 15000") quedan en el gris claro del sistema (#b3b3b3), que tiene poco contraste. Es aceptable porque son solo ejemplos y cada campo tiene su etiqueta arriba, pero conviene no poner información importante ahí.
@@ -226,6 +226,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 11. **Grises suaves de marca más claros** (14/10, Flor): el fondo suave de marca (opciones sin elegir, ítem activo del menú, etiquetas) pasa del 8% al 5% del color de marca.
 12. **Solo el botón secundario lleva borde** (14/10, Flor): el principal y el de borrar o cancelar van sin borde en todos sus estados (normal, al pasar el mouse y deshabilitado). El secundario mantiene fondo claro con borde.
 13. **Línea de campos y buscador** (14/10, Flor): gris de 1 px por defecto; al escribir, la misma línea pasa a 2 px y negra, sin contorno de foco aparte (evita la doble línea); con error, 2 px en rojo. Si un campo con error está activo, sigue rojo y suma un fondo rojo muy suave, para que se note dónde se está escribiendo (propuso Claude).
+14. **Borde de campos, buscador y cantidad en gris claro** (14/10, Flor): vuelve al gris del sistema (#d9d9d9). Riesgo de accesibilidad (avisado por Claude): da 1,4:1 sobre blanco, menos que el 3:1 recomendado para bordes de controles; personas con baja visión o con el brillo bajo pueden no ver dónde está el campo. Se compensa con la etiqueta arriba de cada campo y la línea negra de 2 px al escribir. Para un cliente que lo necesite más marcado: `--linea-campo: var(--linea-fuerte);` en su `estilo.css`.
 
 ## Pendientes (al 14/10/2026)
 

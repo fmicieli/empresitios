@@ -431,7 +431,7 @@
   width: 72px;
   min-height: var(--alto-control);
   text-align: center;
-  border: var(--borde) solid var(--linea-fuerte);
+  border: var(--borde) solid var(--linea-campo);
   border-radius: var(--radio-control);
   background: var(--fondo);
   font-size: var(--texto-base);

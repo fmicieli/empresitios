@@ -370,7 +370,7 @@ legend {
 }
 .entrada {
   min-height: var(--alto-control);
-  border: var(--borde) solid var(--linea-fuerte);
+  border: var(--borde) solid var(--linea-campo);
   border-radius: var(--radio-control);
   padding: 0 var(--espacio-400);
   background: var(--fondo);
@@ -449,7 +449,7 @@ select.entrada {
   align-items: center;
   gap: var(--espacio-200);
   min-height: var(--alto-control);
-  border: var(--borde) solid var(--linea-fuerte);
+  border: var(--borde) solid var(--linea-campo);
   border-radius: var(--radio-pastilla);
   background: var(--fondo);
   padding: 0 var(--espacio-400);
@@ -502,7 +502,7 @@ select.entrada {
 .cantidad {
   display: inline-flex;
   align-items: center;
-  border: var(--borde) solid var(--linea-fuerte);
+  border: var(--borde) solid var(--linea-campo);
   border-radius: var(--radio-control);
   background: var(--fondo);
 }
