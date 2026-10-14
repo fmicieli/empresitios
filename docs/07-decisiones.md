@@ -244,6 +244,11 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 5. **Fotos y datos en dos mitades iguales** en computadora (14/10, Flor): antes las fotos tenían 360 px fijos y los campos quedaban demasiado anchos. Las fotos se ven más grandes (150 px o más cada una).
 6. **Colores y talles cargados en el admin** (14/10, Flor): con el borde gris normal (no como opción elegida) y una X de 18 px, a la misma distancia del borde derecho que el texto del izquierdo (12 px).
 
+## D-23 · Ejemplo con marca: Chacha (14/10/2026)
+
+1. **El ejemplo con estilos aplicados es Chacha, el emprendimiento de Flor** (marca, logo y fotos propias: sin riesgo legal). Decidió: Flor.
+2. **Repo propio, privado: `fmicieli/chacha-tienda`**, copia de la plantilla y enganchado a ella para traer las mejoras. Los arreglos se hacen siempre en `empresitios` y se pasan a Chacha (regla 5). Decidió: Flor. Cómo: `docs/12-repos-de-clientes.md`.
+
 ## Pendientes (al 14/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
