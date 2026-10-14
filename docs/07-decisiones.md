@@ -234,6 +234,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 2. **La primera foto se destaca** con línea negra de 2 px y la etiqueta "Principal" abajo. Decidió: Flor.
 3. **El orden se cambia arrastrando**, con el mouse o con el dedo en el celular. Decidió: Flor. Cómo (propuso Claude): en el celular hay que mantener apretada la foto un momento antes de moverla; si se desliza enseguida, se mueve la página como siempre. Con teclado, cada foto se elige con Tab y se mueve con las flechas, y se anuncia el lugar nuevo para lectores de pantalla. Se quitó el botón "Hacer principal": ahora se arrastra la foto al primer lugar.
 4. **Riesgo de accesibilidad** (avisado por Claude): ordenar solo arrastrando puede costarle a quien tiene poca motricidad fina o usa el celular sin teclado. Si algún comercio lo necesita, se puede sumar un menú por foto con "Hacer principal / mover".
+5. **Fotos y datos en dos mitades iguales** en computadora (14/10, Flor): antes las fotos tenían 360 px fijos y los campos quedaban demasiado anchos. Las fotos se ven más grandes (150 px o más cada una).
 
 ## Pendientes (al 14/10/2026)
 
