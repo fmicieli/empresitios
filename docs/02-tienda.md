@@ -106,3 +106,6 @@ Formato en `06-textos.md`. Incluye número de pedido, productos con variante, ca
 - Dos compradores por la última unidad al mismo tiempo: solo uno reserva; el otro ve el aviso en el carrito.
 - WhatsApp no instalado (escritorio): `wa.me` abre WhatsApp Web.
 - El carrito vive en el navegador del comprador (sobrevive a recargar la página).
+
+
+> Actualización (D-21, punto 12 g): cada tarjeta del catálogo tiene un botón debajo del precio. Agrega directo si el producto tiene una sola opción; si hay que elegir talle o color, lleva a la ficha.

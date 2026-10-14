@@ -3,22 +3,25 @@
 //   /?cat=Mujer       una categoría (y ?sub= para una subcategoría): breadcrumb, título y productos
 //   /?q=remera        resultados de búsqueda (el buscador está en el encabezado)
 
-import { ErrorCarga, Foto, useCarga } from '@compartido/componentes/basicos';
+import { useCarrito } from '@compartido/carrito/carrito';
+import { ErrorCarga, Foto, mostrarToast, useCarga } from '@compartido/componentes/basicos';
 import { IconoChat, IconoDerecha } from '@compartido/componentes/iconos';
 import {
   agruparCategorias,
   categoriaPrincipal,
   coincide,
   destacadosPorCategoria,
+  etiquetaVariante,
   formatoPrecio,
   grupoCategoria,
   libreTotal,
+  lugarEnPedido,
   resaltar,
   rutaCategoria,
 } from '@compartido/datos/reglas';
-import type { Producto } from '@compartido/datos/tipos';
+import type { ConfigServidor, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
-import { config, ds } from '../lib/contexto';
+import { carrito, config, ds } from '../lib/contexto';
 import { EnlaceWhatsapp } from './EnlaceWhatsapp';
 import { BarraCarrito, linkCategoria, Marco, Migas } from './Marco';
 
@@ -34,28 +37,76 @@ function leerUrl() {
   };
 }
 
-function TarjetaProducto({ p, busqueda = '' }: { p: Producto; busqueda?: string }) {
-  const agotado = libreTotal(p) === 0;
+/**
+ * Botón de la tarjeta (14/10, Flor): si el producto tiene una sola opción, lo agrega directo al carrito;
+ * si hay que elegir talle o color, lleva a la ficha.
+ */
+function BotonTarjeta({ p, cfg }: { p: Producto; cfg: ConfigServidor | undefined }) {
+  const items = useCarrito(carrito);
+  if (libreTotal(p) === 0) {
+    return (
+      <button type="button" class="boton secundario chico ancho" disabled>
+        {t.sinStock}
+      </button>
+    );
+  }
+  if (p.variantes.length > 1) {
+    const texto =
+      p.talles.length > 1 && p.colores.length > 1 ? t.elegirColorYTalle : p.talles.length > 1 ? t.elegirTalle : t.elegirColor;
+    return (
+      <a
+        class="boton secundario chico ancho"
+        href={`/producto/?id=${encodeURIComponent(p.id)}`}
+        aria-label={`${texto}: ${p.nombre}`}
+      >
+        {texto}
+      </a>
+    );
+  }
+  const v = p.variantes[0];
+  const enCarrito = items.filter((i) => i.productoId === p.id).reduce((a, i) => a + i.cantidad, 0);
+  const maximo = Math.min(Math.max(0, v.libre - enCarrito), cfg ? lugarEnPedido(items, p.id, cfg) : 0);
   return (
-    <a class={`tarjeta ${agotado ? 'atenuado' : ''}`} href={`/producto/?id=${encodeURIComponent(p.id)}`}>
-      <Foto ds={ds} id={p.fotos[0]} inicial={p.nombre}>
-        {agotado && <span class="etiqueta-foto">{t.sinStock}</span>}
-      </Foto>
-      <span class="tarjeta-nombre">
-        {resaltar(p.nombre, busqueda).map((tr, i) => (tr.resaltado ? <mark key={i}>{tr.texto}</mark> : tr.texto))}
-      </span>
-      <span class="precio">{formatoPrecio(p.precio)}</span>
-      {agotado && <span class="sr">, {t.sinStock}</span>}
-    </a>
+    <button
+      type="button"
+      class="boton secundario chico ancho"
+      disabled={maximo <= 0}
+      aria-label={`${t.agregar}: ${p.nombre}`}
+      onClick={() => {
+        carrito.agregar({ productoId: p.id, color: v.color, talle: v.talle, cantidad: 1 });
+        mostrarToast(t.agregado(p.nombre, etiquetaVariante(v.color, v.talle)));
+      }}
+    >
+      {t.agregar}
+    </button>
   );
 }
 
-function Grilla({ lista, busqueda }: { lista: Producto[]; busqueda?: string }) {
+function TarjetaProducto({ p, cfg, busqueda = '' }: { p: Producto; cfg: ConfigServidor | undefined; busqueda?: string }) {
+  const agotado = libreTotal(p) === 0;
+  return (
+    <div class={`tarjeta ${agotado ? 'agotada' : ''}`}>
+      <a class="tarjeta-link" href={`/producto/?id=${encodeURIComponent(p.id)}`}>
+        <Foto ds={ds} id={p.fotos[0]} inicial={p.nombre}>
+          {agotado && <span class="etiqueta-foto">{t.sinStock}</span>}
+        </Foto>
+        <span class="tarjeta-nombre">
+          {resaltar(p.nombre, busqueda).map((tr, i) => (tr.resaltado ? <mark key={i}>{tr.texto}</mark> : tr.texto))}
+        </span>
+        <span class="precio">{formatoPrecio(p.precio)}</span>
+        {agotado && <span class="sr">, {t.sinStock}</span>}
+      </a>
+      <BotonTarjeta p={p} cfg={cfg} />
+    </div>
+  );
+}
+
+function Grilla({ lista, cfg, busqueda }: { lista: Producto[]; cfg: ConfigServidor | undefined; busqueda?: string }) {
   return (
     <ul class="grilla" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
       {lista.map((p) => (
         <li key={p.id}>
-          <TarjetaProducto p={p} busqueda={busqueda} />
+          <TarjetaProducto p={p} cfg={cfg} busqueda={busqueda} />
         </li>
       ))}
     </ul>
@@ -81,7 +132,15 @@ function Banner() {
   );
 }
 
-function Inicio({ productos, filas }: { productos: Producto[]; filas: Parameters<typeof destacadosPorCategoria>[1] }) {
+function Inicio({
+  productos,
+  filas,
+  cfg,
+}: {
+  productos: Producto[];
+  filas: Parameters<typeof destacadosPorCategoria>[1];
+  cfg: ConfigServidor | undefined;
+}) {
   const filasDestacados = destacadosPorCategoria(productos, filas);
   return (
     <div class="pila" style={{ gap: '32px' }}>
@@ -98,7 +157,7 @@ function Inicio({ productos, filas }: { productos: Producto[]; filas: Parameters
           <ul class="fila-productos" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
             {f.productos.map((p) => (
               <li key={p.id}>
-                <TarjetaProducto p={p} />
+                <TarjetaProducto p={p} cfg={cfg} />
               </li>
             ))}
           </ul>
@@ -110,8 +169,8 @@ function Inicio({ productos, filas }: { productos: Producto[]; filas: Parameters
 
 export default function Catalogo() {
   const filtro = leerUrl();
-  const datos = useCarga(() => Promise.all([ds.getProductos(), ds.getCategorias()]), [], ds);
-  const [productos, filas] = datos.datos ?? [undefined, undefined];
+  const datos = useCarga(() => Promise.all([ds.getProductos(), ds.getCategorias(), ds.getConfig()]), [], ds);
+  const [productos, filas, cfg] = datos.datos ?? [undefined, undefined, undefined];
   const categorias = filas ? agruparCategorias(filas) : [];
   const { busqueda } = filtro;
   const subFila = filas?.find((f) => f.id === filtro.sub);
@@ -141,7 +200,7 @@ export default function Catalogo() {
         {lista.length ? (
           <>
             <h1 role="status">{t.resultados(lista.length, busqueda)}</h1>
-            <Grilla lista={lista} busqueda={busqueda} />
+            <Grilla lista={lista} cfg={cfg} busqueda={busqueda} />
           </>
         ) : (
           <div class="pila centrado" style={{ padding: '32px 0' }} role="status">
@@ -186,11 +245,11 @@ export default function Catalogo() {
       <div class="pila">
         <Migas pasos={pasos} />
         <h1>{titulo}</h1>
-        {lista.length ? <Grilla lista={lista} /> : <p class="suave">{t.categoriaVacia}</p>}
+        {lista.length ? <Grilla lista={lista} cfg={cfg} /> : <p class="suave">{t.categoriaVacia}</p>}
       </div>
     );
   } else {
-    contenido = <Inicio productos={productos} filas={filas} />;
+    contenido = <Inicio productos={productos} filas={filas} cfg={cfg} />;
   }
 
   return (
