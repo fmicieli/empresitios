@@ -73,7 +73,7 @@
   /* Medidas */
   --toque: 44px; /* área táctil mínima */
   --alto-boton: 52px;
-  --ancho-max: 1360px; /* ancho máximo del contenido en computadora */
+  --ancho-max: 1360px; /* en computadora se pisa abajo: el contenido usa el 90% del ancho */
   --ancho-lectura: 640px;
   --separacion: 16px;
   --foco: 3px solid var(--texto);
@@ -82,4 +82,11 @@
   --proporcion-foto: 4 / 5;
 
   color-scheme: light;
+}
+
+/* En computadora, el contenido ocupa el 90% del ancho de la pantalla (D-20). */
+@media (min-width: 900px) {
+  :root {
+    --ancho-max: calc(90vw + 2 * var(--separacion));
+  }
 }

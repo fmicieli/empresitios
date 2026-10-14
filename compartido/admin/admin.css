@@ -76,7 +76,7 @@
 .admin-escritorio {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
-  max-width: 1440px;
+  max-width: 90vw; /* 90% del ancho, igual que la tienda */
   margin: 0 auto;
 }
 .admin-escritorio .admin-contenido {
