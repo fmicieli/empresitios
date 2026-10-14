@@ -259,7 +259,8 @@ th {
 }
 
 /* ---------- Opciones para elegir (Tag Toggle) ---------- */
-/* Sin elegir: fondo suave de marca. Elegida: color de marca y tilde (no solo color). */
+/* Sin elegir: fondo suave de marca. Elegida: rellena con el color de marca (sin tilde, D-21 punto 9).
+   La diferencia no es solo de tono: pasa de un fondo casi blanco a uno pleno. */
 .chips {
   display: flex;
   gap: var(--espacio-200);
@@ -297,18 +298,6 @@ th {
 .talle[aria-pressed='true'] {
   background: var(--acento);
   color: var(--sobre-acento);
-}
-.chip[aria-pressed='true']::before,
-.talle[aria-pressed='true']::before {
-  content: '';
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")
-    center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E")
-    center / contain no-repeat;
 }
 .talles {
   display: grid;
