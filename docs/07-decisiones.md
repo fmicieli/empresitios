@@ -228,6 +228,13 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 13. **Línea de campos y buscador** (14/10, Flor): gris de 1 px por defecto; al escribir, la misma línea pasa a 2 px y negra, sin contorno de foco aparte (evita la doble línea); con error, 2 px en rojo. Si un campo con error está activo, sigue rojo y suma un fondo rojo muy suave, para que se note dónde se está escribiendo (propuso Claude).
 14. **Borde de campos, buscador y cantidad en gris claro** (14/10, Flor): vuelve al gris del sistema (#d9d9d9). Riesgo de accesibilidad (avisado por Claude): da 1,4:1 sobre blanco, menos que el 3:1 recomendado para bordes de controles; personas con baja visión o con el brillo bajo pueden no ver dónde está el campo. Se compensa con la etiqueta arriba de cada campo y la línea negra de 2 px al escribir. Para un cliente que lo necesite más marcado: `--linea-campo: var(--linea-fuerte);` en su `estilo.css`.
 
+## D-22 · Fotos del producto en el admin (14/10/2026)
+
+1. **Quitar con una X** arriba a la derecha de cada foto, en lugar del botón "Quitar". Se ve chica (28 px) pero se puede tocar en 44 × 44. Decidió: Flor.
+2. **La primera foto se destaca** con línea negra de 2 px y la etiqueta "Principal" abajo. Decidió: Flor.
+3. **El orden se cambia arrastrando**, con el mouse o con el dedo en el celular. Decidió: Flor. Cómo (propuso Claude): en el celular hay que mantener apretada la foto un momento antes de moverla; si se desliza enseguida, se mueve la página como siempre. Con teclado, cada foto se elige con Tab y se mueve con las flechas, y se anuncia el lugar nuevo para lectores de pantalla. Se quitó el botón "Hacer principal": ahora se arrastra la foto al primer lugar.
+4. **Riesgo de accesibilidad** (avisado por Claude): ordenar solo arrastrando puede costarle a quien tiene poca motricidad fina o usa el celular sin teclado. Si algún comercio lo necesita, se puede sumar un menú por foto con "Hacer principal / mover".
+
 ## Pendientes (al 14/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

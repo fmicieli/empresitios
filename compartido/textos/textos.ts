@@ -273,11 +273,13 @@ export const textos = {
     fotos: 'Fotos',
     agregarFotos: 'Agregar fotos',
     agregarFotosAyuda: 'Elegí, sacá o arrastrá',
-    fotosAyuda: 'Las achicamos antes de guardarlas. La primera es la principal.',
+    fotosAyuda:
+      'Las achicamos antes de guardarlas. La primera es la principal: para cambiar el orden, arrastrá las fotos (en el celular, mantené apretada una foto y movela).',
     principal: 'Principal',
-    hacerPrincipal: 'Hacer principal',
     quitarFoto: (n: number) => `Quitar foto ${n}`,
-    hacerPrincipalN: (n: number) => `Usar la foto ${n} como principal`,
+    fotoOrdenable: (n: number, total: number) =>
+      `Foto ${n} de ${total}${n === 1 ? ', principal' : ''}. Para moverla, usá las flechas izquierda y derecha.`,
+    fotoMovida: (n: number) => (n === 1 ? 'La foto quedó primera: ahora es la principal.' : `La foto quedó en el lugar ${n}.`),
     fotoN: (n: number) => `Foto ${n}`,
     preparandoFotos: 'Preparando fotos…',
     fotoNoSirve: 'No pudimos leer una de las fotos. Probá con otra (JPG o PNG).',

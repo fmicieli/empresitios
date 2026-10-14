@@ -358,41 +358,72 @@
   overflow: hidden;
   background: var(--pizarra-200);
   border: var(--borde) solid var(--linea);
+  cursor: grab;
+  touch-action: pan-y; /* deslizar mueve la página; mantener apretado y mover, ordena */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 .foto-producto img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+}
+/* La primera foto es la principal: línea negra de 2 px y la etiqueta "Principal" abajo. */
+.foto-producto.es-principal {
+  border-color: var(--texto);
+  box-shadow: inset 0 0 0 1px var(--texto);
 }
 .foto-producto .marca-principal {
   position: absolute;
-  top: var(--espacio-100);
-  left: var(--espacio-100);
-  font-size: var(--texto-mini);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: var(--texto-chico);
   line-height: var(--interlineado-linea);
-  background: var(--acento);
-  color: var(--sobre-acento);
-  padding: var(--espacio-100) var(--espacio-150);
-  border-radius: var(--radio-mini);
+  text-align: center;
+  background: var(--texto);
+  color: var(--fondo);
+  padding: var(--espacio-150) var(--espacio-100);
 }
-.foto-producto .acciones-foto {
+/* Mientras se arrastra: la foto se levanta un poco. */
+.foto-producto.arrastrando {
+  cursor: grabbing;
+  opacity: 0.85;
+  transform: scale(1.04);
+  box-shadow: var(--sombra-400);
+  z-index: 2;
+}
+/* Quitar: una X arriba a la derecha. El círculo se ve de 28 px, pero se puede tocar en 44 × 44. */
+.quitar-foto {
   position: absolute;
-  bottom: var(--espacio-100);
-  left: var(--espacio-100);
-  right: var(--espacio-100);
-  display: flex;
-  gap: var(--espacio-100);
-  justify-content: space-between;
-}
-.foto-producto .acciones-foto button {
-  font-size: var(--texto-mini);
-  border: var(--borde) solid var(--neutro-borde);
-  border-radius: var(--radio-mini);
-  min-height: 32px;
-  padding: 0 var(--espacio-150);
-  background: var(--neutro-fondo);
-  color: var(--neutro-texto);
+  top: 0;
+  right: 0;
+  width: var(--toque);
+  height: var(--toque);
+  border: 0;
+  background: none;
+  padding: 0;
   cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.quitar-foto > span {
+  margin: var(--espacio-150);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radio-pastilla);
+  background: var(--fondo);
+  color: var(--icono);
+  box-shadow: var(--sombra-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quitar-foto:hover > span {
+  background: var(--superficie-hover);
 }
 .zona-fotos {
   aspect-ratio: 1;

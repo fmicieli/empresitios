@@ -12,7 +12,7 @@ import {
   ResumenErrores,
   useCarga,
 } from '../../componentes/basicos';
-import { IconoAtras, IconoFoto } from '../../componentes/iconos';
+import { IconoAtras, IconoCerrar, IconoFoto } from '../../componentes/iconos';
 import {
   caminoDeCategoria,
   rutaCategoria,
@@ -202,6 +202,73 @@ function Fotos({
   const [encima, setEncima] = useState(false);
   const ultimas = useRef(fotos);
   ultimas.current = fotos;
+  const refLista = useRef<HTMLUListElement>(null);
+  const [arrastrando, setArrastrando] = useState<string | null>(null);
+  const [anuncio, setAnuncio] = useState('');
+
+  /** Lleva la foto a otro lugar de la lista (la primera es la principal). */
+  function mover(clave: string, destino: number, anunciar = false) {
+    const lista = ultimas.current;
+    const desde = lista.findIndex((x) => x.clave === clave);
+    const hasta = Math.max(0, Math.min(lista.length - 1, destino));
+    if (desde < 0 || desde === hasta) return;
+    const nueva = lista.filter((x) => x.clave !== clave);
+    nueva.splice(hasta, 0, lista[desde]);
+    alCambiar(nueva);
+    if (anunciar) {
+      setAnuncio(t.fotoMovida(hasta + 1));
+      // El foco sigue a la foto en su nuevo lugar.
+      setTimeout(() => (refLista.current?.querySelector(`[data-indice="${hasta}"]`) as HTMLElement | null)?.focus(), 0);
+    }
+  }
+
+  /**
+   * Ordenar arrastrando, con el mouse o con el dedo (14/10, Flor). Con mouse empieza al mover;
+   * con el dedo, después de mantener apretada la foto un momento, así deslizar sigue moviendo la página.
+   */
+  function empezar(e: PointerEvent, clave: string) {
+    if (e.button !== 0) return;
+    const conDedo = e.pointerType !== 'mouse';
+    const x0 = e.clientX;
+    const y0 = e.clientY;
+    let activo = false;
+    let espera: ReturnType<typeof setTimeout> | undefined;
+
+    const activar = () => {
+      activo = true;
+      setArrastrando(clave);
+      if (conDedo && 'vibrate' in navigator) navigator.vibrate?.(15);
+    };
+    const bloquearScroll = (ev: TouchEvent) => {
+      if (activo && ev.cancelable) ev.preventDefault();
+    };
+    const alMover = (ev: PointerEvent) => {
+      if (!activo) {
+        const lejos = Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6;
+        if (conDedo) {
+          if (lejos) terminar(); // se movió antes de tiempo: era para desplazar la página
+          return;
+        }
+        if (!lejos) return;
+        activar();
+      }
+      const bajo = document.elementFromPoint(ev.clientX, ev.clientY)?.closest('[data-indice]') as HTMLElement | null;
+      if (bajo && refLista.current?.contains(bajo)) mover(clave, Number(bajo.dataset.indice));
+    };
+    const terminar = () => {
+      clearTimeout(espera);
+      setArrastrando(null);
+      window.removeEventListener('pointermove', alMover);
+      window.removeEventListener('pointerup', terminar);
+      window.removeEventListener('pointercancel', terminar);
+      window.removeEventListener('touchmove', bloquearScroll);
+    };
+    if (conDedo) espera = setTimeout(activar, 300);
+    window.addEventListener('pointermove', alMover);
+    window.addEventListener('pointerup', terminar);
+    window.addEventListener('pointercancel', terminar);
+    window.addEventListener('touchmove', bloquearScroll, { passive: false });
+  }
 
   async function agregar(lista: FileList | null) {
     if (!lista?.length) return;
@@ -226,31 +293,35 @@ function Fotos({
       <h2 id="titulo-fotos" style={{ fontSize: 'var(--texto-medio)' }}>
         {t.fotos}
       </h2>
-      <ul class="fotos-producto">
+      <ul class="fotos-producto" ref={refLista}>
         {fotos.map((f, i) => (
-          <li key={f.clave} class="foto-producto">
-            {f.url ? (
-              <img src={f.url} alt={t.fotoN(i + 1)} />
-            ) : (
-              <Foto ds={ctx.ds} id={f.id} alt={t.fotoN(i + 1)} clase="cuadrada" />
-            )}
+          <li
+            key={f.clave}
+            data-indice={i}
+            class={`foto-producto ${i === 0 ? 'es-principal' : ''} ${arrastrando === f.clave ? 'arrastrando' : ''}`}
+            tabIndex={0}
+            aria-label={t.fotoOrdenable(i + 1, fotos.length)}
+            onPointerDown={(e) => empezar(e, f.clave)}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                mover(f.clave, i + (e.key === 'ArrowLeft' ? -1 : 1), true);
+              }
+            }}
+          >
+            {f.url ? <img src={f.url} alt="" draggable={false} /> : <Foto ds={ctx.ds} id={f.id} alt="" clase="cuadrada" />}
             {i === 0 && <span class="marca-principal">{t.principal}</span>}
-            <div class="acciones-foto">
-              {i > 0 ? (
-                <button
-                  type="button"
-                  aria-label={t.hacerPrincipalN(i + 1)}
-                  onClick={() => alCambiar([f, ...fotos.filter((x) => x !== f)])}
-                >
-                  {t.principal}
-                </button>
-              ) : (
-                <span />
-              )}
-              <button type="button" aria-label={t.quitarFoto(i + 1)} onClick={() => alCambiar(fotos.filter((x) => x !== f))}>
-                {textos.tienda.quitar}
-              </button>
-            </div>
+            <button
+              type="button"
+              class="quitar-foto"
+              aria-label={t.quitarFoto(i + 1)}
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => alCambiar(fotos.filter((x) => x !== f))}
+            >
+              <span aria-hidden="true">
+                <IconoCerrar tam={16} />
+              </span>
+            </button>
           </li>
         ))}
         <li>
@@ -289,6 +360,9 @@ function Fotos({
       <ErrorDeCampo id="e-fotos" error={error} />
       {problema && <span class="error-campo">{problema}</span>}
       <span class="ayuda">{t.fotosAyuda}</span>
+      <span class="sr" role="status">
+        {anuncio}
+      </span>
     </section>
   );
 }
