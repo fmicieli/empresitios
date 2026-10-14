@@ -158,7 +158,7 @@ th {
   font-weight: var(--peso-regular);
   font-size: var(--texto-base);
   line-height: var(--interlineado-linea);
-  padding: 0 var(--espacio-300);
+  padding: var(--espacio-300) var(--espacio-600); /* 12 × 24: más aire a los costados (14/10, Flor) */
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -192,7 +192,7 @@ th {
 }
 .boton.chico {
   min-height: var(--alto-boton-chico);
-  padding: 0 var(--espacio-200);
+  padding: var(--espacio-200) var(--espacio-400); /* 8 × 16 */
 }
 .boton.ancho {
   width: 100%;
@@ -736,7 +736,7 @@ select.entrada {
   color: var(--neutro-texto);
   border-radius: var(--radio-boton);
   min-height: var(--alto-boton-chico);
-  padding: 0 var(--espacio-300);
+  padding: var(--espacio-200) var(--espacio-400);
   cursor: pointer;
 }
 .con-barra-abajo .toast-zona {

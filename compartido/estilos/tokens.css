@@ -205,7 +205,7 @@
   :root {
     --toque: 40px;
     --alto-boton: 48px;
-    --alto-boton-chico: 32px;
+    --alto-boton-chico: 40px; /* igual que los campos, para que "Sumar" quede a la par del campo de al lado */
     --alto-control: 40px;
   }
 }
