@@ -225,6 +225,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 10. **Botones más altos que las opciones** (14/10, Flor): botones 48 px; campos, talles y colores 44 px en pantallas táctiles y 40 px con mouse (el sistema usa 40 para todo).
 11. **Grises suaves de marca más claros** (14/10, Flor): el fondo suave de marca (opciones sin elegir, ítem activo del menú, etiquetas) pasa del 8% al 5% del color de marca.
 12. **Solo el botón secundario lleva borde** (14/10, Flor): el principal y el de borrar o cancelar van sin borde en todos sus estados (normal, al pasar el mouse y deshabilitado). El secundario mantiene fondo claro con borde.
+13. **Línea de campos y buscador** (14/10, Flor): gris de 1 px por defecto; al escribir, la misma línea pasa a 2 px y negra, sin contorno de foco aparte (evita la doble línea); con error, 2 px en rojo. Si un campo con error está activo, sigue rojo y suma un fondo rojo muy suave, para que se note dónde se está escribiendo (propuso Claude).
 
 ## Pendientes (al 14/10/2026)
 
