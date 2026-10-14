@@ -1,13 +1,13 @@
 # Cómo retomar
 
-## 1. Links para revisar lo último (sistema de diseño de base: D-21)
+## 1. Links para revisar lo último (sistema de diseño de base D-21 y fotos del admin D-22, unidos a main el 14/10)
 
 - **Decisión D-21 (qué se tomó del sistema y qué se adaptó por accesibilidad):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
 - **Tokens del sistema (colores, textos, espacios, radios, sombras):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/compartido/estilos/tokens.css
 - **Estilos de los componentes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/compartido/estilos/base.css
 - **Archivo de estilo del cliente (fuentes, colores, formas):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/tienda-whatsapp/config/estilo.css
 - **Figma de referencia:** https://www.figma.com/design/9mND0DF4l37xKvbAtIlLLY
-- **Qué cambió en tu localhost:** Nunito Sans; botones con radio 8 (principal en el color de marca, secundario gris "Neutral"); talles y colores como etiquetas con tilde; campos, tarjetas, avisos, menú y pestañas con el diseño del sistema; íconos Feather; espacios de la escala del sistema. Aprobado por Flor el 14/10. Pull request para pasarlo a la demo: https://github.com/fmicieli/empresitios/pull/6 (después de unirlo, Cloudflare lo publica solo en unos minutos).
+- **Qué cambió en tu localhost:** Nunito Sans; botones con radio 8 (principal en el color de marca, secundario gris "Neutral"); talles y colores como etiquetas con tilde; campos, tarjetas, avisos, menú y pestañas con el diseño del sistema; íconos Feather; espacios de la escala del sistema. Unido a main el 14/10 (https://github.com/fmicieli/empresitios/pull/6) y publicado en la demo: https://tienda-modelo.atlas-de5cd208129d.workers.dev (recargá con `Cmd + Shift + R`). Incluye también: fotos del producto con X para quitar y orden arrastrando (D-22), botones más altos, campos y talles con línea que se engrosa al elegir, títulos más chicos, estados vacíos centrados.
 
 ### Diseño D-19 y D-20 (unido a main el 14/10, publicado en la demo)
 
@@ -63,7 +63,7 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
 3. Fases 1, 2 y 3: aprobadas (D-15, D-16 y D-17).
 4. Fase 4 aprobada: la demo está publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev. Cloudflare publica solo la rama main: cada cambio llega por pull request y yo lo uno.
-5. El diseño D-19/D-20 está unido a main y publicado (PR #5). El sistema de diseño de base (D-21, Simple Design System con Nunito Sans) está aprobado; preguntame si ya uní el PR #6 y si lo vi publicado en la demo. Quedan abiertas tres preguntas mías: (a) en la lista de productos del admin, ¿mostrar el stock por combinación o el total más cuántas combinaciones están agotadas?; (b) si sigo viendo el stock sumado al cargar un producto nuevo (te mando captura); (c) en qué formato quiero el muestrario de estilos de inspiración (página, documento o Figma).
+5. El diseño D-19/D-20 está unido a main y publicado (PR #5). El sistema de diseño de base (D-21, Simple Design System con Nunito Sans) y las fotos del admin (D-22) están unidos a main y publicados (PR #6). Preguntame si lo revisé en la demo publicada. Quedan abiertas tres preguntas mías: (a) en la lista de productos del admin, ¿mostrar el stock por combinación o el total más cuántas combinaciones están agotadas?; (b) si sigo viendo el stock sumado al cargar un producto nuevo (te mando captura); (c) en qué formato quiero el muestrario de estilos de inspiración (página, documento o Figma).
 6. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
 7. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```

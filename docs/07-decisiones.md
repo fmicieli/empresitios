@@ -245,6 +245,6 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
 2. **Fase 4** (publicación de la demo): aprobada el 13/10. Publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev desde `main`; probada por Flor desde el celular.
-3. **Estilo por cliente (D-19) y sistema de diseño de base (D-21):** D-21 aprobado por Flor el 14/10 (PR #6 a `main`). Falta decidir si se arma un muestrario de estilos de inspiración.
+3. **Estilo por cliente (D-19) y sistema de diseño de base (D-21):** D-21 y D-22 aprobados por Flor y unidos a `main` el 14/10 (PR #6), publicados en la demo. Falta decidir si se arma un muestrario de estilos de inspiración.
 4. **Prueba con Google de verdad:** al final, con la lista de pruebas (guía `09`, paso 8).
 5. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`).
