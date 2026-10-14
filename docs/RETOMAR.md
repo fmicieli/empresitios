@@ -9,6 +9,11 @@
 - **Figma de referencia:** https://www.figma.com/design/9mND0DF4l37xKvbAtIlLLY
 - **Qué cambió en tu localhost:** Nunito Sans; botones con radio 8 (principal en el color de marca, secundario gris "Neutral"); talles y colores como etiquetas con tilde; campos, tarjetas, avisos, menú y pestañas con el diseño del sistema; íconos Feather; espacios de la escala del sistema. Unido a main el 14/10 (https://github.com/fmicieli/empresitios/pull/6) y publicado en la demo: https://tienda-modelo.atlas-de5cd208129d.workers.dev (recargá con `Cmd + Shift + R`). Incluye también: fotos del producto con X para quitar y orden arrastrando (D-22), botones más altos, campos y talles con línea que se engrosa al elegir, títulos más chicos, estados vacíos centrados.
 
+### Tarjetas de producto (D-21, puntos 12 f a 12 h, 14/10)
+
+- Sin borde, foto a todo el ancho, precio primero (20 px) y nombre en gris. Se probó un botón en la tarjeta y se sacó.
+- Pull request para pasarlo a la demo: ver la lista de pull requests abiertos (https://github.com/fmicieli/empresitios/pulls).
+
 ### Diseño D-19 y D-20 (unido a main el 14/10, publicado en la demo)
 
 - **Pull request:** https://github.com/fmicieli/empresitios/pull/5
