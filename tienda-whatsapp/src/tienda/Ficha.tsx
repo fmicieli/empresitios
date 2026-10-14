@@ -259,11 +259,11 @@ export default function Ficha() {
           </div>
         </div>
       ) : datos.error && !productos ? (
-        <div style={{ paddingTop: '16px' }}>
+        <div>
           <ErrorCarga error={datos.error} alReintentar={datos.recargar} />
         </div>
       ) : !p || !filas || !cfg ? (
-        <div class="pila" style={{ paddingTop: '24px' }}>
+        <div class="pila">
           <h1>{t.productoNoEncontrado}</h1>
           <a class="boton secundario" href="/">
             {t.verProductos}

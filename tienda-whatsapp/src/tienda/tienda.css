@@ -281,17 +281,12 @@
 .ficha {
   display: grid;
   gap: var(--espacio-600);
-  padding-top: var(--espacio-400);
 }
 @media (min-width: 800px) {
   .ficha {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--espacio-1600);
-    padding-top: var(--espacio-800);
   }
-}
-.titulo-ficha {
-  font-size: var(--titulo-2); /* Heading */
 }
 .migas {
   font-size: var(--texto-base);

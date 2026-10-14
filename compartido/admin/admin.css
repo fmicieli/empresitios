@@ -22,7 +22,7 @@
 .admin-contenido {
   max-width: var(--ancho-max);
   margin: 0 auto;
-  padding: var(--espacio-400) var(--separacion) var(--espacio-4000);
+  padding: var(--espacio-600) var(--separacion) var(--espacio-4000);
 }
 
 /* Navegación: barra inferior en celular (Navigation Button en columna), menú lateral en escritorio (Navigation Pill). */
