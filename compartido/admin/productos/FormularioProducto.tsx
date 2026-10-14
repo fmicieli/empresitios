@@ -149,7 +149,7 @@ function EditorLista({
                 aria-label={t.quitarItem(v)}
                 onClick={() => alCambiar(valores.filter((_, j) => j !== i))}
               >
-                <IconoCerrar tam={20} />
+                <IconoCerrar tam={18} />
               </button>
             </li>
           ))}
