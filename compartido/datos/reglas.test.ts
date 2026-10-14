@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import {
   agruparCategorias,
+  nombreCategoria,
+  opcionesDeNivel,
+  caminoDeCategoria,
+  rutaCategoria,
   coincide,
+  destacadosPorCategoria,
   evaluarCarrito,
   fechaReserva,
   formatoPrecio,
@@ -85,6 +90,7 @@ describe('carrito', () => {
     descripcion: '',
     codigo: '',
     visible: true,
+    destacado: false,
     colores: ['Negro'],
     talles: ['S', 'M'],
     fotos: [],
@@ -127,12 +133,25 @@ describe('categorías', () => {
         nombre: 'Mujer',
         id: null,
         subcategorias: [
-          { id: 'c1', nombre: 'Remeras' },
-          { id: 'c2', nombre: 'Vestidos' },
+          { id: 'c1', nombre: 'Remeras', grupo: '' },
+          { id: 'c2', nombre: 'Vestidos', grupo: '' },
         ],
       },
       { nombre: 'Accesorios', id: 'c3', subcategorias: [] },
     ]);
+  });
+
+  it('acepta un tercer nivel con ">" en la subcategoría (D-20)', () => {
+    const filas = [
+      { id: 'c1', orden: 1, categoria: 'Mujer', subcategoria: 'Indumentaria > Remeras', visible: true },
+      { id: 'c2', orden: 2, categoria: 'Mujer', subcategoria: 'Calzado', visible: true },
+    ];
+    expect(agruparCategorias(filas)[0].subcategorias).toEqual([
+      { id: 'c1', nombre: 'Remeras', grupo: 'Indumentaria' },
+      { id: 'c2', nombre: 'Calzado', grupo: '' },
+    ]);
+    expect(nombreCategoria(filas, 'c1')).toBe('Mujer › Indumentaria › Remeras');
+    expect(rutaCategoria(filas[0])).toEqual(['Mujer', 'Indumentaria', 'Remeras']);
   });
 });
 
@@ -148,5 +167,53 @@ describe('tiempo', () => {
     const ahora = new Date(2026, 9, 6, 15, 20).getTime();
     expect(fechaReserva(ahora + 24 * H, ahora)).toBe('mañana a las 15:20');
     expect(fechaReserva(ahora + 2 * H, ahora)).toBe('hoy a las 17:20');
+  });
+});
+
+describe('destacados del inicio', () => {
+  const filasCat = [
+    { id: 'c1', orden: 1, categoria: 'Mujer', subcategoria: 'Remeras', visible: true },
+    { id: 'c2', orden: 2, categoria: 'Hombre', subcategoria: '', visible: true },
+    { id: 'c3', orden: 3, categoria: 'Niños', subcategoria: '', visible: true },
+  ];
+  const prod = (id: string, categoriaId: string, destacado: boolean, creado: number, visible = true) =>
+    ({ id, categoriaId, destacado, creado, visible }) as unknown as Producto;
+
+  it('muestra los marcados; si no hay, los más nuevos; y omite categorías vacías', () => {
+    const r = destacadosPorCategoria(
+      [
+        prod('a', 'c1', true, 1),
+        prod('b', 'c1', false, 9),
+        prod('c', 'c2', false, 1),
+        prod('d', 'c2', false, 5),
+        prod('e', 'c1', true, 3, false),
+      ],
+      filasCat,
+    );
+    expect(r.map((f) => [f.categoria, f.productos.map((p) => p.id)])).toEqual([
+      ['Mujer', ['a']],
+      ['Hombre', ['d', 'c']],
+    ]);
+  });
+});
+
+describe('categoría por niveles (admin)', () => {
+  const filas = [
+    { id: 'c1', orden: 1, categoria: 'Mujer', subcategoria: 'Indumentaria > Remeras', visible: true },
+    { id: 'c2', orden: 2, categoria: 'Mujer', subcategoria: 'Indumentaria > Vestidos', visible: true },
+    { id: 'c3', orden: 3, categoria: 'Mujer', subcategoria: 'Calzado', visible: true },
+    { id: 'c4', orden: 4, categoria: 'Accesorios', subcategoria: '', visible: true },
+  ];
+  it('cada nivel muestra solo lo que corresponde a lo elegido antes', () => {
+    expect(opcionesDeNivel(filas, [])).toEqual([
+      { nombre: 'Mujer', id: null },
+      { nombre: 'Accesorios', id: 'c4' },
+    ]);
+    expect(opcionesDeNivel(filas, ['Mujer'])).toEqual([
+      { nombre: 'Indumentaria', id: null },
+      { nombre: 'Calzado', id: 'c3' },
+    ]);
+    expect(opcionesDeNivel(filas, ['Mujer', 'Indumentaria']).map((o) => o.id)).toEqual(['c1', 'c2']);
+    expect(caminoDeCategoria(filas, 'c2')).toEqual(['Mujer', 'Indumentaria', 'Vestidos']);
   });
 });

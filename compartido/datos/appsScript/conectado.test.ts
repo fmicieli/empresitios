@@ -68,6 +68,7 @@ async function entrar() {
     descripcion: '',
     codigo: 'RB-01',
     visible: true,
+    destacado: false,
     colores: [],
     talles: ['M'],
     fotos: ['foto1'],

@@ -1,12 +1,17 @@
 # Cómo retomar
 
-## 1. Links para revisar la última fase (Fase 4)
+## 1. Links para revisar lo último (diseño de la tienda: D-19 y D-20)
+
+- **Decisiones de diseño (D-19, D-20) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
+- **Archivo de estilo del cliente (fuentes, colores, formas):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/tienda-whatsapp/config/estilo.css
+- **Configuración del banner (inicio.banner):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/tienda-whatsapp/config/tienda.config.ts
+- **Pull request con todo esto (unir después de revisar):** https://github.com/fmicieli/empresitios/pull/5
+- **Qué cambió en tu localhost:** inicio con banner y filas de destacados por categoría; breadcrumb en categorías, búsqueda y ficha; buscador chico en el encabezado (lupa en el celular); Mujer con 3 niveles (Mujer / Indumentaria / Remeras); colores derivados de la marca; Roboto; logo de ejemplo; casilla "Destacado en el inicio" en el admin. Los datos de prueba del navegador se reinician una vez.
+
+### Fase 4 (aprobada)
 
 - **Demo publicada:** https://tienda-modelo.atlas-de5cd208129d.workers.dev
 - **Cómo publicar la demo y checklist por cliente:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/11-publicar-demo.md
-- **Pull request con los últimos cambios (compartir productos):** https://github.com/fmicieli/empresitios/pull/4
-- **Decisiones (D-18) y pendientes:** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md
-- **Qué cambió en tu localhost:** los botones de WhatsApp de la tienda, sin número cargado, muestran "Es una demo…" con el botón "Cargar número". Una dirección inventada (por ejemplo `/hola/`) muestra "No encontramos esta página".
 
 ### Fase 3 (aprobada)
 
@@ -30,7 +35,7 @@
 
 La copia del proyecto está en `Claude Code/Empresitios`, bajada con GitHub Desktop en la rama `claude/quirky-cray-06mnp8`.
 
-**Atajo (un solo comando):** con la tienda cortada (`Ctrl + C`), corré `npm run actualizar` en la Terminal. Trae los cambios, instala lo que haga falta y levanta la tienda. Si dice que no encuentra `git`, aceptá la instalación que te ofrece la Mac ("herramientas de línea de comandos") o usá los pasos de abajo.
+**Atajo (un solo comando):** con la tienda cortada (`Ctrl + C`), corré `npm run actualizar` en la Terminal. Trae los cambios, instala lo que haga falta y levanta la tienda. (Antes descarta los cambios automáticos que `npm install` hace en `package-lock.json` en tu Mac, que si no frenan la actualización con el error "Your local changes … would be overwritten".) Si dice que no encuentra `git`, aceptá la instalación que te ofrece la Mac ("herramientas de línea de comandos") o usá los pasos de abajo.
 
 **Cada vez que Claude avisa que subió cambios (paso a paso):**
 1. En la Terminal donde corre la tienda, cortala con `Ctrl + C`.
@@ -51,7 +56,8 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 1. Leé CLAUDE.md, docs/RETOMAR.md y docs/07-decisiones.md (sobre todo la sección "Pendientes") antes de hacer nada.
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
 3. Fases 1, 2 y 3: aprobadas (D-15, D-16 y D-17).
-4. La Fase 4 (publicación de la demo) está entregada y la demo está publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev (Cloudflare publica la rama main). Preguntame si ya la probé desde el celular y si uní el último pull request.
-5. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
-6. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
+4. Fase 4 aprobada: la demo está publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev. Cloudflare publica solo la rama main: cada cambio llega por pull request y yo lo uno.
+5. El estilo por cliente (D-19) está entregado: preguntame si ya lo revisé, y si quiero el muestrario de estilos de inspiración (el admin sigue el mismo estilo que la tienda: decidido).
+6. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
+7. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```

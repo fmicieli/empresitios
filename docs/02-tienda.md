@@ -13,22 +13,27 @@ Catálogo (inicio) ──► Ficha de producto ──► Carrito + Tus datos (un
 
 ## 1. Encabezado (todas las pantallas)
 
-- Logo de la tienda (vuelve al catálogo), botón de menú (celular) y carrito con contador.
-- En escritorio: logo, categorías con desplegable de subcategorías, buscador y carrito.
+- Logo de la tienda (vuelve al inicio), botón de menú (celular) y carrito con contador.
+- En escritorio: logo a la izquierda, categorías centradas (con desplegable de subcategorías), buscador chico y carrito a la derecha (D-19, D-20).
+- En celular: menú, logo, lupa y carrito. La lupa abre el buscador debajo del encabezado (D-20).
 
-## 2. Catálogo
+## 2. Inicio (D-20)
 
-- Buscador "Buscar productos" siempre visible.
-- Chips de categoría principal ("Todo" + categorías). Si la categoría elegida tiene subcategorías, aparece una segunda fila más chica ("Todo Mujer", "Remeras", "Vestidos"…). Si ningún cliente usa subcategorías, no aparece.
-- Grilla de productos (2 columnas en celular): foto principal, nombre, precio. Sin stock en todas sus variantes: tarjeta atenuada con etiqueta "Sin stock" (se puede abrir, no comprar).
+- Banner arriba: imagen, título, texto y botón. Sale de `tienda.config.ts` (`inicio.banner`); lo cambia quien mantiene el sitio.
+- Debajo, una fila por categoría principal ("Destacados de Mujer", "Destacados de Hombre"…) con desplazamiento horizontal y "Ver todo →". En cada fila van los productos marcados como **Destacado** en el admin; si no hay ninguno marcado, los más nuevos de esa categoría.
+- Tarjetas de producto: foto principal, nombre, precio. Sin stock en todas sus variantes: tarjeta atenuada con etiqueta "Sin stock" (se puede abrir, no comprar).
 - Productos con "Mostrar en la tienda" apagado no aparecen.
 - Barra fija abajo cuando hay algo en el carrito: "Ver carrito · 2 · $ 42.000".
 - Menú lateral (celular): categorías con subcategorías desplegables, "Consultas por WhatsApp", horarios y redes.
 
+## 2 bis. Página de categoría (D-20)
+
+- Breadcrumb arriba ("Inicio / Mujer / Remeras"), después el título y la grilla de productos (2 columnas en celular). Reemplaza a los filtros de chips.
+
 ## 3. Búsqueda
 
-- Busca por nombre del producto, sin distinguir mayúsculas ni tildes (recomendado normalizar).
-- Resultados: "3 productos para 'remera'", la palabra resaltada en cada nombre, los sin stock marcados.
+- Desde el buscador del encabezado. Busca por nombre del producto, sin distinguir mayúsculas ni tildes.
+- Breadcrumb "Inicio / Búsqueda" y título "3 productos para 'remera'", la palabra resaltada en cada nombre, los sin stock marcados.
 - Sin resultados: "No encontramos 'campera'", accesos a las categorías y botón "Consultar por WhatsApp".
 
 ## 4. Ficha de producto

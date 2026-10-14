@@ -31,6 +31,17 @@ export interface ConfigTienda {
     colorMarca: string;
     colorSobreMarca: string;
   };
+  /** Portada de la tienda. */
+  inicio: {
+    /** Banner de arriba de todo. Imagen en public/ (horizontal, por ejemplo 1200 × 900 px). Vacío = solo texto. */
+    banner: {
+      imagen: string;
+      titulo: string;
+      texto: string;
+      /** Botón del banner. Link vacío = sin botón. Ejemplo: "/?cat=Mujer" (una categoría) o "/producto/?id=p1". */
+      boton: { texto: string; link: string };
+    };
+  };
   /** De dónde salen los datos: "local" (prueba, en el navegador) o "appsScript" (Google, ver docs/09). */
   datos: 'local' | 'appsScript';
   /** ID de cliente de Google para "Iniciar sesión con Google" en el admin (público, no es secreto). */
@@ -53,9 +64,17 @@ const config: ConfigTienda = {
   redes: [{ nombre: 'Instagram', url: 'https://instagram.com/' }],
   textoPrivacidad: 'Usamos estos datos solo para gestionar tu pedido. (Texto pendiente de revisión legal.)',
   estilo: {
-    logo: '',
+    logo: '/logo.svg',
     colorMarca: '#000000',
     colorSobreMarca: '#ffffff',
+  },
+  inicio: {
+    banner: {
+      imagen: '/banner.png',
+      titulo: 'Nueva temporada',
+      texto: 'Ropa cómoda para todos los días. Elegí, pedí y coordiná por WhatsApp.',
+      boton: { texto: 'Ver lo nuevo de Mujer', link: '/?cat=Mujer' },
+    },
   },
   datos: 'local',
   googleClientId: '',

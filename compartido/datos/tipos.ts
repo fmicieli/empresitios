@@ -27,7 +27,11 @@ export interface Categoria {
   nombre: string;
   /** id de la fila si la categoría es de un solo nivel. */
   id: string | null;
-  subcategorias: { id: string; nombre: string }[];
+  /**
+   * Subcategorías (último nivel). Si la tienda usa 3 niveles, `grupo` es el del medio
+   * (por ejemplo "Indumentaria" en Mujer / Indumentaria / Remeras); si no, queda vacío.
+   */
+  subcategorias: { id: string; nombre: string; grupo: string }[];
 }
 
 /** Una fila de la pestaña Stock, con lo calculado. */
@@ -50,6 +54,8 @@ export interface Producto {
   descripcion: string;
   codigo: string;
   visible: boolean;
+  /** Aparece en las filas de destacados del inicio. */
+  destacado: boolean;
   colores: string[];
   talles: string[];
   /** ids de fotos en orden; la primera es la principal. */
@@ -68,6 +74,8 @@ export interface ProductoAGuardar {
   descripcion: string;
   codigo: string;
   visible: boolean;
+  /** Aparece en las filas de destacados del inicio. */
+  destacado: boolean;
   colores: string[];
   talles: string[];
   fotos: string[];

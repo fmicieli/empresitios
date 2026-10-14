@@ -186,7 +186,21 @@ export function evaluarCarrito(items: ItemCarrito[], productos: Producto[]): Lin
 
 // ---------- Categorías ----------
 
-/** Agrupa las filas de la planilla en el menú de dos niveles, en el orden de la planilla. */
+/**
+ * Niveles de una fila de la planilla. La columna subcategoria acepta más niveles separados
+ * por ">": "Indumentaria > Remeras" da Mujer / Indumentaria / Remeras (D-20).
+ */
+export function rutaCategoria(f: Pick<FilaCategoria, 'categoria' | 'subcategoria'>): string[] {
+  return [
+    f.categoria,
+    ...String(f.subcategoria ?? '')
+      .split('>')
+      .map((s) => s.trim())
+      .filter(Boolean),
+  ];
+}
+
+/** Agrupa las filas de la planilla para los menús (categoría, grupo opcional y subcategoría), en orden. */
 export function agruparCategorias(filas: FilaCategoria[]): Categoria[] {
   const salida: Categoria[] = [];
   for (const f of [...filas].filter((x) => x.visible).sort((a, b) => a.orden - b.orden)) {
@@ -195,17 +209,23 @@ export function agruparCategorias(filas: FilaCategoria[]): Categoria[] {
       cat = { nombre: f.categoria, id: null, subcategorias: [] };
       salida.push(cat);
     }
-    if (f.subcategoria) cat.subcategorias.push({ id: f.id, nombre: f.subcategoria });
-    else cat.id = f.id;
+    const ruta = rutaCategoria(f);
+    if (ruta.length > 1) {
+      cat.subcategorias.push({ id: f.id, nombre: ruta[ruta.length - 1], grupo: ruta.slice(1, -1).join(' › ') });
+    } else cat.id = f.id;
   }
   return salida;
 }
 
-/** "Mujer › Remeras" o "Accesorios" a partir del id. */
+/** "Mujer › Indumentaria › Remeras", "Mujer › Remeras" o "Accesorios" a partir del id. */
 export function nombreCategoria(filas: FilaCategoria[], id: string): string {
   const f = filas.find((x) => x.id === id);
-  if (!f) return '';
-  return f.subcategoria ? f.categoria + ' › ' + f.subcategoria : f.categoria;
+  return f ? rutaCategoria(f).join(' › ') : '';
+}
+
+/** Grupo (nivel del medio) de una fila, o "" si la tienda usa 2 niveles. */
+export function grupoCategoria(f: Pick<FilaCategoria, 'categoria' | 'subcategoria'>): string {
+  return rutaCategoria(f).slice(1, -1).join(' › ');
 }
 
 export function categoriaPrincipal(filas: FilaCategoria[], id: string): string {
@@ -288,4 +308,50 @@ export function huellaItems(items: { productoId: string; color: string; talle: s
     .sort()
     .map((k) => `${k}×${suma.get(k)}`)
     .join(';');
+}
+
+// ---------- Inicio: filas de destacados ----------
+
+export interface FilaDestacados {
+  categoria: string;
+  productos: Producto[];
+}
+
+/**
+ * Una fila por categoría principal, en el orden de la planilla. En cada una van los productos
+ * marcados como destacados; si no hay ninguno marcado, los más nuevos. Sin productos, no hay fila.
+ */
+export function destacadosPorCategoria(productos: Producto[], filas: FilaCategoria[], maximo = 10): FilaDestacados[] {
+  return agruparCategorias(filas)
+    .map((c) => {
+      const deLaCategoria = productos
+        .filter((p) => p.visible && categoriaPrincipal(filas, p.categoriaId) === c.nombre)
+        .sort((a, b) => b.creado - a.creado);
+      const marcados = deLaCategoria.filter((p) => p.destacado);
+      return { categoria: c.nombre, productos: (marcados.length ? marcados : deLaCategoria).slice(0, maximo) };
+    })
+    .filter((f) => f.productos.length > 0);
+}
+
+// ---------- Elegir categoría por niveles (admin) ----------
+
+/** Opciones de un nivel, dado lo elegido en los niveles anteriores. `id` es la fila si esa opción ya es final. */
+export function opcionesDeNivel(filas: FilaCategoria[], elegidos: string[]): { nombre: string; id: string | null }[] {
+  const salida: { nombre: string; id: string | null }[] = [];
+  for (const f of [...filas].filter((x) => x.visible).sort((a, b) => a.orden - b.orden)) {
+    const ruta = rutaCategoria(f);
+    if (ruta.length <= elegidos.length || elegidos.some((e, i) => ruta[i] !== e)) continue;
+    const nombre = ruta[elegidos.length];
+    const final = ruta.length === elegidos.length + 1;
+    const ya = salida.find((o) => o.nombre === nombre);
+    if (!ya) salida.push({ nombre, id: final ? f.id : null });
+    else if (final) ya.id = f.id;
+  }
+  return salida;
+}
+
+/** Camino de nombres de una fila (para mostrar lo ya elegido al editar un producto). */
+export function caminoDeCategoria(filas: FilaCategoria[], id: string): string[] {
+  const f = filas.find((x) => x.id === id);
+  return f ? rutaCategoria(f) : [];
 }

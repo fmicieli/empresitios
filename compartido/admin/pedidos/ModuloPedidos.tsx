@@ -494,11 +494,11 @@ function Pantalla({ ruta, ctx }: { ruta: string[]; ctx: ContextoAdmin }) {
         />
       </div>
       {!q && (
-        <div class="chips" role="group" aria-label="Filtrar pedidos">
+        <div class="filtros-pestana" role="group" aria-label="Filtrar pedidos">
           {FILTROS.map((f) => (
-            <button key={f} type="button" class="chip" aria-pressed={filtro === f} onClick={() => setFiltro(f)}>
+            <button key={f} type="button" class="pestana-filtro" aria-pressed={filtro === f} onClick={() => setFiltro(f)}>
               {t.filtros[f]}
-              {f !== 'todas' && <span class="num"> · {cuenta(f)}</span>}
+              {f !== 'todas' && <span class="num">{cuenta(f)}</span>}
             </button>
           ))}
         </div>
@@ -508,18 +508,17 @@ function Pantalla({ ruta, ctx }: { ruta: string[]; ctx: ContextoAdmin }) {
 
   if (ctx.esEscritorio) {
     return (
-      <div class="pedidos-escritorio">
+      // Sin pedido elegido, la lista usa todo el ancho; al elegir uno, el detalle aparece a la derecha.
+      <div class={`pedidos-escritorio ${elegido ? 'con-detalle' : ''}`}>
         <div class="pila">
           {encabezado}
           {lista.length ? <TablaPedidos lista={lista} ahora={ahora} acc={acc} elegido={numero} /> : vacio}
         </div>
-        <aside class="panel-lateral" aria-label="Detalle del pedido">
-          {elegido ? (
-            <Detalle p={elegido} productos={productos} pedidos={pedidos} ctx={ctx} acc={acc} conVolver={false} />
-          ) : (
-            <p class="suave">{t.elegiPedido}</p>
-          )}
-        </aside>
+        {elegido && (
+          <aside class="panel-lateral" aria-label="Detalle del pedido">
+            <Detalle p={elegido} productos={productos} pedidos={pedidos} ctx={ctx} acc={acc} conVolver />
+          </aside>
+        )}
         <DialogoVencido acc={acc} />
       </div>
     );

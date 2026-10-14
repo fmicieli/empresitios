@@ -21,7 +21,7 @@ const HORA = 3600 * 1000;
 const PESTANAS = {
   Config: ['clave', 'valor', 'para qué sirve'],
   Categorias: ['id', 'orden', 'categoria', 'subcategoria', 'visible'],
-  Productos: ['id', 'nombre', 'categoriaId', 'precio', 'descripcion', 'codigo', 'visible', 'colores', 'talles', 'fotos', 'creado', 'actualizado'],
+  Productos: ['id', 'nombre', 'categoriaId', 'precio', 'descripcion', 'codigo', 'visible', 'colores', 'talles', 'fotos', 'creado', 'actualizado', 'destacado'],
   Stock: ['productoId', 'color', 'talle', 'cantidad'],
   Pedidos: [
     'numero', 'creado', 'venceEn', 'estado', 'nombre', 'whatsapp', 'whatsappNormalizado', 'entrega',
@@ -285,6 +285,7 @@ function armarProductos(incluirOcultos) {
         descripcion: String(p.descripcion || ''),
         codigo: String(p.codigo || ''),
         visible: siNo(p.visible),
+        destacado: siNo(p.destacado),
         colores: colores,
         talles: talles,
         fotos: lista(p.fotos),
@@ -709,6 +710,7 @@ function guardarProducto(d) {
       descripcion: recortar(d.descripcion, 2000),
       codigo: recortar(d.codigo, 60),
       visible: !!d.visible,
+      destacado: !!d.destacado,
       colores: (d.colores || []).map((x) => recortar(x, 40)).join('|'),
       talles: (d.talles || []).map((x) => recortar(x, 20)).join('|'),
       fotos: (d.fotos || []).join('|'),
@@ -830,6 +832,7 @@ function configurarPlanilla() {
   const visible = SpreadsheetApp.newDataValidation().requireCheckbox().build();
   hoja('Categorias').getRange('E2:E1000').setDataValidation(visible);
   hoja('Productos').getRange('G2:G1000').setDataValidation(visible);
+  hoja('Productos').getRange('M2:M1000').setDataValidation(visible);
 
   // Proceso automático: vence reservas cada 10 minutos.
   const yaEsta = ScriptApp.getProjectTriggers().some((t) => t.getHandlerFunction() === 'vencerReservas');

@@ -86,7 +86,8 @@ Qué se cambia en el repo de cada cliente (regla 5: los errores se arreglan en l
 ### Otros archivos
 
 - [ ] `tienda-whatsapp/wrangler.jsonc` → `"name"`: el nombre del proyecto en Cloudflare
-- [ ] `compartido/estilos/tokens.css` → tipografía, colores y bordes del estilo elegido (regla 3)
+- [ ] `tienda-whatsapp/config/estilo.css` → fuentes, colores y formas de la marca (D-19). `compartido/estilos/tokens.css` no se toca.
+- [ ] Al compilar (`npm run build`), que no aparezca el aviso "Contraste insuficiente"
 - [ ] `tienda-whatsapp/public/` → logo, favicon y `compartir.png` del cliente; borrar `fotos-demo/`
 
 ### Planilla (pestaña `Config`)

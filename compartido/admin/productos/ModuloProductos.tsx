@@ -219,7 +219,7 @@ function Lista({ ctx }: { ctx: ContextoAdmin }) {
                     <option value={c.nombre}>{textos.tienda.todoDe(c.nombre)}</option>
                     {c.subcategorias.map((s) => (
                       <option key={s.id} value={s.id}>
-                        {c.nombre} › {s.nombre}
+                        {[c.nombre, s.grupo, s.nombre].filter(Boolean).join(' › ')}
                       </option>
                     ))}
                   </optgroup>

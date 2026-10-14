@@ -19,10 +19,11 @@ export const IconoMenu = ({ tam = 22 }: P) => (
     <path d="M4 7h16M4 12h16M4 17h16" />
   </svg>
 );
-export const IconoBolsa = ({ tam = 22 }: P) => (
+export const IconoCarrito = ({ tam = 22 }: P) => (
   <svg {...base(tam)}>
-    <path d="M6 7h12l-1 13H7z" />
-    <path d="M9 7a3 3 0 0 1 6 0" />
+    <path d="M2 3h3l2.6 11.2a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.1L21 7H6" />
+    <circle cx="9.5" cy="20" r="1.3" />
+    <circle cx="17.5" cy="20" r="1.3" />
   </svg>
 );
 export const IconoAtras = ({ tam = 22 }: P) => (
@@ -99,5 +100,10 @@ export const IconoCompartir = ({ tam = 20 }: P) => (
     <path d="M12 3v12" />
     <path d="M8 7l4-4 4 4" />
     <path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" />
+  </svg>
+);
+export const IconoDerecha = ({ tam = 18 }: P) => (
+  <svg {...base(tam)}>
+    <path d="M5 12h14M13 6l6 6-6 6" />
   </svg>
 );

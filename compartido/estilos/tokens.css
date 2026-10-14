@@ -1,6 +1,8 @@
 /*
-  TOKENS DE ESTILO — el único archivo que se toca para cambiar el diseño.
-  Estilo actual: blanco y negro (escala de grises), sin modo oscuro.
+  TOKENS DE ESTILO DE LA PLANTILLA — valores por defecto.
+  Cada cliente NO toca este archivo: pisa lo que necesite en
+  tienda-whatsapp/config/estilo.css (fuentes, colores y formas; D-19).
+  Estilo por defecto: blanco y negro (escala de grises), sin modo oscuro.
   Única excepción: los errores van en rojo.
   El color de marca de cada cliente llega desde tienda.config.ts como
   --marca / --sobre-marca; si no hay, se usa el negro.
@@ -16,36 +18,75 @@
   --texto-suave: #555555;
   --acento: var(--marca, #000000);
   --sobre-acento: var(--sobre-marca, #ffffff);
-  --aviso-fondo: #f2f2f2;
+  /* Botón principal al pasar el mouse o tocarlo: el color de marca un poco más oscuro. */
+  --acento-hover: color-mix(in srgb, var(--acento) 82%, #000000);
+  /* Color de marca usado como texto y borde (botón secundario, talle y color elegidos).
+     Si el color de marca es muy claro para leerse sobre blanco, el cliente pone acá una versión más oscura. */
+  --acento-texto: var(--acento);
+  /* Fondo muy suave de la marca: botón secundario al pasar el mouse. */
+  --acento-suave: color-mix(in srgb, var(--acento) 8%, #ffffff);
+  --icono: var(--acento-texto); /* íconos del encabezado, links y menús (contraste mínimo 3:1) */
+  --enlace: var(--acento-texto); /* texto de los links */
+  --superficie-marca: var(--acento-suave); /* fondos suaves de marca: avisos, etiquetas, círculos de íconos */
+  --contador-fondo: var(--acento); /* circulito con números (carrito, pendientes) */
+  --contador-texto: var(--sobre-acento);
+  --linea-fuerte: #8c8c8c; /* bordes de campos y opciones (contraste mínimo 3:1) */
+  --aviso-fondo: var(--superficie-marca);
   --aviso-texto: #000000;
   --ok-texto: #000000;
   --error-texto: #c00000; /* único color: errores en rojo (D-11) */
   --velo: rgb(0 0 0 / 0.5);
 
-  /* Tipografía */
-  --fuente: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /*
+    Tipografía. La escala (tamaños, pesos e interlineados) es fija para todas las
+    tiendas (D-19): cada cliente solo cambia las familias, en config/estilo.css.
+  */
+  --fuente-texto: 'Roboto Variable', Roboto, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fuente-titulos: var(--fuente-texto);
   --peso-regular: 400;
   --peso-semi: 600;
   --peso-bold: 700;
-  --texto-base: 16px;
-  --texto-chico: 14px;
-  --texto-medio: 18px;
-  --titulo-1: 26px;
-  --titulo-2: 21px;
+  --peso-titulos: var(--peso-bold);
+  --interlineado: 1.45;
+  --interlineado-titulos: 1.2;
+
+  /* Escala de textos (de más chico a más grande) */
+  --texto-mini: 12px; /* contadores, marcas sobre fotos */
+  --texto-chico: 14px; /* ayudas, etiquetas, migas */
+  --texto-base: 16px; /* texto general, links, chips, avisos */
+  --texto-medio: 18px; /* botones, campos, totales */
+  --titulo-3: 20px; /* títulos de tarjetas */
+  --titulo-2: 22px; /* secciones, precio de la ficha */
+  --titulo-1: 28px; /* título de cada pantalla */
   --numero-grande: 46px;
 
-  /* Formas y medidas */
-  --radio: 12px;
+  /* Formas: con todo en 0 queda un estilo de bordes rectos. */
+  --radio-mini: 4px;
   --radio-chico: 8px;
+  --radio-control: 12px; /* campos, talles, opciones */
+  --radio: 16px; /* tarjetas, paneles, fotos */
+  --radio-grande: 22px; /* hojas y diálogos */
   --radio-pastilla: 999px;
+  --radio-boton: var(--radio-pastilla); /* botones, buscador, chips */
+  --borde: 1px; /* grosor de líneas */
+
+  /* Medidas */
   --toque: 44px; /* área táctil mínima */
   --alto-boton: 52px;
-  --ancho-max: 1100px;
+  --ancho-max: 1360px; /* en computadora se pisa abajo: el contenido usa el 90% del ancho */
   --ancho-lectura: 640px;
   --separacion: 16px;
   --foco: 3px solid var(--texto);
   --sombra: 0 1px 2px rgb(0 0 0 / 0.12);
+  --sombra-suave: 0 1px 2px rgb(0 0 0 / 0.06), 0 6px 20px rgb(0 0 0 / 0.08);
   --proporcion-foto: 4 / 5;
 
   color-scheme: light;
+}
+
+/* En computadora, el contenido ocupa el 90% del ancho de la pantalla (D-20). */
+@media (min-width: 900px) {
+  :root {
+    --ancho-max: calc(90vw + 2 * var(--separacion));
+  }
 }

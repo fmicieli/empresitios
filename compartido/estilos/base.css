@@ -14,9 +14,9 @@ body {
   margin: 0;
 }
 body {
-  font-family: var(--fuente);
+  font-family: var(--fuente-texto);
   font-size: var(--texto-base);
-  line-height: 1.45;
+  line-height: var(--interlineado);
   -webkit-text-size-adjust: 100%;
 }
 button,
@@ -41,9 +41,10 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-weight: var(--peso-bold);
+  font-family: var(--fuente-titulos);
+  font-weight: var(--peso-titulos);
   text-wrap: balance;
-  line-height: 1.2;
+  line-height: var(--interlineado-titulos);
 }
 h1 {
   font-size: var(--titulo-1);
@@ -128,19 +129,20 @@ th {
 }
 .separador {
   border: 0;
-  border-top: 1px solid var(--linea-suave);
+  border-top: var(--borde) solid var(--linea-suave);
   margin: 4px 0;
 }
 
 /* ---------- Botones ---------- */
 .boton {
   min-height: var(--alto-boton);
-  border-radius: var(--radio);
+  border-radius: var(--radio-boton);
+  transition: background-color 0.15s ease;
   border: 0;
   background: var(--acento);
   color: var(--sobre-acento);
   font-weight: var(--peso-semi);
-  font-size: 17px;
+  font-size: var(--texto-medio);
   padding: 0 20px;
   cursor: pointer;
   display: inline-flex;
@@ -152,12 +154,19 @@ th {
 }
 .boton.secundario {
   background: var(--fondo);
-  color: var(--texto);
-  border: 1px solid var(--texto);
+  color: var(--acento-texto);
+  border: 1.5px solid var(--acento-texto);
+}
+.boton:not(.secundario):not(:disabled):hover,
+.boton:not(.secundario):not(:disabled):active {
+  background: var(--acento-hover);
+}
+.boton.secundario:not(:disabled):hover {
+  background: var(--acento-suave);
 }
 .boton.chico {
   min-height: var(--toque);
-  font-size: 15px;
+  font-size: var(--texto-base);
   padding: 0 14px;
 }
 .boton.ancho {
@@ -175,8 +184,8 @@ th {
   cursor: pointer;
   padding: 10px 0;
   min-height: var(--toque);
-  font-size: 15px;
-  color: var(--texto);
+  font-size: var(--texto-base);
+  color: var(--enlace);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -184,15 +193,15 @@ th {
 .boton-icono {
   width: var(--toque);
   height: var(--toque);
-  border-radius: 10px;
-  border: 1px solid var(--linea);
-  background: var(--fondo);
+  border-radius: var(--radio-pastilla);
+  border: 0;
+  background: transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   position: relative;
-  color: var(--texto);
+  color: var(--icono);
   text-decoration: none;
   flex-shrink: 0;
 }
@@ -202,10 +211,10 @@ th {
   right: -6px;
   min-width: 22px;
   height: 22px;
-  border-radius: 11px;
-  background: var(--acento);
-  color: var(--sobre-acento);
-  font-size: 12px;
+  border-radius: var(--radio-pastilla);
+  background: var(--contador-fondo);
+  color: var(--contador-texto);
+  font-size: var(--texto-mini);
   font-weight: var(--peso-semi);
   display: flex;
   align-items: center;
@@ -228,20 +237,20 @@ th {
 .chip {
   min-height: var(--toque);
   padding: 0 16px;
-  border-radius: var(--radio-pastilla);
-  border: 1px solid var(--linea);
-  background: var(--fondo);
+  border-radius: var(--radio-boton);
+  border: var(--borde) solid transparent;
+  background: var(--superficie);
   white-space: nowrap;
   cursor: pointer;
-  font-size: 15px;
+  font-size: var(--texto-base);
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 .chip[aria-pressed='true'] {
-  background: var(--acento);
-  color: var(--sobre-acento);
-  border-color: var(--acento);
+  background: var(--fondo);
+  color: var(--acento-texto);
+  border: 2px solid var(--acento-texto);
   font-weight: var(--peso-semi);
 }
 .chips.secundarios .chip {
@@ -255,16 +264,16 @@ th {
 }
 .talle {
   min-height: var(--alto-boton);
-  border-radius: 10px;
-  border: 1px solid var(--texto-suave);
+  border-radius: var(--radio-control);
+  border: var(--borde) solid var(--linea-fuerte);
   background: var(--fondo);
   cursor: pointer;
   font-size: var(--texto-base);
 }
 .talle[aria-pressed='true'] {
-  background: var(--acento);
-  color: var(--sobre-acento);
-  border: 2px solid var(--acento);
+  background: var(--fondo);
+  color: var(--acento-texto);
+  border: 2px solid var(--acento-texto);
   font-weight: var(--peso-semi);
 }
 .talle:disabled {
@@ -279,7 +288,7 @@ th {
   align-items: center;
   gap: 12px;
   min-height: 56px;
-  border: 1px solid var(--texto-suave);
+  border: var(--borde) solid var(--linea-fuerte);
   border-radius: var(--radio);
   padding: 10px 14px;
   cursor: pointer;
@@ -320,11 +329,11 @@ legend {
 }
 .entrada {
   min-height: var(--alto-boton);
-  border: 1px solid var(--texto-suave);
-  border-radius: 10px;
+  border: var(--borde) solid var(--linea-fuerte);
+  border-radius: var(--radio-control);
   padding: 0 14px;
   background: var(--fondo);
-  font-size: 17px;
+  font-size: var(--texto-medio);
   width: 100%;
 }
 textarea.entrada {
@@ -339,7 +348,7 @@ select.entrada {
   border: 3px solid var(--error-texto);
 }
 .error-campo {
-  font-size: 15px;
+  font-size: var(--texto-base);
   font-weight: var(--peso-semi);
   color: var(--error-texto);
   display: flex;
@@ -351,7 +360,7 @@ select.entrada {
   color: var(--texto-suave);
 }
 .ok-campo {
-  font-size: 15px;
+  font-size: var(--texto-base);
   color: var(--ok-texto);
   font-weight: var(--peso-semi);
 }
@@ -360,10 +369,10 @@ select.entrada {
   align-items: center;
   gap: 8px;
   min-height: 48px;
-  border: 1px solid var(--linea);
-  border-radius: var(--radio);
-  background: var(--superficie);
-  padding: 0 12px;
+  border: var(--borde) solid var(--linea-fuerte);
+  border-radius: var(--radio-boton);
+  background: var(--fondo);
+  padding: 0 16px;
 }
 .buscador input {
   flex: 1;
@@ -383,15 +392,15 @@ select.entrada {
 .cantidad {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--texto-suave);
-  border-radius: var(--radio);
+  border: var(--borde) solid var(--linea-fuerte);
+  border-radius: var(--radio-boton);
 }
 .cantidad button {
   width: var(--toque);
   height: 48px;
   border: 0;
   background: transparent;
-  font-size: 22px;
+  font-size: var(--titulo-2);
   cursor: pointer;
 }
 .cantidad button:disabled {
@@ -429,13 +438,13 @@ select.entrada {
 .aviso {
   background: var(--aviso-fondo);
   color: var(--aviso-texto);
-  border-radius: 10px;
+  border-radius: var(--radio-control);
   padding: 10px 12px;
-  font-size: 15px;
+  font-size: var(--texto-base);
 }
 .panel {
-  background: var(--superficie);
-  border: 1px solid var(--linea-suave);
+  background: var(--superficie-marca);
+  border: 0;
   border-radius: var(--radio);
   padding: 14px;
 }
@@ -451,10 +460,10 @@ select.entrada {
   font-weight: var(--peso-semi);
 }
 .pastilla {
-  font-size: 13px;
+  font-size: var(--texto-chico);
   padding: 3px 10px;
-  border-radius: 6px;
-  background: var(--linea-suave);
+  border-radius: var(--radio-pastilla);
+  background: var(--superficie-marca);
   font-weight: var(--peso-semi);
   white-space: nowrap;
   display: inline-flex;
@@ -470,9 +479,9 @@ select.entrada {
 .foto {
   aspect-ratio: var(--proporcion-foto);
   width: 100%;
-  border-radius: 10px;
+  border-radius: var(--radio);
   background: var(--superficie);
-  border: 1px solid var(--linea-suave);
+  border: 0;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -484,7 +493,7 @@ select.entrada {
 }
 .foto .inicial {
   margin: auto;
-  font-size: 28px;
+  font-size: var(--titulo-1);
   font-weight: var(--peso-semi);
   color: var(--texto-suave);
 }
@@ -492,11 +501,11 @@ select.entrada {
   position: absolute;
   top: 8px;
   left: 8px;
-  background: var(--fondo);
-  border: 1px solid var(--linea);
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 13px;
+  background: var(--superficie-marca);
+  border: 0;
+  padding: 3px 10px;
+  border-radius: var(--radio-pastilla);
+  font-size: var(--texto-chico);
   font-weight: var(--peso-semi);
 }
 .foto.cuadrada {
@@ -506,7 +515,7 @@ select.entrada {
 /* ---------- Esqueletos de carga ---------- */
 .esqueleto {
   background: var(--superficie);
-  border-radius: 8px;
+  border-radius: var(--radio-chico);
   animation: latido 1.4s ease-in-out infinite;
 }
 @keyframes latido {
@@ -554,24 +563,25 @@ select.entrada {
   pointer-events: none;
 }
 .toast {
-  background: var(--acento);
-  color: var(--sobre-acento);
-  border-radius: 12px;
+  background: var(--fondo);
+  color: var(--texto);
+  border: var(--borde) solid var(--acento);
+  border-radius: var(--radio);
   padding: 10px 10px 10px 16px;
   display: flex;
   gap: 12px;
   align-items: center;
   pointer-events: auto;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
+  box-shadow: var(--sombra-suave);
 }
 .toast span {
   flex: 1;
 }
 .toast button {
   background: transparent;
-  border: 1px solid var(--sobre-acento);
-  color: var(--sobre-acento);
-  border-radius: 8px;
+  border: 1.5px solid var(--texto);
+  color: var(--texto);
+  border-radius: var(--radio-boton);
   min-height: var(--toque);
   padding: 0 14px;
   font-weight: var(--peso-semi);
@@ -584,7 +594,7 @@ select.entrada {
 /* ---------- Diálogo ---------- */
 .dialogo {
   border: 0;
-  border-radius: 18px;
+  border-radius: var(--radio-grande);
   padding: 20px 16px;
   max-width: 520px;
   width: calc(100% - 32px);
@@ -604,9 +614,9 @@ select.entrada {
   white-space: pre-wrap;
   background: var(--fondo);
   border: 2px solid var(--texto);
-  border-radius: 14px 14px 4px 14px;
+  border-radius: var(--radio-grande) var(--radio-grande) var(--radio-mini) var(--radio-grande);
   padding: 12px 14px;
-  font-size: 15px;
+  font-size: var(--texto-base);
   max-width: 420px;
   align-self: flex-end;
   overflow-wrap: anywhere;
@@ -616,8 +626,8 @@ select.entrada {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--acento);
-  color: var(--sobre-acento);
+  background: var(--superficie-marca);
+  color: var(--acento-texto);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -650,13 +660,68 @@ select.entrada {
   color: var(--texto-suave);
   font-weight: var(--peso-regular);
   padding: 8px;
-  border-bottom: 1px solid var(--linea);
+  border-bottom: var(--borde) solid var(--linea);
 }
 .tabla td {
   padding: 10px 8px;
-  border-bottom: 1px solid var(--linea-suave);
+  border-bottom: var(--borde) solid var(--linea-suave);
   vertical-align: middle;
 }
 .tabla tr[aria-selected='true'] td {
   background: var(--superficie);
+}
+
+/* ---------- Pestañas (filtros del admin) ---------- */
+.filtros-pestana {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  border-bottom: var(--borde) solid var(--linea-suave);
+  scrollbar-width: none;
+}
+.pestana-filtro {
+  min-height: var(--toque);
+  padding: 0 12px;
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  margin-bottom: calc(-1 * var(--borde));
+  color: var(--texto-suave);
+  font-size: var(--texto-base);
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pestana-filtro[aria-pressed='true'] {
+  color: var(--texto);
+  font-weight: var(--peso-semi);
+  border-bottom-color: var(--acento);
+}
+.pestana-filtro .num {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: var(--radio-pastilla);
+  background: var(--superficie);
+  font-size: var(--texto-mini);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Íconos dentro de links y del buscador: toman el color de íconos (el texto sigue con su color). */
+.enlace > svg,
+.buscador > svg {
+  color: var(--icono);
+}
+
+/* Campos deshabilitados: fondo gris y texto suave, para que se note que todavía no se pueden usar. */
+.entrada:disabled {
+  background: var(--superficie);
+  color: var(--texto-suave);
+  border-color: var(--linea-suave);
+  cursor: not-allowed;
+  opacity: 1;
 }

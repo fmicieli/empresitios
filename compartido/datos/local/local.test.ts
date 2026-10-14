@@ -198,6 +198,7 @@ describe('productos y stock', () => {
       descripcion: '',
       codigo: '',
       visible: true,
+      destacado: false,
       colores: [],
       talles: [],
       fotos: ['x.svg'],

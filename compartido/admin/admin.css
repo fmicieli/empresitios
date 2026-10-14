@@ -8,7 +8,7 @@
   top: 0;
   z-index: 15;
   background: var(--fondo);
-  border-bottom: 1px solid var(--linea-suave);
+  border-bottom: var(--borde) solid var(--linea-suave);
 }
 .admin-encabezado-interior {
   display: flex;
@@ -33,7 +33,7 @@
   bottom: 0;
   z-index: 15;
   background: var(--fondo);
-  border-top: 1px solid var(--linea);
+  border-top: var(--borde) solid var(--linea);
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
@@ -63,7 +63,7 @@
   right: 25%;
   height: 3px;
   background: var(--acento);
-  border-radius: 0 0 3px 3px;
+  border-radius: 0 0 var(--radio-mini) var(--radio-mini);
 }
 .admin-nav-inferior .contador,
 .admin-nav-lateral .contador {
@@ -76,7 +76,7 @@
 .admin-escritorio {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr);
-  max-width: 1440px;
+  max-width: 90vw; /* 90% del ancho, igual que la tienda */
   margin: 0 auto;
 }
 .admin-escritorio .admin-contenido {
@@ -92,7 +92,7 @@
   top: 0;
   align-self: start;
   height: 100vh;
-  border-right: 1px solid var(--linea-suave);
+  border-right: var(--borde) solid var(--linea-suave);
   padding: 20px 12px;
   display: flex;
   flex-direction: column;
@@ -108,18 +108,14 @@
   align-items: center;
   gap: 10px;
   padding: 0 12px;
-  border-radius: 10px;
+  border-radius: var(--radio-control);
   text-decoration: none;
   color: var(--texto);
 }
 .admin-nav-lateral a[aria-current='page'] {
-  background: var(--acento);
-  color: var(--sobre-acento);
+  background: var(--superficie);
+  color: var(--texto);
   font-weight: var(--peso-semi);
-}
-.admin-nav-lateral a[aria-current='page'] .contador {
-  background: var(--sobre-acento);
-  color: var(--acento);
 }
 .admin-nav-lateral .abajo {
   margin-top: auto;
@@ -139,14 +135,14 @@
   width: 72px;
   height: 72px;
   margin: 0 auto;
-  border-radius: 16px;
+  border-radius: var(--radio-grande);
   background: var(--superficie);
-  border: 1px solid var(--linea);
+  border: var(--borde) solid var(--linea);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: var(--peso-semi);
-  font-size: 28px;
+  font-size: var(--titulo-1);
 }
 
 /* Pedidos */
@@ -159,7 +155,8 @@
   padding: 0;
 }
 .tarjeta-pedido {
-  border: 1px solid var(--linea);
+  border: 0;
+  box-shadow: var(--sombra-suave);
   border-radius: var(--radio);
   padding: 14px;
   display: flex;
@@ -168,7 +165,7 @@
   background: var(--fondo);
 }
 .tarjeta-pedido .titulo-pedido {
-  font-size: 19px;
+  font-size: var(--titulo-3);
   font-weight: var(--peso-semi);
   text-decoration: none;
   color: var(--texto);
@@ -178,9 +175,17 @@
 }
 .pedidos-escritorio {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   align-items: start;
+}
+.pedidos-escritorio.con-detalle {
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+/* Con el detalle abierto, los productos se ven en el detalle: la tabla los esconde para no cortarse. */
+.con-detalle .tabla th:nth-child(3),
+.con-detalle .tabla td:nth-child(3) {
+  display: none;
 }
 .pedidos-escritorio .chips {
   flex-wrap: wrap;
@@ -194,7 +199,7 @@
 .panel-lateral {
   position: sticky;
   top: 20px;
-  border: 1px solid var(--linea);
+  border: var(--borde) solid var(--linea);
   border-radius: var(--radio);
   padding: 16px;
   max-height: calc(100vh - 40px);
@@ -223,7 +228,7 @@
   align-items: start;
 }
 .fila-producto {
-  border: 1px solid var(--linea);
+  border: var(--borde) solid var(--linea);
   border-radius: var(--radio);
   background: var(--fondo);
 }
@@ -252,7 +257,7 @@
 .pestanas {
   display: flex;
   background: var(--linea-suave);
-  border-radius: 10px;
+  border-radius: var(--radio-control);
   padding: 3px;
   gap: 3px;
   overflow-x: auto;
@@ -260,8 +265,8 @@
 .pestanas button {
   border: 0;
   background: transparent;
-  border-radius: 8px;
-  min-height: 40px;
+  border-radius: var(--radio-chico);
+  min-height: var(--toque);
   padding: 0 14px;
   cursor: pointer;
   white-space: nowrap;
@@ -277,7 +282,7 @@
   align-items: center;
   gap: 10px;
   background: var(--superficie);
-  border-radius: 10px;
+  border-radius: var(--radio-control);
   padding: 6px 6px 6px 12px;
 }
 .linea-stock .etiqueta-stock {
@@ -287,9 +292,9 @@
   width: var(--toque);
   height: var(--toque);
   border-radius: var(--radio-chico);
-  border: 1px solid var(--texto);
+  border: var(--borde) solid var(--texto);
   background: var(--fondo);
-  font-size: 20px;
+  font-size: var(--titulo-3);
   cursor: pointer;
 }
 .paso:disabled {
@@ -329,10 +334,10 @@
 .foto-producto {
   position: relative;
   aspect-ratio: 1;
-  border-radius: 10px;
+  border-radius: var(--radio-control);
   overflow: hidden;
   background: var(--superficie);
-  border: 1px solid var(--linea);
+  border: var(--borde) solid var(--linea);
 }
 .foto-producto img {
   width: 100%;
@@ -343,11 +348,11 @@
   position: absolute;
   top: 4px;
   left: 4px;
-  font-size: 12px;
+  font-size: var(--texto-mini);
   background: var(--acento);
   color: var(--sobre-acento);
   padding: 2px 6px;
-  border-radius: 4px;
+  border-radius: var(--radio-mini);
 }
 .foto-producto .acciones-foto {
   position: absolute;
@@ -359,9 +364,9 @@
   justify-content: space-between;
 }
 .foto-producto .acciones-foto button {
-  font-size: 12px;
-  border: 1px solid var(--linea);
-  border-radius: 6px;
+  font-size: var(--texto-mini);
+  border: var(--borde) solid var(--linea);
+  border-radius: var(--radio-mini);
   min-height: 32px;
   padding: 0 6px;
   background: var(--fondo);
@@ -370,7 +375,7 @@
 .zona-fotos {
   aspect-ratio: 1;
   border: 2px dashed var(--texto-suave);
-  border-radius: 10px;
+  border-radius: var(--radio-control);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -394,17 +399,17 @@
   border-spacing: 6px;
 }
 .grilla-stock th {
-  font-size: 15px;
+  font-size: var(--texto-base);
   text-align: left;
 }
 .grilla-stock input {
   width: 68px;
   min-height: 48px;
   text-align: center;
-  border: 1px solid var(--texto-suave);
+  border: var(--borde) solid var(--texto-suave);
   border-radius: var(--radio-chico);
   background: var(--fondo);
-  font-size: 17px;
+  font-size: var(--texto-medio);
 }
 .barra-progreso {
   width: 100%;
@@ -427,4 +432,30 @@ details > summary {
 }
 .admin-nav-lateral .boton-salir {
   padding: 10px 12px;
+}
+
+/* En el panel de detalle (angosto), los dos botones van uno debajo del otro. */
+.panel-lateral .dos-botones {
+  grid-template-columns: 1fr;
+}
+
+/* Categoría del producto: selectores por nivel (D-20). Se ven todos desde el principio, deshabilitados
+   hasta elegir el anterior. En celular, uno debajo del otro; en computadora, en una fila (hasta 3; si son 4, dos y dos). */
+.selector-categoria {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 900px) {
+  .selector-categoria {
+    grid-template-columns: repeat(var(--columnas, 1), minmax(0, 1fr));
+  }
+  .selector-categoria.niveles-2 {
+    --columnas: 2;
+  }
+  .selector-categoria.niveles-3 {
+    --columnas: 3;
+  }
+  .selector-categoria.niveles-4 {
+    --columnas: 2;
+  }
 }

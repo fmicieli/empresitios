@@ -17,7 +17,7 @@
     "publicar": "npm run publicar -w tienda-whatsapp",
     "desplegar": "npm run desplegar -w tienda-whatsapp",
     "format": "prettier --write \"compartido/**/*.{ts,tsx,css}\" \"tienda-whatsapp/src/**/*.{ts,tsx,css}\" \"tienda-whatsapp/config/*.ts\"",
-    "actualizar": "git pull && npm install && npm run dev"
+    "actualizar": "git checkout -- package-lock.json && git pull && npm install && npm run dev"
   },
   "engines": {
     "node": ">=22.12.0"

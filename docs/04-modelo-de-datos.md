@@ -28,6 +28,8 @@ Nombre, WhatsApp de la tienda, horarios, dirección, redes, texto de privacidad,
 
 Fila sin subcategoría = categoría de un solo nivel. El `id` nunca cambia; se puede renombrar la categoría sin tocar los productos (D-04).
 
+**Tres niveles (D-20):** si la tienda necesita un nivel más, en `subcategoria` se escribe el camino separado por `>`. Ejemplo: categoria `Mujer`, subcategoria `Indumentaria > Remeras` → "Mujer / Indumentaria / Remeras". En el menú, "Indumentaria" aparece como título del grupo y tiene su propia página. Las tiendas de 2 niveles no cambian nada. Si una categoría tendría un solo grupo (por ejemplo, Mujer solo con "Indumentaria"), no se usa el tercer nivel: no aporta y alarga los menús.
+
 ### `Productos`
 
 | columna | tipo | notas |
@@ -43,6 +45,7 @@ Fila sin subcategoría = categoría de un solo nivel. El `id` nunca cambia; se p
 | talles | texto | lista separada por `|`, vacía si no tiene |
 | fotos | texto | ids de archivos de Drive separados por `|`, en orden (la primera es la principal) |
 | creado / actualizado | fecha | |
+| destacado | sí/no | aparece en la fila de su categoría en el inicio (D-20). Columna al final, para no mover las anteriores |
 
 ### `Stock` (una fila por variante)
 

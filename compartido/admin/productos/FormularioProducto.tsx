@@ -14,13 +14,15 @@ import {
 } from '../../componentes/basicos';
 import { IconoAtras, IconoFoto } from '../../componentes/iconos';
 import {
-  agruparCategorias,
+  caminoDeCategoria,
+  rutaCategoria,
   claveVariante,
   combinaciones,
   etiquetaVariante,
   formatoPrecio,
   linkWhatsapp,
   nombreCategoria,
+  opcionesDeNivel,
   parsePrecio,
 } from '../../datos/reglas';
 import type { FilaCategoria, Producto } from '../../datos/tipos';
@@ -47,6 +49,7 @@ interface Borrador {
   descripcion: string;
   codigo: string;
   visible: boolean;
+  destacado: boolean;
   colores: string[];
   talles: string[];
   stock: Record<string, string>;
@@ -74,6 +77,7 @@ function desdeProducto(p: Producto | null): Borrador {
       descripcion: '',
       codigo: '',
       visible: true,
+      destacado: false,
       colores: [],
       talles: [],
       stock: {},
@@ -87,6 +91,7 @@ function desdeProducto(p: Producto | null): Borrador {
     descripcion: p.descripcion,
     codigo: p.codigo,
     visible: p.visible,
+    destacado: p.destacado,
     colores: [...p.colores],
     talles: [...p.talles],
     stock: Object.fromEntries(p.variantes.map((v) => [claveVariante(v.color, v.talle), String(v.cantidad)])),
@@ -288,6 +293,69 @@ function Fotos({
   );
 }
 
+/**
+ * Categoría en pasos (D-20): primero la categoría, después la subcategoría y, si la tienda
+ * usa 3 niveles, el tercero. Cada selector muestra solo lo que corresponde al anterior.
+ */
+function SelectorCategoria({
+  filas,
+  valor,
+  error,
+  alCambiar,
+}: {
+  filas: FilaCategoria[];
+  valor: string;
+  error?: string;
+  alCambiar: (categoriaId: string) => void;
+}) {
+  const [elegidos, setElegidos] = useState<string[]>(() => caminoDeCategoria(filas, valor));
+  const titulos = [t.categoria, t.subcategoria, t.subcategoria3, t.subcategoria4];
+  // Cuántos niveles usa esta tienda (2, 3 o 4): se muestran todos los selectores desde el principio.
+  const cantidad = Math.min(4, Math.max(1, ...filas.filter((f) => f.visible).map((f) => rutaCategoria(f).length)));
+  const niveles = Array.from({ length: cantidad }, (_, n) => {
+    // Un nivel se habilita cuando el anterior está elegido y todavía no es la categoría final.
+    const habilitado =
+      n === 0 ||
+      (!!elegidos[n - 1] && !opcionesDeNivel(filas, elegidos.slice(0, n - 1)).find((o) => o.nombre === elegidos[n - 1])?.id);
+    const opciones = habilitado ? opcionesDeNivel(filas, elegidos.slice(0, n)) : [];
+    return { opciones, habilitado: habilitado && opciones.length > 0, elegido: elegidos[n] ?? '' };
+  });
+
+  function elegir(nivel: number, nombre: string) {
+    const nuevos = [...elegidos.slice(0, nivel), ...(nombre ? [nombre] : [])];
+    setElegidos(nuevos);
+    const opcion = opcionesDeNivel(filas, nuevos.slice(0, nivel)).find((o) => o.nombre === nombre);
+    alCambiar(opcion?.id ?? '');
+  }
+
+  return (
+    <fieldset class={`selector-categoria niveles-${cantidad}`}>
+      <legend class="sr">{t.categoria}</legend>
+      {niveles.map((nv, n) => (
+        <div key={n} class={`campo ${nv.habilitado ? '' : 'inactivo'}`}>
+          <label for={`pf-categoria${n ? '-' + n : ''}`}>{titulos[n]}</label>
+          <select
+            id={`pf-categoria${n ? '-' + n : ''}`}
+            class="entrada"
+            value={nv.elegido}
+            disabled={!nv.habilitado}
+            aria-invalid={!!error && nv.habilitado && !nv.elegido}
+            aria-describedby={error && nv.habilitado && !nv.elegido ? 'e-categoria' : undefined}
+            onChange={(e) => elegir(n, (e.target as HTMLSelectElement).value)}
+          >
+            <option value="">{n === 0 ? t.elegiCategoria : nv.habilitado ? t.elegiOpcion : t.elegiAntes}</option>
+            {nv.opciones.map((o) => (
+              <option key={o.nombre} value={o.nombre}>
+                {o.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
+      ))}
+    </fieldset>
+  );
+}
+
 function VistaPrevia({ ctx, b, filas }: { ctx: ContextoAdmin; b: Borrador; filas: FilaCategoria[] }) {
   const f = b.fotos[0];
   const pr = parsePrecio(b.precio);
@@ -395,6 +463,7 @@ function Editor({
         descripcion: b.descripcion.trim(),
         codigo: b.codigo.trim(),
         visible: b.visible,
+        destacado: b.destacado,
         colores: b.colores,
         talles: b.talles,
         fotos: fotos.map((f) => f.id!),
@@ -439,7 +508,6 @@ function Editor({
   const listaErrores = ORDEN.filter((c) => errores[c]).map((c) => ({ campo: ID_CAMPO[c], texto: errores[c]! }));
   const cs = b.colores.length ? b.colores : [''];
   const ts = b.talles.length ? b.talles : [''];
-  const categorias = agruparCategorias(filas);
 
   if (guardando) {
     return (
@@ -497,33 +565,13 @@ function Editor({
             <ErrorDeCampo id="e-nombre" error={errores.nombre} />
           </div>
 
-          <div class="campo">
-            <label for="pf-categoria">{t.categoria}</label>
-            <select
-              id="pf-categoria"
-              class="entrada"
-              value={b.categoriaId}
-              aria-invalid={!!errores.categoriaId}
-              aria-describedby={['a-categoria', errores.categoriaId ? 'e-categoria' : ''].join(' ').trim()}
-              onChange={(e) => cambiar({ categoriaId: (e.target as HTMLSelectElement).value })}
-            >
-              <option value="">{t.elegiCategoria}</option>
-              {categorias.map((c) =>
-                c.subcategorias.length ? (
-                  <optgroup key={c.nombre} label={c.nombre}>
-                    {c.subcategorias.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {c.nombre} › {s.nombre}
-                      </option>
-                    ))}
-                  </optgroup>
-                ) : (
-                  <option key={c.nombre} value={c.id ?? ''}>
-                    {c.nombre}
-                  </option>
-                ),
-              )}
-            </select>
+          <SelectorCategoria
+            filas={filas}
+            valor={b.categoriaId}
+            error={errores.categoriaId}
+            alCambiar={(categoriaId) => cambiar({ categoriaId })}
+          />
+          <div class="campo" style={{ marginTop: '-8px' }}>
             <ErrorDeCampo id="e-categoria" error={errores.categoriaId} />
             <span id="a-categoria" class="ayuda">
               {ctx.config.whatsappSoporte ? (
@@ -665,6 +713,20 @@ function Editor({
               class="interruptor"
               checked={b.visible}
               onChange={(e) => cambiar({ visible: (e.target as HTMLInputElement).checked })}
+            />
+          </label>
+
+          <label class="fila" style={{ flexWrap: 'nowrap', minHeight: '52px' }}>
+            <span class="pila-chica" style={{ gap: 0, flex: 1 }}>
+              <strong>{t.destacado}</strong>
+              <span class="ayuda">{t.destacadoAyuda}</span>
+            </span>
+            <input
+              type="checkbox"
+              role="switch"
+              class="interruptor"
+              checked={b.destacado}
+              onChange={(e) => cambiar({ destacado: (e.target as HTMLInputElement).checked })}
             />
           </label>
 

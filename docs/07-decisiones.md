@@ -168,9 +168,39 @@ Basadas en `08-investigacion-fase-2.md`.
 8. **Compartir un producto** (13/10): botón "Compartir" junto al precio en la ficha, y el link "¿Tenés alguna duda con este producto? Preguntá acá" manda a WhatsApp el nombre y el link del producto, así la tienda ve la tarjeta. Decidió: Flor.
 7. **La tienda conectada no se publica sin WhatsApp:** si `datos` es `appsScript` y falta el número, la compilación se frena con un aviso. Propuso: Claude.
 
-## Pendientes (al 9/10/2026)
+## D-19 · Estilo por cliente (13/10/2026)
+
+1. **Sin estilos predefinidos.** El estilo de cada tienda sale del logo y los colores de cada marca. Si hace falta, se muestran estilos de inspiración aparte, fuera del código. Decidió: Flor.
+2. **Escala de textos fija** para todas las tiendas: 12 · 14 · 16 · 18 · 20 · 22 · 28 · 46 px, pesos regular, semi y bold, e interlineados fijos. Por cliente solo cambia la **familia**: una para el texto y, si se quiere, otra para los títulos. Decidió: Flor. Al ordenar la escala, algunos tamaños sueltos se acomodaron al paso más cercano: 13→14, 15→16, 17→18, 19/20→20, 21→22, 26→28 (el título de cada pantalla queda un poco más grande).
+3. **Un archivo de estilo por cliente:** `tienda-whatsapp/config/estilo.css` pisa fuentes, colores y formas (redondeo de bordes y grosor de líneas). `compartido/estilos/tokens.css` queda con los valores por defecto y no se toca, así las mejoras de la plantilla no chocan con el diseño de cada cliente. Propuso: Claude.
+4. **Fuentes guardadas dentro del sitio** (paquetes de Fontsource), sin cargarlas de Google Fonts: más privado y más rápido en celulares de gama media. Propuso: Claude.
+5. **Control de contraste al compilar:** si un color del cliente deja un texto difícil de leer (mínimo AA: 4,5:1 para texto, 3:1 para botones), la compilación avisa qué par falla. Propuso: Claude.
+6. **El admin toma el mismo estilo que la tienda** (fuentes, colores y formas del cliente). Decidió: Flor (13/10).
+7. **Base más trabajada** (13/10, pedido de Flor, a revisar): fondo blanco y texto negro por defecto; botón principal del color de marca, con un tono más oscuro de la misma marca al pasar el mouse o tocarlo; botones con bordes redondeados (tipo pastilla); avisos que suben desde abajo en blanco, con sombra suave y borde del color de marca; filtros del admin como pestañas en lugar de píldoras. Además (propuesta de Claude): íconos del encabezado sin caja, filtros de la tienda rellenos en gris, fotos y tarjetas más redondeadas, campos con bordes más suaves (con el contraste mínimo de 3:1) y tarjetas de pedidos con sombra en lugar de borde.
+8. **Selecciones y botón secundario** (13/10, pedido de Flor): el botón secundario es blanco, con texto y borde del color de marca. El talle, el color y la categoría elegidos usan ese mismo estilo (blanco con borde de 2 px y texto de marca). En el admin de computadora, la sección elegida de la barra lateral va en gris claro. Si un color de marca es muy claro para leerse como texto, se pone una versión más oscura en `--acento-texto`; el control de contraste lo avisa.
+9. **Ajuste automático de contraste** (13/10, Flor): si el color de marca no se lee como texto sobre el fondo (4,5:1), al compilar los textos y bordes de marca pasan solos al color del texto (negro). El botón principal mantiene el color de marca.
+10. **Admin en computadora sin el cuadro vacío de la derecha** (13/10, Flor): la lista de pedidos usa todo el ancho; el detalle aparece a la derecha solo al elegir un pedido (con flecha para cerrarlo) y, mientras está abierto, la tabla esconde la columna de productos para no cortarse.
+11. **Roboto como fuente por defecto** (13/10, Flor), guardada en el sitio.
+12. **Colores de íconos, links y contadores** como tokens (`--icono`, `--enlace`, `--contador-fondo`, `--contador-texto`), con control de contraste. Por defecto: íconos y links del color de marca (en negro si la marca no se lee, ver punto 9), contadores del color de marca.
+13. **Todo se deriva del color de marca** (13/10, Flor; referencia: tienda "ShopMate" verde oliva). Del color de marca salen: botón principal (pleno) y su hover (más oscuro); botón secundario, selecciones, íconos y links (color de marca como texto); y un tono muy suave de la marca (`--superficie-marca`) para avisos, paneles, etiquetas ("Sin stock") y círculos de íconos. Las tarjetas de producto son blancas con borde finito. Con la marca negra de la demo, todo queda en blanco, negro y grises.
+14. **Encabezado y márgenes en computadora** (13/10, Flor): logo a la izquierda (en la demo, un logo de ejemplo en `public/logo.svg`), categorías principales centradas, buscador y carrito a la derecha. Ícono de carrito en lugar del de bolsa (que parecía un tacho). Contenido más ancho: hasta 1360 px.
+
+## D-20 · Inicio con banner y destacados (13/10/2026)
+
+1. **Inicio:** banner arriba y una fila por categoría principal con sus productos destacados, con desplazamiento horizontal ("Destacados de Mujer", "Destacados de Hombre"…). Decidió: Flor.
+2. **Destacados:** casilla "Destacado en el inicio" en el admin, por producto (columna `destacado` en la planilla). Si en una categoría no hay ninguno marcado, se muestran los más nuevos. Decidió: Flor.
+3. **Banner desde la configuración** (`inicio.banner` en `tienda.config.ts`): imagen, título, texto y botón. Lo cambia quien mantiene el sitio. Decidió: Flor.
+4. **Breadcrumb en lugar de filtros:** en categorías, búsqueda y ficha ("Inicio / Mujer / Remeras"), arriba del título. Decidió: Flor.
+5. **Buscador chico en el encabezado**, a la izquierda del carrito. En el celular, una lupa que abre el buscador debajo del encabezado. Decidió: Flor.
+6. **Niveles de categorías:** dependen de la clasificación de cada tienda y se definen al armarla (2 o 3 niveles, por ejemplo Mujer / Indumentaria / Remeras). Decidió: Flor. Cómo (propuso Claude): sin columnas nuevas; para un tercer nivel, la columna `subcategoria` lleva el camino con `>` ("Indumentaria > Remeras"). El menú muestra el grupo como título y el breadcrumb lo incluye con link. La demo usa 3 niveles en Mujer y 2 en Hombre, solo para mostrar que se puede. Criterio para cada tienda (Flor, 14/10): si una categoría tiene un único grupo (por ejemplo, Mujer solo tiene Indumentaria), ese nivel no se usa.
+8. **Márgenes en computadora** (14/10, Flor): el contenido ocupa el 90% del ancho de la pantalla, en la tienda y en el admin.
+9. **Categoría del producto en pasos** (14/10, Flor): en el admin, al cargar o editar un producto se elige primero la categoría, después la subcategoría y, si la tienda usa 3 niveles, el tercero ("Tipo"), en selectores separados. Cada uno muestra solo lo que corresponde al anterior. En computadora se ven todos en una fila desde el principio, deshabilitados (en gris) hasta que se elige el anterior; hasta 3 por fila y, si la tienda usa 4 niveles, dos y dos. En celular también se ven todos desde el principio, uno debajo del otro (14/10, Flor).
+7. La demo suma productos de ejemplo para que las filas tengan con qué desplazarse. Los datos de prueba guardados en el navegador se reinician una vez (versión nueva). Propuso: Claude.
+
+## Pendientes (al 13/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
-2. **Fase 4** (publicación de la demo): publicada el 13/10 en https://tienda-modelo.atlas-de5cd208129d.workers.dev, desde `main`. Falta que Flor la pruebe desde el celular (`11-publicar-demo.md`, punto 4) y dé el OK.
-3. **Prueba con Google de verdad:** al final, con la lista de pruebas (guía `09`, paso 8).
-4. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, estilos predefinidos por tokens, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`).
+2. **Fase 4** (publicación de la demo): aprobada el 13/10. Publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev desde `main`; probada por Flor desde el celular.
+3. **Estilo por cliente (D-19):** entregado, a revisar por Flor. Falta decidir si se arma un muestrario de estilos de inspiración.
+4. **Prueba con Google de verdad:** al final, con la lista de pruebas (guía `09`, paso 8).
+5. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`).
