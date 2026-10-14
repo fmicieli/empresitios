@@ -77,8 +77,8 @@ export default function CarritoPagina() {
         )}
 
         {!items.length ? (
-          <div class="carrito-vacio">
-            <span class="carrito-vacio-icono">
+          <div class="estado-vacio">
+            <span class="estado-vacio-icono">
               <IconoCarrito tam={32} />
             </span>
             <p class="suave">{t.carritoVacio}</p>

@@ -3,7 +3,7 @@
 
 import { useState } from 'preact/hooks';
 import { copiarTexto, Dialogo, ErrorCarga, Foto, mensajeDeError, mostrarToast, useCarga } from '../../componentes/basicos';
-import { IconoAtras, IconoBuscar, IconoChat, IconoPedidos } from '../../componentes/iconos';
+import { IconoAtras, IconoBuscar, IconoChat, IconoCheck, IconoPedidos } from '../../componentes/iconos';
 import {
   coincide,
   etiquetaVariante,
@@ -461,9 +461,12 @@ function Pantalla({ ruta, ctx }: { ruta: string[]; ctx: ContextoAdmin }) {
   const urlTienda = ctx.config.urlTienda || location.origin + '/';
   const vacio =
     !q && filtro === 'pendiente' ? (
-      <div class="panel pila centrado" style={{ padding: '32px 16px' }}>
+      <div class="estado-vacio">
+        <span class="estado-vacio-icono">
+          <IconoCheck tam={32} />
+        </span>
         <h2>{t.alDia}</h2>
-        <p>{t.alDiaTexto}</p>
+        <p class="suave">{t.alDiaTexto}</p>
         <button
           type="button"
           class="boton secundario chico"
