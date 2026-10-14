@@ -439,14 +439,11 @@ details > summary {
   grid-template-columns: 1fr;
 }
 
-/* Categoría del producto: selectores por nivel (D-20). En celular, uno debajo del otro y
-   solo los que se pueden usar; en computadora, todos en una fila (hasta 3; si son 4, dos y dos). */
+/* Categoría del producto: selectores por nivel (D-20). Se ven todos desde el principio, deshabilitados
+   hasta elegir el anterior. En celular, uno debajo del otro; en computadora, en una fila (hasta 3; si son 4, dos y dos). */
 .selector-categoria {
   display: grid;
   gap: 12px;
-}
-.selector-categoria .inactivo {
-  display: none;
 }
 @media (min-width: 900px) {
   .selector-categoria {
@@ -460,8 +457,5 @@ details > summary {
   }
   .selector-categoria.niveles-4 {
     --columnas: 2;
-  }
-  .selector-categoria .inactivo {
-    display: flex;
   }
 }
