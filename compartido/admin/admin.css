@@ -525,3 +525,29 @@ details > summary {
     --columnas: 2;
   }
 }
+
+/* Colores y talles cargados: con el borde normal (no como elegidos) y una X de 20 px para quitarlos,
+   que se puede tocar en 40 × 40 (14/10, Flor). */
+.chip-quitable {
+  cursor: default;
+  padding-right: 0;
+}
+.chip-quitable:hover {
+  background: var(--fondo);
+}
+.quitar-chip {
+  width: 40px;
+  align-self: stretch;
+  border: 0;
+  background: none;
+  color: var(--icono);
+  border-radius: 0 var(--radio-control) var(--radio-control) 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.quitar-chip:hover {
+  background: var(--fondo-hover);
+}

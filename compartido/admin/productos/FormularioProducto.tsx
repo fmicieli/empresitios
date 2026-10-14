@@ -141,23 +141,15 @@ function EditorLista({
       {valores.length > 0 && (
         <ul class="chips envolver" style={{ listStyle: 'none', margin: 0 }}>
           {valores.map((v, i) => (
-            <li key={v} class="chip" aria-pressed="true" style={{ cursor: 'default', paddingRight: '4px' }}>
+            <li key={v} class="chip chip-quitable">
               {v}
               <button
                 type="button"
+                class="quitar-chip"
                 aria-label={t.quitarItem(v)}
                 onClick={() => alCambiar(valores.filter((_, j) => j !== i))}
-                style={{
-                  border: 0,
-                  background: 'transparent',
-                  color: 'inherit',
-                  fontWeight: 'var(--peso-semi)',
-                  cursor: 'pointer',
-                  minWidth: '36px',
-                  minHeight: '36px',
-                }}
               >
-                ×
+                <IconoCerrar tam={20} />
               </button>
             </li>
           ))}
