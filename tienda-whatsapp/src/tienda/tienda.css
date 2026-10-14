@@ -215,11 +215,12 @@
 }
 
 /* ---------- Catálogo ---------- */
-/* Grilla de productos (Card Grid): separación 16 en el celular y 24 en computadora. */
+/* Grilla de productos (Card Grid): separación 8 en el celular (menor que el margen de 16 con la pantalla,
+   14/10, Flor) y 24 en computadora. */
 .grilla {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--espacio-400);
+  gap: var(--espacio-200);
 }
 @media (min-width: 700px) {
   .grilla {
@@ -499,7 +500,7 @@
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 46%;
-  gap: var(--espacio-400);
+  gap: var(--espacio-200);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: var(--espacio-200);
