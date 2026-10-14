@@ -15,6 +15,7 @@ import {
 import { IconoAtras, IconoFoto } from '../../componentes/iconos';
 import {
   caminoDeCategoria,
+  rutaCategoria,
   claveVariante,
   combinaciones,
   etiquetaVariante,
@@ -308,16 +309,17 @@ function SelectorCategoria({
   alCambiar: (categoriaId: string) => void;
 }) {
   const [elegidos, setElegidos] = useState<string[]>(() => caminoDeCategoria(filas, valor));
-  const titulos = [t.categoria, t.subcategoria, t.subcategoria3];
-  const niveles: { opciones: { nombre: string; id: string | null }[]; elegido: string }[] = [];
-  for (let n = 0; n < 3; n++) {
-    if (n > 0 && !elegidos[n - 1]) break;
-    const opciones = opcionesDeNivel(filas, elegidos.slice(0, n));
-    if (!opciones.length) break;
-    niveles.push({ opciones, elegido: elegidos[n] ?? '' });
-    const actual = opciones.find((o) => o.nombre === elegidos[n]);
-    if (!actual || actual.id) break; // Sin elegir, o ya es la categoría final.
-  }
+  const titulos = [t.categoria, t.subcategoria, t.subcategoria3, t.subcategoria4];
+  // Cuántos niveles usa esta tienda (2, 3 o 4): se muestran todos los selectores desde el principio.
+  const cantidad = Math.min(4, Math.max(1, ...filas.filter((f) => f.visible).map((f) => rutaCategoria(f).length)));
+  const niveles = Array.from({ length: cantidad }, (_, n) => {
+    // Un nivel se habilita cuando el anterior está elegido y todavía no es la categoría final.
+    const habilitado =
+      n === 0 ||
+      (!!elegidos[n - 1] && !opcionesDeNivel(filas, elegidos.slice(0, n - 1)).find((o) => o.nombre === elegidos[n - 1])?.id);
+    const opciones = habilitado ? opcionesDeNivel(filas, elegidos.slice(0, n)) : [];
+    return { opciones, habilitado: habilitado && opciones.length > 0, elegido: elegidos[n] ?? '' };
+  });
 
   function elegir(nivel: number, nombre: string) {
     const nuevos = [...elegidos.slice(0, nivel), ...(nombre ? [nombre] : [])];
@@ -327,20 +329,21 @@ function SelectorCategoria({
   }
 
   return (
-    <fieldset class="pila-chica">
+    <fieldset class={`selector-categoria niveles-${cantidad}`}>
       <legend class="sr">{t.categoria}</legend>
       {niveles.map((nv, n) => (
-        <div key={n} class="campo">
+        <div key={n} class={`campo ${nv.habilitado ? '' : 'inactivo'}`}>
           <label for={`pf-categoria${n ? '-' + n : ''}`}>{titulos[n]}</label>
           <select
             id={`pf-categoria${n ? '-' + n : ''}`}
             class="entrada"
             value={nv.elegido}
-            aria-invalid={!!error && !nv.elegido}
-            aria-describedby={error && !nv.elegido ? 'e-categoria' : undefined}
+            disabled={!nv.habilitado}
+            aria-invalid={!!error && nv.habilitado && !nv.elegido}
+            aria-describedby={error && nv.habilitado && !nv.elegido ? 'e-categoria' : undefined}
             onChange={(e) => elegir(n, (e.target as HTMLSelectElement).value)}
           >
-            <option value="">{n === 0 ? t.elegiCategoria : t.elegiOpcion}</option>
+            <option value="">{n === 0 ? t.elegiCategoria : nv.habilitado ? t.elegiOpcion : t.elegiAntes}</option>
             {nv.opciones.map((o) => (
               <option key={o.nombre} value={o.nombre}>
                 {o.nombre}

@@ -716,3 +716,12 @@ select.entrada {
 .buscador > svg {
   color: var(--icono);
 }
+
+/* Campos deshabilitados: fondo gris y texto suave, para que se note que todavía no se pueden usar. */
+.entrada:disabled {
+  background: var(--superficie);
+  color: var(--texto-suave);
+  border-color: var(--linea-suave);
+  cursor: not-allowed;
+  opacity: 1;
+}
