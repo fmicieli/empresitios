@@ -922,3 +922,8 @@ select.entrada {
   align-items: center;
   justify-content: center;
 }
+/* Variante de éxito: tilde verde sobre un círculo del mismo verde al 10% (14/10, Flor). */
+.estado-vacio-icono.exito {
+  color: var(--ok-icono);
+  background: color-mix(in srgb, var(--ok-icono) 10%, transparent);
+}

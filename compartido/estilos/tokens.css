@@ -46,6 +46,7 @@
   --verde-100: #ebffee;
   --verde-200: #cff7d3;
   --verde-500: #14ae5c;
+  --verde-700: #008043;
   --verde-800: #02542d;
 
   /* ---------- 2. Semánticos ---------- */
@@ -115,6 +116,7 @@
   --ok-texto: var(--verde-800); /* Text/Positive/Default */
   --ok-fondo: var(--verde-100); /* Background/Positive/Tertiary */
   --ok-borde: var(--verde-500);
+  --ok-icono: var(--verde-700); /* Positive: tilde de "Estás al día" (4,4:1 sobre su círculo; mínimo para íconos 3:1) */
   --alerta-fondo: var(--amarillo-100); /* Background/Warning/Tertiary */
   --alerta-texto: var(--amarillo-900);
   --aviso-fondo: var(--superficie-marca);

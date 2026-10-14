@@ -462,7 +462,7 @@ function Pantalla({ ruta, ctx }: { ruta: string[]; ctx: ContextoAdmin }) {
   const vacio =
     !q && filtro === 'pendiente' ? (
       <div class="estado-vacio">
-        <span class="estado-vacio-icono">
+        <span class="estado-vacio-icono exito">
           <IconoCheck tam={32} />
         </span>
         <h2>{t.alDia}</h2>
