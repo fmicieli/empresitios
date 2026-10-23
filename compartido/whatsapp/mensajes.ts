@@ -1,17 +1,22 @@
 // Armado de mensajes de WhatsApp (docs/06-textos.md).
 
-import { etiquetaVariante, formatoPrecio } from '../datos/reglas';
+import { etiquetaVariante, formatoPrecio, linkProducto } from '../datos/reglas';
 import type { Pedido } from '../datos/tipos';
 import { textos } from '../textos/textos';
 
 const nombrePago = { transferencia: 'transferencia', efectivo: 'efectivo' } as const;
 
-/** Mensaje del comprador a la tienda con el pedido completo. */
-export function mensajePedido(p: Pedido): string {
+/** Mensaje del comprador a la tienda con el pedido completo.
+ *  Abajo de cada producto van su código (si tiene) y el link a su ficha, para que el comercio
+ *  sepa cuál es sin buscarlo en sus carpetas (D-25). */
+export function mensajePedido(p: Pedido, urlTienda: string): string {
   const t = textos.mensajePedido;
-  const lineas = p.items.map((i) => {
+  const lineas = p.items.flatMap((i) => {
     const partes = [i.nombreProducto, i.color, i.talle ? `Talle ${i.talle}` : ''].filter(Boolean).join(' · ');
-    return `• ${partes} × ${i.cantidad} · ${formatoPrecio(i.precioUnitario * i.cantidad)}`;
+    return [
+      `• ${partes} × ${i.cantidad} · ${formatoPrecio(i.precioUnitario * i.cantidad)}`,
+      t.verProducto(linkProducto(urlTienda, i.productoId), i.codigo),
+    ];
   });
   const c = p.comprador;
   const salida = [

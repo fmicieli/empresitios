@@ -138,6 +138,7 @@ export const textos = {
   mensajePedido: {
     saludo: 'Hola, quiero hacer este pedido:',
     pedido: (n: number) => `Pedido #${n}`,
+    verProducto: (link: string, codigo: string) => `  ${codigo ? `Código ${codigo} · ` : ''}Ver foto: ${link}`,
     subtotal: (total: string) => `Subtotal: ${total} (envío a cotizar)`,
     nombre: (n: string) => `Nombre: ${n}`,
     envio: (direccion: string, localidad: string) => `Entrega: envío a ${direccion}, ${localidad}`,

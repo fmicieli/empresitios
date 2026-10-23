@@ -136,7 +136,7 @@ export function FormularioComprador({
       }
 
       // 3. Mensaje de WhatsApp en la pestaña nueva.
-      const mensaje = mensajePedido(r.pedido);
+      const mensaje = mensajePedido(r.pedido, config.url || location.origin);
       const link = linkWhatsapp(whatsappTienda(), mensaje);
       if (pestana && !pestana.closed) pestana.location.href = link;
       borradorComprador.borrar();
