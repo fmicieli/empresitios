@@ -14,11 +14,14 @@
 - Sin borde, foto a todo el ancho, precio primero (20 px) y nombre en gris. Se probó un botón en la tarjeta y se sacó.
 - Pull request: https://github.com/fmicieli/empresitios/pull/7
 
-### Ejemplo con marca: Chacha (D-23, en curso)
+### Ejemplo con marca: Chacha (D-23, publicado el 23/10)
 
-- Repo propio y privado, copia de la plantilla: https://github.com/fmicieli/chacha-tienda (rama de trabajo `claude/quirky-cray-06mnp8`).
+- **Tienda publicada:** https://chacha-tienda.atlas-de5cd208129d.workers.dev (modo de prueba: lo que se cambia en el admin queda solo en ese navegador).
+- **Repo (privado):** https://github.com/fmicieli/chacha-tienda — pull request #1 unido. Worker propio en Cloudflare (`chacha-tienda`), publica `main`.
+- 31 productos (Accesorios y Home), 93 fotos, banner propio de Flor.
+- Falta: logo, Instagram, decidir el botón del banner (hoy "Ver accesorios") y si las piezas únicas dicen "Pieza única" en vez de "Queda 1" (cambio de plantilla).
+- Siguiente paso propuesto: conectarla a Google (guía 09) para manejar los productos de verdad desde el admin: es la "prueba con Google" pendiente.
 - Cómo se crean los repos de clientes y cómo se les traen las mejoras: https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/12-repos-de-clientes.md
-- Falta: el material de Chacha (logo, colores, tipografía, productos con fotos, Instagram, banner) y su propio Worker en Cloudflare.
 
 ### Diseño D-19 y D-20 (unido a main el 14/10, publicado en la demo)
 
@@ -75,7 +78,7 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 3. Fases 1, 2 y 3: aprobadas (D-15, D-16 y D-17).
 4. Fase 4 aprobada: la demo está publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev. Cloudflare publica solo la rama main: cada cambio llega por pull request y yo lo uno.
 5. El diseño D-19/D-20 está unido a main y publicado (PR #5). El sistema de diseño de base (D-21, Simple Design System con Nunito Sans) y las fotos del admin (D-22) están unidos a main y publicados (PR #6). Las tarjetas de producto (D-21, 12 f a 12 h) también están publicadas (PR #7). Preguntame si lo revisé en la demo publicada. Quedan abiertas tres preguntas mías: (a) en la lista de productos del admin, ¿mostrar el stock por combinación o el total más cuántas combinaciones están agotadas?; (b) si sigo viendo el stock sumado al cargar un producto nuevo (te mando captura); (c) en qué formato quiero el muestrario de estilos de inspiración (página, documento o Figma).
-6. Ejemplo con marca (D-23): Chacha, mi emprendimiento, en el repo privado fmicieli/chacha-tienda (agregalo a la sesión). Pedime el material (logo, colores, tipografía, productos con fotos, Instagram, banner) si todavía no te lo pasé. Los arreglos se hacen en empresitios y se traen a Chacha (docs/12-repos-de-clientes.md).
+6. Ejemplo con marca (D-23): Chacha, mi emprendimiento, publicada en https://chacha-tienda.atlas-de5cd208129d.workers.dev (repo privado fmicieli/chacha-tienda: agregalo a la sesión). Falta el logo y el Instagram; preguntame si quiero conectarla a Google. Los arreglos se hacen en empresitios y se traen a Chacha (docs/12-repos-de-clientes.md).
 7. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
 8. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```
