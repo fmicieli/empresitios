@@ -40,7 +40,7 @@
   line-height: var(--interlineado-titulos);
 }
 .logo img {
-  max-height: 40px;
+  max-height: var(--alto-logo);
   width: auto;
 }
 .menu-escritorio,

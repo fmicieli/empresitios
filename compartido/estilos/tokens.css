@@ -198,6 +198,7 @@
   --separacion: var(--espacio-400); /* margen de los costados y separación general */
   --foco: 2px solid var(--texto); /* Stroke/Focus Ring */
   --proporcion-foto: 4 / 5;
+  --alto-logo: 40px; /* alto máximo del logo en el encabezado; un logo con letra fina o con detalles puede necesitar más */
 
   color-scheme: light;
 }

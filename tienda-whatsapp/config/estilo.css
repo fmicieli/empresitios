@@ -59,5 +59,8 @@
 
   Proporción de las fotos de producto (ancho / alto), según cómo saca las fotos el comercio:
   --proporcion-foto: 2 / 3;   (verticales tipo celular; por defecto 4 / 5, como Instagram; cuadradas: 1)
+
+  Alto del logo en el encabezado (por defecto 40 px). Subilo si el logo tiene letra fina o detalles chicos:
+  --alto-logo: 56px;
   */
 }
