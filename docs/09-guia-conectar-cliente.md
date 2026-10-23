@@ -62,6 +62,8 @@ Los secretos **nunca** van en GitHub, ni en el archivo de configuración, ni por
 
 > Por qué "cualquier persona": el puente de Cloudflare no tiene cuenta de Google. Igual, sin la clave secreta, el código no responde nada.
 
+**Fotos en Drive:** se guardan en la carpeta "Tienda · fotos (no borrar)", ordenadas solas por categoría, subcategoría y producto (por ejemplo `Accesorios / Abanicos / AB-05 · Abanico Koi / AB-05-1.jpg`). Las que se quitan de un producto, o las de productos eliminados, van a "Fotos sin usar": no se borra nada. Si renombrás una categoría en la planilla, ejecutá `ordenarTodasLasFotos` desde el editor (elegila en el menú de funciones y tocá **Ejecutar**). Se pueden mirar y descargar, pero no las borres ni las muevas fuera de esa carpeta: la tienda dejaría de mostrarlas.
+
 **Si después cambiás el código** (por ejemplo, porque arreglamos algo en la plantilla): pegá el código nuevo y andá a **Implementar → Administrar implementaciones → lápiz → Versión: nueva versión → Implementar**. Así se mantiene la misma URL.
 
 ## Paso 3 · Botón "Iniciar sesión con Google" (ID de cliente)

@@ -697,12 +697,14 @@ function guardarProducto(d) {
   const precio = Number(d.precio);
   if (!(precio >= 0) || Math.floor(precio) !== precio) throw ErrorTienda('servidor', 'Precio inválido.');
   if (!d.fotos || !d.fotos.length) throw ErrorTienda('servidor', 'Falta al menos una foto.');
-  return conCandado(() => {
+  let anteriores = [];
+  const guardado = conCandado(() => {
     if (!leer('Categorias').some((c) => String(c.id) === d.categoriaId)) throw ErrorTienda('servidor', 'La categoría no existe.');
     const ahora = new Date();
     const productos = leer('Productos');
     let prod = d.id ? productos.find((p) => p.id === d.id) : null;
     if (d.id && !prod) throw ErrorTienda('noEncontrado', 'El producto ya no existe.');
+    if (prod) anteriores = lista(prod.fotos);
     const campos = {
       nombre: recortar(d.nombre, 120),
       categoriaId: d.categoriaId,
@@ -736,17 +738,24 @@ function guardarProducto(d) {
     registrar('producto guardado', campos.nombre);
     return armarProductos(true).find((p) => p.id === id);
   });
+  // Fuera del candado: mover fotos en Drive tarda y no debe frenar los pedidos.
+  const fotos = guardado.fotos || [];
+  ordenarFotosEnDrive(guardado, fotos, anteriores.filter((f) => fotos.indexOf(f) < 0));
+  return guardado;
 }
 
 function eliminarProducto(id) {
-  return conCandado(() => {
+  let fotos = [];
+  conCandado(() => {
     const prod = leer('Productos').find((p) => p.id === id);
-    if (!prod) return true;
+    if (!prod) return;
+    fotos = lista(prod.fotos);
     borrarFilas('Stock', leer('Stock').filter((s) => s.productoId === id));
     borrarFilas('Productos', [prod]);
     registrar('producto eliminado', String(prod.nombre));
-    return true;
   });
+  ordenarFotosEnDrive(null, [], fotos);
+  return true;
 }
 
 // ---------------------------------------------------------------------------
@@ -779,22 +788,131 @@ function subirFoto(base64, tipo) {
   return archivo.getId();
 }
 
-/** Solo devuelve archivos que están en la carpeta de fotos de la tienda. */
+/** Solo devuelve archivos que están dentro de la carpeta de fotos de la tienda (en cualquier subcarpeta). */
 function leerFoto(id) {
-  if (!/^[\w-]{10,}$/.test(String(id || ''))) throw ErrorTienda('noEncontrado', 'Foto inexistente.');
+  const archivo = archivoDeLaTienda(id);
+  if (!archivo) throw ErrorTienda('noEncontrado', 'Foto inexistente.');
+  const blob = archivo.getBlob();
+  return { tipo: blob.getContentType(), base64: Utilities.base64Encode(blob.getBytes()) };
+}
+
+/** El archivo, si existe y está dentro de la carpeta de fotos (subiendo hasta 6 niveles); si no, null.
+ *  Así nadie puede pedir ni mover otros archivos del Drive del comercio. */
+function archivoDeLaTienda(id) {
+  if (!/^[\w-]{10,}$/.test(String(id || ''))) return null;
   let archivo;
   try {
     archivo = DriveApp.getFileById(id);
   } catch (e) {
-    throw ErrorTienda('noEncontrado', 'Foto inexistente.');
+    return null;
   }
-  const carpetaId = leerConfig().carpetaFotosId;
-  const padres = archivo.getParents();
-  let enCarpeta = false;
-  while (padres.hasNext()) if (padres.next().getId() === carpetaId) enCarpeta = true;
-  if (!enCarpeta) throw ErrorTienda('noEncontrado', 'Foto inexistente.');
-  const blob = archivo.getBlob();
-  return { tipo: blob.getContentType(), base64: Utilities.base64Encode(blob.getBytes()) };
+  if (archivo.isTrashed()) return null;
+  const raiz = leerConfig().carpetaFotosId;
+  let actual = primerPadre(archivo);
+  for (let nivel = 0; actual && nivel < 6; nivel++) {
+    if (actual.getId() === raiz) return archivo;
+    actual = primerPadre(actual);
+  }
+  return null;
+}
+
+function primerPadre(item) {
+  const padres = item.getParents();
+  return padres.hasNext() ? padres.next() : null;
+}
+
+// Orden de las fotos en Drive (D-26), para que el comercio las encuentre a mano:
+//   Tienda · fotos (no borrar) / Accesorios / Abanicos / AB-05 · Abanico Koi / AB-05-1.jpg
+// La tienda pide las fotos por su id, que no cambia al mover o renombrar: mover nunca rompe una foto.
+// Las fotos quitadas o de productos eliminados van a "Fotos sin usar" (no se borra nada).
+
+const CARPETA_SIN_USAR = 'Fotos sin usar';
+
+/** Nombre seguro para Drive: sin barras, sin espacios de más, hasta 100 letras. */
+function nombreDrive(s) {
+  return String(s || '').replace(/[\\/]/g, '-').replace(/\s+/g, ' ').trim().slice(0, 100);
+}
+
+function subcarpeta(padre, nombre) {
+  const iguales = padre.getFoldersByName(nombre);
+  while (iguales.hasNext()) {
+    const c = iguales.next();
+    if (!c.isTrashed()) return c;
+  }
+  return padre.createFolder(nombre);
+}
+
+function carpetaDeProducto(prod) {
+  const cat = categorias().find((c) => c.id === String(prod.categoriaId));
+  const pasos = [cat ? cat.categoria : 'Sin categoría', cat ? cat.subcategoria : '', [prod.codigo, prod.nombre].filter(Boolean).join(' · ')];
+  return pasos.map(nombreDrive).filter(Boolean).reduce(subcarpeta, carpetaFotos());
+}
+
+function algoFueraDeLaPapelera(iterador) {
+  while (iterador.hasNext()) if (!iterador.next().isTrashed()) return true;
+  return false;
+}
+
+/** Si una carpeta de producto o de categoría quedó vacía, va a la papelera (se recupera desde ahí 30 días). */
+function limpiarVacias(carpeta) {
+  const raiz = leerConfig().carpetaFotosId;
+  for (let nivel = 0; carpeta && nivel < 4; nivel++) {
+    if (carpeta.getId() === raiz || carpeta.getName() === CARPETA_SIN_USAR) return;
+    if (algoFueraDeLaPapelera(carpeta.getFiles()) || algoFueraDeLaPapelera(carpeta.getFolders())) return;
+    const padre = primerPadre(carpeta);
+    carpeta.setTrashed(true);
+    carpeta = padre;
+  }
+}
+
+/**
+ * Pone las fotos del producto en su carpeta, con nombres en orden (AB-05-1, AB-05-2…; sin código, el nombre),
+ * y manda las `quitadas` a "Fotos sin usar". Si Drive falla, el producto ya quedó guardado y sus fotos
+ * se siguen viendo: solo quedan sin ordenar hasta la próxima vez que se guarde.
+ */
+function ordenarFotosEnDrive(prod, fotos, quitadas) {
+  try {
+    const viejas = [];
+    const mover = (archivo, destino) => {
+      const padre = primerPadre(archivo);
+      if (padre && padre.getId() === destino.getId()) return;
+      archivo.moveTo(destino);
+      if (padre) viejas.push(padre);
+    };
+    if (prod && fotos.length) {
+      let destino = null; // se crea recién cuando hay una foto para guardar: nunca quedan carpetas vacías
+      const base = nombreDrive(prod.codigo || prod.nombre);
+      fotos.forEach((id, i) => {
+        const archivo = archivoDeLaTienda(id);
+        if (!archivo) return;
+        destino = destino || carpetaDeProducto(prod);
+        mover(archivo, destino);
+        const extension = (archivo.getName().match(/\.\w+$/) || [''])[0];
+        const nombre = base + '-' + (i + 1) + extension;
+        if (archivo.getName() !== nombre) archivo.setName(nombre);
+      });
+    }
+    if (quitadas.length) {
+      const sinUsar = subcarpeta(carpetaFotos(), CARPETA_SIN_USAR);
+      quitadas.forEach((id) => {
+        const archivo = archivoDeLaTienda(id);
+        if (archivo) mover(archivo, sinUsar);
+      });
+    }
+    viejas.forEach(limpiarVacias);
+  } catch (e) {
+    console.warn('No se pudieron ordenar las fotos en Drive: ' + e.message);
+  }
+}
+
+/**
+ * Se ejecuta a mano desde el editor: ordena las fotos de todos los productos.
+ * Sirve al conectar una tienda que ya tenía fotos y después de cambiarle el nombre a una categoría.
+ */
+function ordenarTodasLasFotos() {
+  const productos = leer('Productos');
+  productos.forEach((p) => ordenarFotosEnDrive(p, lista(p.fotos), []));
+  console.log('Listo: fotos de ' + productos.length + ' productos ordenadas.');
 }
 
 // ---------------------------------------------------------------------------

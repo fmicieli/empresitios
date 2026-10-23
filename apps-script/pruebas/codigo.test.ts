@@ -215,3 +215,70 @@ describe('productos y fotos', () => {
     expect(llamar('admin.subirFoto', { base64, tipo: 'application/pdf' }, DUENA)).toMatchObject({ ok: false });
   });
 });
+
+describe('fotos ordenadas en Drive (D-26)', () => {
+  const subir = (texto: string) => admin('subirFoto', { base64: Buffer.from(texto).toString('base64'), tipo: 'image/jpeg' });
+  const producto = (fotos: string[], extra: Record<string, unknown> = {}) => ({
+    id: null,
+    nombre: 'Abanico Koi',
+    categoriaId: 'c1',
+    precio: 25000,
+    descripcion: '',
+    codigo: 'AB-05',
+    visible: true,
+    colores: [],
+    talles: [],
+    fotos,
+    stock: [{ color: '', talle: '', cantidad: 1 }],
+    ...extra,
+  });
+  const papelera = (nombre: string) => [...g.carpetas.values()].find((c) => c.nombre === nombre)?.papelera;
+
+  it('van a categoría / subcategoría / producto, con nombres en orden', () => {
+    const [a, b] = [subir('uno'), subir('dos')];
+    admin('guardarProducto', { producto: producto([a, b]) });
+    expect(g.ruta(a)).toBe('Mujer/Remeras/AB-05 · Abanico Koi/AB-05-1.jpg');
+    expect(g.ruta(b)).toBe('Mujer/Remeras/AB-05 · Abanico Koi/AB-05-2.jpg');
+    // Moverlas no rompe nada: la tienda las pide por id.
+    expect(llamar('foto', { id: a }).resultado.base64).toBe(Buffer.from('uno').toString('base64'));
+  });
+
+  it('sin subcategoría ni código, usa la categoría y el nombre', () => {
+    const a = subir('uno');
+    admin('guardarProducto', { producto: producto([a], { codigo: '', categoriaId: 'c2', nombre: 'Pañuelo / seda' }) });
+    expect(g.ruta(a)).toBe('Accesorios/Pañuelo - seda/Pañuelo - seda-1.jpg');
+  });
+
+  it('al reordenar, cambiar de categoría o quitar fotos, se acomodan solas', () => {
+    const [a, b, c] = [subir('uno'), subir('dos'), subir('tres')];
+    const p = admin('guardarProducto', { producto: producto([a, b, c]) });
+    admin('guardarProducto', { producto: { ...producto([c, a]), id: p.id, categoriaId: 'c2' } });
+    expect(g.ruta(c)).toBe('Accesorios/AB-05 · Abanico Koi/AB-05-1.jpg');
+    expect(g.ruta(a)).toBe('Accesorios/AB-05 · Abanico Koi/AB-05-2.jpg');
+    expect(g.ruta(b)).toMatch(/^Fotos sin usar\//);
+    expect(papelera('Remeras')).toBe(true); // quedó vacía
+    expect(llamar('foto', { id: b }).ok).toBe(true); // nada se borra
+  });
+
+  it('al eliminar el producto, sus fotos van a "Fotos sin usar"', () => {
+    const a = subir('uno');
+    const p = admin('guardarProducto', { producto: producto([a]) });
+    admin('eliminarProducto', { id: p.id });
+    expect(g.ruta(a)).toMatch(/^Fotos sin usar\//);
+    expect(papelera('AB-05 · Abanico Koi')).toBe(true);
+  });
+
+  it('nunca mueve archivos de fuera de la carpeta de la tienda', () => {
+    g.archivos.set('archivoAjeno12345', { bytes: [1], tipo: 'image/png', carpeta: 'otra', nombre: 'privado.png' });
+    admin('guardarProducto', { producto: producto(['archivoAjeno12345']) });
+    expect(g.archivos.get('archivoAjeno12345')).toMatchObject({ carpeta: 'otra', nombre: 'privado.png' });
+  });
+
+  it('ordenarTodasLasFotos acomoda las de todos los productos', () => {
+    const a = subir('uno');
+    admin('guardarProducto', { producto: producto([a]) });
+    g.hojas.get('Categorias')!.datos[1][2] = 'Ropa'; // se renombró la categoría en la planilla
+    g.ejecutar('ordenarTodasLasFotos');
+    expect(g.ruta(a)).toBe('Ropa/Remeras/AB-05 · Abanico Koi/AB-05-1.jpg');
+  });
+});

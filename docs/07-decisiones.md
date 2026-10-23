@@ -262,6 +262,21 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 3. **Límite de WhatsApp** (avisado por Claude; es lo que se ve en la práctica, WhatsApp no lo documenta): por un link de texto no se pueden mandar imágenes adjuntas. La foto aparece como vista previa del link, y en general WhatsApp la muestra solo para el primer link del mensaje. Los demás productos se ven tocando su link. La ficha abre aunque el producto ya no tenga stock libre (por la reserva del mismo pedido).
 4. Mientras se prueba en la computadora, los links apuntan a `localhost` y solo abren en esa computadora. En la tienda publicada usan la dirección real (`url` de la configuración, o la del sitio si está vacía).
 
+## D-26 · Fotos ordenadas en carpetas de Drive (23/10/2026)
+
+1. **Las fotos se ordenan solas por categoría y producto** (23/10, Flor): al guardar un producto en el admin, sus fotos van a `Tienda · fotos (no borrar) / Categoría / Subcategoría / Código · Nombre /`, con nombres en orden (`AB-05-1.jpg`, `AB-05-2.jpg`; sin código, el nombre del producto). Así el comercio las encuentra a mano si las necesita.
+2. **Cómo** (propuso Claude):
+   - Si se cambia el orden, el nombre o la categoría, se acomodan al guardar.
+   - Las fotos quitadas, o las de un producto eliminado, van a "Fotos sin usar": nunca se borra un archivo.
+   - Las carpetas que quedan vacías van a la papelera de Drive, desde donde se recuperan durante 30 días.
+   - Si se renombra una categoría en la planilla, se ejecuta `ordenarTodasLasFotos()` desde el editor.
+3. **Nada se rompe al mover:** la tienda pide cada foto por su id de Drive, que no cambia al mover o renombrar el archivo. Si Drive falla al ordenar, el producto igual queda guardado y sus fotos se ven: solo quedan sin ordenar hasta la próxima vez.
+4. **Seguridad:** solo se mueven y se muestran archivos que ya están dentro de la carpeta de la tienda. Así nadie puede usar el admin para sacar a la luz otros archivos del Drive del comercio. No pide permisos nuevos de Google.
+5. **Riesgos y límites** (avisados por Claude):
+   - Guardar un producto tarda un poco más, porque ordenar las fotos suma varias consultas a Drive. Hay que medirlo en la prueba con Google de verdad.
+   - Si el comercio mueve o borra fotos a mano fuera de esa carpeta, la tienda deja de mostrarlas.
+   - Las fotos que se suben y nunca se guardan (por ejemplo, si se cancela el producto) quedan sueltas en la carpeta principal.
+
 ## Pendientes (al 14/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
