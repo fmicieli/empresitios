@@ -244,6 +244,17 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 5. **Fotos y datos en dos mitades iguales** en computadora (14/10, Flor): antes las fotos tenían 360 px fijos y los campos quedaban demasiado anchos. Las fotos se ven más grandes (150 px o más cada una).
 6. **Colores y talles cargados en el admin** (14/10, Flor): con el borde gris normal (no como opción elegida) y una X de 18 px, a la misma distancia del borde derecho que el texto del izquierdo (12 px).
 
+## D-23 · Ejemplo con marca: Chacha (14/10/2026)
+
+1. **El ejemplo con estilos aplicados es Chacha, el emprendimiento de Flor** (marca, logo y fotos propias: sin riesgo legal). Decidió: Flor.
+2. **Repo propio, privado: `fmicieli/chacha-tienda`**, copia de la plantilla y enganchado a ella para traer las mejoras. Los arreglos se hacen siempre en `empresitios` y se pasan a Chacha (regla 5). Decidió: Flor. Cómo: `docs/12-repos-de-clientes.md`.
+
+## D-24 · Productos sin stock y carrito en una columna (23/10/2026)
+
+1. **Los productos sin stock no se pueden abrir** (23/10, Flor; reemplaza "se puede abrir, no comprar" de `02-tienda.md`). Si no queda stock en ninguna variante, la tarjeta se ve atenuada, con la etiqueta "Sin stock", y no es un link. Los lectores de pantalla la leen como texto, con "Sin stock" después del precio. Si alguien llega a la ficha por un link viejo, la ficha sigue mostrando que no hay stock.
+2. **Carrito y formulario en una sola columna** (23/10, Flor; ajusta D-14): también en computadora, primero el carrito y abajo "Tus datos", con el mismo ancho de lectura (640 px). Antes iban lado a lado en pantallas de 900 px o más.
+3. **Alto del logo por cliente** (23/10, propuso Claude con el logo de Chacha): el token `--alto-logo` (40 px por defecto) se puede pisar en `estilo.css`. Un logo en letra cursiva fina no se lee a 40 px.
+
 ## Pendientes (al 14/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

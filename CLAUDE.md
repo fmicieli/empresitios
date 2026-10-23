@@ -67,6 +67,7 @@ Plantillas futuras (no construir ahora): tienda con pago online, reservas con pa
 - `docs/09-guia-conectar-cliente.md` — paso a paso para conectar la tienda de un cliente con Google y Cloudflare.
 - `docs/10-preguntas-al-cliente.md` — cuestionario para la primera reunión con un comercio (reglas de pedidos, admin, datos, catálogo).
 - `docs/11-publicar-demo.md` — cómo publicar la demo en Cloudflare y checklist de lo que se cambia por cliente.
+- `docs/12-repos-de-clientes.md` — cómo crear el repo de un cliente y traerle las mejoras de la plantilla.
 - `docs/RETOMAR.md` — links para revisar lo hecho y prompt para continuar.
 - `docs/07-decisiones.md` — registro de decisiones posteriores a la especificación (manda sobre los demás).
 - `docs/referencia/prototipo-tienda.html` — prototipo navegable de un solo archivo con el comportamiento esperado (referencia de flujos y textos, no base de código).

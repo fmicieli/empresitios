@@ -101,7 +101,7 @@ export const textos = {
     envio: 'Envío a domicilio',
     envioAyuda: 'El costo te lo pasan por WhatsApp',
     retiro: 'Retiro en el local',
-    retiroAyuda: (direccion: string) => `${direccion} · sin costo`,
+    retiroAyuda: (direccion: string) => (direccion ? `${direccion} · sin costo` : 'Sin costo. Coordinás el lugar por WhatsApp.'),
     direccion: 'Dirección de entrega',
     direccionEjemplo: 'Calle, número, piso y depto.',
     localidad: 'Localidad',

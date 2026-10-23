@@ -9,10 +9,20 @@
 - **Figma de referencia:** https://www.figma.com/design/9mND0DF4l37xKvbAtIlLLY
 - **Qué cambió en tu localhost:** Nunito Sans; botones con radio 8 (principal en el color de marca, secundario gris "Neutral"); talles y colores como etiquetas con tilde; campos, tarjetas, avisos, menú y pestañas con el diseño del sistema; íconos Feather; espacios de la escala del sistema. Unido a main el 14/10 (https://github.com/fmicieli/empresitios/pull/6) y publicado en la demo: https://tienda-modelo.atlas-de5cd208129d.workers.dev (recargá con `Cmd + Shift + R`). Incluye también: fotos del producto con X para quitar y orden arrastrando (D-22), botones más altos, campos y talles con línea que se engrosa al elegir, títulos más chicos, estados vacíos centrados.
 
-### Tarjetas de producto (D-21, puntos 12 f a 12 h, 14/10)
+### Tarjetas de producto (D-21, puntos 12 f a 12 h; unido a main el 14/10, publicado en la demo)
 
 - Sin borde, foto a todo el ancho, precio primero (20 px) y nombre en gris. Se probó un botón en la tarjeta y se sacó.
-- Pull request para pasarlo a la demo: ver la lista de pull requests abiertos (https://github.com/fmicieli/empresitios/pulls).
+- Pull request: https://github.com/fmicieli/empresitios/pull/7
+
+### Ejemplo con marca: Chacha (D-23, publicado el 23/10)
+
+- **Tienda publicada:** https://chacha-tienda.atlas-de5cd208129d.workers.dev (modo de prueba: lo que se cambia en el admin queda solo en ese navegador).
+- **Repo (privado):** https://github.com/fmicieli/chacha-tienda — pull request #1 unido. Worker propio en Cloudflare (`chacha-tienda`), publica `main`.
+- 31 productos (Accesorios y Home), 93 fotos, banner propio de Flor.
+- 23/10: logo en el encabezado (56 px), productos sin stock que no se abren y carrito en una columna (D-24, cambios de plantilla). Pull requests: https://github.com/fmicieli/empresitios/pulls y https://github.com/fmicieli/chacha-tienda/pulls
+- Falta: Instagram, decidir el botón del banner (hoy "Ver accesorios") y si las piezas únicas dicen "Pieza única" en vez de "Queda 1" (cambio de plantilla).
+- Siguiente paso propuesto: conectarla a Google (guía 09) para manejar los productos de verdad desde el admin: es la "prueba con Google" pendiente.
+- Cómo se crean los repos de clientes y cómo se les traen las mejoras: https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/12-repos-de-clientes.md
 
 ### Diseño D-19 y D-20 (unido a main el 14/10, publicado en la demo)
 
@@ -68,7 +78,8 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 2. Trabajá siempre en la rama claude/quirky-cray-06mnp8 y subí los cambios a GitHub (commit + push) cada vez que termines una parte, para que no se pierda nada.
 3. Fases 1, 2 y 3: aprobadas (D-15, D-16 y D-17).
 4. Fase 4 aprobada: la demo está publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev. Cloudflare publica solo la rama main: cada cambio llega por pull request y yo lo uno.
-5. El diseño D-19/D-20 está unido a main y publicado (PR #5). El sistema de diseño de base (D-21, Simple Design System con Nunito Sans) y las fotos del admin (D-22) están unidos a main y publicados (PR #6). Preguntame si lo revisé en la demo publicada. Quedan abiertas tres preguntas mías: (a) en la lista de productos del admin, ¿mostrar el stock por combinación o el total más cuántas combinaciones están agotadas?; (b) si sigo viendo el stock sumado al cargar un producto nuevo (te mando captura); (c) en qué formato quiero el muestrario de estilos de inspiración (página, documento o Figma).
-6. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
-7. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
+5. El diseño D-19/D-20 está unido a main y publicado (PR #5). El sistema de diseño de base (D-21, Simple Design System con Nunito Sans) y las fotos del admin (D-22) están unidos a main y publicados (PR #6). Las tarjetas de producto (D-21, 12 f a 12 h) también están publicadas (PR #7). Preguntame si lo revisé en la demo publicada. Quedan abiertas tres preguntas mías: (a) en la lista de productos del admin, ¿mostrar el stock por combinación o el total más cuántas combinaciones están agotadas?; (b) si sigo viendo el stock sumado al cargar un producto nuevo (te mando captura); (c) en qué formato quiero el muestrario de estilos de inspiración (página, documento o Figma).
+6. Ejemplo con marca (D-23): Chacha, mi emprendimiento, publicada en https://chacha-tienda.atlas-de5cd208129d.workers.dev (repo privado fmicieli/chacha-tienda: agregalo a la sesión). Ya tiene logo; falta el Instagram; preguntame si quiero conectarla a Google. Los arreglos se hacen en empresitios y se traen a Chacha (docs/12-repos-de-clientes.md).
+7. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
+8. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```
