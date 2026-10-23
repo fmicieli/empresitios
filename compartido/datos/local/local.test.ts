@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import semillaJson from '../../../tienda-whatsapp/datos-ejemplo/tienda-modelo.json';
+// Datos fijos para las pruebas (copia de la tienda de ejemplo): así las pruebas no dependen del contenido
+// de cada cliente, que en su repo reemplaza tienda-whatsapp/datos-ejemplo/ (docs/12).
+import semillaJson from './semilla-pruebas.json';
 import { variante } from '../reglas';
 import type { Comprador } from '../tipos';
 import { crearDataStoreLocal, type DataStoreLocal } from './index';

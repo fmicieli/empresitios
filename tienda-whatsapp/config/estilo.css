@@ -56,5 +56,8 @@
 
   O botones redondeados tipo pastilla:
   --radio-boton: var(--radio-pastilla);
+
+  Proporción de las fotos de producto (ancho / alto), según cómo saca las fotos el comercio:
+  --proporcion-foto: 2 / 3;   (verticales tipo celular; por defecto 4 / 5, como Instagram; cuadradas: 1)
   */
 }

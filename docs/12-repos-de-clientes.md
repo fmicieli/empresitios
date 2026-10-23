@@ -6,7 +6,7 @@ En el repo del cliente **solo cambian** configuración, estilo y contenido (regl
 - `tienda-whatsapp/config/tienda.config.ts` — nombre, WhatsApp, banner, redes, etc.
 - `tienda-whatsapp/config/estilo.css` — fuentes, colores y formas.
 - `tienda-whatsapp/public/` — logo, banner, imagen para compartir y fotos de ejemplo.
-- Los productos de ejemplo del modo de prueba (si la tienda se muestra sin conectar a Google).
+- Los productos de ejemplo del modo de prueba (si la tienda se muestra sin conectar a Google): `tienda-whatsapp/datos-ejemplo/tienda-modelo.json` y sus fotos en `tienda-whatsapp/public/fotos-demo/`. Las pruebas automáticas no usan ese archivo (tienen su propia copia en `compartido/datos/local/semilla-pruebas.json`), así que se puede reemplazar sin romperlas.
 
 **Todo lo demás se arregla en la plantilla** y después se trae a cada cliente.
 
