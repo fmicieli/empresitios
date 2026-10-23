@@ -21,7 +21,7 @@ Catálogo (inicio) ──► Ficha de producto ──► Carrito + Tus datos (un
 
 - Banner arriba: imagen, título, texto y botón. Sale de `tienda.config.ts` (`inicio.banner`); lo cambia quien mantiene el sitio.
 - Debajo, una fila por categoría principal ("Destacados de Mujer", "Destacados de Hombre"…) con desplazamiento horizontal y "Ver todo →". En cada fila van los productos marcados como **Destacado** en el admin; si no hay ninguno marcado, los más nuevos de esa categoría.
-- Tarjetas de producto: foto principal, nombre, precio. Sin stock en todas sus variantes: tarjeta atenuada con etiqueta "Sin stock" (se puede abrir, no comprar).
+- Tarjetas de producto: foto principal, nombre, precio. Sin stock en todas sus variantes: tarjeta atenuada con etiqueta "Sin stock"; no se puede abrir (D-24).
 - Productos con "Mostrar en la tienda" apagado no aparecen.
 - Barra fija abajo cuando hay algo en el carrito: "Ver carrito · 2 · $ 42.000".
 - Menú lateral (celular): categorías con subcategorías desplegables, "Consultas por WhatsApp", horarios y redes.

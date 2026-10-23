@@ -36,8 +36,8 @@ function leerUrl() {
 
 function TarjetaProducto({ p, busqueda = '' }: { p: Producto; busqueda?: string }) {
   const agotado = libreTotal(p) === 0;
-  return (
-    <a class={`tarjeta ${agotado ? 'atenuado' : ''}`} href={`/producto/?id=${encodeURIComponent(p.id)}`}>
+  const contenido = (
+    <>
       <Foto ds={ds} id={p.fotos[0]} inicial={p.nombre}>
         {agotado && <span class="etiqueta-foto">{t.sinStock}</span>}
       </Foto>
@@ -46,6 +46,13 @@ function TarjetaProducto({ p, busqueda = '' }: { p: Producto; busqueda?: string 
       </span>
       <span class="precio">{formatoPrecio(p.precio)}</span>
       {agotado && <span class="sr">, {t.sinStock}</span>}
+    </>
+  );
+  // Sin stock en todas sus variantes: la tarjeta se ve atenuada y no lleva a la ficha (D-24).
+  if (agotado) return <div class="tarjeta atenuado">{contenido}</div>;
+  return (
+    <a class="tarjeta" href={`/producto/?id=${encodeURIComponent(p.id)}`}>
+      {contenido}
     </a>
   );
 }

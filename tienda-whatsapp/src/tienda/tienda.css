@@ -240,7 +240,7 @@
 .tarjeta .foto {
   margin-bottom: var(--espacio-200);
 }
-.tarjeta:hover .tarjeta-nombre {
+a.tarjeta:hover .tarjeta-nombre {
   text-decoration: underline;
 }
 /* Primero el precio, un paso más grande; abajo el nombre, en gris (14/10, Flor).
@@ -421,16 +421,11 @@
 }
 
 /* ---------- Carrito + Tus datos (D-14) ---------- */
+/* Una sola columna también en computadora: primero el carrito, abajo el formulario (D-24). */
 .carrito-y-datos {
   display: grid;
   gap: var(--espacio-800);
-  align-items: start;
-}
-@media (min-width: 900px) {
-  .carrito-y-datos {
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
-    gap: var(--espacio-1600);
-  }
+  max-width: var(--ancho-lectura);
 }
 .chico-ok {
   width: 28px;
