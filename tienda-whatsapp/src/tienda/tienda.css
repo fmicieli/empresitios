@@ -13,9 +13,15 @@
   max-width: var(--ancho-max);
   margin: 0 auto;
   padding: var(--espacio-300) var(--separacion);
-  display: flex;
+  /* Tres columnas: los costados miden lo mismo, así el logo queda justo en el medio
+     aunque a la derecha haya más íconos que a la izquierda. */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: var(--espacio-300);
+}
+.boton-menu {
+  justify-self: start;
 }
 @media (min-width: 900px) {
   .encabezado-interior {
@@ -34,7 +40,6 @@
   letter-spacing: var(--espaciado-titulos);
   text-decoration: none;
   color: var(--texto);
-  flex: 1;
   justify-content: center;
   text-align: center;
   line-height: var(--interlineado-titulos);
@@ -43,6 +48,7 @@
   max-height: var(--alto-logo);
   width: auto;
 }
+.nav-escritorio,
 .menu-escritorio,
 .solo-escritorio {
   display: none;
@@ -72,18 +78,25 @@
     display: none;
   }
   /* Escritorio: logo a la izquierda, categorías al centro, buscador y carrito a la derecha. */
-  .encabezado-interior {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-  }
   .logo {
     justify-self: start;
     justify-content: flex-start;
   }
+  .nav-escritorio {
+    display: block;
+    justify-self: center;
+  }
   .menu-escritorio {
     display: flex;
     gap: var(--espacio-200);
+  }
+  /* Opción logoCentrado (D-27): categorías a la izquierda, logo al centro. */
+  .logo-al-centro .logo {
     justify-self: center;
+    justify-content: center;
+  }
+  .logo-al-centro .nav-escritorio {
+    justify-self: start;
   }
   .solo-celular {
     display: none;
@@ -341,6 +354,50 @@ a.tarjeta:hover .tarjeta-nombre {
   flex: 0 0 100%;
   scroll-snap-align: start;
 }
+/* Flechas sobre la foto grande (D-28): círculo blanco con sombra, se ve sobre cualquier foto.
+   Se ven chicas (40 px) pero se tocan en 44 × 44. En la primera foto no está "anterior" y en la última no está "siguiente". */
+.galeria-marco {
+  position: relative;
+  isolation: isolate; /* el círculo de las flechas queda detrás del ícono pero arriba de la foto */
+}
+.galeria-flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--toque);
+  height: var(--toque);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--texto);
+}
+.galeria-flecha::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: var(--radio-pastilla);
+  background: var(--fondo);
+  box-shadow: var(--sombra-200);
+  z-index: -1;
+}
+.galeria-flecha svg {
+  position: relative;
+}
+.galeria-flecha[hidden] {
+  display: none;
+}
+.galeria-flecha.anterior {
+  left: var(--espacio-200);
+}
+.galeria-flecha.siguiente {
+  right: var(--espacio-200);
+}
+.galeria-flecha:hover::before {
+  background: var(--neutro-fondo-hover);
+}
 .galeria-puntos {
   display: flex;
   gap: var(--espacio-150);
@@ -421,11 +478,15 @@ a.tarjeta:hover .tarjeta-nombre {
 }
 
 /* ---------- Carrito + Tus datos (D-14) ---------- */
-/* Una sola columna también en computadora: primero el carrito, abajo el formulario (D-24). */
+/* Una sola columna también en computadora, centrada: primero el carrito, abajo el formulario (D-24). */
+.columna-carrito {
+  width: 100%;
+  max-width: var(--ancho-lectura);
+  margin-inline: auto;
+}
 .carrito-y-datos {
   display: grid;
   gap: var(--espacio-800);
-  max-width: var(--ancho-lectura);
 }
 .chico-ok {
   width: 28px;
@@ -459,6 +520,10 @@ a.tarjeta:hover .tarjeta-nombre {
   gap: var(--espacio-400);
   align-items: flex-start;
 }
+/* En el celular el botón del banner va centrado (24/10, Flor). */
+.banner-texto .boton {
+  align-self: center;
+}
 .banner-texto h1 {
   font-size: var(--titulo-pagina-chico);
   font-weight: var(--peso-bold);
@@ -482,6 +547,9 @@ a.tarjeta:hover .tarjeta-nombre {
   .banner-texto {
     padding: var(--espacio-1600);
     gap: var(--espacio-600);
+  }
+  .banner-texto .boton {
+    align-self: flex-start;
   }
   .banner-texto h1 {
     font-size: var(--titulo-pagina);

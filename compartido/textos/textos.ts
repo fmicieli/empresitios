@@ -72,6 +72,8 @@ export const textos = {
     paginaNoEncontrada: 'No encontramos esta página.',
     fotoDe: (producto: string, n: number, total: number) => `${producto}, foto ${n} de ${total}`,
     verFoto: (n: number) => `Ver foto ${n}`,
+    fotoAnterior: 'Foto anterior',
+    fotoSiguiente: 'Foto siguiente',
 
     // Carrito
     tuCarrito: 'Tu carrito',

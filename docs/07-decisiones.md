@@ -252,7 +252,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 ## D-24 · Productos sin stock y carrito en una columna (23/10/2026)
 
 1. **Los productos sin stock no se pueden abrir** (23/10, Flor; reemplaza "se puede abrir, no comprar" de `02-tienda.md`). Si no queda stock en ninguna variante, la tarjeta se ve atenuada, con la etiqueta "Sin stock", y no es un link. Los lectores de pantalla la leen como texto, con "Sin stock" después del precio. Si alguien llega a la ficha por un link viejo, la ficha sigue mostrando que no hay stock.
-2. **Carrito y formulario en una sola columna** (23/10, Flor; ajusta D-14): también en computadora, primero el carrito y abajo "Tus datos", con el mismo ancho de lectura (640 px). Antes iban lado a lado en pantallas de 900 px o más.
+2. **Carrito y formulario en una sola columna** (23/10, Flor; ajusta D-14): también en computadora, primero el carrito y abajo "Tus datos", con el mismo ancho de lectura (640 px), centrada en la pantalla con su título (24/10, Flor). Antes iban lado a lado en pantallas de 900 px o más.
 3. **Alto del logo por cliente** (23/10, propuso Claude con el logo de Chacha): el token `--alto-logo` (40 px por defecto) se puede pisar en `estilo.css`. Un logo en letra cursiva fina no se lee a 40 px.
 
 ## D-25 · Foto de referencia en el WhatsApp del pedido (23/10/2026)
@@ -276,6 +276,19 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
    - Guardar un producto tarda un poco más, porque ordenar las fotos suma varias consultas a Drive. Hay que medirlo en la prueba con Google de verdad.
    - Si el comercio mueve o borra fotos a mano fuera de esa carpeta, la tienda deja de mostrarlas.
    - Las fotos que se suben y nunca se guardan (por ejemplo, si se cancela el producto) quedan sueltas en la carpeta principal.
+
+## D-27 · Logo al centro en computadora, como opción (24/10/2026)
+
+1. **Opción `estilo.logoCentrado`** en `tienda.config.ts` (24/10, Flor, para Chacha). Con `true`, en computadora las categorías van a la izquierda, el logo al centro y el buscador y el carrito a la derecha. Con `false` (por defecto, como la demo), el logo va a la izquierda. En el celular el logo siempre va al centro.
+2. Es una opción y no un cambio para todas las tiendas (propuso Claude): la regla 6 dice que la adaptación por cliente es de estilo, pero la ubicación del logo es parte de la identidad de cada marca y no cambia el funcionamiento.
+3. **En el celular el logo queda justo en el medio** (24/10, propuso Claude): antes quedaba corrido a la derecha porque de ese lado hay dos íconos (buscar y carrito) y del otro uno solo (menú).
+4. **Botón del banner centrado en el celular** (24/10, Flor). En computadora sigue alineado con el texto, a la izquierda.
+5. Con el logo al centro, las categorías van antes en el código, así quien navega con teclado recorre el encabezado en el mismo orden en que lo ve.
+
+## D-28 · Flechas en las fotos de la ficha (24/10/2026)
+
+1. **Flechas a los costados de la foto grande** (24/10, Flor), en el celular y en la computadora. Con fotos verticales (como las de Chacha), en la computadora las miniaturas quedaban abajo, fuera de la pantalla, y no se sabía que había más fotos. En la primera foto no se muestra "anterior" y en la última no se muestra "siguiente".
+2. **Sin pasar fotos solas** (recomendó Claude, Flor ofreció las dos opciones): que las fotos cambien solas distrae justo cuando la persona mira el detalle de una pieza, y las pautas de accesibilidad (WCAG 2.2.2) piden poder pausarlo. En el celular ya se puede deslizar con el dedo y hay puntitos que muestran cuántas fotos hay.
 
 ## Pendientes (al 14/10/2026)
 

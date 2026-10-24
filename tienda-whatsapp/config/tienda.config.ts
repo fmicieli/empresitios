@@ -28,6 +28,8 @@ export interface ConfigTienda {
   estilo: {
     /** Logo en public/ (por ejemplo "/logo.svg"). Vacío = se muestra el nombre. */
     logo: string;
+    /** En computadora: true = logo al centro y categorías a la izquierda; false = logo a la izquierda (D-27). En el celular siempre va al centro. */
+    logoCentrado: boolean;
     colorMarca: string;
     colorSobreMarca: string;
   };
@@ -65,6 +67,7 @@ const config: ConfigTienda = {
   textoPrivacidad: 'Usamos estos datos solo para gestionar tu pedido. (Texto pendiente de revisión legal.)',
   estilo: {
     logo: '/logo.svg',
+    logoCentrado: false,
     colorMarca: '#2c2c2c',
     colorSobreMarca: '#f5f5f5',
   },
