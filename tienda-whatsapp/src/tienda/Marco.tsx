@@ -99,7 +99,7 @@ function MenuEscritorio({ categorias }: { categorias: Categoria[] }) {
     };
   }, []);
   return (
-    <nav aria-label="Categorías" style={{ flex: 1 }}>
+    <nav class="nav-escritorio" aria-label="Categorías">
       <ul class="menu-escritorio" ref={ref}>
         {categorias.map((c) =>
           c.subcategorias.length ? (

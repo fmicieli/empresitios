@@ -48,6 +48,7 @@
   max-height: var(--alto-logo);
   width: auto;
 }
+.nav-escritorio,
 .menu-escritorio,
 .solo-escritorio {
   display: none;
@@ -81,17 +82,20 @@
     justify-self: start;
     justify-content: flex-start;
   }
+  .nav-escritorio {
+    display: block;
+    justify-self: center;
+  }
   .menu-escritorio {
     display: flex;
     gap: var(--espacio-200);
-    justify-self: center;
   }
   /* Opción logoCentrado (D-27): categorías a la izquierda, logo al centro. */
   .logo-al-centro .logo {
     justify-self: center;
     justify-content: center;
   }
-  .logo-al-centro .menu-escritorio {
+  .logo-al-centro .nav-escritorio {
     justify-self: start;
   }
   .solo-celular {
