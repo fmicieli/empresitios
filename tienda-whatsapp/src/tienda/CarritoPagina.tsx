@@ -15,7 +15,7 @@ const t = textos.tienda;
 
 function Enviado({ p }: { p: PedidoEnviado }) {
   return (
-    <div class="pila lectura">
+    <div class="pila columna-carrito">
       <h1>{t.tuCarrito}</h1>
       <div class="panel pila" role="status">
         <p class="fila" style={{ flexWrap: 'nowrap', alignItems: 'flex-start' }}>
