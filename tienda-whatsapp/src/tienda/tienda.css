@@ -354,6 +354,50 @@ a.tarjeta:hover .tarjeta-nombre {
   flex: 0 0 100%;
   scroll-snap-align: start;
 }
+/* Flechas sobre la foto grande (D-28): círculo blanco con sombra, se ve sobre cualquier foto.
+   Se ven chicas (40 px) pero se tocan en 44 × 44. En la primera foto no está "anterior" y en la última no está "siguiente". */
+.galeria-marco {
+  position: relative;
+  isolation: isolate; /* el círculo de las flechas queda detrás del ícono pero arriba de la foto */
+}
+.galeria-flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--toque);
+  height: var(--toque);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--texto);
+}
+.galeria-flecha::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: var(--radio-pastilla);
+  background: var(--fondo);
+  box-shadow: var(--sombra-200);
+  z-index: -1;
+}
+.galeria-flecha svg {
+  position: relative;
+}
+.galeria-flecha[hidden] {
+  display: none;
+}
+.galeria-flecha.anterior {
+  left: var(--espacio-200);
+}
+.galeria-flecha.siguiente {
+  right: var(--espacio-200);
+}
+.galeria-flecha:hover::before {
+  background: var(--neutro-fondo-hover);
+}
 .galeria-puntos {
   display: flex;
   gap: var(--espacio-150);

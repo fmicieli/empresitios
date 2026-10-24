@@ -39,6 +39,12 @@ export const IconoAtras = ({ tam = 20 }: P) => (
     <polyline points="15 18 9 12 15 6" />
   </svg>
 );
+/** chevron-right */
+export const IconoSiguiente = ({ tam = 20 }: P) => (
+  <svg {...base(tam)}>
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
 /** search */
 export const IconoBuscar = ({ tam = 16 }: P) => (
   <svg {...base(tam)}>

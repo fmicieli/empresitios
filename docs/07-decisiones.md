@@ -285,6 +285,11 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 4. **Botón del banner centrado en el celular** (24/10, Flor). En computadora sigue alineado con el texto, a la izquierda.
 5. Con el logo al centro, las categorías van antes en el código, así quien navega con teclado recorre el encabezado en el mismo orden en que lo ve.
 
+## D-28 · Flechas en las fotos de la ficha (24/10/2026)
+
+1. **Flechas a los costados de la foto grande** (24/10, Flor), en el celular y en la computadora. Con fotos verticales (como las de Chacha), en la computadora las miniaturas quedaban abajo, fuera de la pantalla, y no se sabía que había más fotos. En la primera foto no se muestra "anterior" y en la última no se muestra "siguiente".
+2. **Sin pasar fotos solas** (recomendó Claude, Flor ofreció las dos opciones): que las fotos cambien solas distrae justo cuando la persona mira el detalle de una pieza, y las pautas de accesibilidad (WCAG 2.2.2) piden poder pausarlo. En el celular ya se puede deslizar con el dedo y hay puntitos que muestran cuántas fotos hay.
+
 ## Pendientes (al 14/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

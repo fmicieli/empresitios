@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { useCarrito } from '@compartido/carrito/carrito';
 import { Cantidad, copiarTexto, ErrorCarga, Foto, mostrarToast, useCarga } from '@compartido/componentes/basicos';
-import { IconoChat, IconoCompartir } from '@compartido/componentes/iconos';
+import { IconoAtras, IconoChat, IconoCompartir, IconoSiguiente } from '@compartido/componentes/iconos';
 import { etiquetaVariante, formatoPrecio, linkProducto, lugarEnPedido, variante, rutaCategoria } from '@compartido/datos/reglas';
 import type { ConfigServidor, FilaCategoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
@@ -30,16 +30,41 @@ function Galeria({ p }: { p: Producto }) {
 
   return (
     <div class="pila-chica">
-      <div
-        class="galeria"
-        ref={ref}
-        onScroll={alDeslizar}
-        tabIndex={p.fotos.length > 1 ? 0 : -1}
-        aria-label={`Fotos de ${p.nombre}`}
-      >
-        {(p.fotos.length ? p.fotos : ['']).map((id, i) => (
-          <Foto key={id + i} ds={ds} id={id} inicial={p.nombre} alt={t.fotoDe(p.nombre, i + 1, total)} />
-        ))}
+      <div class="galeria-marco">
+        <div
+          class="galeria"
+          ref={ref}
+          onScroll={alDeslizar}
+          tabIndex={p.fotos.length > 1 ? 0 : -1}
+          aria-label={`Fotos de ${p.nombre}`}
+        >
+          {(p.fotos.length ? p.fotos : ['']).map((id, i) => (
+            <Foto key={id + i} ds={ds} id={id} inicial={p.nombre} alt={t.fotoDe(p.nombre, i + 1, total)} />
+          ))}
+        </div>
+        {/* Flechas sobre la foto (D-28): se ve que hay más fotos sin tener que bajar hasta las miniaturas. */}
+        {p.fotos.length > 1 && (
+          <>
+            <button
+              type="button"
+              class="galeria-flecha anterior"
+              aria-label={t.fotoAnterior}
+              hidden={actual === 0}
+              onClick={() => ir(actual - 1)}
+            >
+              <IconoAtras />
+            </button>
+            <button
+              type="button"
+              class="galeria-flecha siguiente"
+              aria-label={t.fotoSiguiente}
+              hidden={actual >= total - 1}
+              onClick={() => ir(actual + 1)}
+            >
+              <IconoSiguiente />
+            </button>
+          </>
+        )}
       </div>
       {p.fotos.length > 1 && (
         <>
