@@ -237,7 +237,7 @@ export function Marco({ children, conBarraAbajo = false }: { children: Component
   return (
     <div class={conBarraAbajo && n > 0 ? 'con-barra-abajo' : ''}>
       <header class="encabezado">
-        <div class="encabezado-interior">
+        <div class={`encabezado-interior ${config.estilo.logoCentrado ? 'logo-al-centro' : ''}`}>
           <button
             type="button"
             class="boton-icono boton-menu"
@@ -247,8 +247,10 @@ export function Marco({ children, conBarraAbajo = false }: { children: Component
           >
             <IconoMenu />
           </button>
+          {/* Con el logo al centro, las categorías van antes en el código: así el orden con Tab es el mismo que se ve. */}
+          {config.estilo.logoCentrado && <MenuEscritorio categorias={categorias} />}
           <Logo />
-          <MenuEscritorio categorias={categorias} />
+          {!config.estilo.logoCentrado && <MenuEscritorio categorias={categorias} />}
           <div class="acciones-encabezado">
             <div class="solo-escritorio">
               <Buscador id="buscar-encabezado" />

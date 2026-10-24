@@ -277,6 +277,12 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
    - Si el comercio mueve o borra fotos a mano fuera de esa carpeta, la tienda deja de mostrarlas.
    - Las fotos que se suben y nunca se guardan (por ejemplo, si se cancela el producto) quedan sueltas en la carpeta principal.
 
+## D-27 · Logo al centro en computadora, como opción (24/10/2026)
+
+1. **Opción `estilo.logoCentrado`** en `tienda.config.ts` (24/10, Flor, para Chacha). Con `true`, en computadora las categorías van a la izquierda, el logo al centro y el buscador y el carrito a la derecha. Con `false` (por defecto, como la demo), el logo va a la izquierda. En el celular el logo siempre va al centro.
+2. Es una opción y no un cambio para todas las tiendas (propuso Claude): la regla 6 dice que la adaptación por cliente es de estilo, pero la ubicación del logo es parte de la identidad de cada marca y no cambia el funcionamiento.
+3. Con el logo al centro, las categorías van antes en el código, así quien navega con teclado recorre el encabezado en el mismo orden en que lo ve.
+
 ## Pendientes (al 14/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

@@ -85,6 +85,14 @@
     gap: var(--espacio-200);
     justify-self: center;
   }
+  /* Opción logoCentrado (D-27): categorías a la izquierda, logo al centro. */
+  .logo-al-centro .logo {
+    justify-self: center;
+    justify-content: center;
+  }
+  .logo-al-centro .menu-escritorio {
+    justify-self: start;
+  }
   .solo-celular {
     display: none;
   }
