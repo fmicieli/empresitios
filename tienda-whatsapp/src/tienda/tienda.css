@@ -429,11 +429,15 @@ a.tarjeta:hover .tarjeta-nombre {
 }
 
 /* ---------- Carrito + Tus datos (D-14) ---------- */
-/* Una sola columna también en computadora: primero el carrito, abajo el formulario (D-24). */
+/* Una sola columna también en computadora, centrada: primero el carrito, abajo el formulario (D-24). */
+.columna-carrito {
+  width: 100%;
+  max-width: var(--ancho-lectura);
+  margin-inline: auto;
+}
 .carrito-y-datos {
   display: grid;
   gap: var(--espacio-800);
-  max-width: var(--ancho-lectura);
 }
 .chico-ok {
   width: 28px;

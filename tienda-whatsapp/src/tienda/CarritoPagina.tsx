@@ -68,7 +68,7 @@ export default function CarritoPagina() {
 
   return (
     <Marco>
-      <div class="pila">
+      <div class="pila columna-carrito">
         <h1 class={!items.length ? 'centrado' : undefined}>{t.tuCarrito}</h1>
         {aviso && (
           <div class="alerta error" role="alert">

@@ -252,7 +252,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 ## D-24 · Productos sin stock y carrito en una columna (23/10/2026)
 
 1. **Los productos sin stock no se pueden abrir** (23/10, Flor; reemplaza "se puede abrir, no comprar" de `02-tienda.md`). Si no queda stock en ninguna variante, la tarjeta se ve atenuada, con la etiqueta "Sin stock", y no es un link. Los lectores de pantalla la leen como texto, con "Sin stock" después del precio. Si alguien llega a la ficha por un link viejo, la ficha sigue mostrando que no hay stock.
-2. **Carrito y formulario en una sola columna** (23/10, Flor; ajusta D-14): también en computadora, primero el carrito y abajo "Tus datos", con el mismo ancho de lectura (640 px). Antes iban lado a lado en pantallas de 900 px o más.
+2. **Carrito y formulario en una sola columna** (23/10, Flor; ajusta D-14): también en computadora, primero el carrito y abajo "Tus datos", con el mismo ancho de lectura (640 px), centrada en la pantalla con su título (24/10, Flor). Antes iban lado a lado en pantallas de 900 px o más.
 3. **Alto del logo por cliente** (23/10, propuso Claude con el logo de Chacha): el token `--alto-logo` (40 px por defecto) se puede pisar en `estilo.css`. Un logo en letra cursiva fina no se lee a 40 px.
 
 ## D-25 · Foto de referencia en el WhatsApp del pedido (23/10/2026)
