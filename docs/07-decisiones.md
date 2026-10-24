@@ -281,7 +281,9 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 
 1. **Opción `estilo.logoCentrado`** en `tienda.config.ts` (24/10, Flor, para Chacha). Con `true`, en computadora las categorías van a la izquierda, el logo al centro y el buscador y el carrito a la derecha. Con `false` (por defecto, como la demo), el logo va a la izquierda. En el celular el logo siempre va al centro.
 2. Es una opción y no un cambio para todas las tiendas (propuso Claude): la regla 6 dice que la adaptación por cliente es de estilo, pero la ubicación del logo es parte de la identidad de cada marca y no cambia el funcionamiento.
-3. Con el logo al centro, las categorías van antes en el código, así quien navega con teclado recorre el encabezado en el mismo orden en que lo ve.
+3. **En el celular el logo queda justo en el medio** (24/10, propuso Claude): antes quedaba corrido a la derecha porque de ese lado hay dos íconos (buscar y carrito) y del otro uno solo (menú).
+4. **Botón del banner centrado en el celular** (24/10, Flor). En computadora sigue alineado con el texto, a la izquierda.
+5. Con el logo al centro, las categorías van antes en el código, así quien navega con teclado recorre el encabezado en el mismo orden en que lo ve.
 
 ## Pendientes (al 14/10/2026)
 
