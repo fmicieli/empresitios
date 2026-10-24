@@ -54,15 +54,26 @@ export interface GoogleFalso {
   doPost(cuerpo: unknown): { ok: boolean; resultado?: any; error?: { tipo: string; mensaje: string } };
   ejecutar(nombreFuncion: string, ...args: unknown[]): unknown;
   hojas: Map<string, Hoja>;
-  archivos: Map<string, { bytes: number[]; tipo: string; carpeta: string }>;
+  archivos: Map<string, Archivo>;
+  carpetas: Map<string, Carpeta>;
+  /** Ruta de un archivo desde la carpeta de fotos, p. ej. "Accesorios/Abanicos/AB-05 · Abanico/AB-05-1.jpg". */
+  ruta(idArchivo: string): string;
   secreto: string;
 }
+
+type Archivo = { bytes: number[]; tipo: string; carpeta: string; nombre?: string; papelera?: boolean };
+type Carpeta = { nombre: string; padre: string | null; papelera?: boolean };
+
+const iterador = <T>(lista: T[]) => {
+  let i = 0;
+  return { hasNext: () => i < lista.length, next: () => lista[i++] };
+};
 
 export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
   const hojas = new Map<string, Hoja>();
   const propiedades = new Map<string, string>();
-  const archivos = new Map<string, { bytes: number[]; tipo: string; carpeta: string }>();
-  const carpetas = new Set<string>();
+  const archivos = new Map<string, Archivo>();
+  const carpetas = new Map<string, Carpeta>();
 
   const libro = {
     getSheetByName: (n: string) => hojas.get(n) ?? null,
@@ -73,14 +84,43 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
     },
   };
 
-  const carpeta = (id: string) => ({
+  const nuevaCarpeta = (nombre: string, padre: string | null) => {
+    const id = 'carpeta' + randomUUID().slice(0, 8);
+    carpetas.set(id, { nombre, padre });
+    return carpeta(id);
+  };
+  const carpeta = (id: string): any => ({
     getId: () => id,
-    createFile: (blob: { bytes: number[]; tipo: string }) => {
+    getName: () => carpetas.get(id)!.nombre,
+    isTrashed: () => !!carpetas.get(id)!.papelera,
+    setTrashed: (v: boolean) => (carpetas.get(id)!.papelera = v),
+    getParents: () => {
+      const padre = carpetas.get(id)!.padre;
+      return iterador(padre && carpetas.has(padre) ? [carpeta(padre)] : []);
+    },
+    createFolder: (nombre: string) => nuevaCarpeta(nombre, id),
+    getFoldersByName: (nombre: string) =>
+      iterador([...carpetas].filter(([, c]) => c.padre === id && c.nombre === nombre).map(([cid]) => carpeta(cid))),
+    getFolders: () => iterador([...carpetas].filter(([, c]) => c.padre === id && !c.papelera).map(([cid]) => carpeta(cid))),
+    getFiles: () => iterador([...archivos].filter(([, a]) => a.carpeta === id && !a.papelera).map(([aid]) => archivo(aid))),
+    createFile: (blob: { bytes: number[]; tipo: string; nombre?: string }) => {
       const fid = 'archivo' + randomUUID().replace(/-/g, '').slice(0, 16);
-      archivos.set(fid, { bytes: blob.bytes, tipo: blob.tipo, carpeta: id });
-      return { getId: () => fid };
+      archivos.set(fid, { bytes: blob.bytes, tipo: blob.tipo, carpeta: id, nombre: blob.nombre });
+      return archivo(fid);
     },
   });
+  const archivo = (id: string) => {
+    const a = () => archivos.get(id)!;
+    return {
+      getId: () => id,
+      getName: () => a().nombre ?? '',
+      setName: (n: string) => (a().nombre = n),
+      isTrashed: () => !!a().papelera,
+      moveTo: (destino: { getId(): string }) => (a().carpeta = destino.getId()),
+      getParents: () => iterador(carpetas.has(a().carpeta) ? [carpeta(a().carpeta)] : []),
+      getBlob: () => ({ getContentType: () => a().tipo, getBytes: () => a().bytes }),
+    };
+  };
 
   const contexto = vm.createContext({
     console,
@@ -104,7 +144,7 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
       getUuid: () => randomUUID(),
       base64Decode: (s: string) => [...Buffer.from(s, 'base64')],
       base64Encode: (b: number[]) => Buffer.from(b).toString('base64'),
-      newBlob: (bytes: number[], tipo: string) => ({ bytes, tipo }),
+      newBlob: (bytes: number[], tipo: string, nombre?: string) => ({ bytes, tipo, nombre }),
     },
     ContentService: {
       createTextOutput: (texto: string) => ({
@@ -116,23 +156,14 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
       MimeType: { JSON: 'JSON' },
     },
     DriveApp: {
-      createFolder: () => {
-        const id = 'carpeta' + randomUUID().slice(0, 8);
-        carpetas.add(id);
-        return carpeta(id);
-      },
+      createFolder: (nombre: string) => nuevaCarpeta(nombre, null),
       getFolderById: (id: string) => {
         if (!carpetas.has(id)) throw new Error('no existe');
         return carpeta(id);
       },
       getFileById: (id: string) => {
-        const a = archivos.get(id);
-        if (!a) throw new Error('no existe');
-        let dado = false;
-        return {
-          getParents: () => ({ hasNext: () => !dado, next: () => ((dado = true), { getId: () => a.carpeta }) }),
-          getBlob: () => ({ getContentType: () => a.tipo, getBytes: () => a.bytes }),
-        };
+        if (!archivos.has(id)) throw new Error('no existe');
+        return archivo(id);
       },
     },
     ScriptApp: {
@@ -148,9 +179,18 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
   ejecutar('configurarPlanilla');
   const secreto = propiedades.get('SECRETO')!;
 
+  const ruta = (idArchivo: string) => {
+    const a = archivos.get(idArchivo)!;
+    const partes = [a.nombre ?? ''];
+    for (let c = carpetas.get(a.carpeta); c && c.padre; c = carpetas.get(c.padre)) partes.unshift(c.nombre);
+    return partes.join('/');
+  };
+
   return {
     hojas,
     archivos,
+    carpetas,
+    ruta,
     secreto,
     ejecutar,
     doPost(cuerpo) {

@@ -36,6 +36,7 @@ Hola, quiero hacer este pedido:
 
 Pedido #{numero}
 • {producto} · {color} · Talle {talle} × {cantidad} · {subtotal línea}
+  Código {código} · Ver foto: {link a la ficha}      ← "Código" solo si el producto tiene (D-25)
 • ...
 
 Subtotal: {total} (envío a cotizar)

@@ -88,6 +88,11 @@ export function normalizarWhatsapp(crudo: string): WhatsappNormalizado {
   return { ok: true, diezDigitos: d, internacional: '549' + d, paraMostrar };
 }
 
+/** Link a la ficha de un producto (solo el id en la dirección, ningún dato personal). */
+export function linkProducto(urlTienda: string, id: string): string {
+  return `${urlTienda.replace(/\/$/, '')}/producto/?id=${encodeURIComponent(id)}`;
+}
+
 /** Link de WhatsApp con texto armado. `numero` ya en formato internacional (solo dígitos). */
 export function linkWhatsapp(numero: string, texto?: string): string {
   const base = 'https://wa.me/' + numero.replace(/\D/g, '');

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import { useCarrito } from '@compartido/carrito/carrito';
 import { Cantidad, copiarTexto, ErrorCarga, Foto, mostrarToast, useCarga } from '@compartido/componentes/basicos';
 import { IconoChat, IconoCompartir } from '@compartido/componentes/iconos';
-import { etiquetaVariante, formatoPrecio, lugarEnPedido, variante, rutaCategoria } from '@compartido/datos/reglas';
+import { etiquetaVariante, formatoPrecio, linkProducto, lugarEnPedido, variante, rutaCategoria } from '@compartido/datos/reglas';
 import type { ConfigServidor, FilaCategoria, Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
 import { carrito, config, ds } from '../lib/contexto';
@@ -91,14 +91,13 @@ function MigasFicha({ p, filas }: { p: Producto; filas: FilaCategoria[] }) {
 }
 
 /** Link del producto para compartir (sin otros datos en la dirección). */
-function linkProducto(p: Producto): string {
-  const base = (config.url || location.origin).replace(/\/$/, '');
-  return `${base}/producto/?id=${encodeURIComponent(p.id)}`;
+function linkFicha(p: Producto): string {
+  return linkProducto(config.url || location.origin, p.id);
 }
 
 /** En el celular abre el menú de compartir del teléfono; si no hay, copia el link. */
 async function compartir(p: Producto) {
-  const url = linkProducto(p);
+  const url = linkFicha(p);
   if (navigator.share) {
     try {
       await navigator.share({ title: p.nombre, url });
@@ -229,7 +228,7 @@ function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: 
           </div>
         )}
 
-        <EnlaceWhatsapp class="enlace" texto={t.consultaMensaje(p.nombre, linkProducto(p))}>
+        <EnlaceWhatsapp class="enlace" texto={t.consultaMensaje(p.nombre, linkFicha(p))}>
           <IconoChat /> {t.consultaTalle}
         </EnlaceWhatsapp>
       </div>
