@@ -657,6 +657,20 @@ a.tarjeta:hover .tarjeta-nombre {
   padding-bottom: var(--espacio-200);
   scrollbar-width: thin;
 }
+/* Flechas de la fila (D-30): solo en computadora; en el celular se desliza con el dedo. */
+.flechas-fila {
+  display: none;
+  gap: var(--espacio-100);
+}
+.flechas-fila .boton-icono:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+@media (min-width: 800px) {
+  .flechas-fila {
+    display: flex;
+  }
+}
 .fila-productos > li {
   scroll-snap-align: start;
 }

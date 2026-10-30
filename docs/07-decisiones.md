@@ -303,6 +303,18 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 5. **Texto opcional en cada foto** (30/10, Flor): título y texto a la izquierda, sobre un fondo del color del borde de la foto, con la foto fundida en ese color para que parezca que se extiende. Con texto, en computadora el banner pasa a 21:9: la foto 4:3 entra entera a la derecha y queda lugar para el texto a la izquierda (más bajo que 4:3 a todo el ancho, que ocupaba toda la pantalla). En el celular, la foto en 16:10 y el texto debajo. El color del texto (blanco u oscuro) se elige solo según el fondo, o se fija con "tinta" (30/10, Flor: fondo blanco con texto de color); al compilar se avisa si no llega a 4,5:1.
 6. **El banner no se edita desde el admin** (30/10, Flor): las fotos y sus textos se cargan a mano en `tienda.config.ts` y `public/`, a pedido del comercio (lo hace quien mantiene el sitio, con un prompt). Así el admin queda simple.
 
+## D-30 · "Pieza única" y flechas en las filas de destacados (30/10/2026)
+
+1. **Opción `piezasUnicas`** en `tienda.config.ts` (30/10, Flor, para Chacha): en la ficha de un producto sin talles ni colores al que le queda 1, dice "Pieza única" en vez de "Queda 1". Por defecto está apagada, así que las demás tiendas siguen igual. Con talles o colores sigue diciendo "Queda 1 en talle M", porque "pieza única" no aplica.
+2. **Flechas en las filas de destacados** (30/10, Flor), solo en computadora: dos botones al lado de "Ver todo" que mueven la fila. Aparecen solo si hay más productos de los que entran. La que no puede moverse más queda atenuada. En el celular se sigue deslizando con el dedo.
+
+## D-31 · Importar a Google el catálogo de prueba (30/10/2026)
+
+1. **Para no cargar todo a mano al conectar Chacha a Google** (30/10, eligió Flor, propuso Claude): `npm run exportar:catalogo` arma `public/importar/catalogo.json` con las categorías, los productos, el stock y la dirección de cada foto de los datos de ejemplo. No incluye pedidos ni datos de compradores. En la planilla, `importarCatalogo()` lo lee desde la tienda publicada, baja las fotos a Drive ya ordenadas en carpetas (D-26) y llena las pestañas. Pasos: guía 09, Paso 2 bis.
+2. **Se puede volver a ejecutar:** saltea los productos que ya están, y corta antes de los 6 minutos que permite Google. Si falta algo (la dirección, una categoría, una foto), avisa qué es y no importa a medias.
+3. **Permiso nuevo de Google:** "conectarse a servicios externos", para bajar las fotos. Solo se usa en esta función.
+4. **Cuentas del admin de Chacha:** la dueña es la cuenta personal de Flor (planilla, código y fotos en su Drive). Una segunda persona entra con su propia cuenta, agregada en `correosAdmin`, para manejar el stock. Los correos van solo en la planilla y en Google Cloud, nunca en el repositorio.
+
 ## Pendientes (al 14/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

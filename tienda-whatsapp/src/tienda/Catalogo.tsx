@@ -4,7 +4,8 @@
 //   /?q=remera        resultados de búsqueda (el buscador está en el encabezado)
 
 import { ErrorCarga, Foto, useCarga } from '@compartido/componentes/basicos';
-import { IconoChat, IconoDerecha } from '@compartido/componentes/iconos';
+import { useEffect, useRef, useState } from 'preact/hooks';
+import { IconoAtras, IconoChat, IconoDerecha, IconoSiguiente } from '@compartido/componentes/iconos';
 import {
   agruparCategorias,
   categoriaPrincipal,
@@ -90,6 +91,68 @@ function Banner() {
   );
 }
 
+/**
+ * Fila de destacados con desplazamiento horizontal: en el celular se desliza con el dedo; en computadora,
+ * además, con dos flechas al lado de "Ver todo" (D-30), que solo aparecen si hay más productos de los que entran.
+ */
+function FilaDestacados({ categoria, productos }: { categoria: string; productos: Producto[] }) {
+  const ref = useRef<HTMLUListElement>(null);
+  const [puede, setPuede] = useState({ atras: false, adelante: false });
+  function medir() {
+    const el = ref.current;
+    if (el) setPuede({ atras: el.scrollLeft > 4, adelante: el.scrollLeft + el.clientWidth < el.scrollWidth - 4 });
+  }
+  useEffect(() => {
+    medir();
+    addEventListener('resize', medir);
+    return () => removeEventListener('resize', medir);
+  }, []);
+  const mover = (sentido: 1 | -1) => ref.current?.scrollBy({ left: sentido * ref.current.clientWidth * 0.8, behavior: 'smooth' });
+  const hayFlechas = puede.atras || puede.adelante;
+
+  return (
+    <>
+      <div class="fila-extremos">
+        <h2 id={`fila-${categoria}`}>{t.destacadosDe(categoria)}</h2>
+        <div class="fila">
+          {hayFlechas && (
+            <div class="flechas-fila">
+              <button
+                type="button"
+                class="boton-icono"
+                aria-label={t.anteriores(categoria)}
+                disabled={!puede.atras}
+                onClick={() => mover(-1)}
+              >
+                <IconoAtras />
+              </button>
+              <button
+                type="button"
+                class="boton-icono"
+                aria-label={t.siguientes(categoria)}
+                disabled={!puede.adelante}
+                onClick={() => mover(1)}
+              >
+                <IconoSiguiente />
+              </button>
+            </div>
+          )}
+          <a class="enlace" href={linkCategoria(categoria)} aria-label={t.verTodoDe(categoria)}>
+            {t.verTodo} <IconoDerecha />
+          </a>
+        </div>
+      </div>
+      <ul class="fila-productos" ref={ref} onScroll={medir} style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+        {productos.map((p) => (
+          <li key={p.id}>
+            <TarjetaProducto p={p} />
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
 function Inicio({ productos, filas }: { productos: Producto[]; filas: Parameters<typeof destacadosPorCategoria>[1] }) {
   const filasDestacados = destacadosPorCategoria(productos, filas);
   return (
@@ -97,20 +160,7 @@ function Inicio({ productos, filas }: { productos: Producto[]; filas: Parameters
       <Banner />
       {filasDestacados.map((f) => (
         <section key={f.categoria} class="pila" aria-labelledby={`fila-${f.categoria}`}>
-          <div class="fila-extremos">
-            <h2 id={`fila-${f.categoria}`}>{t.destacadosDe(f.categoria)}</h2>
-            <a class="enlace" href={linkCategoria(f.categoria)} aria-label={t.verTodoDe(f.categoria)}>
-              {t.verTodo} <IconoDerecha />
-            </a>
-          </div>
-          {/* Fila con desplazamiento horizontal: en el celular se desliza con el dedo. */}
-          <ul class="fila-productos" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-            {f.productos.map((p) => (
-              <li key={p.id}>
-                <TarjetaProducto p={p} />
-              </li>
-            ))}
-          </ul>
+          <FilaDestacados categoria={f.categoria} productos={f.productos} />
         </section>
       ))}
     </div>

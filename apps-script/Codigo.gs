@@ -40,6 +40,7 @@ const CONFIG_INICIAL = [
   ['bloquearPedidosRepetidos', true, 'Si el mismo número manda el mismo pedido exacto mientras el anterior está pendiente, no se registra de nuevo.'],
   ['correosAdmin', '', 'Correos que pueden entrar al admin, separados por coma. El primero es el del negocio.'],
   ['carpetaFotosId', '', 'Carpeta de Drive con las fotos. Se completa sola.'],
+  ['importarDesde', '', 'Solo para pasar una tienda de prueba a Google: dirección del catalogo.json (guía 09). Después se puede dejar vacío.'],
 ];
 
 // ---------------------------------------------------------------------------
@@ -913,6 +914,112 @@ function ordenarTodasLasFotos() {
   const productos = leer('Productos');
   productos.forEach((p) => ordenarFotosEnDrive(p, lista(p.fotos), []));
   console.log('Listo: fotos de ' + productos.length + ' productos ordenadas.');
+}
+
+// ---------------------------------------------------------------------------
+// Importar el catálogo de prueba (D-31)
+// ---------------------------------------------------------------------------
+
+/**
+ * Se ejecuta a mano desde el editor, una vez: trae las categorías, los productos, el stock y las fotos
+ * de la tienda en modo de prueba (public/importar/catalogo.json, que arma "npm run exportar:catalogo").
+ * Antes: completar "importarDesde" en la pestaña Config, por ejemplo https://mi-tienda.workers.dev/importar/catalogo.json
+ * - Las categorías se cargan solo si la pestaña está vacía; si ya hay, tienen que tener los mismos id.
+ * - Las fotos se bajan de la tienda y se guardan en Drive, ya ordenadas en carpetas (D-26).
+ * - Si Google la corta (pasa a los 6 minutos), se vuelve a ejecutar y sigue: saltea los productos que ya están.
+ */
+function importarCatalogo() {
+  const url = String(leerConfig().importarDesde || '').trim();
+  if (!/^https:\/\/[^/]+\//.test(url)) {
+    throw new Error('Completá "importarDesde" en la pestaña Config con la dirección del catalogo.json (empieza con https://).');
+  }
+  const respuesta = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+  if (respuesta.getResponseCode() !== 200) {
+    throw new Error('No se pudo leer ' + url + ' (código ' + respuesta.getResponseCode() + '). ¿Está publicada la tienda?');
+  }
+  const datos = JSON.parse(respuesta.getContentText());
+  const origen = url.match(/^https:\/\/[^/]+/)[0];
+
+  // Categorías
+  if (!leer('Categorias').length) {
+    agregarVarias(
+      'Categorias',
+      datos.categorias.map((c) => ({
+        id: c.id,
+        orden: c.orden,
+        categoria: c.categoria,
+        subcategoria: c.subcategoria || '',
+        visible: c.visible !== false,
+      })),
+    );
+  }
+  const idsCategorias = leer('Categorias').map((c) => String(c.id));
+  const sinCategoria = datos.productos.filter((p) => idsCategorias.indexOf(String(p.categoriaId)) < 0);
+  if (sinCategoria.length) {
+    throw new Error(
+      'Hay productos con categorías que no están en la pestaña Categorias (' +
+        sinCategoria.map((p) => p.categoriaId).filter((x, i, a) => a.indexOf(x) === i).join(', ') +
+        '). Vaciá la pestaña o agregá esas categorías con el mismo id.',
+    );
+  }
+
+  // Productos, fotos y stock
+  const yaEstan = leer('Productos').map((p) => String(p.id));
+  const inicio = Date.now();
+  let importados = 0;
+  let salteados = 0;
+  let pendientes = 0;
+  datos.productos.forEach((p) => {
+    if (yaEstan.indexOf(String(p.id)) >= 0) return salteados++;
+    // Margen antes de los 6 minutos de Google: mejor cortar entre productos que en el medio de uno.
+    if (Date.now() - inicio > 4.5 * 60 * 1000) return pendientes++;
+    const ahora = new Date();
+    const prod = {
+      id: String(p.id),
+      nombre: recortar(p.nombre, 120),
+      categoriaId: String(p.categoriaId),
+      precio: Math.max(0, Math.floor(Number(p.precio)) || 0),
+      descripcion: recortar(p.descripcion, 2000),
+      codigo: recortar(p.codigo, 60),
+      visible: p.visible !== false,
+      destacado: !!p.destacado,
+      colores: (p.colores || []).map((x) => recortar(x, 40)).join('|'),
+      talles: (p.talles || []).map((x) => recortar(x, 20)).join('|'),
+      creado: ahora,
+      actualizado: ahora,
+    };
+    let destino = null;
+    const base = nombreDrive(prod.codigo || prod.nombre);
+    const fotos = (p.fotos || []).map((ruta, i) => {
+      const r = UrlFetchApp.fetch(origen + ruta, { muteHttpExceptions: true });
+      if (r.getResponseCode() !== 200) throw new Error('No se pudo bajar la foto ' + ruta + ' (código ' + r.getResponseCode() + ').');
+      const blob = r.getBlob();
+      const extension = TIPOS_FOTO[blob.getContentType()];
+      if (!extension) throw new Error('La foto ' + ruta + ' no es JPG, PNG ni WebP.');
+      if (blob.getBytes().length > MAX_FOTO) throw new Error('La foto ' + ruta + ' pesa más de 4 MB.');
+      blob.setName(base + '-' + (i + 1) + '.' + extension);
+      destino = destino || carpetaDeProducto(prod);
+      return destino.createFile(blob).getId();
+    });
+    prod.fotos = fotos.join('|');
+    conCandado(() => {
+      agregar('Productos', prod);
+      agregarVarias(
+        'Stock',
+        combinaciones(lista(prod.colores), lista(prod.talles)).map((c) => {
+          const dato = (p.stock || []).find((s) => (s.color || '') === c.color && (s.talle || '') === c.talle);
+          return { productoId: prod.id, color: c.color, talle: c.talle, cantidad: Math.max(0, Math.floor(Number(dato ? dato.cantidad : 0)) || 0) };
+        }),
+      );
+    });
+    importados++;
+  });
+  registrar('catálogo importado', importados + ' productos');
+  const mensaje =
+    'Importados: ' + importados + ' productos. Ya estaban: ' + salteados + '.' +
+    (pendientes ? ' Faltan ' + pendientes + ': volvé a ejecutar importarCatalogo y sigue desde donde quedó.' : ' Listo.');
+  console.log(mensaje);
+  return mensaje;
 }
 
 // ---------------------------------------------------------------------------

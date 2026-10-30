@@ -48,7 +48,7 @@ Los secretos **nunca** van en GitHub, ni en el archivo de configuración, ni por
    - Los permisos que pide: ver y editar esta planilla, crear la carpeta de fotos en Drive, conectarse a servicios externos y ejecutarse sola cada 10 minutos (para vencer reservas).
 7. Abajo, en el **Registro de ejecución**, aparece: "Listo. Clave secreta para Cloudflare…". Copiá esa clave 🔒. Si la perdés, ejecutá **verClaveSecreta**.
 8. Volvé a la planilla: ahora tiene las pestañas `Config`, `Categorias`, `Productos`, `Stock`, `Pedidos`, `PedidoItems` y `Registro`, y en Drive hay una carpeta nueva para las fotos.
-9. Cargá las **categorías** en la pestaña `Categorias` (las define quien mantiene el sitio, ver `04-modelo-de-datos.md`). El resto (productos, stock, fotos) lo carga el comercio desde el admin.
+9. Si la tienda ya tenía productos cargados en modo de prueba, salteá este paso y el siguiente hasta el **Paso 2 bis**: la importación carga las categorías sola. Si no, cargá las **categorías** en la pestaña `Categorias` (las define quien mantiene el sitio, ver `04-modelo-de-datos.md`). El resto (productos, stock, fotos) lo carga el comercio desde el admin.
 10. En `Config`, revisá `correosAdmin`: tiene el correo del negocio. Si otra persona tiene que entrar al admin, agregá su correo separado por coma.
 
 ## Paso 2 · Publicar el código como aplicación web
@@ -65,6 +65,17 @@ Los secretos **nunca** van en GitHub, ni en el archivo de configuración, ni por
 **Fotos en Drive:** se guardan en la carpeta "Tienda · fotos (no borrar)", ordenadas solas por categoría, subcategoría y producto (por ejemplo `Accesorios / Abanicos / AB-05 · Abanico Koi / AB-05-1.jpg`). Las que se quitan de un producto, o las de productos eliminados, van a "Fotos sin usar": no se borra nada. Si renombrás una categoría en la planilla, ejecutá `ordenarTodasLasFotos` desde el editor (elegila en el menú de funciones y tocá **Ejecutar**). Se pueden mirar y descargar, pero no las borres ni las muevas fuera de esa carpeta: la tienda dejaría de mostrarlas.
 
 **Si después cambiás el código** (por ejemplo, porque arreglamos algo en la plantilla): pegá el código nuevo y andá a **Implementar → Administrar implementaciones → lápiz → Versión: nueva versión → Implementar**. Así se mantiene la misma URL.
+
+## Paso 2 bis · Importar los productos de prueba (opcional, D-31)
+
+Solo si la tienda ya tenía productos y fotos en modo de prueba (como Chacha) y no querés cargarlos de nuevo a mano.
+
+1. Antes, quien mantiene el sitio corre `npm run exportar:catalogo` en el repo del cliente y sube el archivo `public/importar/catalogo.json`. Cuando se publica, queda en `https://(dirección de la tienda)/importar/catalogo.json`. Tiene solo categorías, productos, stock y fotos: nada de pedidos ni de compradores.
+2. En la planilla, pestaña `Config`, completá `importarDesde` con esa dirección. Si no ves la fila, volvé a ejecutar **configurarPlanilla** (no borra nada).
+3. En el editor de Apps Script, elegí **importarCatalogo** y tocá **Ejecutar**. La primera vez Google pide un permiso nuevo: conectarse a servicios externos (para bajar las fotos de la tienda).
+4. Tarda unos minutos: baja cada foto y la guarda en Drive, ya ordenada en carpetas. Al final, el registro dice "Importados: N productos".
+5. Si dice "Faltan N: volvé a ejecutar", ejecutala otra vez: Google corta a los 6 minutos y la importación sigue desde donde quedó, sin duplicar.
+6. Revisá las pestañas `Categorias`, `Productos` y `Stock`, y la carpeta de fotos en Drive. Después podés vaciar `importarDesde`.
 
 ## Paso 3 · Botón "Iniciar sesión con Google" (ID de cliente)
 

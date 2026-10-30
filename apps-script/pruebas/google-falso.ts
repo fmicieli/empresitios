@@ -58,6 +58,8 @@ export interface GoogleFalso {
   carpetas: Map<string, Carpeta>;
   /** Ruta de un archivo desde la carpeta de fotos, p. ej. "Accesorios/Abanicos/AB-05 · Abanico/AB-05-1.jpg". */
   ruta(idArchivo: string): string;
+  /** "Internet de mentira" para UrlFetchApp: dirección → respuesta. */
+  web: Map<string, { codigo: number; tipo: string; cuerpo: Buffer }>;
   secreto: string;
 }
 
@@ -74,6 +76,7 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
   const propiedades = new Map<string, string>();
   const archivos = new Map<string, Archivo>();
   const carpetas = new Map<string, Carpeta>();
+  const web = new Map<string, { codigo: number; tipo: string; cuerpo: Buffer }>();
 
   const libro = {
     getSheetByName: (n: string) => hojas.get(n) ?? null,
@@ -166,6 +169,26 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
         return archivo(id);
       },
     },
+    UrlFetchApp: {
+      fetch: (url: string) => {
+        const r = web.get(url) ?? { codigo: 404, tipo: 'text/plain', cuerpo: Buffer.from('') };
+        return {
+          getResponseCode: () => r.codigo,
+          getContentText: () => r.cuerpo.toString('utf8'),
+          getBlob: () => {
+            const blob = {
+              bytes: [...r.cuerpo],
+              tipo: r.tipo,
+              nombre: '',
+              getContentType: () => r.tipo,
+              getBytes: () => blob.bytes,
+              setName: (n: string) => ((blob.nombre = n), blob),
+            };
+            return blob;
+          },
+        };
+      },
+    },
     ScriptApp: {
       getProjectTriggers: () => [],
       newTrigger: () => ({ timeBased: () => ({ everyMinutes: () => ({ create: () => ({}) }) }) }),
@@ -191,6 +214,7 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
     archivos,
     carpetas,
     ruta,
+    web,
     secreto,
     ejecutar,
     doPost(cuerpo) {

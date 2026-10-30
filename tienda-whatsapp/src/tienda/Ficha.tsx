@@ -233,7 +233,9 @@ function Detalle({ p, filas, cfg }: { p: Producto; filas: FilaCategoria[]; cfg: 
           ) : libre <= 0 ? (
             <span class="negrita">{t.sinStockOpcion}</span>
           ) : libre <= 2 ? (
-            <span class="negrita num">{t.pocas(libre, talle)}</span>
+            <span class="negrita num">
+              {libre === 1 && config.piezasUnicas && !p.colores.length && !p.talles.length ? t.piezaUnica : t.pocas(libre, talle)}
+            </span>
           ) : null}
           {enCarrito > 0 && <span class="suave chico num">{t.yaEnCarrito(enCarrito)}</span>}
           {llegoAlTope && <span class="suave chico">{t.topeUnidades}</span>}
