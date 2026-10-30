@@ -50,10 +50,19 @@ export interface ConfigTienda {
        * "titulo" y "texto" (opcionales): van sobre "fondo", un color sacado del borde izquierdo de la foto (#rrggbb).
        *   Con texto: en computadora el banner es 21:9, el texto a la izquierda y la foto entera a la derecha;
        *   en el celular, la foto en 16:10 y el texto debajo. Sin texto: la foto ocupa todo (4:3 y 16:10).
-       * El color del texto (blanco u oscuro) se elige solo, el que mejor se lea sobre el fondo.
+       * "tinta" (opcional, #rrggbb): color del texto. Vacío = blanco u oscuro, el que mejor se lea sobre el fondo.
+       *   Al compilar se avisa si "tinta" no se lee bien sobre "fondo".
        * Vacío = banner de texto de arriba.
        */
-      fotos: { escritorio: string; celular: string; alt: string; titulo?: string; texto?: string; fondo?: string }[];
+      fotos: {
+        escritorio: string;
+        celular: string;
+        alt: string;
+        titulo?: string;
+        texto?: string;
+        fondo?: string;
+        tinta?: string;
+      }[];
     };
   };
   /** De dónde salen los datos: "local" (prueba, en el navegador) o "appsScript" (Google, ver docs/09). */

@@ -49,7 +49,7 @@ export function BannerFotos() {
       </h1>
       {fotos.map((f, i) => {
         const conTexto = !!(f.titulo || f.texto);
-        const tinta = colorDelTexto(f.fondo ?? '');
+        const tinta = f.tinta || colorDelTexto(f.fondo ?? '');
         return (
           // Las fotos que no se ven quedan ocultas también para los lectores de pantalla.
           <div
