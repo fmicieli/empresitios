@@ -85,10 +85,12 @@ Solo si la tienda ya tenía productos y fotos en modo de prueba (como Chacha) y 
    - Nombre de la app: el de la tienda. Correo de asistencia: el del negocio.
    - Público: **Externo**.
    - No agregues permisos extra: alcanza con nombre y correo, que no necesitan revisión de Google (⚠️ confirmarlo en la consola, punto 12.5 de la Fase 2).
-   - Publicá la app ("En producción"). Si la dejás "En prueba", agregá como usuarios de prueba a todos los correos del admin.
+   - Publicá la app ("En producción") si te deja. Si no (pide dominio y página de privacidad), dejala "En prueba" y mirá el punto 8.
 4. En **Clientes → Crear cliente**: tipo **Aplicación web**.
 5. En **Orígenes autorizados de JavaScript**, agregá la dirección de la tienda (por ejemplo `https://tienda-cliente.workers.dev` y, si hay, `https://www.dominio.com.ar`). Para probar en tu compu, agregá también `http://localhost:8787`.
 6. Copiá el **ID de cliente** (termina en `.apps.googleusercontent.com`). Es público: va en la configuración.
+7. Volvé a entrar al cliente y fijate que los orígenes sigan ahí. Si quedaron vacíos (nos pasó con Chacha), el admin muestra "Acceso bloqueado: no registered origin · Error 401: invalid_client". Cargalos de nuevo, tocá **Guardar** abajo de todo y esperá entre 5 y 10 minutos.
+8. Si la app queda **"En prueba"** (el botón "Publicar app" pide datos de marca que una tienda chica no suele tener), en **Público → Usuarios de prueba** agregá todos los correos que van a entrar al admin. Son los mismos de `correosAdmin` en la planilla.
 
 ## Paso 4 · Anti-robots (Turnstile)
 
