@@ -562,6 +562,90 @@ a.tarjeta:hover .tarjeta-nombre {
   }
 }
 
+/* Banner de fotos (D-29). Las fotos se apilan en la misma celda y pasan con un fundido de 1 segundo.
+   Sin texto: la foto ocupa todo (16:10 en el celular, 4:3 en computadora).
+   Con texto: en el celular la foto va arriba y el texto abajo; en computadora el banner es 21:9,
+   el texto a la izquierda y la foto 4:3 entera a la derecha, fundida con el fondo. */
+.banner-fotos {
+  display: grid;
+  border-radius: var(--radio-grande);
+  overflow: hidden;
+  background: var(--superficie);
+}
+.banner-diapo {
+  grid-area: 1 / 1;
+  display: grid;
+  align-content: start;
+  background: var(--fondo-diapo, var(--superficie));
+  color: var(--tinta-diapo, var(--texto));
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.banner-diapo.activa {
+  opacity: 1;
+}
+.banner-diapo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.banner-diapo.con-texto img {
+  /* La foto se funde hacia abajo con el fondo del texto. */
+  mask-image: linear-gradient(to bottom, #000 80%, transparent);
+}
+.banner-diapo-texto {
+  padding: var(--espacio-400) var(--espacio-600) var(--espacio-600);
+  display: grid;
+  gap: var(--espacio-200);
+}
+.banner-diapo-texto p {
+  margin: 0;
+  font-size: var(--texto-medio);
+  max-width: 40ch;
+}
+.banner-diapo-texto .banner-diapo-titulo {
+  font-family: var(--fuente-titulos);
+  font-size: var(--titulo-1);
+  font-weight: var(--peso-bold);
+  line-height: var(--interlineado-titulos);
+  letter-spacing: var(--espaciado-titulos);
+}
+@media (min-width: 800px) {
+  .banner-diapo img {
+    aspect-ratio: 4 / 3;
+  }
+  /* 21:9 en total: la foto 4:3 a la altura del banner ocupa el 57 % del ancho (4/3 ÷ 21/9 = 4/7). */
+  .banner-diapo.con-texto {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 4fr);
+    align-items: center;
+  }
+  .banner-diapo.con-texto picture {
+    order: 2;
+  }
+  .banner-diapo.con-texto img {
+    mask-image: linear-gradient(to right, transparent, #000 25%);
+  }
+  .banner-diapo-texto {
+    padding: var(--espacio-1600);
+    gap: var(--espacio-400);
+  }
+  .banner-diapo-texto .banner-diapo-titulo {
+    font-size: var(--titulo-pagina);
+  }
+}
+@media (min-width: 1200px) {
+  .banner-diapo-texto .banner-diapo-titulo {
+    font-size: var(--titulo-hero);
+    letter-spacing: var(--espaciado-hero);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .banner-diapo {
+    transition: none;
+  }
+}
+
 /* ---------- Inicio: filas de destacados con desplazamiento horizontal ---------- */
 .fila-productos {
   display: grid;

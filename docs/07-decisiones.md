@@ -290,6 +290,19 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 1. **Flechas a los costados de la foto grande** (24/10, Flor), en el celular y en la computadora. Con fotos verticales (como las de Chacha), en la computadora las miniaturas quedaban abajo, fuera de la pantalla, y no se sabía que había más fotos. En la primera foto no se muestra "anterior" y en la última no se muestra "siguiente".
 2. **Sin pasar fotos solas** (recomendó Claude, Flor ofreció las dos opciones): que las fotos cambien solas distrae justo cuando la persona mira el detalle de una pieza, y las pautas de accesibilidad (WCAG 2.2.2) piden poder pausarlo. En el celular ya se puede deslizar con el dedo y hay puntitos que muestran cuántas fotos hay.
 
+## D-29 · Banner de solo fotos (30/10/2026)
+
+1. **Opción `inicio.banner.fotos`** (30/10, Flor, para Chacha). Si tiene fotos, el banner de la portada pasa a ser un slider de fotos con fundido cada 5 segundos, sin texto ni controles. Va en 4:3 en computadora y en 16:10 en el celular, con versiones más livianas para el celular. Sin fotos, sigue el banner de texto de siempre.
+2. **Accesibilidad** (avisó Claude, eligió Flor la opción a): algo que se mueve solo más de 5 segundos tiene que poder pausarse (WCAG 2.2.2).
+   - Las fotos dan 3 vueltas y quedan fijas en la primera.
+   - Se frenan mientras el mouse está encima.
+   - Con "reducir movimiento" activado no se mueven nunca.
+   - No avanzan con la pestaña oculta.
+3. **El título no se ve, pero sigue** (propuso Claude): `inicio.banner.titulo` queda como título principal oculto, para lectores de pantalla y buscadores. Cada foto lleva su texto alternativo (`alt`).
+4. Si la foto de computadora mide 1600 px de ancho, en una pantalla grande el banner ocupa casi toda la altura de la pantalla en 4:3.
+5. **Texto opcional en cada foto** (30/10, Flor): título y texto a la izquierda, sobre un fondo del color del borde de la foto, con la foto fundida en ese color para que parezca que se extiende. Con texto, en computadora el banner pasa a 21:9: la foto 4:3 entra entera a la derecha y queda lugar para el texto a la izquierda (más bajo que 4:3 a todo el ancho, que ocupaba toda la pantalla). En el celular, la foto en 16:10 y el texto debajo. El color del texto (blanco u oscuro) se elige solo según el fondo, o se fija con "tinta" (30/10, Flor: fondo blanco con texto de color); al compilar se avisa si no llega a 4,5:1.
+6. **El banner no se edita desde el admin** (30/10, Flor): las fotos y sus textos se cargan a mano en `tienda.config.ts` y `public/`, a pedido del comercio (lo hace quien mantiene el sitio, con un prompt). Así el admin queda simple.
+
 ## Pendientes (al 14/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

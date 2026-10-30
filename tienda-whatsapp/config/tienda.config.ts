@@ -42,6 +42,27 @@ export interface ConfigTienda {
       texto: string;
       /** Botón del banner. Link vacío = sin botón. Ejemplo: "/?cat=Mujer" (una categoría) o "/producto/?id=p1". */
       boton: { texto: string; link: string };
+      /**
+       * Banner de fotos que pasan con un fundido (D-29). Con al menos una foto, reemplaza al banner de arriba:
+       * el título de arriba queda oculto (solo para lectores de pantalla y buscadores) y no hay botón.
+       * Cada foto en public/: "escritorio" 4:3 (por ejemplo 1600 × 1200) y "celular", más liviana (por ejemplo 900 px de ancho).
+       * "alt": qué se ve en la foto, para quien usa lector de pantalla.
+       * "titulo" y "texto" (opcionales): van sobre "fondo", un color sacado del borde izquierdo de la foto (#rrggbb).
+       *   Con texto: en computadora el banner es 21:9, el texto a la izquierda y la foto entera a la derecha;
+       *   en el celular, la foto en 16:10 y el texto debajo. Sin texto: la foto ocupa todo (4:3 y 16:10).
+       * "tinta" (opcional, #rrggbb): color del texto. Vacío = blanco u oscuro, el que mejor se lea sobre el fondo.
+       *   Al compilar se avisa si "tinta" no se lee bien sobre "fondo".
+       * Vacío = banner de texto de arriba.
+       */
+      fotos: {
+        escritorio: string;
+        celular: string;
+        alt: string;
+        titulo?: string;
+        texto?: string;
+        fondo?: string;
+        tinta?: string;
+      }[];
     };
   };
   /** De dónde salen los datos: "local" (prueba, en el navegador) o "appsScript" (Google, ver docs/09). */
@@ -77,6 +98,7 @@ const config: ConfigTienda = {
       titulo: 'Nueva temporada',
       texto: 'Ropa cómoda para todos los días. Elegí, pedí y coordiná por WhatsApp.',
       boton: { texto: 'Ver lo nuevo de Mujer', link: '/?cat=Mujer' },
+      fotos: [],
     },
   },
   datos: 'local',
