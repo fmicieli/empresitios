@@ -40,4 +40,6 @@ const catalogo = {
 mkdirSync(new URL('.', destino), { recursive: true });
 writeFileSync(destino, JSON.stringify(catalogo, null, 2) + '\n');
 const fotos = catalogo.productos.reduce((n, p) => n + p.fotos.length, 0);
-console.log(`Listo: ${catalogo.categorias.length} categorías, ${catalogo.productos.length} productos y ${fotos} fotos en public/importar/catalogo.json`);
+console.log(
+  `Listo: ${catalogo.categorias.length} categorías, ${catalogo.productos.length} productos y ${fotos} fotos en public/importar/catalogo.json`,
+);
