@@ -1000,19 +1000,25 @@ function importarCatalogo() {
       creado: ahora,
       actualizado: ahora,
     };
-    let destino = null;
     const base = nombreDrive(prod.codigo || prod.nombre);
-    const fotos = (p.fotos || []).map((ruta, i) => {
-      const r = UrlFetchApp.fetch(origen + ruta, { muteHttpExceptions: true });
-      if (r.getResponseCode() !== 200) throw new Error('No se pudo bajar la foto ' + ruta + ' (código ' + r.getResponseCode() + ').');
-      const blob = r.getBlob();
-      const extension = TIPOS_FOTO[blob.getContentType()];
-      if (!extension) throw new Error('La foto ' + ruta + ' no es JPG, PNG ni WebP.');
-      if (blob.getBytes().length > MAX_FOTO) throw new Error('La foto ' + ruta + ' pesa más de 4 MB.');
-      blob.setName(base + '-' + (i + 1) + '.' + extension);
-      destino = destino || carpetaDeProducto(prod);
-      return destino.createFile(blob).getId();
+    // Primero se bajan todas las fotos del producto y recién después se guardan:
+    // si una falla, no quedan fotos sueltas de un producto a medias.
+    const blobs = (p.fotos || []).map((ruta, i) => {
+      const blob = bajarFoto(origen + ruta, ruta);
+      blob.setName(base + '-' + (i + 1) + '.' + TIPOS_FOTO[blob.getContentType()]);
+      return blob;
     });
+    let destino = null;
+    if (blobs.length) {
+      destino = carpetaDeProducto(prod);
+      // Si una importación anterior se cortó en este producto, sus fotos quedaron sin usar: van a la papelera.
+      const viejas = destino.getFiles();
+      while (viejas.hasNext()) {
+        const f = viejas.next();
+        if (!f.isTrashed() && f.getName().indexOf(base + '-') === 0) f.setTrashed(true);
+      }
+    }
+    const fotos = blobs.map((blob) => destino.createFile(blob).getId());
     prod.fotos = fotos.join('|');
     conCandado(() => {
       agregar('Productos', prod);
@@ -1032,6 +1038,30 @@ function importarCatalogo() {
     (pendientes ? ' Faltan ' + pendientes + ': volvé a ejecutar importarCatalogo y sigue desde donde quedó.' : ' Listo.');
   console.log(mensaje);
   return mensaje;
+}
+
+/** Baja una foto de la tienda. Si la conexión falla, reintenta dos veces más antes de rendirse. */
+function bajarFoto(url, ruta) {
+  let ultimoError = null;
+  for (let intento = 1; intento <= 3; intento++) {
+    try {
+      const r = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+      if (r.getResponseCode() === 200) {
+        const blob = r.getBlob();
+        if (!TIPOS_FOTO[blob.getContentType()]) throw new Error('La foto ' + ruta + ' no es JPG, PNG ni WebP.');
+        if (blob.getBytes().length > MAX_FOTO) throw new Error('La foto ' + ruta + ' pesa más de 4 MB.');
+        return blob;
+      }
+      // 404: la foto no existe; reintentar no sirve.
+      if (r.getResponseCode() === 404) throw new Error('No se pudo bajar la foto ' + ruta + ' (código 404).');
+      ultimoError = new Error('No se pudo bajar la foto ' + ruta + ' (código ' + r.getResponseCode() + ').');
+    } catch (e) {
+      if (/no es JPG|pesa más|código 404/.test(e.message)) throw e;
+      ultimoError = e;
+    }
+    if (intento < 3) Utilities.sleep(intento * 2000);
+  }
+  throw new Error(ultimoError.message + ' Probé 3 veces. Volvé a ejecutar importarCatalogo: sigue desde donde quedó.');
 }
 
 // ---------------------------------------------------------------------------
