@@ -23,7 +23,15 @@
 - 24/10: el WhatsApp del pedido lleva el código y el link a la foto de cada producto (D-25), y las fotos se ordenan solas en carpetas de Drive por categoría y producto (D-26). Unido (empresitios #9, chacha #3). D-26 se prueba recién con Google de verdad: medir cuánto tarda guardar un producto.
 - 24/10: logo al centro en computadora (opción `logoCentrado`, D-27), botón del banner centrado en el celular, carrito centrado, flechas en las fotos de la ficha (D-28), más destacados, y color de marca marrón casi negro (#3a2a20) con #171717 al pasar el mouse. El logo queda casi negro (decidió Flor).
 - 27 al 30/10: WhatsApp de consultas (2324 47-6673) e Instagram reales. Banner de dos fotos con fundido (D-29): 21:9 en computadora con el texto a la izquierda sobre el color de la foto (verde musgo y beige), 16:10 en el celular con el texto debajo; da 3 vueltas y queda fijo. Se carga a mano, no desde el admin. Descripción: pintado a mano solo abanicos y totes; Home es deco seleccionada.
-- Falta: decidir "Pieza única" en vez de "Queda 1" (cambio de plantilla) y si se agregan flechas a las filas de destacados en computadora.
+- 30/10: "Pieza única" y flechas en las filas de destacados (D-30).
+- **30/10: conectada a Google (D-31).** Lo que funciona:
+  - la planilla "Chacha tienda — no borrar" y las fotos en el Drive de fmicieli94@gmail.com (carpeta "Chacha - Tienda / 05 Sistema tienda");
+  - el catálogo importado con `importarCatalogo`: 28 de 31 productos;
+  - el admin con Google para Flor y Marina (app "En prueba", con las dos como usuarias de prueba);
+  - las tres claves secretas en Cloudflare, en "Runtime variables and secrets".
+
+  Probado por Flor: tienda, admin, pedido y cancelación.
+- Falta: importar las 3 fundas (FA-01 a FA-03) ejecutando otra vez `importarCatalogo`. Después, limpiar del repo de Chacha las fotos de prueba y el catálogo exportado.
 - Siguiente paso propuesto: conectarla a Google (guía 09) para manejar los productos de verdad desde el admin: es la "prueba con Google" pendiente.
 - Cómo se crean los repos de clientes y cómo se les traen las mejoras: https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/12-repos-de-clientes.md
 
@@ -82,7 +90,7 @@ Hola, soy Flor. Seguimos el proyecto de la plantilla "Tienda con WhatsApp".
 3. Fases 1, 2 y 3: aprobadas (D-15, D-16 y D-17).
 4. Fase 4 aprobada: la demo está publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev. Cloudflare publica solo la rama main: cada cambio llega por pull request y yo lo uno.
 5. El diseño D-19/D-20 está unido a main y publicado (PR #5). El sistema de diseño de base (D-21, Simple Design System con Nunito Sans) y las fotos del admin (D-22) están unidos a main y publicados (PR #6). Las tarjetas de producto (D-21, 12 f a 12 h) también están publicadas (PR #7). Preguntame si lo revisé en la demo publicada. Quedan abiertas tres preguntas mías: (a) en la lista de productos del admin, ¿mostrar el stock por combinación o el total más cuántas combinaciones están agotadas?; (b) si sigo viendo el stock sumado al cargar un producto nuevo (te mando captura); (c) en qué formato quiero el muestrario de estilos de inspiración (página, documento o Figma).
-6. Ejemplo con marca (D-23): Chacha, mi emprendimiento, publicada en https://chacha-tienda.atlas-de5cd208129d.workers.dev (repo privado fmicieli/chacha-tienda: agregalo a la sesión). Ya tiene logo (D-24), foto en el WhatsApp (D-25) fotos ordenadas en Drive (D-26, se prueba al conectar Google), logo al centro (D-27), flechas en las fotos (D-28) marrón casi negro, WhatsApp e Instagram reales y banner de fotos con texto (D-29); preguntame si quiero "Pieza única" y flechas en las filas de destacados; preguntame si quiero conectarla a Google. Los arreglos se hacen en empresitios y se traen a Chacha (docs/12-repos-de-clientes.md).
+6. Ejemplo con marca (D-23): Chacha, mi emprendimiento, publicada en https://chacha-tienda.atlas-de5cd208129d.workers.dev (repo privado fmicieli/chacha-tienda: agregalo a la sesión). Ya tiene logo (D-24), foto en el WhatsApp (D-25) fotos ordenadas en Drive (D-26, se prueba al conectar Google), logo al centro (D-27), flechas en las fotos (D-28) marrón casi negro, WhatsApp e Instagram reales y banner de fotos con texto (D-29); "Pieza única" y flechas en destacados (D-30). Conectada a Google el 30/10 (D-31): funcionan la tienda, el admin (Flor y Marina) y los pedidos. Faltan importar 3 fundas y limpiar las fotos de prueba del repo. Los arreglos se hacen en empresitios y se traen a Chacha (docs/12-repos-de-clientes.md).
 7. Si tenés acceso, confirmá en las páginas oficiales los datos marcados ⚠️ (docs/08, punto 12, y docs/11).
-8. La prueba con Google de verdad queda para el final, con la lista de pruebas (docs/09, paso 8). Después, preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
+8. La prueba con Google de verdad ya se hizo con Chacha (30/10, ver "Pendientes" en docs/07). Preguntame qué sigue (ver "Después (no ahora)" en docs/05). Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar.
 ```

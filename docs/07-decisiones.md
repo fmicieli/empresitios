@@ -317,10 +317,16 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 5. **Fotos que fallan al bajar (30/10):** con Google de verdad, una foto falló con "Dirección no disponible", una falla momentánea de la conexión. Ahora cada foto se reintenta hasta 3 veces. Las fotos de un producto se bajan todas antes de guardarlas, así una falla no deja fotos sueltas. Si una importación anterior se cortó a mitad de un producto, sus fotos sueltas van a la papelera.
 6. **Cuentas del admin de Chacha:** la dueña es la cuenta personal de Flor (planilla, código y fotos en su Drive). Una segunda persona entra con su propia cuenta, agregada en `correosAdmin`, para manejar el stock. Los correos van solo en la planilla y en Google Cloud, nunca en el repositorio.
 
-## Pendientes (al 14/10/2026)
+## Pendientes (al 30/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
-2. **Fase 4** (publicación de la demo): aprobada el 13/10. Publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev desde `main`; probada por Flor desde el celular.
-3. **Estilo por cliente (D-19) y sistema de diseño de base (D-21):** D-21 y D-22 aprobados por Flor y unidos a `main` el 14/10 (PR #6), publicados en la demo. Falta decidir si se arma un muestrario de estilos de inspiración.
-4. **Prueba con Google de verdad:** al final, con la lista de pruebas (guía `09`, paso 8).
-5. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`).
+2. **Prueba con Google de verdad: hecha con Chacha (30/10).** Tienda, admin con dos cuentas, pedido de prueba y cancelación funcionan. Aparecieron cuatro problemas, ya arreglados en la plantilla y en la guía 09:
+   - casillas ✓ que contaban como filas (D-31);
+   - fotos que fallaban al bajar (D-31);
+   - orígenes de Google que no se guardaron;
+   - claves en la sección equivocada de Cloudflare y con un nombre mal escrito.
+
+   Falta medir cuánto tarda guardar un producto con fotos en Drive (D-26).
+3. **Chacha:** faltan importar las 3 fundas (FA-01 a FA-03) con `importarCatalogo`. Después se pueden sacar de su repo las fotos de prueba (`public/fotos-demo/`) y `public/importar/catalogo.json`.
+4. **Estilo por cliente:** falta decidir si se arma un muestrario de estilos de inspiración.
+5. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`). Opcional: que la carpeta de fotos se cree junto a la planilla, y no en la raíz de "Mi unidad".
