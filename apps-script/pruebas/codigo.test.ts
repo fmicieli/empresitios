@@ -282,3 +282,104 @@ describe('fotos ordenadas en Drive (D-26)', () => {
     expect(g.ruta(a)).toBe('Ropa/Remeras/AB-05 · Abanico Koi/AB-05-1.jpg');
   });
 });
+
+describe('importar el catálogo de prueba (D-31)', () => {
+  const SITIO = 'https://mi-tienda.workers.dev';
+  const catalogo = {
+    version: 1,
+    categorias: [
+      { id: 'c1', orden: 1, categoria: 'Accesorios', subcategoria: 'Abanicos', visible: true },
+      { id: 'c2', orden: 2, categoria: 'Home', subcategoria: '', visible: true },
+    ],
+    productos: [
+      {
+        id: 'AB-01',
+        nombre: 'Abanico Menta',
+        categoriaId: 'c1',
+        precio: 25000,
+        descripcion: 'Pintado a mano.',
+        codigo: 'AB-01',
+        visible: true,
+        destacado: true,
+        colores: [],
+        talles: [],
+        fotos: ['/fotos-demo/AB-01-1.jpg', '/fotos-demo/AB-01-2.jpg'],
+        stock: [{ color: '', talle: '', cantidad: 1 }],
+      },
+      {
+        id: 'FA-01',
+        nombre: 'Fundas Marina',
+        categoriaId: 'c2',
+        precio: 15000,
+        descripcion: '',
+        codigo: '',
+        visible: true,
+        destacado: false,
+        colores: ['Azul', 'Gris'],
+        talles: [],
+        fotos: ['/fotos-demo/FA-01-1.jpg'],
+        stock: [{ color: 'Azul', talle: '', cantidad: 2 }],
+      },
+    ],
+  };
+  const publicar = () => {
+    g.web.set(SITIO + '/importar/catalogo.json', {
+      codigo: 200,
+      tipo: 'application/json',
+      cuerpo: Buffer.from(JSON.stringify(catalogo)),
+    });
+    for (const p of catalogo.productos)
+      for (const f of p.fotos) g.web.set(SITIO + f, { codigo: 200, tipo: 'image/jpeg', cuerpo: Buffer.from('foto ' + f) });
+  };
+  const configurar = (url: string) => {
+    const fila = g.hojas.get('Config')!.datos.find((f) => f[0] === 'importarDesde')!;
+    fila[1] = url;
+  };
+  beforeEach(() => {
+    // Planilla recién creada: sin las categorías ni los productos de las otras pruebas.
+    g = crearGoogleFalso(DUENA);
+  });
+
+  it('trae categorías, productos, stock y fotos, ya ordenadas en Drive', () => {
+    publicar();
+    configurar(SITIO + '/importar/catalogo.json');
+    expect(g.ejecutar('importarCatalogo')).toMatch(/Importados: 2 productos/);
+    const productos = llamar('catalogo').resultado.productos;
+    expect(productos.map((p: any) => p.id)).toEqual(['AB-01', 'FA-01']);
+    const abanico = productos[0];
+    expect(abanico.destacado).toBe(true);
+    expect(abanico.variantes).toMatchObject([{ color: '', talle: '', libre: 1 }]);
+    expect(abanico.fotos.map((id: string) => g.ruta(id))).toEqual([
+      'Accesorios/Abanicos/AB-01 · Abanico Menta/AB-01-1.jpg',
+      'Accesorios/Abanicos/AB-01 · Abanico Menta/AB-01-2.jpg',
+    ]);
+    expect(llamar('foto', { id: abanico.fotos[1] }).resultado.base64).toBe(
+      Buffer.from('foto /fotos-demo/AB-01-2.jpg').toString('base64'),
+    );
+    // Sin código, la foto lleva el nombre; las combinaciones sin dato quedan en 0.
+    expect(g.ruta(productos[1].fotos[0])).toBe('Home/Fundas Marina/Fundas Marina-1.jpg');
+    expect(productos[1].variantes.map((v: any) => [v.color, v.libre])).toEqual([
+      ['Azul', 2],
+      ['Gris', 0],
+    ]);
+  });
+
+  it('se puede volver a ejecutar sin duplicar', () => {
+    publicar();
+    configurar(SITIO + '/importar/catalogo.json');
+    g.ejecutar('importarCatalogo');
+    expect(g.ejecutar('importarCatalogo')).toMatch(/Importados: 0 productos. Ya estaban: 2/);
+    expect(g.hojas.get('Productos')!.datos).toHaveLength(3); // encabezado + 2
+    expect(g.hojas.get('Categorias')!.datos).toHaveLength(3);
+  });
+
+  it('avisa qué falta en vez de importar a medias', () => {
+    expect(() => g.ejecutar('importarCatalogo')).toThrow(/importarDesde/);
+    configurar(SITIO + '/importar/catalogo.json');
+    expect(() => g.ejecutar('importarCatalogo')).toThrow(/código 404/);
+    publicar();
+    g.hojas.get('Categorias')!.appendRow(['otra', 1, 'Ropa', '', true]);
+    expect(() => g.ejecutar('importarCatalogo')).toThrow(/c1, c2/);
+    expect(g.hojas.get('Productos')!.datos).toHaveLength(1);
+  });
+});
