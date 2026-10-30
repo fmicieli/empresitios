@@ -60,6 +60,8 @@ export interface GoogleFalso {
   ruta(idArchivo: string): string;
   /** "Internet de mentira" para UrlFetchApp: dirección → respuesta. */
   web: Map<string, { codigo: number; tipo: string; cuerpo: Buffer }>;
+  /** Direcciones que fallan las próximas N veces con "Dirección no disponible" (como pasó con Google de verdad). */
+  fallas: Map<string, number>;
   secreto: string;
 }
 
@@ -77,6 +79,7 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
   const archivos = new Map<string, Archivo>();
   const carpetas = new Map<string, Carpeta>();
   const web = new Map<string, { codigo: number; tipo: string; cuerpo: Buffer }>();
+  const fallas = new Map<string, number>();
 
   const libro = {
     getSheetByName: (n: string) => hojas.get(n) ?? null,
@@ -119,6 +122,7 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
       getName: () => a().nombre ?? '',
       setName: (n: string) => (a().nombre = n),
       isTrashed: () => !!a().papelera,
+      setTrashed: (v: boolean) => (a().papelera = v),
       moveTo: (destino: { getId(): string }) => (a().carpeta = destino.getId()),
       getParents: () => iterador(carpetas.has(a().carpeta) ? [carpeta(a().carpeta)] : []),
       getBlob: () => ({ getContentType: () => a().tipo, getBytes: () => a().bytes }),
@@ -148,6 +152,7 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
       base64Decode: (s: string) => [...Buffer.from(s, 'base64')],
       base64Encode: (b: number[]) => Buffer.from(b).toString('base64'),
       newBlob: (bytes: number[], tipo: string, nombre?: string) => ({ bytes, tipo, nombre }),
+      sleep: () => {},
     },
     ContentService: {
       createTextOutput: (texto: string) => ({
@@ -171,6 +176,11 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
     },
     UrlFetchApp: {
       fetch: (url: string) => {
+        const quedan = fallas.get(url) ?? 0;
+        if (quedan > 0) {
+          fallas.set(url, quedan - 1);
+          throw new Error('Dirección no disponible: ' + url);
+        }
         const r = web.get(url) ?? { codigo: 404, tipo: 'text/plain', cuerpo: Buffer.from('') };
         return {
           getResponseCode: () => r.codigo,
@@ -215,6 +225,7 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
     carpetas,
     ruta,
     web,
+    fallas,
     secreto,
     ejecutar,
     doPost(cuerpo) {

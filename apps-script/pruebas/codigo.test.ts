@@ -382,4 +382,42 @@ describe('importar el catálogo de prueba (D-31)', () => {
     expect(() => g.ejecutar('importarCatalogo')).toThrow(/c1, c2/);
     expect(g.hojas.get('Productos')!.datos).toHaveLength(1);
   });
+  it('no confunde las casillas ✓ vacías con categorías o productos', () => {
+    // Así queda la planilla real después de configurarPlanilla: casillas en FALSO hasta la fila 1000.
+    for (const [pestana, col] of [
+      ['Categorias', 4],
+      ['Productos', 6],
+    ] as const) {
+      const datos = g.hojas.get(pestana)!.datos;
+      for (let f = 1; f < 40; f++) {
+        datos[f] = datos[f] ?? [];
+        datos[f][col] = false;
+      }
+    }
+    publicar();
+    configurar(SITIO + '/importar/catalogo.json');
+    expect(g.ejecutar('importarCatalogo')).toMatch(/Importados: 2 productos/);
+    // Se escriben arriba de todo, no después de las casillas.
+    expect(g.hojas.get('Categorias')!.datos[1][0]).toBe('c1');
+    expect(g.hojas.get('Productos')!.datos[1][0]).toBe('AB-01');
+    expect(llamar('admin.catalogo', {}, DUENA).resultado.productos).toHaveLength(2);
+  });
+  it('reintenta las fotos que fallan y no deja fotos repetidas', () => {
+    publicar();
+    configurar(SITIO + '/importar/catalogo.json');
+    // Falla dos veces y a la tercera anda: se importa igual.
+    g.fallas.set(SITIO + '/fotos-demo/AB-01-2.jpg', 2);
+    expect(g.ejecutar('importarCatalogo')).toMatch(/Importados: 2 productos/);
+
+    // Una importación anterior se cortó en FA-01 y dejó su foto suelta: la nueva la manda a la papelera.
+    g = crearGoogleFalso(DUENA);
+    publicar();
+    configurar(SITIO + '/importar/catalogo.json');
+    g.fallas.set(SITIO + '/fotos-demo/FA-01-1.jpg', 3);
+    expect(() => g.ejecutar('importarCatalogo')).toThrow(/Probé 3 veces/);
+    expect(g.hojas.get('Productos')!.datos).toHaveLength(2); // AB-01 quedó; FA-01 no
+    expect(g.ejecutar('importarCatalogo')).toMatch(/Importados: 1 productos. Ya estaban: 1/);
+    const fotosFundas = [...g.archivos.values()].filter((a) => a.nombre?.startsWith('Fundas Marina-') && !a.papelera);
+    expect(fotosFundas).toHaveLength(1);
+  });
 });

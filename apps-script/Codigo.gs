@@ -137,7 +137,11 @@ function hoja(nombre) {
   return h;
 }
 
-/** Lee una pestaña como lista de objetos; cada uno recuerda su fila (_fila). */
+/**
+ * Lee una pestaña como lista de objetos; cada uno recuerda su fila (_fila).
+ * Una fila cuenta solo si tiene algo en la primera columna (id, clave o número): las casillas ✓ vacías
+ * de la columna "visible" valen FALSO y no tienen que parecer productos o categorías.
+ */
 function leer(nombre) {
   const h = hoja(nombre);
   const valores = h.getDataRange().getValues();
@@ -145,7 +149,7 @@ function leer(nombre) {
   const filas = [];
   for (let i = 1; i < valores.length; i++) {
     const v = valores[i];
-    if (v.every((x) => x === '' || x === null)) continue;
+    if (v[0] === '' || v[0] === null) continue;
     const o = { _fila: i + 1 };
     cols.forEach((c, j) => (o[c] = v[j]));
     filas.push(o);
@@ -157,15 +161,23 @@ function aFila(nombre, o) {
   return PESTANAS[nombre].map((c) => (o[c] === undefined || o[c] === null ? '' : o[c]));
 }
 
+/** Primera fila libre: después de la última con algo en la primera columna (no cuenta casillas ✓ vacías). */
+function filaLibre(h) {
+  const valores = h.getDataRange().getValues();
+  let ultima = 1; // el encabezado
+  for (let i = 1; i < valores.length; i++) if (valores[i][0] !== '' && valores[i][0] !== null) ultima = i + 1;
+  return ultima + 1;
+}
+
 function agregar(nombre, o) {
-  hoja(nombre).appendRow(aFila(nombre, o));
+  agregarVarias(nombre, [o]);
 }
 
 function agregarVarias(nombre, lista) {
   if (!lista.length) return;
   const h = hoja(nombre);
   const cols = PESTANAS[nombre].length;
-  h.getRange(h.getLastRow() + 1, 1, lista.length, cols).setValues(lista.map((o) => aFila(nombre, o)));
+  h.getRange(filaLibre(h), 1, lista.length, cols).setValues(lista.map((o) => aFila(nombre, o)));
 }
 
 function actualizar(nombre, o) {
@@ -988,19 +1000,25 @@ function importarCatalogo() {
       creado: ahora,
       actualizado: ahora,
     };
-    let destino = null;
     const base = nombreDrive(prod.codigo || prod.nombre);
-    const fotos = (p.fotos || []).map((ruta, i) => {
-      const r = UrlFetchApp.fetch(origen + ruta, { muteHttpExceptions: true });
-      if (r.getResponseCode() !== 200) throw new Error('No se pudo bajar la foto ' + ruta + ' (código ' + r.getResponseCode() + ').');
-      const blob = r.getBlob();
-      const extension = TIPOS_FOTO[blob.getContentType()];
-      if (!extension) throw new Error('La foto ' + ruta + ' no es JPG, PNG ni WebP.');
-      if (blob.getBytes().length > MAX_FOTO) throw new Error('La foto ' + ruta + ' pesa más de 4 MB.');
-      blob.setName(base + '-' + (i + 1) + '.' + extension);
-      destino = destino || carpetaDeProducto(prod);
-      return destino.createFile(blob).getId();
+    // Primero se bajan todas las fotos del producto y recién después se guardan:
+    // si una falla, no quedan fotos sueltas de un producto a medias.
+    const blobs = (p.fotos || []).map((ruta, i) => {
+      const blob = bajarFoto(origen + ruta, ruta);
+      blob.setName(base + '-' + (i + 1) + '.' + TIPOS_FOTO[blob.getContentType()]);
+      return blob;
     });
+    let destino = null;
+    if (blobs.length) {
+      destino = carpetaDeProducto(prod);
+      // Si una importación anterior se cortó en este producto, sus fotos quedaron sin usar: van a la papelera.
+      const viejas = destino.getFiles();
+      while (viejas.hasNext()) {
+        const f = viejas.next();
+        if (!f.isTrashed() && f.getName().indexOf(base + '-') === 0) f.setTrashed(true);
+      }
+    }
+    const fotos = blobs.map((blob) => destino.createFile(blob).getId());
     prod.fotos = fotos.join('|');
     conCandado(() => {
       agregar('Productos', prod);
@@ -1020,6 +1038,30 @@ function importarCatalogo() {
     (pendientes ? ' Faltan ' + pendientes + ': volvé a ejecutar importarCatalogo y sigue desde donde quedó.' : ' Listo.');
   console.log(mensaje);
   return mensaje;
+}
+
+/** Baja una foto de la tienda. Si la conexión falla, reintenta dos veces más antes de rendirse. */
+function bajarFoto(url, ruta) {
+  let ultimoError = null;
+  for (let intento = 1; intento <= 3; intento++) {
+    try {
+      const r = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+      if (r.getResponseCode() === 200) {
+        const blob = r.getBlob();
+        if (!TIPOS_FOTO[blob.getContentType()]) throw new Error('La foto ' + ruta + ' no es JPG, PNG ni WebP.');
+        if (blob.getBytes().length > MAX_FOTO) throw new Error('La foto ' + ruta + ' pesa más de 4 MB.');
+        return blob;
+      }
+      // 404: la foto no existe; reintentar no sirve.
+      if (r.getResponseCode() === 404) throw new Error('No se pudo bajar la foto ' + ruta + ' (código 404).');
+      ultimoError = new Error('No se pudo bajar la foto ' + ruta + ' (código ' + r.getResponseCode() + ').');
+    } catch (e) {
+      if (/no es JPG|pesa más|código 404/.test(e.message)) throw e;
+      ultimoError = e;
+    }
+    if (intento < 3) Utilities.sleep(intento * 2000);
+  }
+  throw new Error(ultimoError.message + ' Probé 3 veces. Volvé a ejecutar importarCatalogo: sigue desde donde quedó.');
 }
 
 // ---------------------------------------------------------------------------
