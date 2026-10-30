@@ -122,6 +122,8 @@ Y en `tienda-whatsapp/wrangler.jsonc`, cambiá `"name"` por el nombre del proyec
    - Comando de compilación: `npm run build`
    - Comando de implementación: `npm run desplegar`
 3. Cuando termine, en el Worker: **Configuración → Variables y secretos → Agregar**, tipo **Secreto**, y cargá los tres 🔒: `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRETO` y `TURNSTILE_SECRETO`.
+   - En la sección **Runtime variables and secrets** (arriba de todo en Settings), no en la de **Build**: esa también se llama "Variables and secrets", pero la tienda no la ve. Nos pasó con Chacha.
+   - Los nombres exactos, sin letras de más (con Chacha quedó `APPS_SCRIPTS_…` con una S de más y la tienda no la encontraba).
    - Tipo **Secreto**, no "Texto": con Chacha, las cargadas como texto se perdieron en la publicación siguiente y la tienda mostraba "No pudimos cargar los productos".
    - Después de cargarlas, tocá **Deploy**: hasta que desaparezca el aviso "Unsaved changes" no quedan guardadas.
    - Para comprobarlo, abrí `https://(dirección de la tienda)/api/catalogo`. Tiene que empezar con `{"ok":true`. Si dice "Falta configurar el puente.", faltan las claves.
