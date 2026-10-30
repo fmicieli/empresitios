@@ -382,4 +382,24 @@ describe('importar el catálogo de prueba (D-31)', () => {
     expect(() => g.ejecutar('importarCatalogo')).toThrow(/c1, c2/);
     expect(g.hojas.get('Productos')!.datos).toHaveLength(1);
   });
+  it('no confunde las casillas ✓ vacías con categorías o productos', () => {
+    // Así queda la planilla real después de configurarPlanilla: casillas en FALSO hasta la fila 1000.
+    for (const [pestana, col] of [
+      ['Categorias', 4],
+      ['Productos', 6],
+    ] as const) {
+      const datos = g.hojas.get(pestana)!.datos;
+      for (let f = 1; f < 40; f++) {
+        datos[f] = datos[f] ?? [];
+        datos[f][col] = false;
+      }
+    }
+    publicar();
+    configurar(SITIO + '/importar/catalogo.json');
+    expect(g.ejecutar('importarCatalogo')).toMatch(/Importados: 2 productos/);
+    // Se escriben arriba de todo, no después de las casillas.
+    expect(g.hojas.get('Categorias')!.datos[1][0]).toBe('c1');
+    expect(g.hojas.get('Productos')!.datos[1][0]).toBe('AB-01');
+    expect(llamar('admin.catalogo', {}, DUENA).resultado.productos).toHaveLength(2);
+  });
 });

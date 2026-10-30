@@ -137,7 +137,11 @@ function hoja(nombre) {
   return h;
 }
 
-/** Lee una pestaña como lista de objetos; cada uno recuerda su fila (_fila). */
+/**
+ * Lee una pestaña como lista de objetos; cada uno recuerda su fila (_fila).
+ * Una fila cuenta solo si tiene algo en la primera columna (id, clave o número): las casillas ✓ vacías
+ * de la columna "visible" valen FALSO y no tienen que parecer productos o categorías.
+ */
 function leer(nombre) {
   const h = hoja(nombre);
   const valores = h.getDataRange().getValues();
@@ -145,7 +149,7 @@ function leer(nombre) {
   const filas = [];
   for (let i = 1; i < valores.length; i++) {
     const v = valores[i];
-    if (v.every((x) => x === '' || x === null)) continue;
+    if (v[0] === '' || v[0] === null) continue;
     const o = { _fila: i + 1 };
     cols.forEach((c, j) => (o[c] = v[j]));
     filas.push(o);
@@ -157,15 +161,23 @@ function aFila(nombre, o) {
   return PESTANAS[nombre].map((c) => (o[c] === undefined || o[c] === null ? '' : o[c]));
 }
 
+/** Primera fila libre: después de la última con algo en la primera columna (no cuenta casillas ✓ vacías). */
+function filaLibre(h) {
+  const valores = h.getDataRange().getValues();
+  let ultima = 1; // el encabezado
+  for (let i = 1; i < valores.length; i++) if (valores[i][0] !== '' && valores[i][0] !== null) ultima = i + 1;
+  return ultima + 1;
+}
+
 function agregar(nombre, o) {
-  hoja(nombre).appendRow(aFila(nombre, o));
+  agregarVarias(nombre, [o]);
 }
 
 function agregarVarias(nombre, lista) {
   if (!lista.length) return;
   const h = hoja(nombre);
   const cols = PESTANAS[nombre].length;
-  h.getRange(h.getLastRow() + 1, 1, lista.length, cols).setValues(lista.map((o) => aFila(nombre, o)));
+  h.getRange(filaLibre(h), 1, lista.length, cols).setValues(lista.map((o) => aFila(nombre, o)));
 }
 
 function actualizar(nombre, o) {
