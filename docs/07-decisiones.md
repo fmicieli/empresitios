@@ -300,6 +300,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
    - No avanzan con la pestaña oculta.
 3. **El título no se ve, pero sigue** (propuso Claude): `inicio.banner.titulo` queda como título principal oculto, para lectores de pantalla y buscadores. Cada foto lleva su texto alternativo (`alt`).
 4. Si la foto de computadora mide 1600 px de ancho, en una pantalla grande el banner ocupa casi toda la altura de la pantalla en 4:3.
+5. **El banner no se edita desde el admin** (30/10, Flor): las fotos y sus textos se cargan a mano en `tienda.config.ts` y `public/`, a pedido del comercio (lo hace quien mantiene el sitio, con un prompt). Así el admin queda simple.
 
 ## Pendientes (al 14/10/2026)
 
