@@ -615,18 +615,15 @@ a.tarjeta:hover .tarjeta-nombre {
   .banner-diapo img {
     aspect-ratio: 4 / 3;
   }
+  /* 21:9 en total: la foto 4:3 a la altura del banner ocupa el 57 % del ancho (4/3 ÷ 21/9 = 4/7). */
   .banner-diapo.con-texto {
-    aspect-ratio: 21 / 9;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 4fr);
     align-items: center;
   }
   .banner-diapo.con-texto picture {
     order: 2;
-    height: 100%;
   }
   .banner-diapo.con-texto img {
-    height: 100%;
-    width: auto;
     mask-image: linear-gradient(to right, transparent, #000 25%);
   }
   .banner-diapo-texto {
