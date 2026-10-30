@@ -122,6 +122,9 @@ Y en `tienda-whatsapp/wrangler.jsonc`, cambiá `"name"` por el nombre del proyec
    - Comando de compilación: `npm run build`
    - Comando de implementación: `npm run desplegar`
 3. Cuando termine, en el Worker: **Configuración → Variables y secretos → Agregar**, tipo **Secreto**, y cargá los tres 🔒: `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRETO` y `TURNSTILE_SECRETO`.
+   - Tipo **Secreto**, no "Texto": con Chacha, las cargadas como texto se perdieron en la publicación siguiente y la tienda mostraba "No pudimos cargar los productos".
+   - Después de cargarlas, tocá **Deploy**: hasta que desaparezca el aviso "Unsaved changes" no quedan guardadas.
+   - Para comprobarlo, abrí `https://(dirección de la tienda)/api/catalogo`. Tiene que empezar con `{"ok":true`. Si dice "Falta configurar el puente.", faltan las claves.
 4. Desde ahora, cada vez que subas cambios a la rama principal del repo del cliente, Cloudflare publica solo.
 
 ## Paso 7 · Freno por conexión (regla de límite)
