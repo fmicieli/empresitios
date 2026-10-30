@@ -42,6 +42,14 @@ export interface ConfigTienda {
       texto: string;
       /** Botón del banner. Link vacío = sin botón. Ejemplo: "/?cat=Mujer" (una categoría) o "/producto/?id=p1". */
       boton: { texto: string; link: string };
+      /**
+       * Banner de solo fotos que pasan con un fundido (D-29). Con al menos una foto, reemplaza al banner de texto:
+       * no se ven título, texto ni botón (el título queda oculto, solo para lectores de pantalla y buscadores).
+       * Cada foto en public/: "escritorio" 4:3 (por ejemplo 1600 × 1200) y "celular", más liviana (por ejemplo 900 px de ancho);
+       * en el celular se recorta a 16:10, así que lo importante tiene que estar en el centro.
+       * "alt": qué se ve en la foto, para quien usa lector de pantalla. Vacío = banner de texto.
+       */
+      fotos: { escritorio: string; celular: string; alt: string }[];
     };
   };
   /** De dónde salen los datos: "local" (prueba, en el navegador) o "appsScript" (Google, ver docs/09). */
@@ -77,6 +85,7 @@ const config: ConfigTienda = {
       titulo: 'Nueva temporada',
       texto: 'Ropa cómoda para todos los días. Elegí, pedí y coordiná por WhatsApp.',
       boton: { texto: 'Ver lo nuevo de Mujer', link: '/?cat=Mujer' },
+      fotos: [],
     },
   },
   datos: 'local',

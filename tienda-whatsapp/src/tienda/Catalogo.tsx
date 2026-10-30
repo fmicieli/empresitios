@@ -19,6 +19,7 @@ import {
 import type { Producto } from '@compartido/datos/tipos';
 import { textos } from '@compartido/textos/textos';
 import { config, ds } from '../lib/contexto';
+import { BannerFotos } from './BannerFotos';
 import { EnlaceWhatsapp } from './EnlaceWhatsapp';
 import { BarraCarrito, linkCategoria, Marco, Migas } from './Marco';
 
@@ -71,6 +72,7 @@ function Grilla({ lista, busqueda }: { lista: Producto[]; busqueda?: string }) {
 
 function Banner() {
   const b = config.inicio.banner;
+  if (b.fotos?.length) return <BannerFotos />;
   if (!b.titulo && !b.imagen) return null;
   return (
     <section class={`banner ${b.imagen ? '' : 'sin-imagen'}`} aria-labelledby="titulo-banner">

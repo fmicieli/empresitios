@@ -562,6 +562,42 @@ a.tarjeta:hover .tarjeta-nombre {
   }
 }
 
+/* Banner de solo fotos (D-29): 16:10 en el celular, 4:3 en computadora; fundido de 1 segundo entre fotos. */
+.banner-fotos {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radio-grande);
+  overflow: hidden;
+  background: var(--superficie);
+}
+.banner-fotos picture,
+.banner-fotos img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.banner-fotos img {
+  object-fit: cover;
+}
+.banner-fotos picture {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.banner-fotos picture.activa {
+  opacity: 1;
+}
+@media (min-width: 800px) {
+  .banner-fotos {
+    aspect-ratio: 4 / 3;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .banner-fotos picture {
+    transition: none;
+  }
+}
+
 /* ---------- Inicio: filas de destacados con desplazamiento horizontal ---------- */
 .fila-productos {
   display: grid;
