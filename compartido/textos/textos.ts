@@ -55,6 +55,7 @@ export const textos = {
     talle: 'Talle',
     elegiTalle: 'Elegí un talle para ver el stock.',
     sinStockOpcion: 'Sin stock en esta opción',
+    piezaUnica: 'Pieza única',
     pocas: (n: number, talle: string) => (n === 1 ? 'Queda 1' : `Quedan ${n}`) + (talle ? ` en talle ${talle}` : ''),
     yaEnCarrito: (n: number) => `Ya tenés ${n} en el carrito.`,
     restar: 'Restar uno',
@@ -72,6 +73,8 @@ export const textos = {
     paginaNoEncontrada: 'No encontramos esta página.',
     fotoDe: (producto: string, n: number, total: number) => `${producto}, foto ${n} de ${total}`,
     verFoto: (n: number) => `Ver foto ${n}`,
+    anteriores: (categoria: string) => `Destacados anteriores de ${categoria}`,
+    siguientes: (categoria: string) => `Más destacados de ${categoria}`,
     fotoAnterior: 'Foto anterior',
     fotoSiguiente: 'Foto siguiente',
 

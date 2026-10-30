@@ -73,6 +73,11 @@ export interface ConfigTienda {
   turnstileSiteKey: string;
   /** Identificador interno para lo que se guarda en el navegador. Sin espacios. */
   clave: string;
+  /**
+   * Tienda de piezas únicas (D-30): en la ficha de un producto sin talles ni colores al que le queda 1,
+   * dice "Pieza única" en vez de "Queda 1". false = "Queda 1".
+   */
+  piezasUnicas: boolean;
 }
 
 const config: ConfigTienda = {
@@ -105,6 +110,7 @@ const config: ConfigTienda = {
   googleClientId: '',
   turnstileSiteKey: '',
   clave: 'tienda-modelo',
+  piezasUnicas: false,
 };
 
 export default config;

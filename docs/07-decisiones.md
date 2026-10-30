@@ -303,6 +303,11 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 5. **Texto opcional en cada foto** (30/10, Flor): título y texto a la izquierda, sobre un fondo del color del borde de la foto, con la foto fundida en ese color para que parezca que se extiende. Con texto, en computadora el banner pasa a 21:9: la foto 4:3 entra entera a la derecha y queda lugar para el texto a la izquierda (más bajo que 4:3 a todo el ancho, que ocupaba toda la pantalla). En el celular, la foto en 16:10 y el texto debajo. El color del texto (blanco u oscuro) se elige solo según el fondo, o se fija con "tinta" (30/10, Flor: fondo blanco con texto de color); al compilar se avisa si no llega a 4,5:1.
 6. **El banner no se edita desde el admin** (30/10, Flor): las fotos y sus textos se cargan a mano en `tienda.config.ts` y `public/`, a pedido del comercio (lo hace quien mantiene el sitio, con un prompt). Así el admin queda simple.
 
+## D-30 · "Pieza única" y flechas en las filas de destacados (30/10/2026)
+
+1. **Opción `piezasUnicas`** en `tienda.config.ts` (30/10, Flor, para Chacha): en la ficha de un producto sin talles ni colores al que le queda 1, dice "Pieza única" en vez de "Queda 1". Por defecto está apagada, así que las demás tiendas siguen igual. Con talles o colores sigue diciendo "Queda 1 en talle M", porque "pieza única" no aplica.
+2. **Flechas en las filas de destacados** (30/10, Flor), solo en computadora: dos botones al lado de "Ver todo" que mueven la fila. Aparecen solo si hay más productos de los que entran. La que no puede moverse más queda atenuada. En el celular se sigue deslizando con el dedo.
+
 ## Pendientes (al 14/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
