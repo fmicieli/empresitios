@@ -324,6 +324,15 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
    - Al editar un producto, "Guardar" queda deshabilitado hasta que se cambie algo.
    - En un producto nuevo queda siempre activo: al tocarlo avisa qué campos faltan (regla 7, errores que dicen cómo corregir).
 
+## D-33 · Cambiar las fotos de varios productos de una vez (31/10/2026)
+
+1. **`actualizarFotos()`** (31/10, eligió Flor, propuso Claude). Flor corrigió 20 fotos de 11 tote bags de Chacha, en las que el botón de la marca estaba corrido. Cambiarlas a mano en el admin eran unos 30 minutos. La función toma los códigos de `Config → actualizarFotosDe`, baja las fotos publicadas en la tienda (las mismas del catalogo.json de D-31) y reemplaza todas las fotos de esos productos, en el orden del catálogo. Pasos: guía 09, después del Paso 2 bis.
+2. **Seguridad de los datos:**
+   - Primero baja todas las fotos de un producto y recién después toca algo, así si falla una el producto queda como estaba.
+   - Las fotos nuevas se guardan antes de mover las viejas a "Fotos sin usar". Así la carpeta del producto nunca queda vacía, y nada se borra.
+   - Cada producto que termina sale de la lista, así que si Google corta a los 6 minutos se vuelve a ejecutar y sigue.
+   - Les agrega "?v=…" a las fotos para que una caché no devuelva la versión vieja.
+
 ## Pendientes (al 30/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

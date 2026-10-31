@@ -77,6 +77,15 @@ Solo si la tienda ya tenía productos y fotos en modo de prueba (como Chacha) y 
 5. Si dice "Faltan N: volvé a ejecutar", ejecutala otra vez: Google corta a los 6 minutos y la importación sigue desde donde quedó, sin duplicar.
 6. Revisá las pestañas `Categorias`, `Productos` y `Stock`, y la carpeta de fotos en Drive. Después podés vaciar `importarDesde`.
 
+### Cambiar las fotos de varios productos de una vez (D-33)
+
+Cuando el comercio manda fotos nuevas de muchos productos, en vez de cambiarlas una por una en el admin:
+
+1. Quien mantiene el sitio reemplaza las fotos en `public/fotos-demo/` del repo del cliente, con el mismo nombre (por ejemplo `TG-01-3.jpg`), y las publica con un pull request. Si cambia la cantidad u orden de fotos, también corre `npm run exportar:catalogo`.
+2. En la planilla, pestaña `Config`: `importarDesde` tiene que tener la dirección del catalogo.json, y en `actualizarFotosDe` van los códigos de los productos, separados por coma (por ejemplo `TG-01, TJ-02`). Si no ves esa fila, ejecutá **configurarPlanilla** (no borra nada).
+3. En Apps Script, ejecutá **actualizarFotos**. Cambia todas las fotos de esos productos por las publicadas, en el orden del catálogo. Las viejas van a "Fotos sin usar".
+4. La lista se va vaciando a medida que termina cada producto. Si dice "Faltan…", ejecutala otra vez.
+
 ## Paso 3 · Botón "Iniciar sesión con Google" (ID de cliente)
 
 1. Entrá a https://console.cloud.google.com con la cuenta del negocio.
