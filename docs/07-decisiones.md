@@ -306,7 +306,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 ## D-30 · "Pieza única" y flechas en las filas de destacados (30/10/2026)
 
 1. **Opción `piezasUnicas`** en `tienda.config.ts` (30/10, Flor, para Chacha): en la ficha de un producto sin talles ni colores al que le queda 1, dice "Pieza única" en vez de "Queda 1". Por defecto está apagada, así que las demás tiendas siguen igual. Con talles o colores sigue diciendo "Queda 1 en talle M", porque "pieza única" no aplica.
-2. **Flechas en las filas de destacados** (30/10, Flor), solo en computadora: dos botones al lado de "Ver todo" que mueven la fila. Aparecen solo si hay más productos de los que entran. La que no puede moverse más queda atenuada. En el celular se sigue deslizando con el dedo.
+2. **Flechas en las filas de destacados** (30/10, Flor; el 31/10 se sacó la barra de desplazamiento: alcanzan las flechas y el dedo), solo en computadora: dos botones al lado de "Ver todo" que mueven la fila. Aparecen solo si hay más productos de los que entran. La que no puede moverse más queda atenuada. En el celular se sigue deslizando con el dedo.
 
 ## D-31 · Importar a Google el catálogo de prueba (30/10/2026)
 
@@ -316,6 +316,13 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 4. **Arreglo encontrado al importar Chacha (30/10):** con la planilla real, las casillas ✓ vacías de la columna "visible" (hasta la fila 1000) contaban como filas con datos. Por eso la importación decía que faltaban categorías, y las filas nuevas se hubieran escrito después de la fila 1000. Ahora una fila cuenta solo si tiene algo en la primera columna (id, clave o número). La "Google de mentira" de las pruebas no lo mostraba; hay una prueba nueva que lo cubre.
 5. **Fotos que fallan al bajar (30/10):** con Google de verdad, una foto falló con "Dirección no disponible", una falla momentánea de la conexión. Ahora cada foto se reintenta hasta 3 veces. Las fotos de un producto se bajan todas antes de guardarlas, así una falla no deja fotos sueltas. Si una importación anterior se cortó a mitad de un producto, sus fotos sueltas van a la papelera.
 6. **Cuentas del admin de Chacha:** la dueña es la cuenta personal de Flor (planilla, código y fotos en su Drive). Una segunda persona entra con su propia cuenta, agregada en `correosAdmin`, para manejar el stock. Los correos van solo en la planilla y en Google Cloud, nunca en el repositorio.
+
+## D-32 · "Guardar" deshabilitado hasta que haya un cambio (31/10/2026)
+
+1. **Admin** (31/10, Flor):
+   - En el ajuste rápido de stock, "Guardar cambios" queda deshabilitado hasta que se toque − o +. Si se suma y se resta y el número vuelve al de antes, no cuenta como cambio.
+   - Al editar un producto, "Guardar" queda deshabilitado hasta que se cambie algo.
+   - En un producto nuevo queda siempre activo: al tocarlo avisa qué campos faltan (regla 7, errores que dicen cómo corregir).
 
 ## Pendientes (al 30/10/2026)
 
