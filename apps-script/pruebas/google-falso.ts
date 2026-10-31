@@ -175,7 +175,9 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
       },
     },
     UrlFetchApp: {
-      fetch: (url: string) => {
+      fetch: (urlCompleta: string) => {
+        // Como Cloudflare con los archivos de la tienda: la parte "?…" no cambia qué archivo se sirve.
+        const url = urlCompleta.split('?')[0];
         const quedan = fallas.get(url) ?? 0;
         if (quedan > 0) {
           fallas.set(url, quedan - 1);

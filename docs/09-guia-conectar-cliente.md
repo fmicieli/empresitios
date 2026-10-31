@@ -77,6 +77,15 @@ Solo si la tienda ya tenía productos y fotos en modo de prueba (como Chacha) y 
 5. Si dice "Faltan N: volvé a ejecutar", ejecutala otra vez: Google corta a los 6 minutos y la importación sigue desde donde quedó, sin duplicar.
 6. Revisá las pestañas `Categorias`, `Productos` y `Stock`, y la carpeta de fotos en Drive. Después podés vaciar `importarDesde`.
 
+### Cambiar las fotos de varios productos de una vez (D-33)
+
+Cuando el comercio manda fotos nuevas de muchos productos, en vez de cambiarlas una por una en el admin:
+
+1. Quien mantiene el sitio reemplaza las fotos en `public/fotos-demo/` del repo del cliente, con el mismo nombre (por ejemplo `TG-01-3.jpg`), y las publica con un pull request. Si cambia la cantidad u orden de fotos, también corre `npm run exportar:catalogo`.
+2. En la planilla, pestaña `Config`: `importarDesde` tiene que tener la dirección del catalogo.json, y en `actualizarFotosDe` van los códigos de los productos, separados por coma (por ejemplo `TG-01, TJ-02`). Si no ves esa fila, ejecutá **configurarPlanilla** (no borra nada).
+3. En Apps Script, ejecutá **actualizarFotos**. Cambia todas las fotos de esos productos por las publicadas, en el orden del catálogo. Las viejas van a "Fotos sin usar".
+4. La lista se va vaciando a medida que termina cada producto. Si dice "Faltan…", ejecutala otra vez.
+
 ## Paso 3 · Botón "Iniciar sesión con Google" (ID de cliente)
 
 1. Entrá a https://console.cloud.google.com con la cuenta del negocio.
@@ -85,10 +94,12 @@ Solo si la tienda ya tenía productos y fotos en modo de prueba (como Chacha) y 
    - Nombre de la app: el de la tienda. Correo de asistencia: el del negocio.
    - Público: **Externo**.
    - No agregues permisos extra: alcanza con nombre y correo, que no necesitan revisión de Google (⚠️ confirmarlo en la consola, punto 12.5 de la Fase 2).
-   - Publicá la app ("En producción"). Si la dejás "En prueba", agregá como usuarios de prueba a todos los correos del admin.
+   - Publicá la app ("En producción") si te deja. Si no (pide dominio y página de privacidad), dejala "En prueba" y mirá el punto 8.
 4. En **Clientes → Crear cliente**: tipo **Aplicación web**.
 5. En **Orígenes autorizados de JavaScript**, agregá la dirección de la tienda (por ejemplo `https://tienda-cliente.workers.dev` y, si hay, `https://www.dominio.com.ar`). Para probar en tu compu, agregá también `http://localhost:8787`.
 6. Copiá el **ID de cliente** (termina en `.apps.googleusercontent.com`). Es público: va en la configuración.
+7. Volvé a entrar al cliente y fijate que los orígenes sigan ahí. Si quedaron vacíos (nos pasó con Chacha), el admin muestra "Acceso bloqueado: no registered origin · Error 401: invalid_client". Cargalos de nuevo, tocá **Guardar** abajo de todo y esperá entre 5 y 10 minutos.
+8. Si la app queda **"En prueba"** (el botón "Publicar app" pide datos de marca que una tienda chica no suele tener), en **Público → Usuarios de prueba** agregá todos los correos que van a entrar al admin. Son los mismos de `correosAdmin` en la planilla.
 
 ## Paso 4 · Anti-robots (Turnstile)
 
@@ -120,6 +131,11 @@ Y en `tienda-whatsapp/wrangler.jsonc`, cambiá `"name"` por el nombre del proyec
    - Comando de compilación: `npm run build`
    - Comando de implementación: `npm run desplegar`
 3. Cuando termine, en el Worker: **Configuración → Variables y secretos → Agregar**, tipo **Secreto**, y cargá los tres 🔒: `APPS_SCRIPT_URL`, `APPS_SCRIPT_SECRETO` y `TURNSTILE_SECRETO`.
+   - En la sección **Runtime variables and secrets** (arriba de todo en Settings), no en la de **Build**: esa también se llama "Variables and secrets", pero la tienda no la ve. Nos pasó con Chacha.
+   - Los nombres exactos, sin letras de más (con Chacha quedó `APPS_SCRIPTS_…` con una S de más y la tienda no la encontraba).
+   - Tipo **Secreto**, no "Texto": con Chacha, las cargadas como texto se perdieron en la publicación siguiente y la tienda mostraba "No pudimos cargar los productos".
+   - Después de cargarlas, tocá **Deploy**: hasta que desaparezca el aviso "Unsaved changes" no quedan guardadas.
+   - Para comprobarlo, abrí `https://(dirección de la tienda)/api/catalogo`. Tiene que empezar con `{"ok":true`. Si dice "Falta configurar el puente.", faltan las claves.
 4. Desde ahora, cada vez que subas cambios a la rama principal del repo del cliente, Cloudflare publica solo.
 
 ## Paso 7 · Freno por conexión (regla de límite)

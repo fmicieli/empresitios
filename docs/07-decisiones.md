@@ -306,7 +306,7 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 ## D-30 · "Pieza única" y flechas en las filas de destacados (30/10/2026)
 
 1. **Opción `piezasUnicas`** en `tienda.config.ts` (30/10, Flor, para Chacha): en la ficha de un producto sin talles ni colores al que le queda 1, dice "Pieza única" en vez de "Queda 1". Por defecto está apagada, así que las demás tiendas siguen igual. Con talles o colores sigue diciendo "Queda 1 en talle M", porque "pieza única" no aplica.
-2. **Flechas en las filas de destacados** (30/10, Flor), solo en computadora: dos botones al lado de "Ver todo" que mueven la fila. Aparecen solo si hay más productos de los que entran. La que no puede moverse más queda atenuada. En el celular se sigue deslizando con el dedo.
+2. **Flechas en las filas de destacados** (30/10, Flor; el 31/10 se sacó la barra de desplazamiento: alcanzan las flechas y el dedo), solo en computadora: dos botones al lado de "Ver todo" que mueven la fila. Aparecen solo si hay más productos de los que entran. La que no puede moverse más queda atenuada. En el celular se sigue deslizando con el dedo.
 
 ## D-31 · Importar a Google el catálogo de prueba (30/10/2026)
 
@@ -317,10 +317,32 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 5. **Fotos que fallan al bajar (30/10):** con Google de verdad, una foto falló con "Dirección no disponible", una falla momentánea de la conexión. Ahora cada foto se reintenta hasta 3 veces. Las fotos de un producto se bajan todas antes de guardarlas, así una falla no deja fotos sueltas. Si una importación anterior se cortó a mitad de un producto, sus fotos sueltas van a la papelera.
 6. **Cuentas del admin de Chacha:** la dueña es la cuenta personal de Flor (planilla, código y fotos en su Drive). Una segunda persona entra con su propia cuenta, agregada en `correosAdmin`, para manejar el stock. Los correos van solo en la planilla y en Google Cloud, nunca en el repositorio.
 
-## Pendientes (al 14/10/2026)
+## D-32 · "Guardar" deshabilitado hasta que haya un cambio (31/10/2026)
+
+1. **Admin** (31/10, Flor):
+   - En el ajuste rápido de stock, "Guardar cambios" queda deshabilitado hasta que se toque − o +. Si se suma y se resta y el número vuelve al de antes, no cuenta como cambio.
+   - Al editar un producto, "Guardar" queda deshabilitado hasta que se cambie algo.
+   - En un producto nuevo queda siempre activo: al tocarlo avisa qué campos faltan (regla 7, errores que dicen cómo corregir).
+
+## D-33 · Cambiar las fotos de varios productos de una vez (31/10/2026)
+
+1. **`actualizarFotos()`** (31/10, eligió Flor, propuso Claude). Flor corrigió 20 fotos de 11 tote bags de Chacha, en las que el botón de la marca estaba corrido. Cambiarlas a mano en el admin eran unos 30 minutos. La función toma los códigos de `Config → actualizarFotosDe`, baja las fotos publicadas en la tienda (las mismas del catalogo.json de D-31) y reemplaza todas las fotos de esos productos, en el orden del catálogo. Pasos: guía 09, después del Paso 2 bis.
+2. **Seguridad de los datos:**
+   - Primero baja todas las fotos de un producto y recién después toca algo, así si falla una el producto queda como estaba.
+   - Las fotos nuevas se guardan antes de mover las viejas a "Fotos sin usar". Así la carpeta del producto nunca queda vacía, y nada se borra.
+   - Cada producto que termina sale de la lista, así que si Google corta a los 6 minutos se vuelve a ejecutar y sigue.
+   - Les agrega "?v=…" a las fotos para que una caché no devuelva la versión vieja.
+
+## Pendientes (al 30/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
-2. **Fase 4** (publicación de la demo): aprobada el 13/10. Publicada en https://tienda-modelo.atlas-de5cd208129d.workers.dev desde `main`; probada por Flor desde el celular.
-3. **Estilo por cliente (D-19) y sistema de diseño de base (D-21):** D-21 y D-22 aprobados por Flor y unidos a `main` el 14/10 (PR #6), publicados en la demo. Falta decidir si se arma un muestrario de estilos de inspiración.
-4. **Prueba con Google de verdad:** al final, con la lista de pruebas (guía `09`, paso 8).
-5. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`).
+2. **Prueba con Google de verdad: hecha con Chacha (30/10).** Tienda, admin con dos cuentas, pedido de prueba y cancelación funcionan. Aparecieron cuatro problemas, ya arreglados en la plantilla y en la guía 09:
+   - casillas ✓ que contaban como filas (D-31);
+   - fotos que fallaban al bajar (D-31);
+   - orígenes de Google que no se guardaron;
+   - claves en la sección equivocada de Cloudflare y con un nombre mal escrito.
+
+   Falta medir cuánto tarda guardar un producto con fotos en Drive (D-26).
+3. **Chacha:** faltan importar las 3 fundas (FA-01 a FA-03) con `importarCatalogo`. Después se pueden sacar de su repo las fotos de prueba (`public/fotos-demo/`) y `public/importar/catalogo.json`.
+4. **Estilo por cliente:** falta decidir si se arma un muestrario de estilos de inspiración.
+5. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`). Opcional: que la carpeta de fotos se cree junto a la planilla, y no en la raíz de "Mi unidad".

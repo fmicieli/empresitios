@@ -655,7 +655,12 @@ a.tarjeta:hover .tarjeta-nombre {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: var(--espacio-200);
-  scrollbar-width: thin;
+  /* Sin barra de desplazamiento (31/10, Flor): en computadora se mueve con las flechas (D-30) y en el
+     celular con el dedo; la tarjeta cortada en el borde avisa que hay más. */
+  scrollbar-width: none;
+}
+.fila-productos::-webkit-scrollbar {
+  display: none;
 }
 /* Flechas de la fila (D-30): solo en computadora; en el celular se desliza con el dedo. */
 .flechas-fila {

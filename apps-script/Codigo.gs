@@ -41,6 +41,7 @@ const CONFIG_INICIAL = [
   ['correosAdmin', '', 'Correos que pueden entrar al admin, separados por coma. El primero es el del negocio.'],
   ['carpetaFotosId', '', 'Carpeta de Drive con las fotos. Se completa sola.'],
   ['importarDesde', '', 'Solo para pasar una tienda de prueba a Google: dirección del catalogo.json (guía 09). Después se puede dejar vacío.'],
+  ['actualizarFotosDe', '', 'Códigos o id de productos (separados por coma) a los que actualizarFotos les cambia las fotos por las del catalogo.json. Se va vaciando sola.'],
 ];
 
 // ---------------------------------------------------------------------------
@@ -940,7 +941,8 @@ function ordenarTodasLasFotos() {
  * - Las fotos se bajan de la tienda y se guardan en Drive, ya ordenadas en carpetas (D-26).
  * - Si Google la corta (pasa a los 6 minutos), se vuelve a ejecutar y sigue: saltea los productos que ya están.
  */
-function importarCatalogo() {
+/** Lee el catalogo.json publicado (dirección en Config → importarDesde). */
+function leerCatalogoPublicado() {
   const url = String(leerConfig().importarDesde || '').trim();
   if (!/^https:\/\/[^/]+\//.test(url)) {
     throw new Error('Completá "importarDesde" en la pestaña Config con la dirección del catalogo.json (empieza con https://).');
@@ -949,8 +951,13 @@ function importarCatalogo() {
   if (respuesta.getResponseCode() !== 200) {
     throw new Error('No se pudo leer ' + url + ' (código ' + respuesta.getResponseCode() + '). ¿Está publicada la tienda?');
   }
-  const datos = JSON.parse(respuesta.getContentText());
-  const origen = url.match(/^https:\/\/[^/]+/)[0];
+  return { datos: JSON.parse(respuesta.getContentText()), origen: url.match(/^https:\/\/[^/]+/)[0] };
+}
+
+function importarCatalogo() {
+  const publicado = leerCatalogoPublicado();
+  const datos = publicado.datos;
+  const origen = publicado.origen;
 
   // Categorías
   if (!leer('Categorias').length) {
@@ -1036,6 +1043,61 @@ function importarCatalogo() {
   const mensaje =
     'Importados: ' + importados + ' productos. Ya estaban: ' + salteados + '.' +
     (pendientes ? ' Faltan ' + pendientes + ': volvé a ejecutar importarCatalogo y sigue desde donde quedó.' : ' Listo.');
+  console.log(mensaje);
+  return mensaje;
+}
+
+/**
+ * Se ejecuta a mano desde el editor (D-33): cambia las fotos de los productos de la lista
+ * Config → actualizarFotosDe (códigos o id, separados por coma) por las del catalogo.json publicado.
+ * - Las fotos nuevas quedan en la carpeta del producto, en el orden del catálogo; las viejas van a "Fotos sin usar".
+ * - Cada producto que termina sale de la lista: si Google corta a los 6 minutos, se vuelve a ejecutar y sigue.
+ */
+function actualizarFotos() {
+  const pedidos = lista(String(leerConfig().actualizarFotosDe || '').replace(/,/g, '|'));
+  if (!pedidos.length) throw new Error('Completá "actualizarFotosDe" en la pestaña Config con los códigos de los productos, separados por coma.');
+  const publicado = leerCatalogoPublicado();
+  const inicio = Date.now();
+  const hechos = [];
+  const sinCambios = [];
+  let pendientes = pedidos.slice();
+  for (let i = 0; i < pedidos.length; i++) {
+    const quien = pedidos[i];
+    if (Date.now() - inicio > 4.5 * 60 * 1000) break;
+    const p = publicado.datos.productos.find((x) => String(x.id) === quien || String(x.codigo) === quien);
+    const fila = leer('Productos').find((x) => String(x.id) === quien || String(x.codigo) === quien);
+    if (!p || !fila || !(p.fotos || []).length) {
+      sinCambios.push(quien);
+    } else {
+      const base = nombreDrive(fila.codigo || fila.nombre);
+      // Se bajan todas antes de tocar nada: si una falla, el producto queda como estaba.
+      const blobs = p.fotos.map((ruta, n) => {
+        // "?v=" evita que una caché devuelva la foto vieja con el mismo nombre.
+        const blob = bajarFoto(publicado.origen + ruta + '?v=' + inicio, ruta);
+        blob.setName(base + '-' + (n + 1) + '.' + TIPOS_FOTO[blob.getContentType()]);
+        return blob;
+      });
+      const viejas = lista(fila.fotos);
+      const destino = carpetaDeProducto(fila);
+      const ids = blobs.map((b) => destino.createFile(b).getId());
+      conCandado(() => {
+        const actual = leer('Productos').find((x) => String(x.id) === String(fila.id));
+        actual.fotos = ids.join('|');
+        actual.actualizado = new Date();
+        actualizar('Productos', actual);
+      });
+      // Recién ahora las viejas van a "Fotos sin usar" (la carpeta del producto nunca queda vacía).
+      ordenarFotosEnDrive(null, [], viejas);
+      hechos.push(quien);
+    }
+    pendientes = pendientes.filter((x) => x !== quien);
+    guardarConfig('actualizarFotosDe', pendientes.join(', '));
+  }
+  registrar('fotos actualizadas', hechos.join(', '));
+  const mensaje =
+    'Fotos actualizadas: ' + (hechos.join(', ') || 'ninguno') + '.' +
+    (sinCambios.length ? ' No encontrados o sin fotos en el catálogo: ' + sinCambios.join(', ') + '.' : '') +
+    (pendientes.length ? ' Faltan: ' + pendientes.join(', ') + ' (volvé a ejecutar actualizarFotos).' : ' Listo.');
   console.log(mensaje);
   return mensaje;
 }
