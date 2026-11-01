@@ -170,7 +170,8 @@ export default function CarritoPagina() {
                 <span>{t.subtotal}</span>
                 <span class="num">{formatoPrecio(subtotal)}</span>
               </div>
-              <p class="suave chico">{config.soloRetiro ? t.soloRetiro(config.direccionLocal) : t.avisoEnvio}</p>
+              {/* Solo retiro (D-34): el aviso va una sola vez, en "¿Cómo lo recibís?". */}
+              {!config.soloRetiro && <p class="suave chico">{t.avisoEnvio}</p>}
             </section>
             <FormularioComprador
               items={items}
