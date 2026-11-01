@@ -333,6 +333,16 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
    - Cada producto que termina sale de la lista, así que si Google corta a los 6 minutos se vuelve a ejecutar y sigue.
    - Les agrega "?v=…" a las fotos para que una caché no devuelva la versión vieja.
 
+## D-34 · Tiendas sin envío: solo retiro (01/11/2026)
+
+1. **Opción `soloRetiro`** en `tienda.config.ts` (01/11, Flor, para Chacha, que solo entrega en Mercedes):
+   - en el carrito no se ofrece "Envío a domicilio" ni se piden dirección y localidad;
+   - se muestra "Retiro en (lugar), sin costo. Coordinás el día y el lugar por WhatsApp.";
+   - el lugar sale de `direccionLocal`.
+
+   Viene apagada, así que las demás tiendas siguen igual.
+2. **El mensaje de WhatsApp dice dónde se retira:** "Entrega: retiro en Mercedes, Buenos Aires" en vez de "retiro en el local", en todas las tiendas que tengan `direccionLocal`.
+
 ## Pendientes (al 30/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

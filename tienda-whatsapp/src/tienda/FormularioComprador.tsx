@@ -72,7 +72,11 @@ export function FormularioComprador({
   /** El pedido quedó registrado y el carrito se vació: se muestra "¡Listo! Te abrimos WhatsApp…". */
   alEnviado: (p: PedidoEnviado) => void;
 }) {
-  const [f, setF] = useState<Formulario>(() => ({ ...VACIO, ...(borradorComprador.leer<Formulario>() ?? {}) }));
+  const [f, setF] = useState<Formulario>(() => {
+    const guardado = { ...VACIO, ...(borradorComprador.leer<Formulario>() ?? {}) };
+    // Tienda sin envíos (D-34): siempre retiro, aunque un borrador viejo diga "envío".
+    return config.soloRetiro ? { ...guardado, entrega: 'retiro' } : guardado;
+  });
   const [errores, setErrores] = useState<Partial<Record<Campo, string>>>({});
   const [intento, setIntento] = useState(false);
   const [estado, setEstado] = useState<'formulario' | 'enviando'>('formulario');
@@ -136,7 +140,7 @@ export function FormularioComprador({
       }
 
       // 3. Mensaje de WhatsApp en la pestaña nueva.
-      const mensaje = mensajePedido(r.pedido, config.url || location.origin);
+      const mensaje = mensajePedido(r.pedido, config.url || location.origin, config.direccionLocal);
       const link = linkWhatsapp(whatsappTienda(), mensaje);
       if (pestana && !pestana.closed) pestana.location.href = link;
       borradorComprador.borrar();
@@ -210,37 +214,44 @@ export function FormularioComprador({
         </span>
       </div>
 
-      <fieldset>
-        <legend>{t.comoRecibis}</legend>
+      {config.soloRetiro ? (
         <div class="pila-chica">
-          <label class="opcion">
-            <input
-              type="radio"
-              name="entrega"
-              value="envio"
-              checked={f.entrega === 'envio'}
-              onChange={() => cambiar('entrega', 'envio')}
-            />
-            <span class="pila-chica" style={{ gap: 0 }}>
-              <strong>{t.envio}</strong>
-              <span class="suave chico">{t.envioAyuda}</span>
-            </span>
-          </label>
-          <label class="opcion">
-            <input
-              type="radio"
-              name="entrega"
-              value="retiro"
-              checked={f.entrega === 'retiro'}
-              onChange={() => cambiar('entrega', 'retiro')}
-            />
-            <span class="pila-chica" style={{ gap: 0 }}>
-              <strong>{t.retiro}</strong>
-              <span class="suave chico">{t.retiroAyuda(config.direccionLocal)}</span>
-            </span>
-          </label>
+          <strong>{t.comoRecibis}</strong>
+          <span class="suave">{t.soloRetiro(config.direccionLocal)}</span>
         </div>
-      </fieldset>
+      ) : (
+        <fieldset>
+          <legend>{t.comoRecibis}</legend>
+          <div class="pila-chica">
+            <label class="opcion">
+              <input
+                type="radio"
+                name="entrega"
+                value="envio"
+                checked={f.entrega === 'envio'}
+                onChange={() => cambiar('entrega', 'envio')}
+              />
+              <span class="pila-chica" style={{ gap: 0 }}>
+                <strong>{t.envio}</strong>
+                <span class="suave chico">{t.envioAyuda}</span>
+              </span>
+            </label>
+            <label class="opcion">
+              <input
+                type="radio"
+                name="entrega"
+                value="retiro"
+                checked={f.entrega === 'retiro'}
+                onChange={() => cambiar('entrega', 'retiro')}
+              />
+              <span class="pila-chica" style={{ gap: 0 }}>
+                <strong>{t.retiro}</strong>
+                <span class="suave chico">{t.retiroAyuda(config.direccionLocal)}</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+      )}
 
       {f.entrega === 'envio' && (
         <>

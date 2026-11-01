@@ -106,6 +106,10 @@ export const textos = {
     envio: 'Envío a domicilio',
     envioAyuda: 'El costo te lo pasan por WhatsApp',
     retiro: 'Retiro en el local',
+    soloRetiro: (lugar: string) =>
+      lugar
+        ? `Retiro en ${lugar}, sin costo. Coordinás el día y el lugar por WhatsApp.`
+        : 'Retiro sin costo. Coordinás el día y el lugar por WhatsApp.',
     retiroAyuda: (direccion: string) => (direccion ? `${direccion} · sin costo` : 'Sin costo. Coordinás el lugar por WhatsApp.'),
     direccion: 'Dirección de entrega',
     direccionEjemplo: 'Calle, número, piso y depto.',
@@ -147,7 +151,7 @@ export const textos = {
     subtotal: (total: string) => `Subtotal: ${total} (envío a cotizar)`,
     nombre: (n: string) => `Nombre: ${n}`,
     envio: (direccion: string, localidad: string) => `Entrega: envío a ${direccion}, ${localidad}`,
-    retiro: 'Entrega: retiro en el local',
+    retiro: (lugar: string) => (lugar ? `Entrega: retiro en ${lugar}` : 'Entrega: retiro en el local'),
     pago: (p: string) => `Pago: ${p}`,
     nota: (n: string) => `Nota: ${n}`,
   },
