@@ -7,7 +7,7 @@ import { Cantidad, ErrorCarga, Foto, useCarga } from '@compartido/componentes/ba
 import { IconoCarrito, IconoCheck } from '@compartido/componentes/iconos';
 import { etiquetaVariante, evaluarCarrito, formatoPrecio, lugarEnPedido } from '@compartido/datos/reglas';
 import { textos } from '@compartido/textos/textos';
-import { carrito, ds, ultimoPedido } from '../lib/contexto';
+import { carrito, config, ds, ultimoPedido } from '../lib/contexto';
 import { FormularioComprador, type PedidoEnviado } from './FormularioComprador';
 import { Marco } from './Marco';
 
@@ -170,7 +170,8 @@ export default function CarritoPagina() {
                 <span>{t.subtotal}</span>
                 <span class="num">{formatoPrecio(subtotal)}</span>
               </div>
-              <p class="suave chico">{t.avisoEnvio}</p>
+              {/* Solo retiro (D-34): el aviso va una sola vez, en "¿Cómo lo recibís?". */}
+              {!config.soloRetiro && <p class="suave chico">{t.avisoEnvio}</p>}
             </section>
             <FormularioComprador
               items={items}

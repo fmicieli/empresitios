@@ -80,6 +80,7 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
   const carpetas = new Map<string, Carpeta>();
   const web = new Map<string, { codigo: number; tipo: string; cuerpo: Buffer }>();
   const fallas = new Map<string, number>();
+  const cacheGoogle = new Map<string, string>();
 
   const libro = {
     getSheetByName: (n: string) => hojas.get(n) ?? null,
@@ -174,8 +175,18 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
         return archivo(id);
       },
     },
+    CacheService: {
+      // Caché de Google: se comparte entre consultas (el vencimiento no se simula).
+      getScriptCache: () => ({
+        get: (k: string) => cacheGoogle.get(k) ?? null,
+        put: (k: string, v: string) => void cacheGoogle.set(k, v),
+        remove: (k: string) => void cacheGoogle.delete(k),
+      }),
+    },
     UrlFetchApp: {
-      fetch: (url: string) => {
+      fetch: (urlCompleta: string) => {
+        // Como Cloudflare con los archivos de la tienda: la parte "?…" no cambia qué archivo se sirve.
+        const url = urlCompleta.split('?')[0];
         const quedan = fallas.get(url) ?? 0;
         if (quedan > 0) {
           fallas.set(url, quedan - 1);

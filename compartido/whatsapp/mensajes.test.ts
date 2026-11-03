@@ -57,4 +57,10 @@ describe('Mensaje de WhatsApp del pedido (D-25)', () => {
   it('ningún dato del comprador va dentro de un link', () => {
     for (const link of m.match(/https?:\/\/\S+/g) ?? []) expect(link).not.toMatch(/Ana|1122334455/);
   });
+  it('el retiro dice dónde, si la tienda tiene lugar (D-34)', () => {
+    expect(m).toContain('Entrega: retiro en el local');
+    expect(mensajePedido(pedido, 'https://tienda.com.ar', 'Mercedes, Buenos Aires')).toContain(
+      'Entrega: retiro en Mercedes, Buenos Aires',
+    );
+  });
 });

@@ -21,7 +21,10 @@ export interface ConfigTienda {
   whatsapp: string;
   /** WhatsApp de quien mantiene el sitio (ayuda del admin y "¿Falta una categoría?"). */
   whatsappSoporte: string;
+  /** Dirección del local, o el lugar de retiro (por ejemplo "Mercedes, Buenos Aires"). */
   direccionLocal: string;
+  /** Sin envíos: el comprador solo puede retirar (en direccionLocal) y no se le pide dirección (D-34). */
+  soloRetiro: boolean;
   horarios: string;
   redes: { nombre: string; url: string }[];
   textoPrivacidad: string;
@@ -88,6 +91,7 @@ const config: ConfigTienda = {
   whatsapp: '',
   whatsappSoporte: '',
   direccionLocal: 'Calle Modelo 123, CABA',
+  soloRetiro: false,
   horarios: 'Lun a Vie de 10 a 19 · Sáb de 10 a 14',
   redes: [{ nombre: 'Instagram', url: 'https://instagram.com/' }],
   textoPrivacidad: 'Usamos estos datos solo para gestionar tu pedido. (Texto pendiente de revisión legal.)',

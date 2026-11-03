@@ -41,6 +41,7 @@ const CONFIG_INICIAL = [
   ['correosAdmin', '', 'Correos que pueden entrar al admin, separados por coma. El primero es el del negocio.'],
   ['carpetaFotosId', '', 'Carpeta de Drive con las fotos. Se completa sola.'],
   ['importarDesde', '', 'Solo para pasar una tienda de prueba a Google: dirección del catalogo.json (guía 09). Después se puede dejar vacío.'],
+  ['actualizarFotosDe', '', 'Códigos o id de productos (separados por coma) a los que actualizarFotos les cambia las fotos por las del catalogo.json. Se va vaciando sola.'],
 ];
 
 // ---------------------------------------------------------------------------
@@ -52,6 +53,7 @@ function doGet() {
 }
 
 function doPost(e) {
+  LECTURAS = {}; // cada consulta empieza leyendo de cero
   let pedido;
   try {
     pedido = JSON.parse((e && e.postData && e.postData.contents) || '{}');
@@ -105,8 +107,11 @@ const ACCIONES_ADMIN = {
 };
 
 function ejecutar(accion, datos, usuario) {
-  vencerReservas();
   if (accion.indexOf('admin.') === 0) {
+    // Solo para el admin: así los pedidos vencidos se ven como "Vencida". Para la tienda no hace falta:
+    // el stock libre ya descuenta solo las reservas vigentes (reservas() mira la hora), y el proceso
+    // automático los vence cada 10 minutos (D-35).
+    vencerReservas();
     verificarAdmin(usuario);
     const f = ACCIONES_ADMIN[accion.slice(6)];
     if (!f) throw ErrorTienda('servidor', 'Acción desconocida.');
@@ -114,7 +119,47 @@ function ejecutar(accion, datos, usuario) {
   }
   const f = ACCIONES_PUBLICAS[accion];
   if (!f) throw ErrorTienda('servidor', 'Acción desconocida.');
+  if (accion === 'catalogo') return catalogoConCache();
   return f(datos);
+}
+
+// ---------------------------------------------------------------------------
+// Velocidad (D-35): el catálogo de la tienda armado se guarda 30 segundos en la caché de Google, y cada
+// pestaña se lee una sola vez por consulta. Cualquier cambio en la planilla hecho por el código borra la
+// caché; un cambio hecho a mano en la planilla tarda hasta 30 segundos en verse en la tienda.
+// ---------------------------------------------------------------------------
+
+const CLAVE_CACHE_CATALOGO = 'catalogo-publico';
+const SEGUNDOS_CACHE_CATALOGO = 30;
+const PESTANAS_DEL_CATALOGO = ['Config', 'Categorias', 'Productos', 'Stock', 'Pedidos', 'PedidoItems'];
+
+function catalogoConCache() {
+  const cache = CacheService.getScriptCache();
+  const guardado = cache.get(CLAVE_CACHE_CATALOGO);
+  if (guardado) return JSON.parse(guardado);
+  const c = catalogoPublico();
+  try {
+    cache.put(CLAVE_CACHE_CATALOGO, JSON.stringify(c), SEGUNDOS_CACHE_CATALOGO);
+  } catch (e) {
+    // Muy grande para la caché (tiendas con muchísimos productos): se arma cada vez, como antes.
+  }
+  return c;
+}
+
+function olvidarCatalogo() {
+  try {
+    CacheService.getScriptCache().remove(CLAVE_CACHE_CATALOGO);
+  } catch (e) {
+    /* sin caché no pasa nada */
+  }
+}
+
+// Lecturas de esta consulta: cada pestaña se lee una vez (se olvidan al escribir en ella o al tomar el candado).
+let LECTURAS = {};
+
+function olvidarLectura(nombre) {
+  delete LECTURAS[nombre];
+  if (PESTANAS_DEL_CATALOGO.indexOf(nombre) >= 0) olvidarCatalogo();
 }
 
 function verificarAdmin(correo) {
@@ -143,6 +188,12 @@ function hoja(nombre) {
  * de la columna "visible" valen FALSO y no tienen que parecer productos o categorías.
  */
 function leer(nombre) {
+  // Copias, para que quien las modifique sin guardar no cambie lo que lee el resto de la consulta.
+  if (!LECTURAS[nombre]) LECTURAS[nombre] = leerPestana(nombre);
+  return LECTURAS[nombre].map((o) => Object.assign({}, o));
+}
+
+function leerPestana(nombre) {
   const h = hoja(nombre);
   const valores = h.getDataRange().getValues();
   const cols = PESTANAS[nombre];
@@ -175,18 +226,21 @@ function agregar(nombre, o) {
 
 function agregarVarias(nombre, lista) {
   if (!lista.length) return;
+  olvidarLectura(nombre);
   const h = hoja(nombre);
   const cols = PESTANAS[nombre].length;
   h.getRange(filaLibre(h), 1, lista.length, cols).setValues(lista.map((o) => aFila(nombre, o)));
 }
 
 function actualizar(nombre, o) {
+  olvidarLectura(nombre);
   const cols = PESTANAS[nombre].length;
   hoja(nombre).getRange(o._fila, 1, 1, cols).setValues([aFila(nombre, o)]);
 }
 
 /** Borra filas (de abajo hacia arriba para no correr los números). */
 function borrarFilas(nombre, objetos) {
+  olvidarLectura(nombre);
   const h = hoja(nombre);
   objetos
     .map((o) => o._fila)
@@ -234,6 +288,8 @@ function huellaItems(items) {
 function conCandado(fn) {
   const candado = LockService.getScriptLock();
   if (!candado.tryLock(10000)) throw ErrorTienda('servidor', 'La tienda está ocupada. Probá de nuevo.');
+  // Con el candado tomado se vuelve a leer todo: otra consulta pudo haber escrito mientras esperábamos.
+  LECTURAS = {};
   try {
     const r = fn();
     SpreadsheetApp.flush();
@@ -524,6 +580,7 @@ function buscarPedidoPublico(numero) {
 
 /** Pasa a "vencida" los pendientes cuyo plazo terminó. También lo corre un disparador cada 10 minutos. */
 function vencerReservas() {
+  LECTURAS = {};
   const ahora = Date.now();
   const vencidos = leer('Pedidos').filter((p) => p.estado === 'pendiente' && ms(p.venceEn) <= ahora);
   if (!vencidos.length) return 0;
@@ -923,6 +980,7 @@ function ordenarFotosEnDrive(prod, fotos, quitadas) {
  * Sirve al conectar una tienda que ya tenía fotos y después de cambiarle el nombre a una categoría.
  */
 function ordenarTodasLasFotos() {
+  LECTURAS = {};
   const productos = leer('Productos');
   productos.forEach((p) => ordenarFotosEnDrive(p, lista(p.fotos), []));
   console.log('Listo: fotos de ' + productos.length + ' productos ordenadas.');
@@ -940,7 +998,8 @@ function ordenarTodasLasFotos() {
  * - Las fotos se bajan de la tienda y se guardan en Drive, ya ordenadas en carpetas (D-26).
  * - Si Google la corta (pasa a los 6 minutos), se vuelve a ejecutar y sigue: saltea los productos que ya están.
  */
-function importarCatalogo() {
+/** Lee el catalogo.json publicado (dirección en Config → importarDesde). */
+function leerCatalogoPublicado() {
   const url = String(leerConfig().importarDesde || '').trim();
   if (!/^https:\/\/[^/]+\//.test(url)) {
     throw new Error('Completá "importarDesde" en la pestaña Config con la dirección del catalogo.json (empieza con https://).');
@@ -949,8 +1008,14 @@ function importarCatalogo() {
   if (respuesta.getResponseCode() !== 200) {
     throw new Error('No se pudo leer ' + url + ' (código ' + respuesta.getResponseCode() + '). ¿Está publicada la tienda?');
   }
-  const datos = JSON.parse(respuesta.getContentText());
-  const origen = url.match(/^https:\/\/[^/]+/)[0];
+  return { datos: JSON.parse(respuesta.getContentText()), origen: url.match(/^https:\/\/[^/]+/)[0] };
+}
+
+function importarCatalogo() {
+  LECTURAS = {};
+  const publicado = leerCatalogoPublicado();
+  const datos = publicado.datos;
+  const origen = publicado.origen;
 
   // Categorías
   if (!leer('Categorias').length) {
@@ -1040,6 +1105,62 @@ function importarCatalogo() {
   return mensaje;
 }
 
+/**
+ * Se ejecuta a mano desde el editor (D-33): cambia las fotos de los productos de la lista
+ * Config → actualizarFotosDe (códigos o id, separados por coma) por las del catalogo.json publicado.
+ * - Las fotos nuevas quedan en la carpeta del producto, en el orden del catálogo; las viejas van a "Fotos sin usar".
+ * - Cada producto que termina sale de la lista: si Google corta a los 6 minutos, se vuelve a ejecutar y sigue.
+ */
+function actualizarFotos() {
+  LECTURAS = {};
+  const pedidos = lista(String(leerConfig().actualizarFotosDe || '').replace(/,/g, '|'));
+  if (!pedidos.length) throw new Error('Completá "actualizarFotosDe" en la pestaña Config con los códigos de los productos, separados por coma.');
+  const publicado = leerCatalogoPublicado();
+  const inicio = Date.now();
+  const hechos = [];
+  const sinCambios = [];
+  let pendientes = pedidos.slice();
+  for (let i = 0; i < pedidos.length; i++) {
+    const quien = pedidos[i];
+    if (Date.now() - inicio > 4.5 * 60 * 1000) break;
+    const p = publicado.datos.productos.find((x) => String(x.id) === quien || String(x.codigo) === quien);
+    const fila = leer('Productos').find((x) => String(x.id) === quien || String(x.codigo) === quien);
+    if (!p || !fila || !(p.fotos || []).length) {
+      sinCambios.push(quien);
+    } else {
+      const base = nombreDrive(fila.codigo || fila.nombre);
+      // Se bajan todas antes de tocar nada: si una falla, el producto queda como estaba.
+      const blobs = p.fotos.map((ruta, n) => {
+        // "?v=" evita que una caché devuelva la foto vieja con el mismo nombre.
+        const blob = bajarFoto(publicado.origen + ruta + '?v=' + inicio, ruta);
+        blob.setName(base + '-' + (n + 1) + '.' + TIPOS_FOTO[blob.getContentType()]);
+        return blob;
+      });
+      const viejas = lista(fila.fotos);
+      const destino = carpetaDeProducto(fila);
+      const ids = blobs.map((b) => destino.createFile(b).getId());
+      conCandado(() => {
+        const actual = leer('Productos').find((x) => String(x.id) === String(fila.id));
+        actual.fotos = ids.join('|');
+        actual.actualizado = new Date();
+        actualizar('Productos', actual);
+      });
+      // Recién ahora las viejas van a "Fotos sin usar" (la carpeta del producto nunca queda vacía).
+      ordenarFotosEnDrive(null, [], viejas);
+      hechos.push(quien);
+    }
+    pendientes = pendientes.filter((x) => x !== quien);
+    guardarConfig('actualizarFotosDe', pendientes.join(', '));
+  }
+  registrar('fotos actualizadas', hechos.join(', '));
+  const mensaje =
+    'Fotos actualizadas: ' + (hechos.join(', ') || 'ninguno') + '.' +
+    (sinCambios.length ? ' No encontrados o sin fotos en el catálogo: ' + sinCambios.join(', ') + '.' : '') +
+    (pendientes.length ? ' Faltan: ' + pendientes.join(', ') + ' (volvé a ejecutar actualizarFotos).' : ' Listo.');
+  console.log(mensaje);
+  return mensaje;
+}
+
 /** Baja una foto de la tienda. Si la conexión falla, reintenta dos veces más antes de rendirse. */
 function bajarFoto(url, ruta) {
   let ultimoError = null;
@@ -1075,6 +1196,7 @@ function bajarFoto(url, ruta) {
  * Se puede volver a ejecutar sin perder datos.
  */
 function configurarPlanilla() {
+  LECTURAS = {};
   const libro = SpreadsheetApp.getActiveSpreadsheet();
   Object.keys(PESTANAS).forEach((nombre) => {
     let h = libro.getSheetByName(nombre);

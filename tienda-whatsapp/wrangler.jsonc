@@ -16,7 +16,10 @@
   "workers_dev": true,
   // Sin direcciones de vista previa: solo se publica la rama main, con la aprobación de Flor (D-18).
   "preview_urls": false,
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // Las variables cargadas a mano en el panel de Cloudflare no se borran al publicar (D-31).
+  // Igual, las claves de Google y Turnstile van siempre como "Secreto" (guía 09, paso 6).
+  "keep_vars": true
   // El ID de cliente de Google y la clave de Turnstile del sitio van en config/tienda.config.ts.
   // Secretos (se cargan en el panel de Cloudflare o con `wrangler secret put`):
   //   APPS_SCRIPT_URL, APPS_SCRIPT_SECRETO, TURNSTILE_SECRETO

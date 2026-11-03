@@ -1,5 +1,5 @@
 // Ajuste rápido de stock (docs/03-admin.md, D-12): se suma o resta con − / + y se
-// confirma con "Guardar cambios". Tocar afuera, o la tecla Escape, también cierra
+// confirma con "Guardar cambios" (deshabilitado hasta que haya un cambio). Tocar afuera, o la tecla Escape, también cierra
 // el desplegable; si quedaron cambios sin guardar, se guardan antes de cerrar.
 
 import { useEffect, useRef, useState } from 'preact/hooks';
@@ -37,9 +37,16 @@ export function AjusteRapido({
     if (sucios.size === 0 && estado !== 'guardando') setBorrador(desdeProducto());
   }, [producto]);
 
+  // Hay cambios solo si algún número quedó distinto del guardado (sumar y restar uno no cuenta).
+  const guardados = desdeProducto();
+  const hayCambios = [...sucios].some((k) => (borrador[k] ?? 0) !== (guardados[k] ?? 0));
+
   async function guardarYCerrar() {
     if (estado === 'guardando') return;
-    if (!sucios.size) return alCerrar();
+    if (!hayCambios) {
+      pendiente.current.sucios = new Set();
+      return alCerrar();
+    }
     setEstado('guardando');
     const cambios = [...sucios].map((k) => {
       const [c, s] = k.split('|');
@@ -181,7 +188,13 @@ export function AjusteRapido({
           {t.noSeGuardo} · {errorTexto}
         </p>
       )}
-      <button type="button" class="boton chico" disabled={guardando} onClick={guardarYCerrar}>
+      {/* Deshabilitado hasta que se toque − o + (31/10, Flor). */}
+      <button
+        type="button"
+        class="boton chico"
+        disabled={guardando || (!hayCambios && estado !== 'error')}
+        onClick={guardarYCerrar}
+      >
         {guardando ? t.guardando : estado === 'error' ? t.reintentar : t.guardarCambios}
       </button>
       <a class="enlace" style={{ alignSelf: 'flex-start' }} href={`#/productos/${encodeURIComponent(producto.id)}`}>

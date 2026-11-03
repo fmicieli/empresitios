@@ -2,7 +2,7 @@
 // El navegador nunca habla con Google: le pide todo al puente (/api, en Cloudflare),
 // que guarda el catálogo unos segundos, verifica el anti-robots y la sesión del admin.
 
-import type { DataStore, FilaCategoria, ConfigServidor, Producto, SesionAdmin, TipoError } from '../tipos';
+import type { DataStore, FilaCategoria, ConfigServidor, Pedido, Producto, SesionAdmin, TipoError } from '../tipos';
 import { ErrorDatos } from '../tipos';
 
 export interface OpcionesAppsScript {
@@ -34,6 +34,15 @@ const TIPOS_CONOCIDOS: TipoError[] = [
 /** El catálogo se reutiliza unos segundos: la portada pide config, categorías y productos a la vez. */
 const SEGUNDOS_CATALOGO_LOCAL = 15;
 
+/**
+ * Mostrar primero lo último conocido y actualizar por detrás (D-35). Google tarda entre 1 y 4 segundos en
+ * contestar; así, al pasar de una página a otra o de una pestaña del admin a otra, se ve el contenido al
+ * instante y se corrige solo si cambió. El stock se vuelve a verificar en la planilla al mandar el pedido.
+ * - Catálogo de la tienda: se guarda en el navegador (localStorage); es público.
+ * - Catálogo del admin: en sessionStorage (se borra al cerrar la pestaña o al salir).
+ * - Pedidos: solo en memoria, nunca en el navegador (tienen datos personales, Ley 25.326).
+ */
+
 export function crearDataStoreAppsScript(op: OpcionesAppsScript): DataStore {
   const base = op.base ?? '/api';
   const pedir = op.fetch ?? ((...a: Parameters<typeof fetch>) => fetch(...a));
@@ -63,6 +72,9 @@ export function crearDataStoreAppsScript(op: OpcionesAppsScript): DataStore {
       /* no pasa nada */
     }
     catalogo = { admin: null, tienda: null };
+    ultimo.admin = null;
+    pedidosEnMemoria.clear();
+    guardarLocal('admin', null);
     oyentesSesion.forEach((f) => f());
   }
 
@@ -102,32 +114,104 @@ export function crearDataStoreAppsScript(op: OpcionesAppsScript): DataStore {
     }
   }
 
-  /** Después de guardar: se olvida el catálogo y se avisa a las pantallas. */
+  /** Después de guardar: se olvida lo guardado (catálogo y pedidos) y se avisa a las pantallas. */
   async function escribir<T>(accion: string, datos: unknown): Promise<T> {
     const r = await admin<T>(accion, datos);
-    catalogo = { admin: null, tienda: null };
+    olvidarTodo();
     avisar();
     return r;
   }
 
+  function olvidarTodo() {
+    catalogo = { admin: null, tienda: null };
+    // Después de un cambio propio no se muestra lo viejo: se espera la respuesta nueva.
+    ultimo.admin = null;
+    ultimo.tienda = null;
+    guardarLocal('admin', null);
+    guardarLocal('tienda', null);
+    pedidosEnMemoria.clear();
+  }
+
+  // --- Lo último conocido (D-35) ------------------------------------------------
+  type Cual = 'admin' | 'tienda';
+  const claveLocal = (cual: Cual) => `${op.clave}:catalogo-${cual}`;
+  const almacen = (cual: Cual): Storage | null => {
+    try {
+      return cual === 'tienda' ? localStorage : sessionStorage;
+    } catch {
+      return null; // navegación privada o almacenamiento bloqueado: funciona sin recordar
+    }
+  };
+  function leerLocal(cual: Cual): Catalogo | null {
+    try {
+      return JSON.parse(almacen(cual)?.getItem(claveLocal(cual)) ?? 'null');
+    } catch {
+      return null;
+    }
+  }
+  function guardarLocal(cual: Cual, c: Catalogo | null) {
+    try {
+      if (c) almacen(cual)?.setItem(claveLocal(cual), JSON.stringify(c));
+      else almacen(cual)?.removeItem(claveLocal(cual));
+    } catch {
+      /* lleno o bloqueado: no pasa nada */
+    }
+  }
+  const ultimo: Record<Cual, Catalogo | null> = { admin: null, tienda: null };
+  const pedidosEnMemoria = new Map<string, { hasta: number; datos: Promise<Pedido[]>; ultimo: Pedido[] | null }>();
+
+  /**
+   * Devuelve lo último conocido al instante (si hay) y pide lo nuevo por detrás; si llega distinto, avisa
+   * a las pantallas para que se actualicen. Sin nada guardado, espera la respuesta.
+   */
+  function conUltimo<T>(previo: T | null, pedido: Promise<T>, alLlegar: (d: T) => void): Promise<T> {
+    const llega = pedido.then((d) => {
+      const cambio = JSON.stringify(d) !== JSON.stringify(previo);
+      alLlegar(d);
+      if (previo && cambio) avisar();
+      return d;
+    });
+    if (!previo) return llega;
+    llega.catch(() => {}); // si falla, se sigue mostrando lo último conocido
+    return Promise.resolve(previo);
+  }
+
   // --- Catálogo ---------------------------------------------------------------
-  let catalogo: Record<'admin' | 'tienda', { hasta: number; promesa: Promise<Catalogo> } | null> = { admin: null, tienda: null };
+  let catalogo: Record<Cual, { hasta: number; promesa: Promise<Catalogo> } | null> = { admin: null, tienda: null };
 
   function getCatalogo(deAdmin = !!sesion): Promise<Catalogo> {
-    const cual = deAdmin ? 'admin' : 'tienda';
+    const cual: Cual = deAdmin ? 'admin' : 'tienda';
     const c = catalogo[cual];
-    if (c && c.hasta > Date.now()) return c.promesa;
-    const promesa = deAdmin ? admin<Catalogo>('catalogo') : llamar<Catalogo>('/catalogo');
-    catalogo[cual] = { hasta: Date.now() + SEGUNDOS_CATALOGO_LOCAL * 1000, promesa };
-    promesa.catch(() => (catalogo[cual] = null));
+    // Pedido en camino o reciente: lo último conocido al instante (se actualiza solo cuando llega).
+    if (c && c.hasta > Date.now()) return ultimo[cual] ? Promise.resolve(ultimo[cual]!) : c.promesa;
+    if (ultimo[cual] === null) ultimo[cual] = leerLocal(cual);
+    const pedido = deAdmin ? admin<Catalogo>('catalogo') : llamar<Catalogo>('/catalogo');
+    const promesa = conUltimo(ultimo[cual], pedido, (d) => {
+      ultimo[cual] = d;
+      guardarLocal(cual, d);
+    });
+    catalogo[cual] = { hasta: Date.now() + SEGUNDOS_CATALOGO_LOCAL * 1000, promesa: pedido };
+    pedido.catch(() => (catalogo[cual] = null));
     return promesa;
+  }
+
+  function getPedidosConMemoria(estado: string): Promise<Pedido[]> {
+    const m = pedidosEnMemoria.get(estado);
+    if (m && m.hasta > Date.now()) return m.ultimo ? Promise.resolve(m.ultimo) : m.datos;
+    const pedido = admin<Pedido[]>('pedidos', { estado });
+    const entrada = { hasta: Date.now() + SEGUNDOS_CATALOGO_LOCAL * 1000, datos: pedido, ultimo: m?.ultimo ?? null };
+    pedidosEnMemoria.set(estado, entrada);
+    pedido.catch(() => pedidosEnMemoria.delete(estado));
+    return conUltimo(entrada.ultimo, pedido, (d) => (entrada.ultimo = d));
   }
 
   // Al volver a la pestaña (por ejemplo, después de contestar un WhatsApp), los datos se refrescan.
   if (typeof document !== 'undefined') {
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
+        // Al volver se muestra lo último conocido y se actualiza por detrás.
         catalogo = { admin: null, tienda: null };
+        pedidosEnMemoria.forEach((m) => (m.hasta = 0));
         avisar();
       }
     });
@@ -172,12 +256,12 @@ export function crearDataStoreAppsScript(op: OpcionesAppsScript): DataStore {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items, comprador, verificacion }),
       });
-      catalogo = { admin: null, tienda: null };
+      olvidarTodo();
       avisar();
       return r;
     },
 
-    getPedidos: (filtro) => admin('pedidos', { estado: filtro?.estado ?? '' }),
+    getPedidos: (filtro) => getPedidosConMemoria(filtro?.estado ?? ''),
     getPedido: (numero) => admin('pedido', { numero }),
     confirmarPedido: (numero, opciones) => escribir('confirmar', { numero, forzar: !!opciones?.forzar }),
     cancelarPedido: (numero) => escribir('cancelar', { numero }),

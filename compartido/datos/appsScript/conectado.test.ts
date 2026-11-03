@@ -27,6 +27,7 @@ const comprador: Comprador = {
 };
 
 let n = 0;
+let pedirAlPuente: typeof fetch;
 
 beforeEach(async () => {
   g = crearGoogleFalso(DUENA);
@@ -51,11 +52,9 @@ beforeEach(async () => {
       );
     }) as typeof fetch,
   });
-  ds = crearDataStoreAppsScript({
-    clave: 'prueba',
-    fetch: (async (ruta: string, init?: RequestInit) =>
-      manejar(new Request('https://tienda.com' + ruta, init), env)) as typeof fetch,
-  });
+  pedirAlPuente = (async (ruta: string, init?: RequestInit) =>
+    manejar(new Request('https://tienda.com' + ruta, init), env)) as typeof fetch;
+  ds = crearDataStoreAppsScript({ clave: 'prueba', fetch: pedirAlPuente });
 });
 
 async function entrar() {
@@ -135,5 +134,57 @@ describe('tienda y admin conectados', () => {
     const id = await ds.subirFoto(new Blob([new Uint8Array([1, 2, 3])], { type: 'image/webp' }));
     const url = await ds.urlFoto(id);
     expect(url).toBe(`/api/fotos/${id}`);
+  });
+});
+
+describe('lo último conocido al instante (D-35)', () => {
+  class Almacen {
+    m = new Map<string, string>();
+    getItem = (k: string) => this.m.get(k) ?? null;
+    setItem = (k: string, v: string) => void this.m.set(k, v);
+    removeItem = (k: string) => void this.m.delete(k);
+  }
+  const global = globalThis as unknown as { localStorage?: Almacen; sessionStorage?: Almacen };
+  let local: Almacen;
+  let sesionNav: Almacen;
+  beforeEach(() => {
+    local = new Almacen();
+    sesionNav = new Almacen();
+    global.localStorage = local;
+    global.sessionStorage = sesionNav;
+  });
+
+  it('en otra página muestra el catálogo guardado al instante y se corrige solo si cambió', async () => {
+    const p = await entrar();
+    ds.sesion!.cerrar();
+    expect((await ds.getProductos())[0].precio).toBe(15000);
+    expect(local.getItem('prueba:catalogo-tienda')).toContain('Remera');
+
+    // La dueña cambia el precio desde el admin (en su celular) y el comprador pasa a otra página.
+    const adminDueña = crearDataStoreAppsScript({ clave: 'otra-compu', fetch: pedirAlPuente });
+    await adminDueña.sesion!.iniciar('pase-' + ++n);
+    await adminDueña.guardarProducto({ ...p, precio: 18000, stock: [{ color: '', talle: 'M', cantidad: 3 }] });
+    const pagina2 = crearDataStoreAppsScript({ clave: 'prueba', fetch: pedirAlPuente });
+    const aviso = new Promise<void>((ok) => pagina2.alCambiar(ok));
+    expect((await pagina2.getProductos())[0].precio).toBe(15000); // al instante, lo guardado
+    await aviso; // llegó lo nuevo y avisó a la pantalla
+    expect((await pagina2.getProductos())[0].precio).toBe(18000);
+  });
+
+  it('los pedidos nunca se guardan en el navegador', async () => {
+    const p = await entrar();
+    await ds.crearPedido({ items: [{ productoId: p.id, color: '', talle: 'M', cantidad: 1 }], comprador, verificacion: 'ok' });
+    await ds.sesion!.iniciar('pase-' + ++n);
+    expect(await ds.getPedidos()).toHaveLength(1);
+    const todo = [...local.m.values(), ...sesionNav.m.values()].join(' ');
+    expect(todo).not.toContain('Ana Prueba');
+    expect(todo).not.toContain('1144440000');
+  });
+
+  it('después de guardar un cambio no muestra lo viejo', async () => {
+    const p = await entrar();
+    expect((await ds.getProductos({ incluirOcultos: true }))[0].variantes[0].cantidad).toBe(3);
+    await ds.ajustarStock(p.id, [{ color: '', talle: 'M', cantidad: 7 }]);
+    expect((await ds.getProductos({ incluirOcultos: true }))[0].variantes[0].cantidad).toBe(7);
   });
 });

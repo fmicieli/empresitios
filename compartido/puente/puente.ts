@@ -81,7 +81,9 @@ export function crearPuente(dep: DependenciasPuente) {
   const ahora = dep.ahora ?? (() => Date.now());
 
   async function google(env: EntornoPuente, accion: string, datos: unknown = {}, usuario = ''): Promise<any> {
-    if (!env.APPS_SCRIPT_URL || !env.APPS_SCRIPT_SECRETO) throw new ErrorPuente('servidor', 'Falta configurar el puente.');
+    // Dice cuál falta (nunca su valor), para encontrarlo rápido en Cloudflare (guía 09, paso 6).
+    const faltan = (['APPS_SCRIPT_URL', 'APPS_SCRIPT_SECRETO'] as const).filter((k) => !env[k]);
+    if (faltan.length) throw new ErrorPuente('servidor', 'Falta configurar el puente: ' + faltan.join(' y ') + '.');
     let r: Response;
     try {
       r = await dep.fetch(env.APPS_SCRIPT_URL, {

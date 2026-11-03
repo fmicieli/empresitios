@@ -420,4 +420,38 @@ describe('importar el catálogo de prueba (D-31)', () => {
     const fotosFundas = [...g.archivos.values()].filter((a) => a.nombre?.startsWith('Fundas Marina-') && !a.papelera);
     expect(fotosFundas).toHaveLength(1);
   });
+  it('actualizarFotos cambia las fotos de los productos de la lista y manda las viejas a "Fotos sin usar"', () => {
+    publicar();
+    configurar(SITIO + '/importar/catalogo.json');
+    g.ejecutar('importarCatalogo');
+    const antes = llamar('catalogo').resultado.productos[0].fotos as string[];
+
+    // Fotos nuevas publicadas con el mismo nombre (el botón de la marca centrado).
+    for (const f of catalogo.productos[0].fotos)
+      g.web.set(SITIO + f, { codigo: 200, tipo: 'image/jpeg', cuerpo: Buffer.from('nueva ' + f) });
+    const fila = g.hojas.get('Config')!.datos.find((f) => f[0] === 'actualizarFotosDe')!;
+    fila[1] = 'AB-01, NO-EXISTE';
+    expect(g.ejecutar('actualizarFotos')).toBe(
+      'Fotos actualizadas: AB-01. No encontrados o sin fotos en el catálogo: NO-EXISTE. Listo.',
+    );
+
+    const despues = llamar('catalogo').resultado.productos[0].fotos as string[];
+    expect(despues).toHaveLength(2);
+    expect(despues).not.toEqual(antes);
+    expect(despues.map((id) => g.ruta(id))).toEqual([
+      'Accesorios/Abanicos/AB-01 · Abanico Menta/AB-01-1.jpg',
+      'Accesorios/Abanicos/AB-01 · Abanico Menta/AB-01-2.jpg',
+    ]);
+    expect(llamar('foto', { id: despues[0] }).resultado.base64).toBe(
+      Buffer.from('nueva /fotos-demo/AB-01-1.jpg').toString('base64'),
+    );
+    for (const id of antes) expect(g.ruta(id)).toMatch(/^Fotos sin usar\//);
+    expect(fila[1]).toBe(''); // la lista se vació
+    // La otra no se tocó.
+    expect(g.ruta(llamar('catalogo').resultado.productos[1].fotos[0])).toBe('Home/Fundas Marina/Fundas Marina-1.jpg');
+  });
+
+  it('actualizarFotos sin lista avisa qué completar', () => {
+    expect(() => g.ejecutar('actualizarFotos')).toThrow(/actualizarFotosDe/);
+  });
 });

@@ -65,6 +65,11 @@ const ID_CAMPO: Record<Campo, string> = {
   precio: 'pf-precio',
 };
 
+/** Para saber si el borrador cambió: las fotos se comparan por su id (las nuevas siempre cuentan como cambio). */
+function huella(b: Borrador): string {
+  return JSON.stringify({ ...b, fotos: b.fotos.map((f) => f.id ?? 'nueva:' + f.clave) });
+}
+
 let contadorFotos = 0;
 const claveFoto = () => `f${++contadorFotos}`;
 
@@ -474,6 +479,10 @@ function Editor({
 }) {
   const { ds } = ctx;
   const [b, setB] = useState<Borrador>(() => desdeProducto(original));
+  // Editando un producto, "Guardar" queda deshabilitado hasta que se cambie algo (31/10, Flor).
+  // En uno nuevo queda activo: al tocarlo avisa qué falta completar.
+  const [huellaOriginal] = useState(() => (original ? huella(desdeProducto(original)) : ''));
+  const sinCambios = !!original && huella(b) === huellaOriginal;
   const [errores, setErrores] = useState<Partial<Record<Campo, string>>>({});
   const [intento, setIntento] = useState(false);
   const [guardando, setGuardando] = useState<{ total: number; hechas: number } | null>(null);
@@ -797,7 +806,7 @@ function Editor({
           </label>
 
           <div class="fila">
-            <button type="submit" class="boton" style={{ flex: 1 }}>
+            <button type="submit" class="boton" style={{ flex: 1 }} disabled={sinCambios}>
               {t.guardar}
             </button>
             <a class="boton secundario" href="#/productos">
