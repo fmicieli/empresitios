@@ -372,6 +372,6 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
    - claves en la sección equivocada de Cloudflare y con un nombre mal escrito.
 
    Falta medir cuánto tarda guardar un producto con fotos en Drive (D-26).
-3. **Chacha:** faltan importar las 3 fundas (FA-01 a FA-03) con `importarCatalogo`. Después se pueden sacar de su repo las fotos de prueba (`public/fotos-demo/`) y `public/importar/catalogo.json`.
+3. **Chacha:** al día (03/11). Las fotos de prueba y el catálogo exportado se quedan en su repo: los usa `actualizarFotos` (D-33). Falta medir la velocidad después de D-35.
 4. **Estilo por cliente:** falta decidir si se arma un muestrario de estilos de inspiración.
 5. **Después (no ahora):** pruebas en Android de gama media, prueba semanal automática de compra, script de alta de cliente nuevo (`05-arquitectura-y-fases.md`). Opcional: que la carpeta de fotos se cree junto a la planilla, y no en la raíz de "Mi unidad".
