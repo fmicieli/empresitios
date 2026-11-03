@@ -80,6 +80,7 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
   const carpetas = new Map<string, Carpeta>();
   const web = new Map<string, { codigo: number; tipo: string; cuerpo: Buffer }>();
   const fallas = new Map<string, number>();
+  const cacheGoogle = new Map<string, string>();
 
   const libro = {
     getSheetByName: (n: string) => hojas.get(n) ?? null,
@@ -173,6 +174,14 @@ export function crearGoogleFalso(dueno = 'duena@ejemplo.com'): GoogleFalso {
         if (!archivos.has(id)) throw new Error('no existe');
         return archivo(id);
       },
+    },
+    CacheService: {
+      // Caché de Google: se comparte entre consultas (el vencimiento no se simula).
+      getScriptCache: () => ({
+        get: (k: string) => cacheGoogle.get(k) ?? null,
+        put: (k: string, v: string) => void cacheGoogle.set(k, v),
+        remove: (k: string) => void cacheGoogle.delete(k),
+      }),
     },
     UrlFetchApp: {
       fetch: (urlCompleta: string) => {

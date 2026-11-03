@@ -53,6 +53,7 @@ function doGet() {
 }
 
 function doPost(e) {
+  LECTURAS = {}; // cada consulta empieza leyendo de cero
   let pedido;
   try {
     pedido = JSON.parse((e && e.postData && e.postData.contents) || '{}');
@@ -106,8 +107,11 @@ const ACCIONES_ADMIN = {
 };
 
 function ejecutar(accion, datos, usuario) {
-  vencerReservas();
   if (accion.indexOf('admin.') === 0) {
+    // Solo para el admin: así los pedidos vencidos se ven como "Vencida". Para la tienda no hace falta:
+    // el stock libre ya descuenta solo las reservas vigentes (reservas() mira la hora), y el proceso
+    // automático los vence cada 10 minutos (D-35).
+    vencerReservas();
     verificarAdmin(usuario);
     const f = ACCIONES_ADMIN[accion.slice(6)];
     if (!f) throw ErrorTienda('servidor', 'Acción desconocida.');
@@ -115,7 +119,47 @@ function ejecutar(accion, datos, usuario) {
   }
   const f = ACCIONES_PUBLICAS[accion];
   if (!f) throw ErrorTienda('servidor', 'Acción desconocida.');
+  if (accion === 'catalogo') return catalogoConCache();
   return f(datos);
+}
+
+// ---------------------------------------------------------------------------
+// Velocidad (D-35): el catálogo de la tienda armado se guarda 30 segundos en la caché de Google, y cada
+// pestaña se lee una sola vez por consulta. Cualquier cambio en la planilla hecho por el código borra la
+// caché; un cambio hecho a mano en la planilla tarda hasta 30 segundos en verse en la tienda.
+// ---------------------------------------------------------------------------
+
+const CLAVE_CACHE_CATALOGO = 'catalogo-publico';
+const SEGUNDOS_CACHE_CATALOGO = 30;
+const PESTANAS_DEL_CATALOGO = ['Config', 'Categorias', 'Productos', 'Stock', 'Pedidos', 'PedidoItems'];
+
+function catalogoConCache() {
+  const cache = CacheService.getScriptCache();
+  const guardado = cache.get(CLAVE_CACHE_CATALOGO);
+  if (guardado) return JSON.parse(guardado);
+  const c = catalogoPublico();
+  try {
+    cache.put(CLAVE_CACHE_CATALOGO, JSON.stringify(c), SEGUNDOS_CACHE_CATALOGO);
+  } catch (e) {
+    // Muy grande para la caché (tiendas con muchísimos productos): se arma cada vez, como antes.
+  }
+  return c;
+}
+
+function olvidarCatalogo() {
+  try {
+    CacheService.getScriptCache().remove(CLAVE_CACHE_CATALOGO);
+  } catch (e) {
+    /* sin caché no pasa nada */
+  }
+}
+
+// Lecturas de esta consulta: cada pestaña se lee una vez (se olvidan al escribir en ella o al tomar el candado).
+let LECTURAS = {};
+
+function olvidarLectura(nombre) {
+  delete LECTURAS[nombre];
+  if (PESTANAS_DEL_CATALOGO.indexOf(nombre) >= 0) olvidarCatalogo();
 }
 
 function verificarAdmin(correo) {
@@ -144,6 +188,12 @@ function hoja(nombre) {
  * de la columna "visible" valen FALSO y no tienen que parecer productos o categorías.
  */
 function leer(nombre) {
+  // Copias, para que quien las modifique sin guardar no cambie lo que lee el resto de la consulta.
+  if (!LECTURAS[nombre]) LECTURAS[nombre] = leerPestana(nombre);
+  return LECTURAS[nombre].map((o) => Object.assign({}, o));
+}
+
+function leerPestana(nombre) {
   const h = hoja(nombre);
   const valores = h.getDataRange().getValues();
   const cols = PESTANAS[nombre];
@@ -176,18 +226,21 @@ function agregar(nombre, o) {
 
 function agregarVarias(nombre, lista) {
   if (!lista.length) return;
+  olvidarLectura(nombre);
   const h = hoja(nombre);
   const cols = PESTANAS[nombre].length;
   h.getRange(filaLibre(h), 1, lista.length, cols).setValues(lista.map((o) => aFila(nombre, o)));
 }
 
 function actualizar(nombre, o) {
+  olvidarLectura(nombre);
   const cols = PESTANAS[nombre].length;
   hoja(nombre).getRange(o._fila, 1, 1, cols).setValues([aFila(nombre, o)]);
 }
 
 /** Borra filas (de abajo hacia arriba para no correr los números). */
 function borrarFilas(nombre, objetos) {
+  olvidarLectura(nombre);
   const h = hoja(nombre);
   objetos
     .map((o) => o._fila)
@@ -235,6 +288,8 @@ function huellaItems(items) {
 function conCandado(fn) {
   const candado = LockService.getScriptLock();
   if (!candado.tryLock(10000)) throw ErrorTienda('servidor', 'La tienda está ocupada. Probá de nuevo.');
+  // Con el candado tomado se vuelve a leer todo: otra consulta pudo haber escrito mientras esperábamos.
+  LECTURAS = {};
   try {
     const r = fn();
     SpreadsheetApp.flush();
@@ -525,6 +580,7 @@ function buscarPedidoPublico(numero) {
 
 /** Pasa a "vencida" los pendientes cuyo plazo terminó. También lo corre un disparador cada 10 minutos. */
 function vencerReservas() {
+  LECTURAS = {};
   const ahora = Date.now();
   const vencidos = leer('Pedidos').filter((p) => p.estado === 'pendiente' && ms(p.venceEn) <= ahora);
   if (!vencidos.length) return 0;
@@ -924,6 +980,7 @@ function ordenarFotosEnDrive(prod, fotos, quitadas) {
  * Sirve al conectar una tienda que ya tenía fotos y después de cambiarle el nombre a una categoría.
  */
 function ordenarTodasLasFotos() {
+  LECTURAS = {};
   const productos = leer('Productos');
   productos.forEach((p) => ordenarFotosEnDrive(p, lista(p.fotos), []));
   console.log('Listo: fotos de ' + productos.length + ' productos ordenadas.');
@@ -955,6 +1012,7 @@ function leerCatalogoPublicado() {
 }
 
 function importarCatalogo() {
+  LECTURAS = {};
   const publicado = leerCatalogoPublicado();
   const datos = publicado.datos;
   const origen = publicado.origen;
@@ -1054,6 +1112,7 @@ function importarCatalogo() {
  * - Cada producto que termina sale de la lista: si Google corta a los 6 minutos, se vuelve a ejecutar y sigue.
  */
 function actualizarFotos() {
+  LECTURAS = {};
   const pedidos = lista(String(leerConfig().actualizarFotosDe || '').replace(/,/g, '|'));
   if (!pedidos.length) throw new Error('Completá "actualizarFotosDe" en la pestaña Config con los códigos de los productos, separados por coma.');
   const publicado = leerCatalogoPublicado();
@@ -1137,6 +1196,7 @@ function bajarFoto(url, ruta) {
  * Se puede volver a ejecutar sin perder datos.
  */
 function configurarPlanilla() {
+  LECTURAS = {};
   const libro = SpreadsheetApp.getActiveSpreadsheet();
   Object.keys(PESTANAS).forEach((nombre) => {
     let h = libro.getSheetByName(nombre);

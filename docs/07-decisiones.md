@@ -343,6 +343,25 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
    Viene apagada, así que las demás tiendas siguen igual.
 2. **El mensaje de WhatsApp dice dónde se retira:** "Entrega: retiro en Mercedes, Buenos Aires" en vez de "retiro en el local", en todas las tiendas que tengan `direccionLocal`.
 
+## D-35 · Velocidad con Google: lo último conocido al instante y menos trabajo en la planilla (03/11/2026)
+
+1. **El problema** (03/11, prueba de Flor en computadora): siempre tardaba en cargar el contenido, al ir al carrito y al pasar de Productos a Pedidos. Las causas:
+   - cada página y cada pestaña le volvía a preguntar todo a Google, que tarda entre 1 y 4 segundos;
+   - el código de la planilla hacía trabajo de más en cada consulta;
+   - ⚠️ probablemente la caché del puente no funciona en las direcciones `.workers.dev`. No se pudo confirmar en la documentación oficial porque la red de la sesión la bloquea.
+2. **En el navegador** (eligió Flor, opción 1): se muestra al instante lo último conocido y se actualiza por detrás. Si llega algo distinto, la pantalla se corrige sola.
+   - El catálogo de la tienda se guarda en el navegador (es público).
+   - El del admin se guarda en la pestaña y se borra al cerrarla o al salir.
+   - Los pedidos solo quedan en memoria, nunca en el navegador, porque tienen datos personales.
+   - Después de un cambio propio (guardar, confirmar) se espera la respuesta nueva, para no mostrar lo viejo.
+   - El stock se vuelve a verificar en la planilla al mandar el pedido.
+3. **En la planilla** (eligió Flor, opción 2):
+   - cada pestaña se lee una sola vez por consulta;
+   - las consultas de la tienda ya no revisan reservas vencidas (el stock libre ya mira la hora, y el proceso automático las vence cada 10 minutos);
+   - el catálogo armado se guarda 30 segundos en la caché de Google y se borra con cualquier cambio hecho por el código.
+4. **Riesgo:** un cambio hecho a mano en la planilla tarda hasta 30 segundos en verse en la tienda. Y durante unos segundos la tienda puede mostrar un stock viejo, que se corrige solo.
+5. **Si sigue lento:** guardar catálogo y fotos en Cloudflare KV, o usar un dominio propio para que funcione la caché del puente.
+
 ## Pendientes (al 30/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
