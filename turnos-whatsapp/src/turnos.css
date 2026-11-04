@@ -186,8 +186,9 @@ h3 {
   text-decoration: underline;
 }
 
-/* Celular: el menú se despliega debajo del encabezado. Sin JavaScript, queda a la vista. */
-@media (max-width: 899px) {
+/* Celular y pantallas medianas: el menú se despliega debajo del encabezado. Sin JavaScript, queda a la vista.
+   Recién desde 1100 px los links van en el encabezado, en una sola línea (con títulos largos no entran antes). */
+@media (max-width: 1099px) {
   .js .menu {
     display: none;
     position: absolute;
@@ -216,13 +217,17 @@ h3 {
     display: none;
   }
 }
-@media (min-width: 900px) {
+@media (min-width: 1100px) {
   .boton-menu {
     display: none;
   }
   .menu ul {
     display: flex;
     gap: var(--espacio-100);
+  }
+  .menu a {
+    white-space: nowrap;
+    padding: 0 var(--espacio-200);
   }
 }
 
