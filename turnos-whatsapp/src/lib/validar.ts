@@ -30,6 +30,11 @@ const PROMESAS = [
 /** Marcas de "falta completar" que pueden quedar del brief. */
 const PENDIENTE = /\[completar\]/i;
 
+/** ¿Quedó algún "[completar]" en el contenido? Mientras quede, el sitio no se indexa en buscadores (D-39). */
+export function tienePendientes(contenido: Contenido): boolean {
+  return PENDIENTE.test(JSON.stringify(contenido));
+}
+
 export function validar(config: ConfigSitio, contenido: Contenido, fotos: Set<string>, publicos: Set<string>): Resultado {
   const errores: string[] = [];
   const avisos: string[] = [];
@@ -69,6 +74,17 @@ export function validar(config: ConfigSitio, contenido: Contenido, fotos: Set<st
   }
   if (config.inicio.video && !publicos.has(config.inicio.video.archivo)) {
     errores.push(`No está el video "${config.inicio.video.archivo}" en turnos-whatsapp/public/.`);
+  }
+
+  if (config.imagenCompartir) {
+    if (!publicos.has(config.imagenCompartir))
+      errores.push(`No está la imagen para compartir "${config.imagenCompartir}" en turnos-whatsapp/public/.`);
+    else if (!/\.(jpe?g|png)$/i.test(config.imagenCompartir))
+      errores.push(`La imagen para compartir tiene que ser JPG o PNG (WhatsApp no muestra otras).`);
+    if (!config.urlSitio)
+      avisos.push(
+        'Hay imagen para compartir pero falta urlSitio en sitio.config.ts: sin la dirección, no se ve en la vista previa del link.',
+      );
   }
 
   // Servicios y lugares

@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "publicar": "astro build && wrangler deploy"
+    "publicar": "astro build && wrangler deploy",
+    "desplegar": "wrangler deploy"
   },
   "dependencies": {
     "@fontsource-variable/nunito-sans": "^5.3.0",

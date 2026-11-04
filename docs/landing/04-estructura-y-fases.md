@@ -4,7 +4,7 @@
 
 - Es una **página estática**: Astro arma un HTML con sus fotos al compilar y Cloudflare lo sirve tal cual. No hay servidor propio, ni puente, ni claves secretas, ni Google.
 - El poco JavaScript que hay (menú, paso de lugar, certificados, video) va en scripts chicos dentro de cada sección, sin Preact: pesa menos en un Android de gama media (D-37). "Ver más" no usa JavaScript.
-- Se publica en **Cloudflare Workers** con solo archivos estáticos, como la demo (D-16, D-18). ⚠️ Los límites del plan gratis para sitios estáticos se confirman en la documentación oficial antes de publicar (Fase 3).
+- Se publica en **Cloudflare Workers** con solo archivos estáticos, como la demo (D-16, D-18). Límites del plan gratis confirmados en la documentación oficial (04/11/2026, D-39): los pedidos a archivos estáticos son gratis y sin límite.
 
 ## Estructura de carpetas
 
@@ -98,7 +98,7 @@ Propuesta, a confirmar: **"Brisa · Masajes y bienestar"**, de una masajista fic
 
 ### Fase 3 — Publicación
 
-- Worker nuevo en Cloudflare conectado a `fmicieli/estudio-v` (como en `docs/11-publicar-demo.md`), que arma la carpeta `turnos-whatsapp`.
+- Worker nuevo en Cloudflare conectado a `fmicieli/estudio-v`, que arma la carpeta `turnos-whatsapp`. Paso a paso: `06-publicar.md` (D-39).
 - Dominio, si Valen quiere (lo compra a su nombre).
 - Prueba final en un Android de gama media.
 

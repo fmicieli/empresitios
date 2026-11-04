@@ -400,6 +400,16 @@ Propuso: Claude. Son arreglos de la plantilla que aparecieron con el primer siti
 2. **Token `--fuente-subtitulos`** para los títulos chicos de las tarjetas (20 px). Por defecto es la fuente de los títulos. En Estudio V va Jost, porque Cormorant Garamond queda fina a ese tamaño.
 3. **Menú en una sola línea desde 1100 px.** Con títulos largos ("Rutina personalizada online"), entre 900 y 1100 px los links se partían en dos líneas. Ahora en ese rango aparece el botón de menú.
 
+## D-39 · Plantilla 2: lista para publicar (04/11/2026)
+
+Propuso: Claude, al empezar la Fase 3. Cambios de plantilla, traídos a Estudio V.
+
+1. **Comando para Cloudflare:** `npm run desplegar:turnos` (en el repo de cada clienta, el *Deploy command* del Worker). Publica la carpeta `turnos-whatsapp/dist` que arma `npm run build:turnos`.
+2. **Fuera de Google mientras haya "[completar]".** Si queda algún dato sin completar en `contenido.ts`, la página lleva `noindex`. Así se puede publicar en la dirección `.workers.dev` para que la clienta la revise, sin que Google guarde una versión a medias. Se indexa sola cuando no queda ninguno.
+3. **Imagen para compartir** (opcional): `imagenCompartir` en `sitio.config.ts`, un JPG o PNG de 1200 × 630 px en `public/`. Es lo que se ve al mandar el link por WhatsApp o pegarlo en Instagram. Solo sale si hay `urlSitio`, porque la vista previa pide la dirección completa. Igual que en la tienda.
+4. **Link canónico** (`canonical`) cuando hay `urlSitio`: si el sitio queda con dos direcciones (la `.workers.dev` y el dominio), Google toma la del dominio.
+5. **Límites de Cloudflare confirmados** (páginas oficiales, 04/11/2026): los pedidos a archivos estáticos son gratis y sin límite; cada archivo hasta 25 MiB y hasta 20.000 archivos por versión en el plan gratis. Un sitio de turnos usa unos 100 archivos.
+
 ## Pendientes (al 30/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

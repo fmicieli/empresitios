@@ -31,6 +31,11 @@ export interface ConfigSitio {
   instagram: string;
   /** Vacío = no se muestra (D-36). */
   mail: string;
+  /**
+   * Imagen que se ve al compartir el link (WhatsApp, Instagram…): JPG o PNG de 1200 × 630 px en public/.
+   * Solo se usa si hay urlSitio, porque los que leen la vista previa piden la dirección completa.
+   */
+  imagenCompartir?: string;
   /** Logo en public/ (por ejemplo "logo.svg"). Sin logo se muestra el nombre. */
   logo?: { archivo: string; alt: string; alto?: number };
   colorMarca: string;

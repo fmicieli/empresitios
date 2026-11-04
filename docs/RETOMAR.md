@@ -1,8 +1,13 @@
 # Cómo retomar
 
-## 0. Plantilla 2 · Turnos con WhatsApp (Fases 0 y 1 aprobadas el 04/11; Fase 2, Estudio V, entregada el 04/11)
+## 0. Plantilla 2 · Turnos con WhatsApp (Fases 0, 1 y 2 aprobadas el 04/11; Fase 3, publicación, preparada)
 
-### Estudio V (Fase 2, esperando revisión de Flor)
+### Fase 3 · Publicar Estudio V (preparada el 04/11, la hace Flor)
+
+- **Paso a paso:** `docs/landing/06-publicar.md`: subir el repo con GitHub Desktop, crear el Worker `estudio-v` en Cloudflare (Build `npm run build:turnos`, Deploy `npm run desplegar:turnos`), poner la dirección en `urlSitio` y probar en un Android.
+- Mientras haya "[completar]", el sitio no aparece en Google (D-39): se puede publicar para que Valen lo revise.
+
+### Estudio V (Fase 2, aprobada el 04/11)
 
 - **Dónde está:** en tu compu, en `Claude Code/estudio-v` (repo de git propio, rama `main`). Todavía no está en GitHub: se publica desde GitHub Desktop (File → Add local repository → elegí la carpeta → Publish repository, con "Keep this code private" tildado). Eso crea `fmicieli/estudio-v`.
 - **Verlo:** en la Terminal, `cd "Claude Code/estudio-v"`, después `npm install` y `npm run dev:turnos`, y abrí http://localhost:4330/ (cortá antes la plantilla si está corriendo: usan el mismo número).
@@ -18,7 +23,7 @@ Rama: `claude/plantilla-2-turnos-whatsapp`. Primera clienta: Estudio V · Skin L
 - **Textos y mensajes de WhatsApp:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/03-textos-y-mensajes.md
 - **Estructura, fases y riesgos:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/04-estructura-y-fases.md
 - **Preguntas para la clienta:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/05-preguntas-a-la-clienta.md
-- **Decisiones (D-36 y D-37):** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/07-decisiones.md
+- **Decisiones (D-36 a D-39):** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/07-decisiones.md
 - **Plantilla (Fase 1):** https://github.com/fmicieli/empresitios/tree/claude/plantilla-2-turnos-whatsapp/turnos-whatsapp
 - **Verla en tu compu:** traé la rama, corré `npm install` y después `npm run dev:turnos`, y abrí http://localhost:4330/. Qué probar: README, sección "Plantilla 2".
 
@@ -28,7 +33,7 @@ Prompt para seguir con la plantilla 2:
 Hola, soy Flor. Seguimos la plantilla 2 (turnos con WhatsApp) en empresitios, rama claude/plantilla-2-turnos-whatsapp.
 1. Leé CLAUDE.md, docs/landing/ (00 a 05) y D-36 en docs/07-decisiones.md antes de hacer nada.
 2. Fase 0 aprobada (04/11). Fase 1 entregada el 04/11 (plantilla con la marca Brisa en turnos-whatsapp/, D-37): preguntame si la revisé en localhost (npm run dev:turnos, http://localhost:4330/).
-3. Fase 1 aprobada (04/11). Fase 2 entregada el 04/11: Estudio V armado en Claude Code/estudio-v (D-38); preguntame si lo revisé, si lo publiqué en GitHub y si Valen mandó lo que falta (lista en RETOMAR). Después: Fase 3, publicación en Cloudflare. El material de Valen está en el zip "Estudio V - Web para Flor" (en mi Escritorio); no va en el repo.
+3. Fases 1 y 2 aprobadas (04/11): Estudio V armado en Claude Code/estudio-v (D-38). Fase 3 preparada (D-39, docs/landing/06-publicar.md): preguntame si publiqué el repo en GitHub, si creé el Worker en Cloudflare y cuál es la dirección, si lo probé en un Android y si Valen mandó lo que falta (lista en RETOMAR). El material de Valen está en el zip "Estudio V - Web para Flor" (en mi Escritorio); no va en el repo.
 4. Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar cada fase.
 ```
 

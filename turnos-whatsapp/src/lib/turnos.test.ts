@@ -7,7 +7,7 @@ import contenido from './pruebas/contenido';
 import configReal from '../../config/sitio.config';
 import contenidoReal from '../../config/contenido';
 import { hrefGeneral, linkMaps, prepararServicios, semana } from './preparar';
-import { validar } from './validar';
+import { tienePendientes, validar } from './validar';
 import type { ConfigSitio, Contenido } from './tipos';
 
 const texto = (href: string) => decodeURIComponent(href.split('?text=')[1] ?? '');
@@ -106,6 +106,27 @@ describe('controles al compilar', () => {
     expect(r.errores).toEqual([]);
     expect(r.avisos.some((a) => a.includes('"elimina"'))).toBe(true);
     expect(r.avisos.some((a) => a.includes('Falta completar'))).toBe(true);
+  });
+  it('con "[completar]" el sitio queda fuera de buscadores', () => {
+    const c: Contenido = structuredClone(contenido);
+    expect(tienePendientes(c)).toBe(false);
+    c.turnos.cancelacion = '[completar] Qué pasa si avisás tarde.';
+    expect(tienePendientes(c)).toBe(true);
+  });
+  it('imagen para compartir: tiene que estar en public/ y avisa si falta urlSitio', () => {
+    const sinArchivo = validar({ ...config, imagenCompartir: 'compartir.jpg' }, contenido, fotos, publicos);
+    expect(sinArchivo.errores.some((e) => e.includes('compartir.jpg'))).toBe(true);
+    const conArchivo = new Set([...publicos, 'compartir.jpg']);
+    const r = validar({ ...config, imagenCompartir: 'compartir.jpg' }, contenido, fotos, conArchivo);
+    expect(r.errores).toEqual([]);
+    expect(r.avisos.some((a) => a.includes('urlSitio'))).toBe(true);
+    const webp = validar(
+      { ...config, imagenCompartir: 'compartir.webp' },
+      contenido,
+      fotos,
+      new Set([...publicos, 'compartir.webp']),
+    );
+    expect(webp.errores.some((e) => e.includes('JPG o PNG'))).toBe(true);
   });
   it('no confunde palabras que contienen una promesa ("procura")', () => {
     const c: Contenido = structuredClone(contenido);

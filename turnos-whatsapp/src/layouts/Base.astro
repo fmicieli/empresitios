@@ -8,6 +8,8 @@ import '../../config/estilo.css';
 import estiloCss from '../../config/estilo.css?raw';
 import { calcularColoresDeMarca } from '../../../compartido/herramientas/colores-de-marca';
 import config from '../../config/sitio.config';
+import contenido from '../../config/contenido';
+import { tienePendientes } from '../lib/validar';
 
 interface Props {
   titulo?: string;
@@ -22,6 +24,9 @@ const marca = calcularColoresDeMarca(estiloCss, config.colorMarca, config.colorS
   { frente: '--texto', fondo: '--superficie-marca', minimo: 4.5, que: 'el texto sobre el bloque destacado' },
 ]);
 const origen = config.urlSitio.replace(/\/$/, '');
+// Fuera de buscadores: el sitio de ejemplo y cualquier sitio con "[completar]" sin resolver (D-39).
+const sinIndexar = config.ejemplo || tienePendientes(contenido);
+const imagen = origen && config.imagenCompartir ? `${origen}/${config.imagenCompartir}` : '';
 ---
 <!doctype html>
 <html lang="es-AR">
@@ -30,13 +35,25 @@ const origen = config.urlSitio.replace(/\/$/, '');
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{tituloCompleto}</title>
     <meta name="description" content={config.descripcion} />
-    {config.ejemplo && <meta name="robots" content="noindex" />}
+    {sinIndexar && <meta name="robots" content="noindex" />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_AR" />
     <meta property="og:site_name" content={config.nombre} />
     <meta property="og:title" content={tituloCompleto} />
     <meta property="og:description" content={config.descripcion} />
     {origen && <meta property="og:url" content={origen + '/'} />}
+    {origen && <link rel="canonical" href={origen + '/'} />}
+    {
+      imagen && (
+        <>
+          <meta property="og:image" content={imagen} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={config.nombre} />
+          <meta name="twitter:card" content="summary_large_image" />
+        </>
+      )
+    }
     <meta name="theme-color" content={config.colorMarca} />
     <meta name="color-scheme" content="only light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
