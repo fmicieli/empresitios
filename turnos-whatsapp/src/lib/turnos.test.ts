@@ -1,7 +1,11 @@
 // Pruebas de la plantilla de turnos: armado de links y controles al compilar.
 import { describe, expect, it } from 'vitest';
-import config from '../../config/sitio.config';
-import contenido from '../../config/contenido';
+import { readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import config from './pruebas/sitio';
+import contenido from './pruebas/contenido';
+import configReal from '../../config/sitio.config';
+import contenidoReal from '../../config/contenido';
 import { hrefGeneral, linkMaps, prepararServicios, semana } from './preparar';
 import { validar } from './validar';
 import type { ConfigSitio, Contenido } from './tipos';
@@ -66,7 +70,12 @@ describe('controles al compilar', () => {
   ]);
   const publicos = new Set(['logo.svg']);
 
-  it('la marca de ejemplo pasa sin errores ni avisos', () => {
+  it('la configuración y el contenido de este sitio no tienen errores', () => {
+    // Usa los archivos reales de config/, fotos/ y public/: en el repo de una clienta revisa su sitio.
+    const leer = (carpeta: string) => new Set(readdirSync(fileURLToPath(new URL(carpeta, import.meta.url))));
+    expect(validar(configReal, contenidoReal, leer('../../fotos/'), leer('../../public/')).errores).toEqual([]);
+  });
+  it('los datos de prueba pasan sin errores ni avisos', () => {
     expect(validar(config, contenido, fotos, publicos)).toEqual({ errores: [], avisos: [] });
   });
   it('frena si falta una foto o el WhatsApp de una clienta real', () => {

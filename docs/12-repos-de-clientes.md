@@ -11,7 +11,11 @@ En el repo del cliente **solo cambian** configuración, estilo y contenido (regl
 Para un sitio de **turnos** (plantilla 2, `docs/landing/`) cambian solo:
 
 - `turnos-whatsapp/config/sitio.config.ts`, `contenido.ts` y `estilo.css`;
-- `turnos-whatsapp/public/` — logo, fotos y video.
+- `turnos-whatsapp/fotos/` — fotos (se achican al compilar).
+- `turnos-whatsapp/public/` — logo, favicon y video.
+- Si usa otras fuentes: `turnos-whatsapp/package.json` (lo cambia `npm install -w turnos-whatsapp @fontsource-variable/…`).
+
+Las pruebas automáticas de turnos usan su propia copia de Brisa (`turnos-whatsapp/src/lib/pruebas/`), así que pasan con cualquier contenido. Además revisan que la configuración real de la clienta no tenga errores.
 
 El Worker de Cloudflare de ese cliente arma la carpeta `turnos-whatsapp`.
 
