@@ -8,6 +8,9 @@
   --seccion-color: var(--superficie); /* fondo de las secciones que se alternan */
   --texto-suave-sobre-seccion: var(--texto-suave-sobre-superficie);
   --detalle: var(--acento); /* formas y líneas decorativas, nunca texto chico */
+  /* Títulos chicos (tarjetas, 20 px): una fuente fina de títulos puede no leerse bien a ese tamaño;
+     en ese caso, en config/estilo.css: --fuente-subtitulos: var(--fuente-texto); */
+  --fuente-subtitulos: var(--fuente-titulos);
   --ancho-landing: 1120px;
   --alto-encabezado: 64px;
   --aire-seccion: var(--espacio-1600);
@@ -44,9 +47,11 @@ main:focus {
 /* ---------- Títulos ---------- */
 h1,
 h2,
-h3,
 .titulo-seccion {
   font-family: var(--fuente-titulos);
+}
+h3 {
+  font-family: var(--fuente-subtitulos);
 }
 h1 {
   font-size: var(--titulo-pagina-chico); /* 40 */

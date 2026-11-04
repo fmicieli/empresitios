@@ -21,6 +21,8 @@
 :root {
   --fuente-texto: 'Nunito Sans Variable', 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --fuente-titulos: var(--fuente-texto);
+  /* Títulos chicos de las tarjetas (por defecto, la de los títulos). */
+  --fuente-subtitulos: var(--fuente-titulos);
 
   /* 2. COLORES — ejemplos (descomentá y cambiá):
   --fondo: #fbf7f1;
