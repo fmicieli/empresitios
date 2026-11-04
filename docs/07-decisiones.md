@@ -362,6 +362,22 @@ Pedido de Flor: tomar como base el "Simple Design System" de Figma Community (ar
 4. **Riesgo:** un cambio hecho a mano en la planilla tarda hasta 30 segundos en verse en la tienda. Y durante unos segundos la tienda puede mostrar un stock viejo, que se corrige solo.
 5. **Si sigue lento:** guardar catálogo y fotos en Cloudflare KV, o usar un dominio propio para que funcione la caché del puente.
 
+## D-36 · Plantilla 2 (turnos con WhatsApp): decisiones de la Fase 0 (03/11/2026)
+
+Especificación en `docs/landing/` (`00-arranque.md` a `05-preguntas-a-la-clienta.md`).
+
+1. **Carpeta `turnos-whatsapp/`**, en paralelo con `tienda-whatsapp/`. Decidió: Flor.
+2. **Duración y precio opcionales**, cada uno por separado. Si falta, no se muestra ni va en el mensaje. Decidió: Flor.
+3. **Botones de Estudio V en canela (#8A5A42):** blanco sobre canela da 5,8:1 y crema sobre canela 5,4:1. Terracota (#B07A5A) solo para detalles y títulos grandes (blanco sobre terracota da 3,6:1 y terracota sobre crema 3,4:1, menos del 4,5:1 que se pide para texto). Decidió: Flor.
+4. **El mensaje dice el lugar, eligiéndolo antes.** Si el servicio se da en dos lugares o más, al tocar "Reservar turno" se elige el lugar o "Me da igual". Con un solo lugar se saltea y el mensaje lo nombra igual. Sin JavaScript, el botón abre WhatsApp sin lugar. Decidió: Flor (opción "elegir lugar o me da igual").
+5. **Mail opcional en la plantilla. En Estudio V no se publica**: solo WhatsApp e Instagram, para evitar spam. Decidió: Flor.
+6. **Video en el inicio: solo en computadora**, sin audio, liviano, con pausa y respetando "reducir movimiento". En el celular, foto fija. Decidió: Flor.
+7. **Sección "Antes y después" opcional, apagada en Estudio V.** No compila si un par no tiene `permisoEscrito: true`. El valor "Resultados reales" del brief se reescribe hasta que haya fotos con permiso. Decidió: Flor.
+8. **Contenido en `turnos-whatsapp/config/contenido.ts`**, aparte de `sitio.config.ts` (configuración) y `estilo.css` (estilo). Así, cambiar un precio no toca la configuración. Propuso: Claude.
+9. **"Cómo llegar" como link a Google Maps**, sin mapa insertado: pesa menos y no le pasa datos de la visita a Google. Propuso: Claude.
+10. **Controles al compilar:** fotos sin `alt` o inexistentes, WhatsApp inválido y lugares inexistentes frenan. Palabras de promesa ("cura", "elimina"…) y datos sin completar solo avisan. Propuso: Claude.
+11. A confirmar por Flor: **la marca de ejemplo "Brisa · Masajes y bienestar"** (`04-estructura-y-fases.md`), el puerto 4330 para verla en localhost y mover el chequeo de colores a `compartido/`.
+
 ## Pendientes (al 30/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).

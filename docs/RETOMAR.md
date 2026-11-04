@@ -1,5 +1,30 @@
 # Cómo retomar
 
+## 0. Plantilla 2 · Turnos con WhatsApp (Fase 0 entregada el 03/11, esperando OK de Flor)
+
+Rama: `claude/plantilla-2-turnos-whatsapp`. Primera clienta: Estudio V · Skin Lab (repo `fmicieli/estudio-v`, privado, todavía no creado).
+
+- **Producto y secciones:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/01-producto-y-secciones.md
+- **Modelo de contenido:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/02-modelo-de-contenido.md
+- **Textos y mensajes de WhatsApp:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/03-textos-y-mensajes.md
+- **Estructura, fases y riesgos:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/04-estructura-y-fases.md
+- **Preguntas para la clienta:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/05-preguntas-a-la-clienta.md
+- **Decisiones (D-36):** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/07-decisiones.md
+
+Prompt para seguir con la plantilla 2:
+
+```
+Hola, soy Flor. Seguimos la plantilla 2 (turnos con WhatsApp) en empresitios, rama claude/plantilla-2-turnos-whatsapp.
+1. Leé CLAUDE.md, docs/landing/ (00 a 05) y D-36 en docs/07-decisiones.md antes de hacer nada.
+2. Fase 0 entregada el 03/11. Preguntame si la aprobé y qué decidí sobre lo del punto 11 de D-36 (marca de ejemplo, puerto 4330, mover el chequeo de colores a compartido/).
+3. Después: Fase 1 (plantilla con la marca ficticia, en turnos-whatsapp/) y Fase 2 (sitio de Estudio V en el repo privado fmicieli/estudio-v; agregalo a la sesión). El material de Valen está en el zip "Estudio V - Web para Flor" (en mi Escritorio); no va en el repo.
+4. Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar cada fase.
+```
+
+---
+
+## Plantilla 1 · Tienda con WhatsApp
+
 ## 1. Links para revisar lo último (sistema de diseño de base D-21 y fotos del admin D-22, unidos a main el 14/10)
 
 - **Decisión D-21 (qué se tomó del sistema y qué se adaptó por accesibilidad):** https://github.com/fmicieli/empresitios/blob/claude/quirky-cray-06mnp8/docs/07-decisiones.md

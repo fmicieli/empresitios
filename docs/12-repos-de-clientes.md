@@ -1,12 +1,19 @@
 # Repos de clientes: crearlos y traerles las mejoras de la plantilla
 
-Cada tienda (cliente o ejemplo, como Chacha) tiene **su propio repositorio**, copia de esta plantilla (`empresitios`).
+Cada sitio de cliente (tienda o landing de turnos; también los ejemplos, como Chacha) tiene **su propio repositorio**, copia de esta plantilla (`empresitios`).
 En el repo del cliente **solo cambian** configuración, estilo y contenido (regla 5 de `CLAUDE.md`):
 
 - `tienda-whatsapp/config/tienda.config.ts` — nombre, WhatsApp, banner, redes, etc.
 - `tienda-whatsapp/config/estilo.css` — fuentes, colores y formas.
 - `tienda-whatsapp/public/` — logo, banner, imagen para compartir y fotos de ejemplo.
 - Los productos de ejemplo del modo de prueba (si la tienda se muestra sin conectar a Google): `tienda-whatsapp/datos-ejemplo/tienda-modelo.json` y sus fotos en `tienda-whatsapp/public/fotos-demo/`. Las pruebas automáticas no usan ese archivo (tienen su propia copia en `compartido/datos/local/semilla-pruebas.json`), así que se puede reemplazar sin romperlas.
+
+Para un sitio de **turnos** (plantilla 2, `docs/landing/`) cambian solo:
+
+- `turnos-whatsapp/config/sitio.config.ts`, `contenido.ts` y `estilo.css`;
+- `turnos-whatsapp/public/` — logo, fotos y video.
+
+El Worker de Cloudflare de ese cliente arma la carpeta `turnos-whatsapp`.
 
 **Todo lo demás se arregla en la plantilla** y después se trae a cada cliente.
 
@@ -45,3 +52,4 @@ git push
 | Repo | Para qué | Link publicado |
 |---|---|---|
 | `fmicieli/chacha-tienda` (privado) | Ejemplo con marca: Chacha, emprendimiento de Flor (modo de prueba) | https://chacha-tienda.atlas-de5cd208129d.workers.dev |
+| `fmicieli/estudio-v` (privado, a crear por Flor) | Plantilla 2: Estudio V · Skin Lab (Valentina Osácar) | todavía no |

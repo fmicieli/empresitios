@@ -1,6 +1,8 @@
 # Plantilla 2 · Landing de servicios con reserva por WhatsApp — arranque
 
-Este documento es el punto de partida (02/11/2026). Lo escribió la sesión de la tienda. Desde acá sigue la sesión nueva, que arranca la Fase 0 y lo completa.
+Este documento es el punto de partida (02/11/2026). Lo escribió la sesión de la tienda.
+
+**Actualización 03/11/2026 (Fase 0):** la especificación sigue en `01-producto-y-secciones.md`, `02-modelo-de-contenido.md`, `03-textos-y-mensajes.md`, `04-estructura-y-fases.md` y `05-preguntas-a-la-clienta.md`. Las decisiones que quedaban abiertas acá (duración y precio, color de los botones, lugar en el mensaje, nombre de la carpeta) están en `docs/07-decisiones.md`, D-36, que manda sobre este archivo.
 
 ## Qué es
 

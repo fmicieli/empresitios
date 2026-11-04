@@ -1,4 +1,4 @@
-# CLAUDE.md — Plantillas para comercios · Tienda con WhatsApp
+# CLAUDE.md — Plantillas para comercios (Empresitios)
 
 Este archivo es el contexto permanente del repositorio. Leelo al empezar cada sesión. El detalle está en `docs/`.
 
@@ -9,49 +9,55 @@ Este archivo es el contexto permanente del repositorio. Leelo al empezar cada se
 - Avisame siempre de riesgos técnicos, de seguridad, legales o de condiciones de uso de una herramienta.
 - Verificá en documentación oficial cualquier límite, cuota o precio antes de afirmarlo.
 - Si una decisión de este documento te parece técnicamente mala, decímelo antes de cambiarla. No cambies decisiones de producto sin consultarme.
-- Trabajá por fases (ver `docs/05-arquitectura-y-fases.md`). Al terminar cada fase: explicame cómo probarla, hacé commit con un mensaje claro y esperá mi OK.
+- Trabajá por fases (tienda: `docs/05-arquitectura-y-fases.md`; turnos: `docs/landing/04-estructura-y-fases.md`). Al terminar cada fase: explicame cómo probarla, hacé commit con un mensaje claro y esperá mi OK.
 - Ante una duda de producto que no esté en `docs/`, preguntame antes de inventar.
 
 ## Al empezar cada sesión
 
 Lo primero que respondés, antes de cualquier otra cosa, son **los links para revisar la última fase terminada** y **el prompt para continuar**, tal como están en `docs/RETOMAR.md` (actualizalos si cambiaron). Al cerrar una fase o una sesión, actualizá `docs/RETOMAR.md` y subilo a GitHub.
 
-Flor revisa en su computadora (localhost) antes de aprobar cada fase. Cada vez que subas cambios, avisale y recordale cómo traerlos: GitHub Desktop → Fetch origin → Pull origin, después `npm install` y `npm run dev` (pasos en `docs/RETOMAR.md`).
+Flor revisa en su computadora (localhost) antes de aprobar cada fase. Cada vez que subas cambios, avisale y recordale cómo traerlos: GitHub Desktop → Fetch origin → Pull origin, después `npm install` y `npm run dev` (tienda) o `npm run dev:turnos` (plantilla 2) (pasos en `docs/RETOMAR.md`).
 
 ## Qué estamos construyendo
 
-Plantillas web funcionales que adapto a cada comercio argentino. Cobro un proyecto inicial más un mantenimiento mensual. Esta es la **plantilla 1: tienda online con cierre por WhatsApp**, con **admin propio** para el comercio. Ver `docs/01-producto.md`.
+Plantillas web funcionales que adapto a cada comercio o profesional argentino. Cobro un proyecto inicial más un mantenimiento mensual. Hoy hay dos:
+
+- **Plantilla 1 · Tienda con WhatsApp** (`tienda-whatsapp/`): tienda online con cierre por WhatsApp y **admin propio** para el comercio. Ver `docs/01-producto.md`.
+- **Plantilla 2 · Turnos con WhatsApp** (`turnos-whatsapp/`): landing de una página para profesionales con turno; cada servicio abre WhatsApp con un mensaje armado. **Sin admin**: el contenido lo carga Flor. Ver `docs/landing/`. Primera clienta: Estudio V · Skin Lab.
 
 ## Stack (decidido)
 
-- **Astro**, publicado en **Cloudflare Workers** (antes Pages; ver `docs/07-decisiones.md`, D-16), con un "puente" en el mismo Worker entre la tienda y Google.
-- **Google Sheets + Google Apps Script** como base de datos detrás del admin, en la cuenta de Google del comercio. **Google Drive** del comercio para las fotos.
-- Sin Supabase en esta plantilla (sumaría un costo mensual al cliente). Sin pasarelas de pago.
-- Costo para el cliente: solo el dominio.
+- Las dos: **Astro**, publicado en **Cloudflare Workers** (antes Pages; ver `docs/07-decisiones.md`, D-16). Costo para el cliente: solo el dominio. Sin Supabase (sumaría un costo mensual al cliente). Sin pasarelas de pago.
+- Tienda: un "puente" en el mismo Worker entre la tienda y Google. **Google Sheets + Google Apps Script** como base de datos detrás del admin, en la cuenta de Google del comercio. **Google Drive** del comercio para las fotos.
+- Turnos: sitio estático, solo archivos (sin puente, sin Google, sin secretos).
 
 ## Estructura del repositorio
 
 ```
-plantillas/
+empresitios/
 ├── CLAUDE.md
-├── docs/                 ← especificación (leer antes de codear)
-├── compartido/           ← admin, carrito, componentes, tokens de estilo, capa de datos
-├── tienda-whatsapp/      ← esta plantilla (demo: tienda de ropa ficticia)
-└── apps-script/          ← código de Google Apps Script y planilla modelo
+├── docs/                 ← especificación de la tienda y documentos comunes (leer antes de codear)
+│   └── landing/          ← especificación de la plantilla 2 (turnos)
+├── compartido/           ← tokens de estilo, componentes, chequeo de contraste, links de WhatsApp (las dos); admin, carrito y capa de datos (tienda)
+├── tienda-whatsapp/      ← plantilla 1 (demo: tienda de ropa ficticia)
+├── turnos-whatsapp/      ← plantilla 2 (demo: marca de servicios ficticia)
+└── apps-script/          ← código de Google Apps Script y planilla modelo (tienda)
 ```
 
 Plantillas futuras (no construir ahora): tienda con pago online, reservas con pago, turnos con login, menú de restaurante. El admin de `compartido/` se va a reutilizar en ellas: diseñalo modular.
 
 ## Reglas que no se rompen
 
-1. **El contenido nunca va dentro del código.** Productos, categorías, pedidos y textos de la tienda vienen de la capa de datos o de la configuración.
-2. **Configuración por cliente en un solo archivo** (`tienda-whatsapp/config/tienda.config.*`): nombre, WhatsApp, estilo, color de marca, redes, horarios, dirección del local, texto de privacidad. (Las horas de reserva viven en la planilla porque las usa el servidor: ver `docs/07-decisiones.md`, D-01.)
-3. **Estilos en tokens.** Los valores por defecto están en `compartido/estilos/tokens.css` (no se toca por cliente). Cada cliente pisa solo fuentes, colores y formas en un único archivo, `tienda-whatsapp/config/estilo.css`; la escala de textos (tamaños, pesos, interlineados) es fija (D-19). El diseño se aplica cambiando tokens, nunca componentes.
-4. **Capa de datos detrás de una interfaz** con implementaciones intercambiables (`local` para testear, `appsScript` para producción). El resto del código no sabe cuál se usa.
+1. **El contenido nunca va dentro del código.** En la tienda, productos, categorías, pedidos y textos vienen de la capa de datos o de la configuración. En turnos, servicios, precios, lugares y textos vienen de `turnos-whatsapp/config/contenido.ts` (D-36).
+2. **Configuración por cliente en un solo archivo:**
+   - tienda: `tienda-whatsapp/config/tienda.config.*`, con nombre, WhatsApp, estilo, color de marca, redes, horarios, dirección del local y texto de privacidad. (Las horas de reserva viven en la planilla porque las usa el servidor: ver `docs/07-decisiones.md`, D-01.)
+   - turnos: `turnos-whatsapp/config/sitio.config.ts`.
+3. **Estilos en tokens.** Los valores por defecto están en `compartido/estilos/tokens.css` (no se toca por cliente). Cada cliente pisa solo fuentes, colores y formas en un único archivo, `config/estilo.css` de su plantilla. La escala de textos (tamaños, pesos, interlineados) es fija (D-19). El diseño se aplica cambiando tokens, nunca componentes.
+4. **Capa de datos detrás de una interfaz** (tienda) con implementaciones intercambiables: `local` para testear y `appsScript` para producción. El resto del código no sabe cuál se usa. La plantilla de turnos no tiene capa de datos: lee el archivo de contenido.
 5. **Los errores se arreglan en la plantilla, nunca en el repo de un cliente.** En el repo de un cliente solo cambian configuración, estilo y contenido.
 6. **La adaptación por cliente es de estilo, no de estructura.**
 7. **Accesibilidad básica siempre:** elementos reales (`button`, `a`, `input` con `label`), foco visible, áreas táctiles de 44 px o más, errores que digan cómo corregir, estado no comunicado solo con color.
-8. **Mobile-first.** El comprador llega desde Instagram con un Android de gama media. El dueño del comercio puede ser poco técnico y no tan joven.
+8. **Mobile-first.** El comprador (o quien pide turno) llega desde Instagram con un Android de gama media. El dueño del comercio puede ser poco técnico y no tan joven.
 9. Nada de datos personales en URLs ni en logs. Pedir solo los datos necesarios (Ley 25.326).
 
 ## Índice de docs
@@ -68,6 +74,7 @@ Plantillas futuras (no construir ahora): tienda con pago online, reservas con pa
 - `docs/10-preguntas-al-cliente.md` — cuestionario para la primera reunión con un comercio (reglas de pedidos, admin, datos, catálogo).
 - `docs/11-publicar-demo.md` — cómo publicar la demo en Cloudflare y checklist de lo que se cambia por cliente.
 - `docs/12-repos-de-clientes.md` — cómo crear el repo de un cliente y traerle las mejoras de la plantilla.
+- `docs/landing/00-arranque.md` a `05-preguntas-a-la-clienta.md` — plantilla 2 (turnos): arranque, producto y secciones, modelo de contenido, textos y mensajes, estructura y fases, cuestionario para la clienta.
 - `docs/RETOMAR.md` — links para revisar lo hecho y prompt para continuar.
 - `docs/07-decisiones.md` — registro de decisiones posteriores a la especificación (manda sobre los demás).
 - `docs/referencia/prototipo-tienda.html` — prototipo navegable de un solo archivo con el comportamiento esperado (referencia de flujos y textos, no base de código).
