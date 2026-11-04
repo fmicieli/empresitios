@@ -1,0 +1,70 @@
+---
+// Formación: lista y certificados que se agrandan al tocarlos.
+import { getImage } from 'astro:assets';
+import contenido from '../../config/contenido';
+import Foto from '../componentes/Foto.astro';
+import Icono from '../componentes/Icono.astro';
+import { fotos } from '../lib/fotos';
+import Seccion from './Seccion.astro';
+const { color } = Astro.props as { color: boolean };
+const { titulo, lista, certificados = [] } = contenido.formacion;
+const grandes = await Promise.all(
+  certificados.map(async (c) => {
+    const img = fotos.get(c.archivo)!;
+    return (await getImage({ src: img, width: Math.min(1600, img.width), format: 'webp' })).src;
+  }),
+);
+---
+<Seccion id="formacion" titulo={titulo} color={color}>
+  <ul class="formacion">
+    {
+      lista.map((f) => (
+        <li>
+          <p class="formacion-titulo">
+            <strong>{f.titulo}</strong>
+            {f.enCurso && <span class="etiqueta">En curso</span>}
+          </p>
+          {(f.institucion || f.año) && <p class="suave-seccion">{[f.institucion, f.año].filter(Boolean).join(' · ')}</p>}
+          {f.nota && <p class="suave-seccion">{f.nota}</p>}
+        </li>
+      ))
+    }
+  </ul>
+  {
+    certificados.length > 0 && (
+      <ul class="certificados">
+        {certificados.map((c, i) => (
+          <li>
+            <button class="certificado" type="button" data-grande={grandes[i]} data-alt={c.alt}>
+              <Foto foto={c} sizes="(min-width: 900px) 240px, 45vw" proporcion="4 / 3" />
+              <span class="sr">Ver más grande: {c.alt}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  <dialog class="dialogo dialogo-certificado" aria-label="Certificado">
+    <form method="dialog" class="cerrar-dialogo">
+      <button class="boton-icono" type="submit"><Icono nombre="cerrar" /><span class="sr">Cerrar</span></button>
+    </form>
+    <img alt="" />
+  </dialog>
+</Seccion>
+
+<script>
+  const dialogo = document.querySelector<HTMLDialogElement>('.dialogo-certificado');
+  const img = dialogo?.querySelector('img');
+  let origen: HTMLElement | null = null;
+  document.querySelectorAll<HTMLButtonElement>('.certificado').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (!dialogo || !img) return;
+      origen = b;
+      img.src = b.dataset.grande!;
+      img.alt = b.dataset.alt!;
+      dialogo.showModal();
+    }),
+  );
+  dialogo?.addEventListener('click', (e) => e.target === dialogo && dialogo.close());
+  dialogo?.addEventListener('close', () => origen?.focus());
+</script>

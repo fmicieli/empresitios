@@ -1,6 +1,6 @@
 # Cómo retomar
 
-## 0. Plantilla 2 · Turnos con WhatsApp (Fase 0 entregada el 03/11, esperando OK de Flor)
+## 0. Plantilla 2 · Turnos con WhatsApp (Fase 0 aprobada el 04/11; Fase 1 entregada el 04/11, esperando revisión de Flor)
 
 Rama: `claude/plantilla-2-turnos-whatsapp`. Primera clienta: Estudio V · Skin Lab (repo `fmicieli/estudio-v`, privado, todavía no creado).
 
@@ -9,15 +9,17 @@ Rama: `claude/plantilla-2-turnos-whatsapp`. Primera clienta: Estudio V · Skin L
 - **Textos y mensajes de WhatsApp:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/03-textos-y-mensajes.md
 - **Estructura, fases y riesgos:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/04-estructura-y-fases.md
 - **Preguntas para la clienta:** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/landing/05-preguntas-a-la-clienta.md
-- **Decisiones (D-36):** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/07-decisiones.md
+- **Decisiones (D-36 y D-37):** https://github.com/fmicieli/empresitios/blob/claude/plantilla-2-turnos-whatsapp/docs/07-decisiones.md
+- **Plantilla (Fase 1):** https://github.com/fmicieli/empresitios/tree/claude/plantilla-2-turnos-whatsapp/turnos-whatsapp
+- **Verla en tu compu:** traé la rama, corré `npm install` y después `npm run dev:turnos`, y abrí http://localhost:4330/. Qué probar: README, sección "Plantilla 2".
 
 Prompt para seguir con la plantilla 2:
 
 ```
 Hola, soy Flor. Seguimos la plantilla 2 (turnos con WhatsApp) en empresitios, rama claude/plantilla-2-turnos-whatsapp.
 1. Leé CLAUDE.md, docs/landing/ (00 a 05) y D-36 en docs/07-decisiones.md antes de hacer nada.
-2. Fase 0 entregada el 03/11. Preguntame si la aprobé y qué decidí sobre lo del punto 11 de D-36 (marca de ejemplo, puerto 4330, mover el chequeo de colores a compartido/).
-3. Después: Fase 1 (plantilla con la marca ficticia, en turnos-whatsapp/) y Fase 2 (sitio de Estudio V en el repo privado fmicieli/estudio-v; agregalo a la sesión). El material de Valen está en el zip "Estudio V - Web para Flor" (en mi Escritorio); no va en el repo.
+2. Fase 0 aprobada (04/11). Fase 1 entregada el 04/11 (plantilla con la marca Brisa en turnos-whatsapp/, D-37): preguntame si la revisé en localhost (npm run dev:turnos, http://localhost:4330/).
+3. Después: Fase 2 (sitio de Estudio V en el repo privado fmicieli/estudio-v; agregalo a la sesión). El material de Valen está en el zip "Estudio V - Web para Flor" (en mi Escritorio); no va en el repo.
 4. Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar cada fase.
 ```
 

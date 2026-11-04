@@ -1,0 +1,9 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*", "../compartido/whatsapp/turnos.ts", "../compartido/datos/reglas.ts", "../compartido/estilos/contraste.ts", "../compartido/herramientas/colores-de-marca.ts"],
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "paths": { "@compartido/*": ["../compartido/*"] }
+  }
+}

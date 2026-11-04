@@ -1,0 +1,37 @@
+---
+// Servicio con llamado propio (Estudio V: rutina online). Nunca pide lugar.
+import config from '../../config/sitio.config';
+import contenido from '../../config/contenido';
+import Foto from '../componentes/Foto.astro';
+import { formatoPrecio } from '../../../compartido/datos/reglas';
+import { hrefLlamado } from '../lib/preparar';
+import Seccion from './Seccion.astro';
+const { color } = Astro.props as { color: boolean };
+const l = contenido.llamado;
+---
+<Seccion id="llamado" titulo={l.titulo} color={color}>
+  <div class:list={['llamado', { 'con-foto': !!l.foto }]}>
+    <div class="pila">
+      <p class="bajada">{l.texto}</p>
+      {
+        l.pasos && l.pasos.length > 0 && (
+          <ol class="pasos">
+            {l.pasos.map((p) => <li>{p}</li>)}
+          </ol>
+        )
+      }
+      {
+        l.precio && (
+          <p class="llamado-precio">
+            {l.etiquetaPrecio && <span class="suave">{l.etiquetaPrecio} </span>}
+            <span class="precio">{formatoPrecio(l.precio)}</span>
+          </p>
+        )
+      }
+      <a class="boton" href={hrefLlamado(config, contenido)} target="_blank" rel="noopener">
+        {l.boton}<span class="sr"> (se abre WhatsApp en otra pestaña)</span>
+      </a>
+    </div>
+    {l.foto && <Foto foto={l.foto} sizes="(min-width: 900px) 40vw, 100vw" proporcion="4 / 3" class="redondeada" />}
+  </div>
+</Seccion>

@@ -1,0 +1,37 @@
+---
+import contenido from '../../config/contenido';
+import Seccion from './Seccion.astro';
+const { color } = Astro.props as { color: boolean };
+const { titulo, pasos, sena, cancelacion, antes } = contenido.turnos;
+---
+<Seccion id="turnos" titulo={titulo} color={color}>
+  <div class="turnos lectura pila">
+    <ol class="pasos">
+      {pasos.map((p) => <li>{p}</li>)}
+    </ol>
+    {
+      sena && (
+        <div>
+          <h3>Seña</h3>
+          <p>{sena}</p>
+        </div>
+      )
+    }
+    {
+      cancelacion && (
+        <div>
+          <h3>Si no podés venir</h3>
+          <p>{cancelacion}</p>
+        </div>
+      )
+    }
+    {
+      antes && (
+        <div>
+          <h3>Antes del turno</h3>
+          <p>{antes}</p>
+        </div>
+      )
+    }
+  </div>
+</Seccion>

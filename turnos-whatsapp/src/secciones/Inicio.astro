@@ -1,0 +1,60 @@
+---
+// Inicio: frase principal, texto corto, botón y foto (o video solo en computadora, D-36).
+import config from '../../config/sitio.config';
+import contenido from '../../config/contenido';
+import Foto from '../componentes/Foto.astro';
+import Icono from '../componentes/Icono.astro';
+import { fotos } from '../lib/fotos';
+import { getImage } from 'astro:assets';
+
+const { frase, texto, foto } = contenido.inicio;
+const video = config.inicio.video;
+// La foto del inicio también es la imagen de espera del video.
+const poster = video ? (await getImage({ src: fotos.get(foto.archivo)!, width: 1600, format: 'webp' })).src : '';
+---
+<section id="inicio" class="inicio" aria-labelledby="inicio-titulo">
+  <div class="ancho inicio-grilla">
+    <div class="inicio-texto">
+      <h1 id="inicio-titulo">{frase}</h1>
+      <p class="bajada">{texto}</p>
+      <a class="boton" href="#servicios">Reservar turno</a>
+    </div>
+    <div class="inicio-imagen">
+      <Foto foto={foto} sizes="(min-width: 900px) 50vw, 100vw" inmediata class="inicio-foto" />
+      {
+        video && (
+          <>
+            <video class="inicio-video" data-src={'/' + video.archivo} poster={poster} muted loop playsinline preload="none" aria-hidden="true" />
+            <button class="boton-icono pausa-video" type="button" hidden>
+              <span class="icono-pausa"><Icono nombre="pausa" /></span>
+              <span class="icono-play"><Icono nombre="play" /></span>
+              <span class="sr">Pausar video</span>
+            </button>
+          </>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Video de fondo: solo en computadora y si la persona no pidió "reducir movimiento" (D-36).
+  // En el celular no se descarga nunca (no tiene "src" hasta acá).
+  const video = document.querySelector<HTMLVideoElement>('.inicio-video');
+  const boton = document.querySelector<HTMLButtonElement>('.pausa-video');
+  const ancho = matchMedia('(min-width: 768px)');
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)');
+  if (video && boton && ancho.matches && !quieto.matches) {
+    video.src = video.dataset.src!;
+    video.classList.add('activo');
+    boton.hidden = false;
+    video.play().catch(() => {});
+    boton.addEventListener('click', () => {
+      const pausado = !video.paused;
+      if (pausado) video.pause();
+      else video.play().catch(() => {});
+      boton.classList.toggle('pausado', pausado);
+      boton.querySelector('.sr')!.textContent = pausado ? 'Reproducir video' : 'Pausar video';
+    });
+  }
+</script>

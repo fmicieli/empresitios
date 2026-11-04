@@ -1,0 +1,68 @@
+---
+// La landing: una sola página con las secciones prendidas en sitio.config.ts (docs/landing/01-producto-y-secciones.md).
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import Base from '../layouts/Base.astro';
+import Encabezado from '../secciones/Encabezado.astro';
+import Inicio from '../secciones/Inicio.astro';
+import SobreMi from '../secciones/SobreMi.astro';
+import Propuesta from '../secciones/Propuesta.astro';
+import Servicios from '../secciones/Servicios.astro';
+import Llamado from '../secciones/Llamado.astro';
+import Formacion from '../secciones/Formacion.astro';
+import AntesDespues from '../secciones/AntesDespues.astro';
+import DondeAtiendo from '../secciones/DondeAtiendo.astro';
+import Turnos from '../secciones/Turnos.astro';
+import Contacto from '../secciones/Contacto.astro';
+import Pie from '../secciones/Pie.astro';
+import ElegirLugar from '../secciones/ElegirLugar.astro';
+import config from '../../config/sitio.config';
+import contenido from '../../config/contenido';
+import { fotos } from '../lib/fotos';
+import { validar } from '../lib/validar';
+import { hrefGeneral } from '../lib/preparar';
+import Icono from '../componentes/Icono.astro';
+
+// Controles al compilar (02-modelo-de-contenido.md): los errores frenan, los avisos se muestran.
+const publicos = new Set(readdirSync(join(process.cwd(), 'public')));
+const { errores, avisos } = validar(config, contenido, new Set(fotos.keys()), publicos);
+if (avisos.length) console.warn('\n⚠ Para revisar en el contenido:\n' + avisos.map((a) => '  - ' + a).join('\n') + '\n');
+if (errores.length) throw new Error('\nHay que corregir esto antes de publicar:\n' + errores.map((e) => '  - ' + e).join('\n') + '\n');
+
+const s = config.secciones;
+// El fondo de color se alterna entre las secciones que se muestran, para que no queden dos iguales seguidas.
+const orden = [
+  ['sobreMi', s.sobreMi],
+  ['propuesta', s.propuesta],
+  ['servicios', true],
+  ['llamado', s.llamado],
+  ['formacion', s.formacion],
+  ['antesDespues', s.antesDespues && contenido.antesDespues.lista.length > 0],
+  ['dondeAtiendo', s.dondeAtiendo],
+  ['turnos', s.turnos],
+  ['contacto', true],
+] as const;
+const visibles = orden.filter(([, v]) => v).map(([k]) => k);
+const color = (k: string) => visibles.indexOf(k as never) % 2 === 0;
+---
+<Base>
+  <Encabezado secciones={visibles} />
+  <main id="contenido" tabindex="-1">
+    <Inicio />
+    {s.sobreMi && <SobreMi color={color('sobreMi')} />}
+    {s.propuesta && <Propuesta color={color('propuesta')} />}
+    <Servicios color={color('servicios')} />
+    {s.llamado && <Llamado color={color('llamado')} />}
+    {s.formacion && <Formacion color={color('formacion')} />}
+    {visibles.includes('antesDespues') && <AntesDespues color={color('antesDespues')} />}
+    {s.dondeAtiendo && <DondeAtiendo color={color('dondeAtiendo')} />}
+    {s.turnos && <Turnos color={color('turnos')} />}
+    <Contacto color={color('contacto')} />
+  </main>
+  <Pie />
+  <a class="flotante" href={hrefGeneral(config)} target="_blank" rel="noopener">
+    <Icono nombre="chat" tam={24} />
+    <span class="sr">Escribir por WhatsApp (se abre en otra pestaña)</span>
+  </a>
+  <ElegirLugar />
+</Base>

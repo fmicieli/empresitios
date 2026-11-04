@@ -1,0 +1,32 @@
+---
+// Antes y después: solo con permiso escrito de cada persona (D-36; validar() frena sin permisoEscrito).
+import contenido from '../../config/contenido';
+import Foto from '../componentes/Foto.astro';
+import Seccion from './Seccion.astro';
+const { color } = Astro.props as { color: boolean };
+const { titulo, aviso, lista } = contenido.antesDespues;
+---
+<Seccion id="antesDespues" titulo={titulo} color={color}>
+  <ul class="antes-despues">
+    {
+      lista.map((p) => (
+        <li>
+          <figure>
+            <div class="par">
+              <div>
+                <Foto foto={p.antes} sizes="(min-width: 900px) 25vw, 50vw" proporcion="1 / 1" />
+                <span class="etiqueta">Antes</span>
+              </div>
+              <div>
+                <Foto foto={p.despues} sizes="(min-width: 900px) 25vw, 50vw" proporcion="1 / 1" />
+                <span class="etiqueta">Después</span>
+              </div>
+            </div>
+            {p.texto && <figcaption>{p.texto}</figcaption>}
+          </figure>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="suave-seccion chico">{aviso}</p>
+</Seccion>

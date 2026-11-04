@@ -1,0 +1,63 @@
+---
+// Dónde atiendo: "Mi semana" (se arma sola desde los lugares) y una tarjeta por lugar.
+import contenido from '../../config/contenido';
+import Foto from '../componentes/Foto.astro';
+import Icono from '../componentes/Icono.astro';
+import { textoDias } from '../../../compartido/whatsapp/turnos';
+import { linkMaps, mayuscula, semana } from '../lib/preparar';
+import Seccion from './Seccion.astro';
+const { color } = Astro.props as { color: boolean };
+const { titulo, lugares } = contenido.dondeAtiendo;
+const filas = semana(lugares);
+---
+<Seccion id="dondeAtiendo" titulo={titulo} color={color}>
+  <div class="semana">
+    <h3>Mi semana</h3>
+    <dl>
+      {
+        filas.map((f) => (
+          <div class="semana-fila">
+            <dt>{mayuscula(f.dia)}</dt>
+            <dd>
+              <span class="semana-lugar">{f.lugar}</span>
+              <span class="suave-seccion">{f.horario}</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+  <ul class="lugares">
+    {
+      lugares.map((l) => (
+        <li class="lugar">
+          {l.foto && <Foto foto={l.foto} sizes="(min-width: 900px) 45vw, 100vw" proporcion="3 / 2" />}
+          <div class="lugar-cuerpo pila-chica">
+            <h3>{l.nombre}</h3>
+            {l.zona && <p class="suave-seccion">{l.zona}</p>}
+            <p class="dato">
+              <Icono nombre="mapa" tam={16} />
+              {l.direccion || 'Se da al reservar'}
+            </p>
+            <ul class="lugar-dias">
+              {l.dias.map((d) => (
+                <li>
+                  <Icono nombre="calendario" tam={16} />
+                  <span>
+                    <strong>{mayuscula(d.dia)}</strong> · {d.horario}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            {l.nota && <p class="suave-seccion chico">{l.nota}</p>}
+            {l.direccion && (
+              <a class="enlace" href={linkMaps(l.direccion)} target="_blank" rel="noopener">
+                Cómo llegar<span class="sr"> a {l.nombre}, {textoDias(l.dias.map((d) => d.dia))} (se abre Google Maps en otra pestaña)</span>
+              </a>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="176" height="40" viewBox="0 0 176 40" role="img" aria-label="Brisa · Masajes y bienestar">
+  <!-- Logo de ejemplo de la plantilla (marca ficticia). -->
+  <path d="M6 26c4-10 12-14 22-12-6 2-10 6-12 12-2 6-8 6-10 0z" fill="#2c2c2c"/>
+  <path d="M14 30c6-6 14-8 22-6-7 0-12 3-15 8-2 3-6 2-7-2z" fill="#757575"/>
+  <text x="46" y="22" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#1e1e1e">brisa</text>
+  <text x="47" y="35" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="8.5" letter-spacing="1.2" fill="#444444">MASAJES Y BIENESTAR</text>
+</svg>

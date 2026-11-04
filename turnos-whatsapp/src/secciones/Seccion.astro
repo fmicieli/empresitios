@@ -1,0 +1,16 @@
+---
+// Envoltorio común de cada sección: id para el menú, fondo de color alternado y título.
+interface Props {
+  id: string;
+  titulo: string;
+  color?: boolean;
+  class?: string;
+}
+const { id, titulo, color = false, class: clase } = Astro.props;
+---
+<section id={id} class:list={['seccion', { color }, clase]} aria-labelledby={`${id}-titulo`}>
+  <div class="ancho">
+    <h2 id={`${id}-titulo`} class="titulo-seccion">{titulo}</h2>
+    <slot />
+  </div>
+</section>

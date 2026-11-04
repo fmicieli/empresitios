@@ -1,6 +1,6 @@
 # 02 · Plantilla 2 · Modelo de contenido y configuración
 
-Todo lo que cambia por clienta vive en **tres archivos** dentro de `turnos-whatsapp/config/` y en las fotos de `turnos-whatsapp/public/fotos/`. El resto del código no tiene ningún texto ni dato de la clienta (regla 1).
+Todo lo que cambia por clienta vive en **tres archivos** dentro de `turnos-whatsapp/config/`, en las fotos de `turnos-whatsapp/fotos/` y en el logo y el video de `turnos-whatsapp/public/`. El resto del código no tiene ningún texto ni dato de la clienta (regla 1).
 
 | Archivo | Qué tiene | Quién lo cambia |
 |---|---|---|
@@ -45,7 +45,7 @@ export default {
 
 ## `contenido.ts`
 
-Cada foto se escribe como `{ archivo, alt }`. `archivo` es el nombre dentro de `public/fotos/`. `alt` es lo que escucha alguien con lector de pantalla; si la foto es decorativa, `alt: ''`.
+Cada foto se escribe como `{ archivo, alt }`. `archivo` es el nombre dentro de `turnos-whatsapp/fotos/`. `alt` es lo que escucha alguien con lector de pantalla; si la foto es decorativa, `alt: ''`.
 
 ```ts
 export default {
@@ -144,7 +144,7 @@ export default {
 
 ### Reglas del contenido
 
-- **Precio:** número sin puntos ni signo (`95000`). La página muestra `$95.000`. Si es "desde", se escribe en `etiquetaPrecio` o se deja el precio vacío y se aclara en la descripción.
+- **Precio:** número sin puntos ni signo (`95000`). La página muestra `$ 95.000`, con el mismo formato que la tienda. Si es "desde", se escribe en `etiquetaPrecio` o se deja el precio vacío y se aclara en la descripción.
 - **Duración:** texto libre corto (`'1 h'`, `'1 h 30'`, `'45 min'`). Va tal cual en la tarjeta y en el mensaje.
 - **Días:** en minúscula (`lunes` … `domingo`). La agenda semanal los ordena sola.
 - **Destacado:** el texto de la etiqueta. Los destacados van primero, en el orden en que estén.
@@ -153,7 +153,7 @@ export default {
 
 ## Fotos
 
-- Van en `turnos-whatsapp/public/fotos/` con nombres claros en minúscula y sin espacios (`amaia-cabina-1.jpg`).
+- Van en `turnos-whatsapp/fotos/` (no en `public/`, para que se achiquen al compilar; D-37) con nombres claros en minúscula y sin espacios (`amaia-cabina-1.jpg`).
 - Se suben en buena calidad (2000 px de lado está bien). La compilación las achica y arma los tamaños para cada pantalla.
 - Proporciones sugeridas: inicio 4:5 en el celular y 16:9 en computadora (se recorta solo, centrado; se puede elegir el punto de recorte); tarjetas de servicio 4:3; lugares 3:2; certificados sin recorte.
 - El video del inicio se prepara una vez, sin audio y comprimido (Claude lo hace con una herramienta en la compu; Flor no tiene que hacer nada).
@@ -165,10 +165,10 @@ Cuando se arma el sitio (`npm run build:turnos`), se revisa y se avisa en castel
 | Control | Qué hace si falla |
 |---|---|
 | Contraste de colores (el mismo de la tienda, D-19) | avisa qué par de colores falla |
-| Foto que no existe en `public/fotos/` | frena y dice el nombre del archivo |
+| Foto que no existe en `fotos/` (o logo o video que no están en `public/`) | frena y dice el nombre del archivo |
 | Foto sin `alt` (falta el campo; `''` vale para decorativas) | frena |
 | WhatsApp que no se puede normalizar (D-02) | frena |
 | Un servicio pide un lugar que no existe | frena |
 | Antes y después sin `permisoEscrito: true` | frena |
 | Palabras de promesa en textos ("cura", "elimina", "garantizado", "100 %", "definitivo") | **avisa** pero no frena: es para revisar con la clienta |
-| Datos que la clienta tiene que completar (`[completar]`, `…`) | **avisa** |
+| Datos que la clienta tiene que completar (`[completar]`) | **avisa** |

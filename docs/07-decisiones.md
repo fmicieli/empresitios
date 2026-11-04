@@ -376,7 +376,21 @@ Especificación en `docs/landing/` (`00-arranque.md` a `05-preguntas-a-la-client
 8. **Contenido en `turnos-whatsapp/config/contenido.ts`**, aparte de `sitio.config.ts` (configuración) y `estilo.css` (estilo). Así, cambiar un precio no toca la configuración. Propuso: Claude.
 9. **"Cómo llegar" como link a Google Maps**, sin mapa insertado: pesa menos y no le pasa datos de la visita a Google. Propuso: Claude.
 10. **Controles al compilar:** fotos sin `alt` o inexistentes, WhatsApp inválido y lugares inexistentes frenan. Palabras de promesa ("cura", "elimina"…) y datos sin completar solo avisan. Propuso: Claude.
-11. A confirmar por Flor: **la marca de ejemplo "Brisa · Masajes y bienestar"** (`04-estructura-y-fases.md`), el puerto 4330 para verla en localhost y mover el chequeo de colores a `compartido/`.
+11. **Marca de ejemplo "Brisa · Masajes y bienestar"**, puerto 4330 en localhost y chequeo de colores en `compartido/`. Propuso: Claude. Aprobó: Flor (OK a la Fase 0, 04/11).
+
+## D-37 · Plantilla 2: decisiones técnicas de la Fase 1 (04/11/2026)
+
+Propuso: Claude, al construir. Ninguna cambia lo que ve quien visita respecto de la especificación, salvo el punto 4.
+
+1. **Fotos en `turnos-whatsapp/fotos/`**, no en `public/`. Así Astro las achica y arma los tamaños para cada pantalla al compilar (WebP, de 400 a 1600 px). El logo, el favicon y el video sí van en `public/`.
+2. **Sin Preact en esta plantilla.** El JavaScript (menú del celular, "¿Dónde te queda mejor?", certificados, video) son scripts chicos dentro de cada sección. "Ver más" usa un elemento nativo del navegador (`details`), que no necesita JavaScript.
+3. **Los mensajes se arman al compilar** (`turnos-whatsapp/src/lib/preparar.ts`, con las funciones de `compartido/whatsapp/turnos.ts`). La página ya tiene escritos todos los links; el script solo elige cuál abrir.
+4. **El botón "Reservar turno" del encabezado y del inicio baja a los servicios**, para que el mensaje salga con el servicio elegido. El mensaje general ("quiero consultar por un turno") queda en el botón flotante y en Contacto. En celulares de menos de 420 px de ancho, el botón del encabezado se oculta porque no entra junto al logo: quedan el del inicio y el flotante.
+5. **Sitio de ejemplo sin número de WhatsApp:** los links abren WhatsApp sin destinatario y la persona elige a quién mandarlo. Así nunca se manda un mensaje a un número inventado. Una franja amarilla arriba lo avisa. Con `ejemplo: false`, la compilación pide el número.
+6. **Fotos de Brisa:** ilustraciones lisas generadas para la plantilla (sin derechos de terceros), en lugar de fotos de bancos de imágenes.
+7. **Chequeo de colores en `compartido/herramientas/colores-de-marca.ts`.** La tienda lo usa desde ahí y sigue igual. Se suman pares propios de turnos: texto y texto suave sobre las secciones de color, y texto sobre el bloque destacado.
+8. **Precios con el formato de la tienda:** `$ 95.000`, con espacio.
+9. **Comandos nuevos:** `npm run dev:turnos`, `npm run dev:turnos:celular`, `npm run build:turnos`. `npm run check` revisa las dos plantillas.
 
 ## Pendientes (al 30/10/2026)
 

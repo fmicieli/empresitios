@@ -1,0 +1,18 @@
+---
+import contenido from '../../config/contenido';
+import Seccion from './Seccion.astro';
+const { color } = Astro.props as { color: boolean };
+const { titulo, puntos } = contenido.propuesta;
+---
+<Seccion id="propuesta" titulo={titulo} color={color}>
+  <ul class="puntos">
+    {
+      puntos.map((p) => (
+        <li>
+          <h3>{p.titulo}</h3>
+          <p>{p.texto}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>

@@ -6,7 +6,7 @@ Los textos fijos de la interfaz (los que no cambian por clienta) van en el códi
 
 | Dónde | Texto |
 |---|---|
-| Botón principal (encabezado, inicio) | Reservar turno |
+| Botón principal (encabezado, inicio): baja a los servicios | Reservar turno |
 | Botón de cada servicio | Reservar turno |
 | Lector de pantalla, botón de servicio | Reservar turno: {servicio} |
 | Lector de pantalla, links externos | (se abre en otra pestaña) |
@@ -15,7 +15,7 @@ Los textos fijos de la interfaz (los que no cambian por clienta) van en el códi
 | Menú en el celular | Menú / Cerrar menú |
 | Saltar al contenido | Saltar al contenido |
 | Duración en la tarjeta | {duración} (con ícono de reloj; el lector de pantalla lee "Duración: 1 h 30") |
-| Precio en la tarjeta | $95.000 |
+| Precio en la tarjeta | $ 95.000 |
 | Etiqueta de destacado | la que cargue Flor (por ejemplo, "Tratamiento estrella") |
 | Formación en curso | En curso |
 | Lugar sin dirección | Se da al reservar |
@@ -47,7 +47,7 @@ Los días se escriben con "y" ("martes y jueves"; "lunes, miércoles y viernes")
 
 Ejemplo:
 
-> Hola Valen, quiero reservar un turno para Microneedling con dermapen + limpieza profunda (1 h 30 · $95.000) en Amaia Wellness Studio, San Fernando (martes y jueves). ¿Qué días tenés disponibles?
+> Hola Valen, quiero reservar un turno para Microneedling con dermapen + limpieza profunda (1 h 30 · $ 95.000) en Amaia Wellness Studio, San Fernando (martes y jueves). ¿Qué días tenés disponibles?
 
 ### 2. Reservar un servicio, "Me da igual" (o sin JavaScript)
 
@@ -61,9 +61,9 @@ Igual que el 1, sin preguntar: el lugar se agrega solo.
 
 ### 4. Lugar con dirección privada
 
-Se nombra por su zona: "en mi consultorio de Villa Adelina (miércoles)". El nombre visible lo carga Flor (`nombre: 'Mi consultorio'`, `zona: 'Villa Adelina'`).
+Va el nombre y la zona, sin dirección: "en Mi consultorio, Villa Adelina (miércoles)". El nombre lo carga Flor (`nombre: 'Mi consultorio'`, `zona: 'Villa Adelina'`).
 
-### 5. Botón general (encabezado, inicio y flotante)
+### 5. Botón general (flotante y Contacto)
 
 > Hola {nombreCorto}, quiero consultar por un turno.
 

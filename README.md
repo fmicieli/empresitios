@@ -1,5 +1,7 @@
 # Empresitios · Plantillas para comercios
 
+**Plantilla 2 · Turnos con WhatsApp** (landing para profesionales con turno): ver la sección al final y `docs/landing/`.
+
 Plantilla 1: **Tienda con WhatsApp** (tienda + admin del comercio). Documentación completa en `docs/` y contexto en `CLAUDE.md`.
 
 Estado: **Fase 1 terminada** (tienda y admin con datos de prueba en el navegador). Todavía no hay conexión con Google: eso es la Fase 3.
@@ -132,3 +134,41 @@ tienda-whatsapp/   esta plantilla
 apps-script/       (Fase 3) Google Apps Script y planilla modelo
 docs/              especificación y decisiones
 ```
+
+---
+
+## Plantilla 2 · Turnos con WhatsApp
+
+Landing de una página para profesionales con turno, con la marca de ejemplo "Brisa · Masajes y bienestar". Especificación: `docs/landing/`.
+
+### Abrirla en la compu
+
+```
+npm run dev:turnos
+```
+
+Abrí http://localhost:4330/ (la tienda sigue en 4321).
+
+### Abrirla en el celular (misma red wifi)
+
+```
+npm run dev:turnos:celular
+```
+
+Usá la dirección de la línea **Network** que aparece en la Terminal, igual que con la tienda.
+
+### Qué probar
+
+- Tocá **Reservar turno** en un masaje. Si se hace en los dos lugares, aparece **¿Dónde te queda mejor?**. Reflexología y Piedras calientes se hacen en un solo lugar: van directo.
+- Es un sitio de ejemplo sin número: WhatsApp te pide elegir a quién mandar el mensaje. Mandátelo a vos para ver cómo llega.
+- Tocá un certificado en **Formación** para verlo grande.
+- En el celular, abrí el menú (las tres rayitas).
+
+### Dónde se cambia cada cosa
+
+- `turnos-whatsapp/config/sitio.config.ts`: nombre, WhatsApp, Instagram, color de marca y secciones prendidas.
+- `turnos-whatsapp/config/contenido.ts`: textos, servicios, precios, lugares y formación.
+- `turnos-whatsapp/config/estilo.css`: fuentes, colores y formas.
+- `turnos-whatsapp/fotos/`: fotos. El logo y el video van en `turnos-whatsapp/public/`.
+
+`npm run build:turnos` arma el sitio y revisa que no falten fotos, que el WhatsApp sea válido y que los colores se lean bien.

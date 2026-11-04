@@ -1,0 +1,15 @@
+---
+import contenido from '../../config/contenido';
+import Foto from '../componentes/Foto.astro';
+import Seccion from './Seccion.astro';
+const { color } = Astro.props as { color: boolean };
+const { titulo, parrafos, foto } = contenido.sobreMi;
+---
+<Seccion id="sobreMi" titulo={titulo} color={color} class={foto ? 'con-foto' : undefined}>
+  <div class="sobre-mi">
+    {foto && <Foto foto={foto} sizes="(min-width: 900px) 40vw, 100vw" proporcion="4 / 5" class="redondeada" />}
+    <div class="lectura pila-chica">
+      {parrafos.map((p) => <p>{p}</p>)}
+    </div>
+  </div>
+</Seccion>

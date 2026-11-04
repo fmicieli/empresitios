@@ -1,0 +1,58 @@
+---
+// Marco HTML: idioma, fuentes, tokens, color de marca (con el chequeo de contraste) y datos para compartir.
+import '../../../compartido/estilos/tokens.css';
+import '../../../compartido/estilos/base.css';
+import '../turnos.css';
+// Estilo de la clienta: va último para pisar los tokens por defecto.
+import '../../config/estilo.css';
+import estiloCss from '../../config/estilo.css?raw';
+import { calcularColoresDeMarca } from '../../../compartido/herramientas/colores-de-marca';
+import config from '../../config/sitio.config';
+
+interface Props {
+  titulo?: string;
+}
+const { titulo } = Astro.props;
+const tituloCompleto = titulo ? `${titulo} · ${config.nombre}` : config.nombre;
+
+// Pares propios de esta plantilla: el texto sobre las secciones de color.
+const marca = calcularColoresDeMarca(estiloCss, config.colorMarca, config.colorSobreMarca, [
+  { frente: '--texto', fondo: '--seccion-color', minimo: 4.5, que: 'el texto sobre las secciones de color' },
+  { frente: '--texto-suave-sobre-seccion', fondo: '--seccion-color', minimo: 4.5, que: 'el texto suave sobre las secciones de color' },
+  { frente: '--texto', fondo: '--superficie-marca', minimo: 4.5, que: 'el texto sobre el bloque destacado' },
+]);
+const origen = config.urlSitio.replace(/\/$/, '');
+---
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={config.descripcion} />
+    {config.ejemplo && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content={config.nombre} />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={config.descripcion} />
+    {origen && <meta property="og:url" content={origen + '/'} />}
+    <meta name="theme-color" content={config.colorMarca} />
+    <meta name="color-scheme" content="only light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <style set:html={marca}></style>
+    <!-- Marca que hay JavaScript: sin él, el menú del celular queda abierto y los botones van directo a WhatsApp. -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    {
+      config.ejemplo && (
+        <p class="franja-ejemplo">
+          <strong>Sitio de ejemplo.</strong> Los mensajes de WhatsApp no van a nadie: WhatsApp te pide elegir a quién mandarlos.
+        </p>
+      )
+    }
+    <slot />
+  </body>
+</html>

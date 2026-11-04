@@ -1,0 +1,16 @@
+---
+import config from '../../config/sitio.config';
+const año = new Date().getFullYear();
+---
+<footer class="pie">
+  <div class="ancho pie-fila">
+    <p>
+      <strong>{config.nombre}</strong><br />
+      {[config.profesional, config.matricula].filter(Boolean).join(' · ')}
+    </p>
+    <p class="chico">
+      © {año}
+      {config.creditos && (config.creditos.url ? <> · <a href={config.creditos.url}>{config.creditos.texto}</a></> : <> · {config.creditos.texto}</>)}
+    </p>
+  </div>
+</footer>

@@ -3,7 +3,7 @@
 ## Arquitectura en criollo
 
 - Es una **página estática**: Astro arma un HTML con sus fotos al compilar y Cloudflare lo sirve tal cual. No hay servidor propio, ni puente, ni claves secretas, ni Google.
-- El poco JavaScript que hay (menú, paso de lugar, "Ver más", certificados) son "islas" de Preact, igual que en la tienda.
+- El poco JavaScript que hay (menú, paso de lugar, certificados, video) va en scripts chicos dentro de cada sección, sin Preact: pesa menos en un Android de gama media (D-37). "Ver más" no usa JavaScript.
 - Se publica en **Cloudflare Workers** con solo archivos estáticos, como la demo (D-16, D-18). ⚠️ Los límites del plan gratis para sitios estáticos se confirman en la documentación oficial antes de publicar (Fase 3).
 
 ## Estructura de carpetas
@@ -23,14 +23,13 @@ empresitios/
 │   │   ├── sitio.config.ts
 │   │   ├── contenido.ts
 │   │   └── estilo.css
-│   ├── public/
-│   │   ├── fotos/          ← fotos de la marca de ejemplo
-│   │   └── logo.svg
+│   ├── fotos/              ← fotos de la clienta (se achican al compilar)
+│   ├── public/             ← logo, favicon y video
 │   ├── src/
 │   │   ├── pages/index.astro, 404.astro
-│   │   ├── secciones/      ← Inicio.astro, SobreMi.astro, Servicios.astro, DondeAtiendo.astro…
-│   │   ├── islas/          ← ElegirLugar.tsx, MenuCelular.tsx, Certificados.tsx
-│   │   ├── lib/            ← validar-contenido.ts, agenda.ts (arma "Mi semana" desde los lugares)
+│   │   ├── secciones/      ← Inicio.astro, Servicios.astro, ElegirLugar.astro, DondeAtiendo.astro…
+│   │   ├── componentes/    ← Foto.astro, Icono.astro
+│   │   ├── lib/            ← tipos.ts, validar.ts (controles), preparar.ts (links y "Mi semana"), pruebas
 │   │   └── turnos.css      ← estilos de las secciones, solo con tokens
 │   ├── astro.config.mjs
 │   ├── wrangler.jsonc      ← solo archivos estáticos
@@ -45,8 +44,8 @@ empresitios/
 
 Para que las dos plantillas usen lo mismo, en la Fase 1 hay que pasar dos cosas que hoy están dentro de `tienda-whatsapp/` a `compartido/`:
 
-- el chequeo de colores al compilar (`tienda-whatsapp/src/lib/revisar-colores.ts`);
-- los estilos de componentes que sirven para las dos (botones, campos, diálogos), si hoy están mezclados con los de la tienda.
+- el chequeo de colores al compilar: ahora está en `compartido/herramientas/colores-de-marca.ts` y la tienda lo usa desde ahí (D-37);
+- los estilos de componentes (`compartido/estilos/base.css`) ya estaban separados: las dos plantillas los usan tal cual.
 
 La tienda tiene que quedar **igual** (se comprueba con `npm test`, `npm run check`, `npm run build` y mirándola en localhost). Cuando se una a `main`, Chacha recibe estos cambios como cualquier mejora de la plantilla.
 
@@ -72,7 +71,7 @@ Propuesta, a confirmar: **"Brisa · Masajes y bienestar"**, de una masajista fic
 - Un llamado propio ("Gift card").
 - Antes y después apagada.
 - Gris oscuro del sistema de base como color de marca (como la demo de la tienda), Nunito Sans.
-- Fotos de ejemplo con licencia libre (Unsplash o similar), anotadas con su autor en `public/fotos/CREDITOS.md`.
+- Fotos de ejemplo: ilustraciones lisas con el nombre de cada foto, generadas para la plantilla (sin derechos de terceros, D-37).
 
 ## Fases
 

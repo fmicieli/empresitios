@@ -1,0 +1,14 @@
+// Configuración de Cloudflare Workers: solo archivos estáticos (sin puente ni secretos).
+// Publicación: docs/landing/04-estructura-y-fases.md (Fase 3) y docs/11-publicar-demo.md.
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "turnos-modelo", // nombre del proyecto en Cloudflare (uno por clienta)
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  // Sin direcciones de vista previa: solo se publica la rama main, con la aprobación de Flor (D-18).
+  "preview_urls": false
+}

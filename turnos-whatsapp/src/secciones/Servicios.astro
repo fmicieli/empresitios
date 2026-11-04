@@ -1,0 +1,62 @@
+---
+// Tarjetas de servicio: duración y precio opcionales, destacado como etiqueta de texto (D-36).
+import config from '../../config/sitio.config';
+import contenido from '../../config/contenido';
+import Foto from '../componentes/Foto.astro';
+import Icono from '../componentes/Icono.astro';
+import { formatoPrecio } from '../../../compartido/datos/reglas';
+import { prepararServicios } from '../lib/preparar';
+import Seccion from './Seccion.astro';
+const { color } = Astro.props as { color: boolean };
+const { titulo, nota } = contenido.servicios;
+const lista = prepararServicios(config, contenido);
+---
+<Seccion id="servicios" titulo={titulo} color={color}>
+  {nota && <p class="nota-seccion">{nota}</p>}
+  <ul class="servicios">
+    {
+      lista.map((s) => (
+        <li class="servicio" id={s.id}>
+          <Foto foto={s.foto} sizes="(min-width: 1100px) 360px, (min-width: 700px) 50vw, 100vw" proporcion="4 / 3" />
+          <div class="servicio-cuerpo">
+            {s.destacado && <p class="etiqueta-destacado">{s.destacado}</p>}
+            <h3>{s.nombre}</h3>
+            {(s.duracion || s.precio) && (
+              <p class="servicio-datos">
+                {s.duracion && (
+                  <span class="dato">
+                    <Icono nombre="reloj" tam={16} />
+                    <span class="sr">Duración: </span>
+                    {s.duracion}
+                  </span>
+                )}
+                {s.precio && <span class="precio">{formatoPrecio(s.precio)}</span>}
+              </p>
+            )}
+            <p class="servicio-descripcion">{s.descripcion}</p>
+            {s.detalle && s.detalle.length > 0 && (
+              <details class="ver-mas">
+                <summary>
+                  <span class="mas">Ver más</span>
+                  <span class="menos">Ver menos</span>
+                </summary>
+                {s.detalle.map((p) => <p>{p}</p>)}
+              </details>
+            )}
+            <a
+              class="boton ancho reservar"
+              href={s.href}
+              target="_blank"
+              rel="noopener"
+              data-servicio={s.nombre}
+              data-opciones={s.opciones.length ? JSON.stringify(s.opciones) : undefined}
+              data-cualquiera={s.opciones.length ? s.hrefCualquiera : undefined}
+            >
+              Reservar turno<span class="sr">: {s.nombre} (se abre WhatsApp en otra pestaña)</span>
+            </a>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Seccion>

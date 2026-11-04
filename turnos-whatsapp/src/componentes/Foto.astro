@@ -1,0 +1,34 @@
+---
+// Foto optimizada: varios tamaños en WebP, se carga al acercarse (salvo la primera de la página).
+import { Image } from 'astro:assets';
+import { fotos } from '../lib/fotos';
+import type { FotoContenido } from '../lib/tipos';
+
+interface Props {
+  foto: FotoContenido;
+  /** Cómo ocupa la pantalla, para elegir el tamaño justo. */
+  sizes: string;
+  /** Proporción del recorte, por ejemplo "4 / 3". Sin poner = la de la foto. */
+  proporcion?: string;
+  inmediata?: boolean;
+  class?: string;
+}
+const { foto, sizes, proporcion, inmediata = false, class: clase } = Astro.props;
+const img = fotos.get(foto.archivo);
+// validar() ya frena si falta; esto es solo por si se usa sin validar.
+if (!img) throw new Error(`No está la foto "${foto.archivo}" en turnos-whatsapp/fotos/.`);
+const estilo = [proporcion && `aspect-ratio:${proporcion}`, foto.recorte && `object-position:${foto.recorte}`].filter(Boolean).join(';');
+---
+<Image
+  src={img}
+  alt={foto.alt}
+  widths={[400, 800, 1200, 1600].filter((w) => w <= img.width)}
+  sizes={sizes}
+  format="webp"
+  quality={78}
+  loading={inmediata ? 'eager' : 'lazy'}
+  fetchpriority={inmediata ? 'high' : 'auto'}
+  decoding="async"
+  class:list={['foto-t', clase]}
+  style={estilo || undefined}
+/>

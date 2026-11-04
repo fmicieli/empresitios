@@ -1,0 +1,44 @@
+---
+// Contacto: WhatsApp e Instagram; el mail solo si está en la configuración (D-36).
+import config from '../../config/sitio.config';
+import contenido from '../../config/contenido';
+import Icono from '../componentes/Icono.astro';
+import { hrefGeneral } from '../lib/preparar';
+import { normalizarWhatsapp } from '../../../compartido/datos/reglas';
+import Seccion from './Seccion.astro';
+const { color } = Astro.props as { color: boolean };
+const { titulo, texto } = contenido.contacto;
+const wa = normalizarWhatsapp(config.whatsapp);
+---
+<Seccion id="contacto" titulo={titulo} color={color}>
+  {texto && <p class="bajada lectura">{texto}</p>}
+  <ul class="contacto">
+    <li>
+      <a class="boton" href={hrefGeneral(config)} target="_blank" rel="noopener">
+        <Icono nombre="chat" tam={16} />
+        WhatsApp{wa.ok && <span class="num">&nbsp;{wa.paraMostrar}</span>}
+        <span class="sr"> (se abre en otra pestaña)</span>
+      </a>
+    </li>
+    {
+      config.instagram && (
+        <li>
+          <a class="boton secundario" href={`https://www.instagram.com/${config.instagram}/`} target="_blank" rel="noopener">
+            <Icono nombre="instagram" tam={16} />@{config.instagram}
+            <span class="sr"> en Instagram (se abre en otra pestaña)</span>
+          </a>
+        </li>
+      )
+    }
+    {
+      config.mail && (
+        <li>
+          <a class="boton secundario" href={`mailto:${config.mail}`}>
+            <Icono nombre="mail" tam={16} />
+            {config.mail}
+          </a>
+        </li>
+      )
+    }
+  </ul>
+</Seccion>

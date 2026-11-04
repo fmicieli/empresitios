@@ -68,9 +68,10 @@ export interface ProblemaContraste {
   minimo: number;
 }
 
-export function revisarContraste(tokens: Tokens): ProblemaContraste[] {
+/** `paresExtra`: pares propios de una plantilla (por ejemplo, el texto sobre las secciones de color en turnos). */
+export function revisarContraste(tokens: Tokens, paresExtra: typeof PARES = []): ProblemaContraste[] {
   const problemas: ProblemaContraste[] = [];
-  for (const par of PARES) {
+  for (const par of [...PARES, ...paresExtra]) {
     const frente = resolverColor(`var(${par.frente})`, tokens);
     const fondo = resolverColor(`var(${par.fondo})`, tokens);
     if (!frente || !fondo) continue; // Colores con transparencias u otros formatos: no se pueden revisar acá.
@@ -94,7 +95,7 @@ export function ajustesAutomaticos(tokens: Tokens): Tokens {
 /** Texto para mostrar en la consola al compilar. */
 export function explicarProblemas(problemas: ProblemaContraste[]): string {
   return [
-    '⚠ Contraste insuficiente en los colores de la tienda (revisá config/estilo.css y estilo.colorMarca en tienda.config.ts):',
+    '⚠ Contraste insuficiente en los colores del sitio (revisá config/estilo.css y el color de marca en la configuración del cliente):',
     ...problemas.map((p) => `  - ${p.que}: ${p.frente} sobre ${p.fondo} da ${p.relacion.toFixed(2)}:1 (mínimo ${p.minimo}:1).`),
   ].join('\n');
 }

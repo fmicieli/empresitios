@@ -1,0 +1,69 @@
+---
+import config from '../../config/sitio.config';
+import contenido from '../../config/contenido';
+import Icono from '../componentes/Icono.astro';
+
+interface Props {
+  secciones: readonly string[];
+}
+const { secciones } = Astro.props;
+const nombres: Record<string, string> = {
+  sobreMi: contenido.sobreMi.titulo,
+  servicios: contenido.servicios.titulo,
+  llamado: contenido.llamado.titulo,
+  formacion: contenido.formacion.titulo,
+  dondeAtiendo: contenido.dondeAtiendo.titulo,
+  turnos: contenido.turnos.titulo,
+  contacto: contenido.contacto.titulo,
+};
+const links = secciones.filter((k) => nombres[k]).map((k) => ({ href: '#' + k, texto: nombres[k] }));
+---
+<header class="encabezado">
+  <div class="ancho encabezado-fila">
+    <a class="marca" href="#inicio">
+      {
+        config.logo ? (
+          <img src={'/' + config.logo.archivo} alt={config.logo.alt} style={`height:${config.logo.alto ?? 40}px`} />
+        ) : (
+          <span class="marca-nombre">{config.nombre}</span>
+        )
+      }
+    </a>
+    <nav class="menu" id="menu" aria-label="Secciones">
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.texto}</a></li>)}
+      </ul>
+    </nav>
+    <div class="encabezado-acciones">
+      <a class="boton chico" href="#servicios">Reservar turno</a>
+      <button class="boton-icono boton-menu" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="icono-abrir"><Icono nombre="menu" tam={24} /></span>
+        <span class="icono-cerrar"><Icono nombre="cerrar" tam={24} /></span>
+        <span class="sr">Menú</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Menú del celular: se abre y se cierra con el botón, con Escape o al elegir una sección.
+  const boton = document.querySelector<HTMLButtonElement>('.boton-menu');
+  const menu = document.getElementById('menu');
+  if (boton && menu) {
+    const poner = (abierto: boolean) => {
+      boton.setAttribute('aria-expanded', String(abierto));
+      boton.querySelector('.sr')!.textContent = abierto ? 'Cerrar menú' : 'Menú';
+      menu.classList.toggle('abierto', abierto);
+    };
+    boton.addEventListener('click', () => poner(boton.getAttribute('aria-expanded') !== 'true'));
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) poner(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('abierto')) {
+        poner(false);
+        boton.focus();
+      }
+    });
+  }
+</script>

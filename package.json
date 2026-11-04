@@ -4,14 +4,18 @@
   "type": "module",
   "workspaces": [
     "compartido",
-    "tienda-whatsapp"
+    "tienda-whatsapp",
+    "turnos-whatsapp"
   ],
   "scripts": {
     "dev": "npm run dev -w tienda-whatsapp",
     "dev:celular": "npm run dev -w tienda-whatsapp -- --host",
+    "dev:turnos": "npm run dev -w turnos-whatsapp",
+    "dev:turnos:celular": "npm run dev -w turnos-whatsapp -- --host",
     "build": "npm run build -w tienda-whatsapp",
+    "build:turnos": "npm run build -w turnos-whatsapp",
     "preview": "npm run preview -w tienda-whatsapp -- --host",
-    "check": "npm run check -w tienda-whatsapp",
+    "check": "npm run check -w tienda-whatsapp && npm run check -w turnos-whatsapp",
     "test": "vitest run",
     "probar:google": "npm run probar:google -w tienda-whatsapp",
     "publicar": "npm run publicar -w tienda-whatsapp",

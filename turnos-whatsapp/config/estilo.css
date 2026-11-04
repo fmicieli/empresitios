@@ -1,0 +1,36 @@
+/*
+  ESTILO DE LA CLIENTA — junto con sitio.config.ts y contenido.ts, lo único que cambia por clienta (D-19).
+  Acá se pisan solo los tokens que cambian para esta marca. Todos los tokens y sus valores
+  por defecto están en compartido/estilos/tokens.css (ese archivo no se toca).
+
+  Qué se puede cambiar:
+    - Fuentes: familia del texto y de los títulos.
+    - Colores: fondos, líneas, textos y las secciones de color. El color de marca va en sitio.config.ts.
+    - Formas: redondeo de bordes y grosor de líneas.
+  Qué NO se cambia: tamaños, pesos e interlineados de los textos (la escala es fija).
+
+  Al compilar se revisa el contraste y se avisa si algún texto queda difícil de leer.
+*/
+
+/*
+  1. FUENTES — guardadas dentro del sitio. Para usar otra: buscala en https://fontsource.org,
+  instalala con  npm install -w turnos-whatsapp @fontsource/NOMBRE  e importá los pesos 400, 600 y 700.
+*/
+@import '@fontsource-variable/nunito-sans/wght.css';
+
+:root {
+  --fuente-texto: 'Nunito Sans Variable', 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fuente-titulos: var(--fuente-texto);
+
+  /* 2. COLORES — ejemplos (descomentá y cambiá):
+  --fondo: #fbf7f1;
+  --texto: #4a2f22;
+  --seccion-color: #f3ebe0;      fondo de las secciones que se alternan (Sobre mí, Dónde atiendo…)
+  --detalle: #b07a5a;            formas y líneas decorativas (no se usa para texto chico)
+  */
+
+  /* 3. FORMAS — ejemplo:
+  --radio: 16px;
+  --radio-boton: 9999px;
+  */
+}

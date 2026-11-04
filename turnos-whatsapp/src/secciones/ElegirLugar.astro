@@ -1,0 +1,77 @@
+---
+// Paso "¿Dónde te queda mejor?" (D-36): se abre al tocar "Reservar turno" en un servicio de dos lugares o más.
+// Sin JavaScript no aparece: el botón va directo a WhatsApp con el mensaje sin lugar.
+import Icono from '../componentes/Icono.astro';
+---
+<dialog class="dialogo hoja" id="elegir-lugar" aria-labelledby="elegir-titulo" aria-describedby="elegir-servicio">
+  <form class="pila" novalidate>
+    <div class="fila-extremos">
+      <h2 id="elegir-titulo">¿Dónde te queda mejor?</h2>
+      <button class="boton-icono" type="button" data-cerrar><Icono nombre="cerrar" /><span class="sr">Cerrar</span></button>
+    </div>
+    <p id="elegir-servicio" class="suave"></p>
+    <fieldset aria-describedby="elegir-error">
+      <legend class="sr">Lugar</legend>
+      <div class="pila-chica opciones-lugar"></div>
+    </fieldset>
+    <p id="elegir-error" class="error-campo" role="alert" hidden>Elegí un lugar o «Me da igual».</p>
+    <div class="dos-botones">
+      <button class="boton secundario" type="button" data-cerrar>Cancelar</button>
+      <button class="boton" type="submit">Abrir WhatsApp</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  type Opcion = { etiqueta: string; href: string };
+  const dialogo = document.getElementById('elegir-lugar') as HTMLDialogElement | null;
+  if (dialogo) {
+    const form = dialogo.querySelector('form')!;
+    const servicio = dialogo.querySelector('#elegir-servicio')!;
+    const lista = dialogo.querySelector('.opciones-lugar')!;
+    const error = dialogo.querySelector<HTMLElement>('#elegir-error')!;
+    let origen: HTMLElement | null = null;
+
+    const opcion = (o: Opcion, i: number) => {
+      const label = document.createElement('label');
+      label.className = 'opcion';
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = 'lugar';
+      input.value = o.href;
+      input.id = 'lugar-' + i;
+      const texto = document.createElement('span');
+      texto.textContent = o.etiqueta;
+      label.append(input, texto);
+      return label;
+    };
+
+    document.querySelectorAll<HTMLAnchorElement>('a.reservar[data-opciones]').forEach((a) =>
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        origen = a;
+        const opciones: Opcion[] = JSON.parse(a.dataset.opciones!);
+        servicio.textContent = a.dataset.servicio!;
+        lista.replaceChildren(...[...opciones, { etiqueta: 'Me da igual', href: a.dataset.cualquiera! }].map(opcion));
+        error.hidden = true;
+        dialogo.showModal();
+      }),
+    );
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const elegido = form.querySelector<HTMLInputElement>('input[name="lugar"]:checked');
+      if (!elegido) {
+        error.hidden = false;
+        form.querySelector<HTMLInputElement>('input[name="lugar"]')?.focus();
+        return;
+      }
+      window.open(elegido.value, '_blank', 'noopener');
+      dialogo.close();
+    });
+    form.addEventListener('change', () => (error.hidden = true));
+    dialogo.querySelectorAll('[data-cerrar]').forEach((b) => b.addEventListener('click', () => dialogo.close()));
+    dialogo.addEventListener('click', (e) => e.target === dialogo && dialogo.close());
+    dialogo.addEventListener('close', () => origen?.focus());
+  }
+</script>
