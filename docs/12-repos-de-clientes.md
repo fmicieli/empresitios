@@ -56,4 +56,4 @@ git push
 | Repo | Para qué | Link publicado |
 |---|---|---|
 | `fmicieli/chacha-tienda` (privado) | Ejemplo con marca: Chacha, emprendimiento de Flor (modo de prueba) | https://chacha-tienda.atlas-de5cd208129d.workers.dev |
-| `fmicieli/estudio-v` (privado, a crear por Flor) | Plantilla 2: Estudio V · Skin Lab (Valentina Osácar) | todavía no |
+| `fmicieli/estudio-v` (privado; armado en la compu de Flor, `Claude Code/estudio-v`, falta publicarlo desde GitHub Desktop) | Plantilla 2: Estudio V · Skin Lab (Valentina Osácar) | todavía no |

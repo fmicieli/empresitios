@@ -1,6 +1,15 @@
 # Cómo retomar
 
-## 0. Plantilla 2 · Turnos con WhatsApp (Fase 0 aprobada el 04/11; Fase 1 entregada el 04/11, esperando revisión de Flor)
+## 0. Plantilla 2 · Turnos con WhatsApp (Fases 0 y 1 aprobadas el 04/11; Fase 2, Estudio V, entregada el 04/11)
+
+### Estudio V (Fase 2, esperando revisión de Flor)
+
+- **Dónde está:** en tu compu, en `Claude Code/estudio-v` (repo de git propio, rama `main`). Todavía no está en GitHub: se publica desde GitHub Desktop (File → Add local repository → elegí la carpeta → Publish repository, con "Keep this code private" tildado). Eso crea `fmicieli/estudio-v`.
+- **Verlo:** en la Terminal, `cd "Claude Code/estudio-v"`, después `npm install` y `npm run dev:turnos`, y abrí http://localhost:4330/ (cortá antes la plantilla si está corriendo: usan el mismo número).
+- **Falta que mande Valen:** institución de Dermatocosmiatría, año del curso de ácido glicólico, seña (monto, medio y plazo), política de cancelación, fotos de tratamientos sobre modelo (hoy las tarjetas usan fotos de productos y cabinas), medio de pago de la rutina online, webs de referencia.
+- **Falta hacer:** video del inicio sin audio (hace falta instalar ffmpeg), revisar con Valen el valor "Resultados que se construyen" (reemplaza "Resultados reales", D-36), confirmar que su matrícula la habilita para microneedling.
+
+### Plantilla (Fase 1, aprobada)
 
 Rama: `claude/plantilla-2-turnos-whatsapp`. Primera clienta: Estudio V · Skin Lab (repo `fmicieli/estudio-v`, privado, todavía no creado).
 
@@ -19,7 +28,7 @@ Prompt para seguir con la plantilla 2:
 Hola, soy Flor. Seguimos la plantilla 2 (turnos con WhatsApp) en empresitios, rama claude/plantilla-2-turnos-whatsapp.
 1. Leé CLAUDE.md, docs/landing/ (00 a 05) y D-36 en docs/07-decisiones.md antes de hacer nada.
 2. Fase 0 aprobada (04/11). Fase 1 entregada el 04/11 (plantilla con la marca Brisa en turnos-whatsapp/, D-37): preguntame si la revisé en localhost (npm run dev:turnos, http://localhost:4330/).
-3. Después: Fase 2 (sitio de Estudio V en el repo privado fmicieli/estudio-v; agregalo a la sesión). El material de Valen está en el zip "Estudio V - Web para Flor" (en mi Escritorio); no va en el repo.
+3. Fase 1 aprobada (04/11). Fase 2 entregada el 04/11: Estudio V armado en Claude Code/estudio-v (D-38); preguntame si lo revisé, si lo publiqué en GitHub y si Valen mandó lo que falta (lista en RETOMAR). Después: Fase 3, publicación en Cloudflare. El material de Valen está en el zip "Estudio V - Web para Flor" (en mi Escritorio); no va en el repo.
 4. Explicame en lenguaje claro, hacé commit y push seguido, y esperá mi OK al terminar cada fase.
 ```
 

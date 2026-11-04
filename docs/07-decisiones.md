@@ -392,6 +392,14 @@ Propuso: Claude, al construir. Ninguna cambia lo que ve quien visita respecto de
 8. **Precios con el formato de la tienda:** `$ 95.000`, con espacio.
 9. **Comandos nuevos:** `npm run dev:turnos`, `npm run dev:turnos:celular`, `npm run build:turnos`. `npm run check` revisa las dos plantillas.
 
+## D-38 · Plantilla 2: ajustes al armar Estudio V (04/11/2026)
+
+Propuso: Claude. Son arreglos de la plantilla que aparecieron con el primer sitio real; se hicieron en `empresitios` y se trajeron a Estudio V (regla 5).
+
+1. **Pruebas con datos propios** (`turnos-whatsapp/src/lib/pruebas/`): antes usaban `config/`, que en cada clienta cambia, y fallaban en su repo. Se suma una prueba que revisa la configuración real del sitio.
+2. **Token `--fuente-subtitulos`** para los títulos chicos de las tarjetas (20 px). Por defecto es la fuente de los títulos. En Estudio V va Jost, porque Cormorant Garamond queda fina a ese tamaño.
+3. **Menú en una sola línea desde 1100 px.** Con títulos largos ("Rutina personalizada online"), entre 900 y 1100 px los links se partían en dos líneas. Ahora en ese rango aparece el botón de menú.
+
 ## Pendientes (al 30/10/2026)
 
 1. **Confirmar en páginas oficiales** los datos marcados ⚠️ (`08-investigacion-fase-2.md`, punto 12, y `11-publicar-demo.md`).
